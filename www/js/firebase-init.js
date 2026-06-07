@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 (function initFirebase() {
-  const firebaseConfig = window.__FIREBASE_CONFIG__ || null;
+  const runtimeConfig = window.__APP_RUNTIME_CONFIG__ || {};
+  const firebaseConfig = runtimeConfig.firebase || window.__FIREBASE_CONFIG__ || null;
 
   function attachBillingBridge() {
     window.addEventListener('billing:updated', function onBillingUpdated(event) {
