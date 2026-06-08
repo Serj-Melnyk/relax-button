@@ -27,6 +27,7 @@ public class NativeHapticPlugin extends Plugin {
             );
 
             if (supported) {
+                // Multi-phase haptic feedback: strong click + spring bounce tick after 60ms
                 vibrator.vibrate(
                     VibrationEffect.startComposition()
                         .addPrimitive(VibrationEffect.Composition.PRIMITIVE_CLICK, 0.9f)

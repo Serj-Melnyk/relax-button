@@ -2,40 +2,38 @@
 (function initBilling() {
   const runtimeConfig = window.__APP_RUNTIME_CONFIG__ || {};
   const billingConfig = runtimeConfig.billing || {};
-  const PRODUCT_ID = billingConfig.premiumProductId || 'premium_lifetime';
-  const VALIDATION_URL = billingConfig.receiptValidationUrl || null;
+  const productId = billingConfig.premiumProductId || "premium_lifetime";
+  const validationUrl = billingConfig.receiptValidationUrl || null;
   const store = window.CdvPurchase && window.CdvPurchase.store;
 
   async function validateWithBackend(payload) {
-    if (!VALIDATION_URL) {
+    if (!validationUrl) {
       return { ok: false, verified: false, entitlement: { premium: false } };
     }
 
-    const response = await fetch(VALIDATION_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    const response = await fetch(validationUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     });
 
     if (!response.ok) {
-      throw new Error('Receipt validation failed');
+      throw new Error("Receipt validation failed");
     }
 
     return response.json();
   }
 
   function publishEntitlement(premium, source) {
-    window.__billingEntitlements = { premium: !!premium, source: source || 'unknown' };
+    window.__billingEntitlements = { premium: !!premium, source: source || "unknown" };
     window.__billingReady = true;
-    if (typeof window.dispatchEvent === 'function') {
-      window.dispatchEvent(new CustomEvent('billing:updated', { detail: window.__billingEntitlements }));
-    }
+    window.dispatchEvent(new CustomEvent("billing:updated", { detail: window.__billingEntitlements }));
   }
 
   if (!store) {
-    console.info('[Billing] CdvPurchase not available yet.');
+    console.info("[Billing] CdvPurchase not available yet.");
     window.__billingReady = false;
-    window.__billingEntitlements = { premium: false, source: 'no-store' };
+    window.__billingEntitlements = { premium: false, source: "no-store" };
     window.getBillingState = function getBillingState() {
       return window.__billingEntitlements;
     };
@@ -44,18 +42,18 @@
 
   const products = [
     {
-      id: PRODUCT_ID,
+      id: productId,
       type: window.CdvPurchase.ProductType.NON_CONSUMABLE,
       platform: window.CdvPurchase.Platform.APPLE_APPSTORE
     },
     {
-      id: PRODUCT_ID,
+      id: productId,
       type: window.CdvPurchase.ProductType.NON_CONSUMABLE,
       platform: window.CdvPurchase.Platform.GOOGLE_PLAY
     }
   ];
 
-  window.__billingEntitlements = { premium: false, source: 'init' };
+  window.__billingEntitlements = { premium: false, source: "init" };
   window.__billingReady = false;
 
   function syncEntitlement(product) {
@@ -69,11 +67,11 @@
 
     store.when().productUpdated(function onProductUpdated(product) {
       syncEntitlement(product);
-      console.info('[Billing] Product updated:', product && product.id);
+      console.info("[Billing] Product updated:", product && product.id);
     });
 
     store.when().approved(async function onApproved(transaction) {
-      console.info('[Billing] Purchase approved. Verifying...');
+      console.info("[Billing] Purchase approved. Verifying...");
       try {
         const receiptData = transaction && transaction.transaction && transaction.transaction.receipt
           ? transaction.transaction.receipt
@@ -81,34 +79,34 @@
 
         if (receiptData) {
           const backend = await validateWithBackend({
-            platform: transaction.platform || 'unknown',
+            platform: transaction.platform || "unknown",
             receipt: receiptData,
-            productId: PRODUCT_ID,
+            productId,
             userId: window.__firebaseAuthUserId || null
           });
 
           if (backend && backend.ok && backend.entitlement && backend.entitlement.premium) {
-            publishEntitlement(true, 'backend');
+            publishEntitlement(true, "backend");
           }
         }
 
         transaction.verify();
       } catch (error) {
-        console.error('[Billing] Backend validation failed:', error);
+        console.error("[Billing] Backend validation failed:", error);
         transaction.verify();
       }
     });
 
     store.when().verified(function onVerified(receipt) {
-      console.info('[Billing] Receipt verified. Finishing transaction.');
-      if (receipt && typeof receipt.finish === 'function') {
+      console.info("[Billing] Receipt verified. Finishing transaction.");
+      if (receipt && typeof receipt.finish === "function") {
         receipt.finish();
       }
-      publishEntitlement(true, 'receipt');
+      publishEntitlement(true, "receipt");
     });
 
     store.error(function onStoreError(error) {
-      console.error('[Billing] Store error:', error);
+      console.error("[Billing] Store error:", error);
     });
 
     store.initialize([
@@ -123,19 +121,19 @@
       }
     ]).then(function onInitialized() {
       window.__billingReady = true;
-      console.info('[Billing] Store initialized.');
+      console.info("[Billing] Store initialized.");
     }).catch(function onInitError(error) {
-      console.error('[Billing] Store init failed:', error);
+      console.error("[Billing] Store init failed:", error);
     });
 
     window.purchasePremium = function purchasePremium() {
-      const product = store.get(PRODUCT_ID);
+      const product = store.get(productId);
       if (!product) {
-        throw new Error('Premium product not registered');
+        throw new Error("Premium product not registered");
       }
       const offer = product.getOffer && product.getOffer();
-      if (!offer || typeof offer.order !== 'function') {
-        throw new Error('Premium offer not available');
+      if (!offer || typeof offer.order !== "function") {
+        throw new Error("Premium offer not available");
       }
       return offer.order();
     };
@@ -144,16 +142,16 @@
       const result = await store.restorePurchases();
       try {
         const backend = await validateWithBackend({
-          platform: 'restore',
+          platform: "restore",
           receipt: result || null,
-          productId: PRODUCT_ID,
+          productId,
           userId: window.__firebaseAuthUserId || null
         });
         if (backend && backend.ok && backend.entitlement && backend.entitlement.premium) {
-          publishEntitlement(true, 'restore-backend');
+          publishEntitlement(true, "restore-backend");
         }
       } catch (error) {
-        console.warn('[Billing] Restore validation failed:', error);
+        console.warn("[Billing] Restore validation failed:", error);
       }
       return result;
     };
@@ -162,6 +160,6 @@
       return window.__billingEntitlements;
     };
   } catch (error) {
-    console.error('[Billing] Initialization failed:', error);
+    console.error("[Billing] Initialization failed:", error);
   }
 })();
