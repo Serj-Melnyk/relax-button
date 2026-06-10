@@ -1,14 +1,12 @@
 window.__APP_RUNTIME_CONFIG__ = {
-  firebase: {
-    apiKey: "",
-    authDomain: "",
-    projectId: "",
-    storageBucket: "",
-    messagingSenderId: "",
-    appId: ""
-  },
   billing: {
     premiumProductId: "premium_lifetime",
-    receiptValidationUrl: ""
+    validatorUrl: "",
+    requireServerValidation: false
+  },
+  legal: {
+    privacyUrl: "https://relaxbutton.app/privacy",
+    termsUrl: "https://relaxbutton.app/terms",
+    supportUrl: "https://relaxbutton.app/support"
   }
 };

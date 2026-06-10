@@ -1,165 +1,249 @@
 /* eslint-disable no-console */
-(function initBilling() {
-  const runtimeConfig = window.__APP_RUNTIME_CONFIG__ || {};
-  const billingConfig = runtimeConfig.billing || {};
-  const productId = billingConfig.premiumProductId || "premium_lifetime";
-  const validationUrl = billingConfig.receiptValidationUrl || null;
-  const store = window.CdvPurchase && window.CdvPurchase.store;
+(function createBillingBridge() {
+  const config = (window.__APP_RUNTIME_CONFIG__ || {}).billing || {};
+  const productId = config.premiumProductId || "premium_lifetime";
+  const validatorUrl = config.validatorUrl || "";
+  const requireServerValidation = config.requireServerValidation === true;
+  const listeners = new Set();
 
-  async function validateWithBackend(payload) {
-    if (!validationUrl) {
-      return { ok: false, verified: false, entitlement: { premium: false } };
+  const state = {
+    available: false,
+    ready: false,
+    premium: false,
+    price: "",
+    productId,
+    error: null
+  };
+
+  let initPromise = null;
+
+  function snapshot() {
+    return { ...state };
+  }
+
+  function publish(patch) {
+    Object.assign(state, patch);
+    const detail = snapshot();
+    window.__billingEntitlements = detail;
+    window.dispatchEvent(new CustomEvent("billing:updated", { detail }));
+    listeners.forEach((listener) => listener(detail));
+  }
+
+  function currentPlatform(CdvPurchase) {
+    const nativePlatform = window.Capacitor && typeof window.Capacitor.getPlatform === "function"
+      ? window.Capacitor.getPlatform()
+      : window.cordova && window.cordova.platformId;
+
+    if (nativePlatform === "ios") {
+      return CdvPurchase.Platform.APPLE_APPSTORE;
     }
-
-    const response = await fetch(validationUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
-
-    if (!response.ok) {
-      throw new Error("Receipt validation failed");
+    if (nativePlatform === "android") {
+      return CdvPurchase.Platform.GOOGLE_PLAY;
     }
-
-    return response.json();
+    return null;
   }
 
-  function publishEntitlement(premium, source) {
-    window.__billingEntitlements = { premium: !!premium, source: source || "unknown" };
-    window.__billingReady = true;
-    window.dispatchEvent(new CustomEvent("billing:updated", { detail: window.__billingEntitlements }));
-  }
+  function productPrice(product) {
+    if (!product) return "";
+    if (product.pricing && product.pricing.price) return product.pricing.price;
 
-  if (!store) {
-    console.info("[Billing] CdvPurchase not available yet.");
-    window.__billingReady = false;
-    window.__billingEntitlements = { premium: false, source: "no-store" };
-    window.getBillingState = function getBillingState() {
-      return window.__billingEntitlements;
-    };
-    return;
-  }
-
-  const products = [
-    {
-      id: productId,
-      type: window.CdvPurchase.ProductType.NON_CONSUMABLE,
-      platform: window.CdvPurchase.Platform.APPLE_APPSTORE
-    },
-    {
-      id: productId,
-      type: window.CdvPurchase.ProductType.NON_CONSUMABLE,
-      platform: window.CdvPurchase.Platform.GOOGLE_PLAY
+    const offers = Array.isArray(product.offers) ? product.offers : [];
+    for (const offer of offers) {
+      const phases = offer && Array.isArray(offer.pricingPhases)
+        ? offer.pricingPhases
+        : [];
+      if (phases[0] && phases[0].price) return phases[0].price;
     }
-  ];
-
-  window.__billingEntitlements = { premium: false, source: "init" };
-  window.__billingReady = false;
-
-  function syncEntitlement(product) {
-    const owned = !!(product && (product.owned || product.isOwned || product.active));
-    window.__billingEntitlements.premium = owned;
-    return owned;
+    return "";
   }
 
-  try {
-    store.register(products);
+  function waitForPremium(timeoutMs) {
+    if (state.premium) return Promise.resolve(true);
 
-    store.when().productUpdated(function onProductUpdated(product) {
-      syncEntitlement(product);
-      console.info("[Billing] Product updated:", product && product.id);
-    });
+    return new Promise((resolve) => {
+      let settled = false;
+      const timer = window.setTimeout(() => finish(false), timeoutMs);
 
-    store.when().approved(async function onApproved(transaction) {
-      console.info("[Billing] Purchase approved. Verifying...");
-      try {
-        const receiptData = transaction && transaction.transaction && transaction.transaction.receipt
-          ? transaction.transaction.receipt
-          : null;
-
-        if (receiptData) {
-          const backend = await validateWithBackend({
-            platform: transaction.platform || "unknown",
-            receipt: receiptData,
-            productId,
-            userId: window.__firebaseAuthUserId || null
-          });
-
-          if (backend && backend.ok && backend.entitlement && backend.entitlement.premium) {
-            publishEntitlement(true, "backend");
-          }
-        }
-
-        transaction.verify();
-      } catch (error) {
-        console.error("[Billing] Backend validation failed:", error);
-        transaction.verify();
+      function finish(value) {
+        if (settled) return;
+        settled = true;
+        window.clearTimeout(timer);
+        listeners.delete(onUpdate);
+        resolve(value);
       }
-    });
 
-    store.when().verified(function onVerified(receipt) {
-      console.info("[Billing] Receipt verified. Finishing transaction.");
-      if (receipt && typeof receipt.finish === "function") {
-        receipt.finish();
+      function onUpdate(nextState) {
+        if (nextState.premium) finish(true);
+        if (nextState.error) finish(false);
       }
-      publishEntitlement(true, "receipt");
+
+      listeners.add(onUpdate);
     });
+  }
 
-    store.error(function onStoreError(error) {
-      console.error("[Billing] Store error:", error);
+  async function waitForNativeReady() {
+    const isNative = !!(window.Capacitor
+      && typeof window.Capacitor.isNativePlatform === "function"
+      && window.Capacitor.isNativePlatform());
+    if (!isNative || window.CdvPurchase) return;
+
+    await new Promise((resolve) => {
+      const timer = window.setTimeout(resolve, 10000);
+      document.addEventListener("deviceready", () => {
+        window.clearTimeout(timer);
+        resolve();
+      }, { once: true });
     });
+  }
 
-    store.initialize([
-      {
-        platform: window.CdvPurchase.Platform.APPLE_APPSTORE,
-        options: {
-          needAppReceipt: true
-        }
-      },
-      {
-        platform: window.CdvPurchase.Platform.GOOGLE_PLAY
-      }
-    ]).then(function onInitialized() {
-      window.__billingReady = true;
-      console.info("[Billing] Store initialized.");
-    }).catch(function onInitError(error) {
-      console.error("[Billing] Store init failed:", error);
-    });
+  async function initialize() {
+    if (initPromise) return initPromise;
 
-    window.purchasePremium = function purchasePremium() {
-      const product = store.get(productId);
-      if (!product) {
-        throw new Error("Premium product not registered");
-      }
-      const offer = product.getOffer && product.getOffer();
-      if (!offer || typeof offer.order !== "function") {
-        throw new Error("Premium offer not available");
-      }
-      return offer.order();
-    };
+    initPromise = (async () => {
+      await waitForNativeReady();
+      const CdvPurchase = window.CdvPurchase;
+      const store = CdvPurchase && CdvPurchase.store;
+      const platform = CdvPurchase && currentPlatform(CdvPurchase);
 
-    window.restorePremium = async function restorePremium() {
-      const result = await store.restorePurchases();
-      try {
-        const backend = await validateWithBackend({
-          platform: "restore",
-          receipt: result || null,
-          productId,
-          userId: window.__firebaseAuthUserId || null
+      if (!store || !platform) {
+        publish({ available: false, ready: true, premium: false });
+        return snapshot();
+      }
+
+      if (requireServerValidation && !validatorUrl) {
+        publish({
+          available: false,
+          ready: true,
+          premium: false,
+          error: "Receipt validation is not configured."
         });
-        if (backend && backend.ok && backend.entitlement && backend.entitlement.premium) {
-          publishEntitlement(true, "restore-backend");
-        }
-      } catch (error) {
-        console.warn("[Billing] Restore validation failed:", error);
+        return snapshot();
       }
-      return result;
-    };
 
-    window.getBillingState = function getBillingState() {
-      return window.__billingEntitlements;
-    };
-  } catch (error) {
-    console.error("[Billing] Initialization failed:", error);
+      if (validatorUrl) {
+        store.validator = validatorUrl;
+        store.validator_privacy_policy = ["fraud", "support"];
+      }
+
+      store.register({
+        id: productId,
+        type: CdvPurchase.ProductType.NON_CONSUMABLE,
+        platform
+      });
+
+      store.when()
+        .productUpdated((product) => {
+          if (!product || product.id !== productId) return;
+          publish({
+            available: true,
+            price: productPrice(product),
+            premium: store.owned(productId),
+            error: null
+          });
+        })
+        .approved((transaction) => {
+          transaction.verify();
+        })
+        .verified((receipt) => {
+          receipt.finish();
+          publish({
+            available: true,
+            ready: true,
+            premium: store.owned(productId),
+            error: null
+          });
+        })
+        .unverified((result) => {
+          const message = result && result.payload && result.payload.message
+            ? result.payload.message
+            : "Purchase verification failed.";
+          publish({ ready: true, premium: false, error: message });
+        })
+        .receiptsVerified(() => {
+          publish({
+            available: true,
+            ready: true,
+            premium: store.owned(productId),
+            error: null
+          });
+        });
+
+      store.error((error) => {
+        if (error && error.code === CdvPurchase.ErrorCode.PAYMENT_CANCELLED) {
+          publish({ error: null });
+          return;
+        }
+        publish({ error: error && error.message ? error.message : "Store error." });
+      });
+
+      const errors = await store.initialize([{
+        platform,
+        options: platform === CdvPurchase.Platform.APPLE_APPSTORE
+          ? { needAppReceipt: true }
+          : {}
+      }]);
+
+      const firstError = Array.isArray(errors) ? errors.find(Boolean) : errors;
+      publish({
+        available: !firstError,
+        ready: true,
+        premium: store.owned(productId),
+        error: firstError && firstError.message ? firstError.message : null
+      });
+      return snapshot();
+    })();
+
+    return initPromise;
   }
+
+  async function purchase() {
+    await initialize();
+    const CdvPurchase = window.CdvPurchase;
+    const store = CdvPurchase && CdvPurchase.store;
+
+    if (!state.available || !store) {
+      throw new Error(state.error || "Purchases are available in the installed app.");
+    }
+
+    const product = store.get(productId);
+    const offer = product && product.getOffer && product.getOffer();
+    if (!offer) throw new Error("Premium is not available from the store yet.");
+
+    publish({ error: null });
+    const error = await offer.order();
+    if (error) throw new Error(error.message || "Purchase could not be started.");
+    return waitForPremium(120000);
+  }
+
+  async function restore() {
+    await initialize();
+    const CdvPurchase = window.CdvPurchase;
+    const store = CdvPurchase && CdvPurchase.store;
+
+    if (!state.available || !store) {
+      throw new Error(state.error || "Restore is available in the installed app.");
+    }
+
+    publish({ error: null });
+    const error = await store.restorePurchases();
+    if (error) throw new Error(error.message || "Restore failed.");
+    await store.update();
+    publish({ premium: store.owned(productId), ready: true });
+    return state.premium;
+  }
+
+  window.BillingBridge = {
+    initialize,
+    purchase,
+    restore,
+    getState: snapshot,
+    isPremium: () => state.premium === true,
+    subscribe(listener) {
+      listeners.add(listener);
+      listener(snapshot());
+      return () => listeners.delete(listener);
+    }
+  };
+
+  document.addEventListener("deviceready", initialize, { once: true });
 })();
