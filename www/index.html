@@ -716,15 +716,23 @@
         isolation: isolate;
         box-sizing: border-box;
         border: 1.5px solid color-mix(in srgb, var(--theme-light, #fff) 54%, rgba(255,255,255,0.12));
+        background: color-mix(in srgb, var(--theme-bg, #ddd) 92%, var(--theme-light, #fff) 8%);
+        box-shadow:
+            2px 2px 5px color-mix(in srgb, var(--theme-dark, #000) 18%, transparent),
+            -2px -2px 5px color-mix(in srgb, var(--theme-light, #fff) 52%, transparent);
         transition: transform 250ms var(--spring), box-shadow 250ms var(--spring), border-color 220ms ease, filter 220ms ease;
     }
 
     .theme-circle::after {
         content: "";
         position: absolute;
-        inset: -5px;
+        inset: -6px;
         border-radius: 50%;
-        background: radial-gradient(circle, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.1) 38%, rgba(255,255,255,0) 74%);
+        background:
+            radial-gradient(circle,
+                color-mix(in srgb, var(--theme-accent, #6750A4) 26%, transparent) 0%,
+                color-mix(in srgb, var(--theme-accent, #6750A4) 12%, transparent) 42%,
+                transparent 74%);
         opacity: 0;
         transform: scale(0.94);
         transition: opacity 220ms ease, transform 250ms var(--spring);
@@ -734,11 +742,14 @@
     .theme-circle::before {
         content: "";
         position: absolute;
-        inset: 2px;
+        inset: -2px;
         border-radius: 50%;
-        border: 1px solid rgba(255,255,255,0.16);
+        border: 2px solid color-mix(in srgb, var(--theme-accent, #6750A4) 82%, white 18%);
+        box-shadow:
+            0 0 0 3px color-mix(in srgb, var(--theme-accent, #6750A4) 18%, transparent),
+            0 2px 6px color-mix(in srgb, var(--theme-accent, #6750A4) 10%, transparent);
         opacity: 0;
-        transition: opacity 220ms ease;
+        transition: opacity 220ms ease, transform 250ms var(--spring);
         pointer-events: none;
     }
 
@@ -748,60 +759,55 @@
         border-radius: 50%;
         overflow: hidden;
         position: relative;
-        box-sizing: border-box;
-        border: 1px solid color-mix(in srgb, var(--theme-light, #fff) 48%, transparent);
         background:
-            radial-gradient(circle at 32% 28%, color-mix(in srgb, var(--theme-light, #fff) 58%, transparent) 0%, transparent 36%),
-            radial-gradient(circle at 68% 74%, color-mix(in srgb, var(--theme-dark, #000) 22%, transparent) 0%, transparent 42%),
+            radial-gradient(circle at 30% 28%, color-mix(in srgb, var(--theme-light, #fff) 34%, transparent) 0%, transparent 34%),
             linear-gradient(180deg,
-                color-mix(in srgb, var(--theme-bg, #ddd) 82%, var(--theme-light, #fff) 18%) 0%,
-                color-mix(in srgb, var(--theme-bg, #ddd) 90%, var(--theme-dark, #000) 10%) 100%);
+                color-mix(in srgb, var(--theme-bg, #ddd) 88%, var(--theme-light, #fff) 12%) 0%,
+                color-mix(in srgb, var(--theme-bg, #ddd) 92%, var(--theme-dark, #000) 8%) 100%);
         box-shadow:
-            inset 0 1px 1px color-mix(in srgb, var(--theme-light, #fff) 24%, transparent),
-            inset 0 -1px 1px color-mix(in srgb, var(--theme-dark, #000) 16%, transparent);
+            inset 1px 1px 2px color-mix(in srgb, var(--theme-light, #fff) 20%, transparent),
+            inset -1px -1px 2px color-mix(in srgb, var(--theme-dark, #000) 12%, transparent);
     }
 
     .theme-circle-inner::before {
         content: "";
         position: absolute;
-        inset: 15px 12px 14px;
-        border-radius: 999px;
+        inset: 12px;
+        border-radius: 50%;
         background:
-            linear-gradient(145deg,
-                color-mix(in srgb, var(--theme-light, #fff) 56%, var(--theme-bg, #ddd) 44%) 0%,
-                color-mix(in srgb, var(--theme-bg, #ddd) 88%, var(--theme-dark, #000) 12%) 100%);
+            radial-gradient(circle at 34% 30%,
+                color-mix(in srgb, var(--theme-bg, #ddd) 96%, var(--theme-light, #fff) 4%) 0%,
+                color-mix(in srgb, var(--theme-bg, #ddd) 95%, var(--theme-light, #fff) 5%) 58%,
+                color-mix(in srgb, var(--theme-bg, #ddd) 91%, var(--theme-dark, #000) 9%) 100%);
         box-shadow:
-            -2px -2px 5px color-mix(in srgb, var(--theme-light, #fff) 78%, transparent),
-            2px 2px 6px color-mix(in srgb, var(--theme-dark, #000) 34%, transparent),
-            inset 1px 1px 1px color-mix(in srgb, var(--theme-light, #fff) 48%, transparent),
-            inset -1px -1px 1px color-mix(in srgb, var(--theme-dark, #000) 18%, transparent);
-        opacity: 0.96;
+            1px 1px 3px color-mix(in srgb, var(--theme-dark, #000) 10%, transparent),
+            -1px -1px 3px color-mix(in srgb, var(--theme-light, #fff) 24%, transparent),
+            0 0 0 1px color-mix(in srgb, var(--theme-bg, #ddd) 82%, transparent);
+        opacity: 1;
     }
 
     .theme-circle-inner::after {
         content: "";
         position: absolute;
-        width: 16px;
-        height: 16px;
-        top: 12px;
-        left: 14px;
+        inset: 12px;
         border-radius: 50%;
-        background: radial-gradient(circle at 35% 35%,
-            color-mix(in srgb, var(--theme-light, #fff) 64%, var(--theme-bg, #ddd) 36%) 0%,
-            color-mix(in srgb, var(--theme-bg, #ddd) 92%, var(--theme-dark, #000) 8%) 100%);
-        box-shadow:
-            -1px -1px 3px color-mix(in srgb, var(--theme-light, #fff) 70%, transparent),
-            1px 1px 4px color-mix(in srgb, var(--theme-dark, #000) 28%, transparent);
+        background:
+            radial-gradient(circle at 30% 30%,
+                color-mix(in srgb, var(--theme-light, #fff) 18%, transparent) 0%,
+                color-mix(in srgb, var(--theme-light, #fff) 8%, transparent) 34%,
+                transparent 68%);
         opacity: 0.9;
+        filter: blur(0.3px);
     }
 
     .theme-item.active .theme-circle {
-        border-color: color-mix(in srgb, var(--theme-light, #fff) 84%, rgba(255,255,255,0.24));
+        border-color: color-mix(in srgb, var(--theme-accent, #6750A4) 32%, var(--theme-light, #fff) 68%);
         transform: translateY(-2px) scale(1.045);
         box-shadow:
-            0 8px 16px color-mix(in srgb, var(--theme-dark, #000) 24%, transparent),
-            0 2px 6px color-mix(in srgb, var(--theme-light, #fff) 20%, transparent);
-        filter: saturate(1.15) contrast(1.06) brightness(1.01);
+            3px 4px 8px color-mix(in srgb, var(--theme-dark, #000) 16%, transparent),
+            -3px -3px 7px color-mix(in srgb, var(--theme-light, #fff) 18%, transparent),
+            0 0 0 1px color-mix(in srgb, var(--theme-accent, #6750A4) 14%, transparent);
+        filter: saturate(1.1) contrast(1.03) brightness(1.01);
     }
 
     .theme-item.active .theme-circle::after {
@@ -811,6 +817,7 @@
 
     .theme-item.active .theme-circle::before {
         opacity: 1;
+        transform: scale(1);
     }
 
     .theme-name {
@@ -1710,19 +1717,19 @@
        ════════════════════════════════════════════════════════════ */
     const THEMES = [
         { id: 'classic', name: 'Classic', free: true,
-          bg: '#E0E0E0', shadowL: '#ffffff', shadowD: '#bebebe' },
+          bg: '#E0E0E0', shadowL: '#ffffff', shadowD: '#bebebe', accent: '#6750A4' },
         { id: 'arctic', name: 'Arctic', free: false,
-          bg: '#E3EDF7', shadowL: '#ffffff', shadowD: '#b8cadf' },
+          bg: '#E3EDF7', shadowL: '#ffffff', shadowD: '#b8cadf', accent: '#4A6FA5' },
         { id: 'sage', name: 'Sage', free: false,
-          bg: '#D1DBCB', shadowL: '#e5ede0', shadowD: '#b2c0a7' },
+          bg: '#D1DBCB', shadowL: '#e5ede0', shadowD: '#b2c0a7', accent: '#5A7A4A' },
         { id: 'night', name: 'Night', free: false,
-          bg: '#121212', shadowL: '#1e1e1e', shadowD: '#080808' },
+          bg: '#121212', shadowL: '#1e1e1e', shadowD: '#080808', accent: '#D0BCFF' },
         { id: 'cosmos', name: 'Cosmos', free: false,
-          bg: '#1a1a2e', shadowL: '#252540', shadowD: '#10101e' },
+          bg: '#1a1a2e', shadowL: '#252540', shadowD: '#10101e', accent: '#8B80F0' },
         { id: 'blush', name: 'Blush', free: false,
-          bg: '#f0d0d8', shadowL: '#fff0f4', shadowD: '#d0b0b8' },
+          bg: '#f0d0d8', shadowL: '#fff0f4', shadowD: '#d0b0b8', accent: '#B05070' },
         { id: 'obsidian', name: 'Obsidian', free: false,
-          bg: '#0d0d0d', shadowL: '#1a1a1a', shadowD: '#000000' }
+          bg: '#0d0d0d', shadowL: '#1a1a1a', shadowD: '#000000', accent: '#00E87B' }
     ];
 
     /* ════════════════════════════════════════════════════════════
@@ -2100,7 +2107,7 @@
                 item.onclick = () => this.apply(theme.id);
 
                 item.innerHTML = `
-                    <div class="theme-circle" style="--theme-bg: ${theme.bg}; --theme-light: ${theme.shadowL}; --theme-dark: ${theme.shadowD}; background: ${theme.bg}; box-shadow: 2px 2px 5px ${theme.shadowD}, -2px -2px 5px ${theme.shadowL};">
+                    <div class="theme-circle" style="--theme-bg: ${theme.bg}; --theme-light: ${theme.shadowL}; --theme-dark: ${theme.shadowD}; --theme-accent: ${theme.accent};">
                         <div class="theme-circle-inner"></div>
                         ${(!theme.free && !EntitlementManager.isPremium()) ? `
                             <div class="lock-badge">
