@@ -1,21 +1,21 @@
 # Google Play Metadata
 
-- App name: Relax Button
+- App name: Digital Fidget: Mental ASMR
 - Category: Health & Fitness
 - Content rating target: Everyone
 - Privacy policy: https://relaxbutton.app/privacy
 - Website: https://relaxbutton.app
-- Support email: support@relaxbutton.app
+- Support email: oktober15sm@gmail.com
 
 ## Short Description
 
-A tactile anti-stress ritual with satisfying sound, haptics, and calming themes.
+ASMR button with tactile clicks, gentle haptics, and calming themes.
 
 ## Full Description
 
 Press. Listen. Reset.
 
-Relax Button is a simple sensory ritual for overstimulated moments. Press the button to hear a satisfying click and feel gentle native haptic feedback, then return to what matters with a little more space.
+Digital Fidget: Mental ASMR is a tactile wellness button for overstimulated moments. Press once to hear a satisfying click, feel gentle native haptic feedback, and take a short break before returning to what matters.
 
 Classic is always free. A one-time Premium purchase unlocks every additional visual theme and sound pack. There are no subscriptions and no ads.
 
@@ -31,8 +31,8 @@ Features:
 • No behavioral analytics
 • Restore Purchase support
 
-Relax Button is intended for general relaxation and entertainment. It is not a medical device.
+Digital Fidget: Mental ASMR is intended for general relaxation and entertainment. It is not a medical device.
 
 ## Release Notes
 
-Initial release with tactile feedback, calming themes, sound packs, and optional lifetime Premium access.
+Initial release of Digital Fidget: Mental ASMR with tactile feedback, calming themes, sound packs, and optional lifetime Premium access.

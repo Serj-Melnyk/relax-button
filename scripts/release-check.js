@@ -45,6 +45,13 @@ check(themeFlags.filter((theme) => theme.free).map((theme) => theme.id).join(","
   "Only the Classic theme may be free.");
 check(!webIndex.includes("PreviewMode"), "Production web bundle must not contain Premium preview bypasses.");
 check(webIndex.includes("window.BillingBridge"), "UI must use the shared BillingBridge.");
+check(webIndex.includes("const PreviewAccess =") && webIndex.includes("127.0.0.1"),
+  "Local preview should allow temporary Premium inspection without changing production entitlement logic.");
+check(!webIndex.includes('id="btn-settings"') && !webIndex.includes('id="btn-premium"'),
+  "Main screen must not restore hard-to-reach top-corner controls.");
+check(webIndex.includes('id="swipe-indicator"') && webIndex.includes('id="sheet-settings"')
+  && webIndex.includes('id="sheet-premium"'),
+  "Thumb-friendly customization, Settings, and Premium controls are required.");
 
 check(digest("www/index.html") === digest("android/app/src/main/assets/public/index.html"),
   "Android web assets are stale. Run npm run sync.");

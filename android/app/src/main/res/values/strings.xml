@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Relax Button</string>
-    <string name="title_activity_main">Relax Button</string>
+    <string name="app_name">Digital Fidget: Mental ASMR</string>
+    <string name="title_activity_main">Digital Fidget: Mental ASMR</string>
     <string name="package_name">com.antistress.relaxbutton</string>
     <string name="custom_url_scheme">com.antistress.relaxbutton</string>
 </resources>

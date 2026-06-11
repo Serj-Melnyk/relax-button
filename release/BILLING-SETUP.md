@@ -1,12 +1,12 @@
 # Billing Setup
 
-Relax Button uses one non-consumable product on both stores.
+Digital Fidget: Mental ASMR uses one non-consumable product on both stores.
 
 ## Product
 
 - Product ID: `premium_lifetime`
 - Type: Non-consumable / one-time product
-- Display name: Relax Button Premium
+- Display name: Digital Fidget Premium
 - Description: Unlock all Premium themes and sound packs with lifetime access.
 - Suggested first price tier: USD 0.99 or the closest store-managed tier
 

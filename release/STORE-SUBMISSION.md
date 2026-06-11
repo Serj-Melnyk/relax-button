@@ -9,7 +9,7 @@
 - Confirm Premium unlocks every other theme and all additional sounds
 - Confirm Purchase and Restore use the localized store product
 - Confirm Privacy, Terms, and Support pages are deployed over HTTPS
-- Confirm `support@relaxbutton.app` is monitored
+- Confirm `oktober15sm@gmail.com` is monitored
 
 ## Android
 
@@ -36,12 +36,12 @@
 
 ## App Review Notes
 
-Relax Button does not require an account.
+Digital Fidget: Mental ASMR does not require an account.
 
 To review the in-app purchase:
 
 1. Complete the three onboarding screens.
-2. Tap the star icon in the upper-right corner.
+2. Open the bottom sheet using the Customize control or a swipe up gesture.
 3. The `premium_lifetime` non-consumable unlocks every theme except Classic and every sound except Classic Click.
 4. Restore Purchase is available below the purchase button.
 

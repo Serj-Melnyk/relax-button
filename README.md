@@ -1,6 +1,6 @@
-# Relax Button
+# Digital Fidget: Mental ASMR
 
-Relax Button is a Capacitor-based anti-stress app for iOS and Android.
+Digital Fidget: Mental ASMR is a Capacitor-based tactile wellness app for iOS and Android.
 
 ## What is included
 - Neomorphic main interaction button

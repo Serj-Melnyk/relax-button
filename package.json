@@ -9,7 +9,7 @@
     "assets:release": "node scripts/capture-release-assets.js"
   },
   "keywords": [],
-  "author": "Relax Button",
+  "author": "Digital Fidget: Mental ASMR",
   "license": "UNLICENSED",
   "type": "commonjs",
   "dependencies": {

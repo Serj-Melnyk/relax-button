@@ -1,7 +1,7 @@
 # App Store Metadata
 
-- Name: Relax Button
-- Subtitle: Press. Listen. Reset.
+- Name: Digital Fidget: Mental ASMR
+- Subtitle: Wellness Button to Shift Focus
 - Primary category: Health & Fitness
 - Secondary category: Lifestyle
 - Age rating target: 4+
@@ -11,17 +11,17 @@
 
 ## Promotional Text
 
-A small tactile ritual for overstimulated moments. Press, hear a satisfying click, feel a gentle haptic, and reset your focus.
+A tactile ASMR button with gentle haptics, satisfying clicks, and a quiet moment to refocus.
 
 ## Description
 
-Relax Button turns one simple interaction into a calming sensory ritual.
+Digital Fidget: Mental ASMR turns one simple interaction into a calming sensory ritual.
 
 Press the button to hear a satisfying click and feel gentle native haptic feedback. Choose where the button sits, adjust sound and vibration, and return whenever you need a small pause.
 
 Classic is always free.
 
-Relax Button Premium is a one-time purchase that unlocks every additional visual theme and sound pack. No subscription and no ads.
+Premium is a one-time purchase that unlocks every additional visual theme and sound pack. No subscription and no ads.
 
 Features:
 
@@ -35,12 +35,12 @@ Features:
 - No behavioral analytics
 - Restore Purchase support
 
-Relax Button is intended for general relaxation and entertainment. It is not a medical device.
+Digital Fidget: Mental ASMR is intended for general relaxation and entertainment. It is not a medical device.
 
 ## Keywords
 
-relax,stress relief,calm,haptic,button,focus,sensory,asmr,mindful
+focus,calm,relax,haptics,sensory,clicker,wellness,stress relief,mindful,soothing
 
 ## What's New
 
-Initial release of Relax Button with tactile feedback, calming themes, sound packs, and optional lifetime Premium access.
+Initial release of Digital Fidget: Mental ASMR with tactile feedback, calming themes, sound packs, and optional lifetime Premium access.

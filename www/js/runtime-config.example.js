@@ -3,7 +3,8 @@ window.__APP_RUNTIME_CONFIG__ = {
     premiumProductId: "premium_lifetime",
     // Optional: use an Iaptic or compatible cordova-plugin-purchase validator.
     validatorUrl: "https://validator.example.com/v1/validate",
-    requireServerValidation: true
+    requireServerValidation: true,
+    previewPremiumOnLocalhost: false
   },
   legal: {
     privacyUrl: "https://example.com/privacy",
