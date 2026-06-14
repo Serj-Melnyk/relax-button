@@ -17,7 +17,7 @@ Press. Listen. Reset.
 
 Digital Fidget: Mental ASMR is a tactile wellness button for overstimulated moments. Press once to hear a satisfying click, feel gentle native haptic feedback, and take a short break before returning to what matters.
 
-Classic is always free. A one-time Premium purchase unlocks every additional visual theme and sound pack. There are no subscriptions and no ads.
+Classic and Night themes are always free. A one-time Premium purchase unlocks every additional visual theme, sound pack, and skin. There are no subscriptions and no ads.
 
 Features:
 

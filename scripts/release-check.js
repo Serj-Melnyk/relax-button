@@ -33,19 +33,21 @@ function pngSize(relativePath) {
 }
 
 const webIndex = read("www/index.html");
+const soundSectionStart = webIndex.indexOf("const SOUND_PROFILES = [");
 const themesBlock = webIndex.slice(
   webIndex.indexOf("const THEMES = ["),
-  webIndex.indexOf("const SOUNDS = [")
+  soundSectionStart === -1 ? webIndex.indexOf("const SOUNDS = [") : soundSectionStart
 );
 const themeFlags = [...themesBlock.matchAll(/\{\s*id:\s*'([^']+)'[\s\S]*?free:\s*(true|false)/g)]
   .map((match) => ({ id: match[1], free: match[2] === "true" }));
 
 check(themeFlags.length === 7, "Expected seven theme definitions.");
-check(themeFlags.filter((theme) => theme.free).map((theme) => theme.id).join(",") === "classic",
-  "Only the Classic theme may be free.");
+check(themeFlags.filter((theme) => theme.free).map((theme) => theme.id).join(",") === "classic,night",
+  "Classic and Night must remain the free themes.");
 check(!webIndex.includes("PreviewMode"), "Production web bundle must not contain Premium preview bypasses.");
 check(webIndex.includes("window.BillingBridge"), "UI must use the shared BillingBridge.");
-check(webIndex.includes("const PreviewAccess =") && webIndex.includes("127.0.0.1"),
+check(webIndex.includes("const PreviewAccess =") && webIndex.includes("127.0.0.1")
+  && webIndex.includes("window.location.protocol === 'file:'"),
   "Local preview should allow temporary Premium inspection without changing production entitlement logic.");
 check(!webIndex.includes('id="btn-settings"') && !webIndex.includes('id="btn-premium"'),
   "Main screen must not restore hard-to-reach top-corner controls.");

@@ -19,9 +19,9 @@ Digital Fidget: Mental ASMR turns one simple interaction into a calming sensory 
 
 Press the button to hear a satisfying click and feel gentle native haptic feedback. Choose where the button sits, adjust sound and vibration, and return whenever you need a small pause.
 
-Classic is always free.
+Classic and Night themes are always free.
 
-Premium is a one-time purchase that unlocks every additional visual theme and sound pack. No subscription and no ads.
+Premium is a one-time purchase that unlocks every additional visual theme, sound pack, and skin. No subscription and no ads.
 
 Features:
 

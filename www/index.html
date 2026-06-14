@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="description" content="Digital Fidget: Mental ASMR — a tactile wellness button with satisfying clicks, gentle haptics, and calming themes.">
-    <meta name="theme-color" content="#E0E0E0">
+    <meta name="theme-color" content="#121212">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Digital Fidget: Mental ASMR — Wellness Button</title>
 
     <!-- Google Fonts: Inter -->
@@ -79,7 +79,7 @@
         --accent-container: rgba(90,122,74,0.12);
     }
 
-    /* ── Night (Premium) ── */
+    /* ── Night ── */
     body[data-theme="night"] {
         --bg: #121212; --btn: #121212;
         --shadow-l: #1e1e1e; --shadow-d: #080808;
@@ -190,49 +190,21 @@
                     filter 680ms var(--ease-standard);
     }
 
-    #onboarding::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background:
-            radial-gradient(circle at var(--bloom-x, 50%) var(--bloom-y, 50%),
-                rgba(255,255,255,0.94) 0%,
-                rgba(255,252,242,0.74) 18%,
-                rgba(255,244,214,0.24) 42%,
-                rgba(255,255,255,0) 68%),
-            radial-gradient(140% 70% at var(--bloom-x, 50%) calc(var(--bloom-y, 50%) + 18%),
-                rgba(255,248,232,0.78) 0%,
-                rgba(255,246,226,0.42) 30%,
-                rgba(255,255,255,0) 66%);
-        opacity: 0;
-        transform: scale(0.24);
-        transform-origin: var(--bloom-x, 50%) var(--bloom-y, 50%);
-        filter: blur(18px);
-        pointer-events: none;
-    }
-
     #onboarding.hidden {
         opacity: 0;
-        transform: scale(1.035);
-        filter: blur(8px);
         pointer-events: none;
     }
 
     #onboarding.igniting {
         pointer-events: none;
-        animation: onboardingDissolve 980ms cubic-bezier(0.22, 0.72, 0.2, 1) forwards;
+        opacity: 0;
+        transform: scale(1.008);
+        transition: opacity 560ms ease, transform 560ms var(--ease-standard);
     }
 
     #onboarding.igniting .ob-track {
-        animation: onboardingTextFade 480ms ease-out forwards;
-    }
-
-    #onboarding.igniting .ob-demo-btn {
-        animation: deviceCorePulse 260ms ease-out forwards;
-    }
-
-    #onboarding.igniting::after {
-        animation: deviceWave 980ms cubic-bezier(0.18, 0.82, 0.22, 1) forwards;
+        opacity: 0.72;
+        transition: opacity 360ms ease;
     }
 
     .ob-track {
@@ -395,10 +367,6 @@
         transition: justify-content 500ms var(--ease-standard);
     }
 
-    #app.revealing {
-        animation: appReveal 860ms cubic-bezier(0.2, 0.88, 0.24, 1) forwards;
-    }
-
     @media (min-width: 1024px) {
         #app {
             max-width: 430px;
@@ -413,7 +381,7 @@
 
     #app.layout-bottom {
         justify-content: flex-end;
-        padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+        padding-bottom: calc(112px + env(safe-area-inset-bottom, 0px));
     }
 
     /* ════════════════════════════════════════════════════════════
@@ -462,6 +430,92 @@
             transform var(--dur-press) ease;
     }
 
+    body[data-skin="moon"] #app {
+        background:
+            linear-gradient(rgba(0, 6, 10, 0.08), rgba(0, 0, 0, 0.3)),
+            url('moon-space-bg.jpg') center / cover no-repeat;
+    }
+
+    body[data-skin="moon"] #main-button {
+        width: clamp(208px, 58vw, 250px);
+        height: clamp(208px, 58vw, 250px);
+        background: url('moon-button.jpg') center / cover no-repeat;
+        border: 0;
+        box-shadow:
+            0 0 24px rgba(197, 226, 235, 0.12),
+            0 18px 48px rgba(0, 0, 0, 0.58);
+        filter: brightness(0.96) contrast(1.04);
+        transition:
+            box-shadow 300ms ease,
+            filter 220ms ease,
+            transform var(--dur-release) var(--spring);
+    }
+
+    body[data-skin="moon"] #main-button::after {
+        background:
+            radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.22), transparent 34%),
+            radial-gradient(circle, transparent 58%, rgba(0, 8, 12, 0.34) 100%);
+    }
+
+    body[data-skin="moon"] #main-button.is-pressed {
+        transform: scale(0.94);
+        filter: brightness(0.82) contrast(1.12);
+        box-shadow:
+            0 0 46px rgba(175, 226, 240, 0.34),
+            inset 0 0 34px rgba(0, 0, 0, 0.34),
+            0 12px 34px rgba(0, 0, 0, 0.58);
+    }
+
+    body[data-skin="moon"] #swipe-indicator {
+        color: rgba(225, 240, 246, 0.72);
+        text-shadow: 0 1px 10px rgba(0, 0, 0, 0.8);
+    }
+
+    body[data-skin="moon"] #swipe-indicator .line {
+        background: rgba(225, 240, 246, 0.5);
+        box-shadow: 0 0 12px rgba(188, 230, 242, 0.24);
+    }
+
+    .theme-smoke-ring {
+        position: absolute;
+        width: var(--smoke-size);
+        height: var(--smoke-size);
+        left: var(--smoke-left);
+        top: var(--smoke-top);
+        z-index: 0;
+        border: clamp(6px, 2.2vw, 12px) solid color-mix(in srgb, var(--accent) 44%, transparent);
+        border-radius: 48% 52% 46% 54% / 52% 45% 55% 48%;
+        box-shadow:
+            0 0 18px color-mix(in srgb, var(--accent) 26%, transparent),
+            inset 0 0 14px color-mix(in srgb, var(--shadow-l) 22%, transparent);
+        filter: blur(var(--smoke-blur, 3px));
+        opacity: 0;
+        pointer-events: none;
+        transform: scale(0.76) rotate(var(--smoke-rotate, 0deg));
+        animation: themeSmokeRing 1350ms cubic-bezier(0.16, 0.72, 0.24, 1) forwards;
+        animation-delay: var(--smoke-delay, 0ms);
+        will-change: transform, opacity, filter;
+    }
+
+    @keyframes themeSmokeRing {
+        0% {
+            opacity: 0;
+            transform: scale(0.76) rotate(var(--smoke-rotate, 0deg));
+            filter: blur(var(--smoke-blur, 3px));
+        }
+        16% {
+            opacity: 0.48;
+        }
+        64% {
+            opacity: 0.17;
+        }
+        100% {
+            opacity: 0;
+            transform: scale(var(--smoke-scale, 1.82)) rotate(calc(var(--smoke-rotate, 0deg) + 12deg));
+            filter: blur(9px);
+        }
+    }
+
     /* ════════════════════════════════════════════════════════════
        6. SWIPE-UP INDICATOR
        ════════════════════════════════════════════════════════════ */
@@ -474,9 +528,10 @@
         flex-direction: column;
         align-items: center;
         gap: 5px;
-        min-width: 156px;
+        width: max-content;
+        min-width: 0;
         min-height: 52px;
-        padding: 6px 16px 8px;
+        padding: 6px 12px 8px;
         border: 0;
         border-radius: 26px;
         background: transparent;
@@ -499,15 +554,19 @@
         height: 4px;
         border-radius: 2px;
         background: currentColor;
+        margin-inline: auto;
         transition: background var(--dur-theme) var(--ease-standard);
     }
 
     #swipe-indicator .hint-label {
+        display: block;
+        width: 100%;
         font-size: 10px;
         font-weight: 600;
         letter-spacing: 0.12em;
         text-transform: uppercase;
         white-space: nowrap;
+        text-align: center;
     }
 
     /* ════════════════════════════════════════════════════════════
@@ -536,7 +595,7 @@
         bottom: 0;
         left: 0;
         right: 0;
-        max-height: 70vh;
+        max-height: 78vh;
         background: var(--surface);
         border-radius: var(--radius-xl) var(--radius-xl) 0 0;
         box-shadow: 0 -2px 24px rgba(0,0,0,0.10);
@@ -566,10 +625,13 @@
     }
 
     .sheet-content {
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-        max-height: calc(70vh - 20px);
-        padding: 0 24px 24px;
+        display: grid;
+        grid-template-rows: auto auto auto minmax(0, 1fr) auto auto;
+        gap: 0;
+        max-height: calc(78vh - 20px);
+        min-height: calc(78vh - 20px);
+        overflow: hidden;
+        padding: 0 24px 20px;
     }
 
     /* Drag handle */
@@ -602,7 +664,7 @@
     .sheet-divider {
         height: 1px;
         background: var(--outline);
-        margin: 8px 0;
+        margin: 4px 0 2px;
         transition: background var(--dur-theme) var(--ease-standard);
     }
 
@@ -610,15 +672,45 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 10px;
-        margin: 2px 0 18px;
-        padding: 8px;
-        border-radius: var(--radius-md);
-        background: color-mix(in srgb, var(--surface) 74%, var(--bg) 26%);
-        border: 1px solid color-mix(in srgb, var(--outline) 82%, transparent);
-        box-shadow:
-            inset 1px 1px 0 color-mix(in srgb, var(--shadow-l) 30%, transparent),
-            inset -1px -1px 0 color-mix(in srgb, var(--shadow-d) 20%, transparent);
-        transition: background var(--dur-theme) var(--ease-standard), border-color var(--dur-theme) var(--ease-standard), box-shadow var(--dur-theme) var(--ease-standard);
+        margin: 2px 0 6px;
+        padding: 0;
+    }
+
+    .sheet-section {
+        min-width: 0;
+        min-height: 0;
+    }
+
+    .sheet-section--themes {
+        padding-top: 0;
+        padding-bottom: 0;
+        border-top: 1px solid var(--outline);
+        margin-top: 2px;
+    }
+
+    .sheet-section--themes .sheet-section-title {
+        margin: 10px 0 10px;
+    }
+
+    .sheet-section--sounds {
+        display: flex;
+        flex-direction: column;
+        min-height: clamp(180px, 28vh, 320px);
+        padding-top: 4px;
+        padding-bottom: 6px;
+    }
+
+    .sheet-section--skins {
+        padding-top: 0;
+    }
+
+    .sheet-section--sounds .sheet-section-title {
+        flex: 0 0 auto;
+        margin: 6px 0 8px;
+    }
+
+    .sheet-section--skins .sheet-section-title {
+        margin: 6px 0 8px;
     }
 
     .sheet-action {
@@ -675,13 +767,13 @@
        ════════════════════════════════════════════════════════════ */
     .theme-carousel {
         display: flex;
-        gap: 12px;
+        gap: 8px;
         overflow-x: auto;
         overflow-y: hidden;
         scroll-snap-type: x proximity;
         scroll-padding-inline: 16px;
         -webkit-overflow-scrolling: touch;
-        padding: 8px 16px 10px;
+        padding: 4px 8px 2px;
         scrollbar-width: none;
     }
 
@@ -691,12 +783,12 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 14px;
-        width: 76px;
+        gap: 8px;
+        width: 58px;
         flex-shrink: 0;
         scroll-snap-align: center;
         cursor: pointer;
-        padding: 6px 2px 4px;
+        padding: 2px 1px 1px;
         transition: transform 220ms var(--spring);
         position: relative;
     }
@@ -706,9 +798,9 @@
     }
 
     .theme-circle {
-        width: 60px;
-        height: 60px;
-        margin-bottom: 2px;
+        width: 44px;
+        height: 44px;
+        margin-bottom: 0;
         border-radius: 50%;
         position: relative;
         z-index: 0;
@@ -726,7 +818,7 @@
     .theme-circle::after {
         content: "";
         position: absolute;
-        inset: -6px;
+        inset: -5px;
         border-radius: 50%;
         background:
             radial-gradient(circle,
@@ -742,12 +834,12 @@
     .theme-circle::before {
         content: "";
         position: absolute;
-        inset: -2px;
+        inset: -1px;
         border-radius: 50%;
-        border: 2px solid color-mix(in srgb, var(--theme-accent, #6750A4) 82%, white 18%);
+        border: 1.5px solid color-mix(in srgb, var(--theme-accent, #6750A4) 82%, white 18%);
         box-shadow:
-            0 0 0 3px color-mix(in srgb, var(--theme-accent, #6750A4) 18%, transparent),
-            0 2px 6px color-mix(in srgb, var(--theme-accent, #6750A4) 10%, transparent);
+            0 0 0 2px color-mix(in srgb, var(--theme-accent, #6750A4) 18%, transparent),
+            0 1px 4px color-mix(in srgb, var(--theme-accent, #6750A4) 10%, transparent);
         opacity: 0;
         transition: opacity 220ms ease, transform 250ms var(--spring);
         pointer-events: none;
@@ -772,7 +864,7 @@
     .theme-circle-inner::before {
         content: "";
         position: absolute;
-        inset: 12px;
+        inset: 8px;
         border-radius: 50%;
         background:
             radial-gradient(circle at 34% 30%,
@@ -789,7 +881,7 @@
     .theme-circle-inner::after {
         content: "";
         position: absolute;
-        inset: 12px;
+        inset: 8px;
         border-radius: 50%;
         background:
             radial-gradient(circle at 30% 30%,
@@ -824,7 +916,7 @@
         display: block;
         position: relative;
         z-index: 1;
-        font-size: 11px;
+        font-size: 9px;
         line-height: 1.15;
         font-weight: 700;
         color: var(--on-surface);
@@ -834,35 +926,30 @@
         white-space: normal;
         text-wrap: balance;
         width: 100%;
-        min-height: 26px;
-        padding-top: 2px;
+        min-height: 18px;
+        padding-top: 0;
         pointer-events: none;
+    }
+
+    .theme-item.is-premium .theme-name {
+        color: color-mix(in srgb, var(--on-surface) 82%, var(--accent) 18%);
+    }
+
+    .theme-item.is-premium .theme-name::after {
+        content: "Premium";
+        display: block;
+        margin-top: 2px;
+        font-size: 7px;
+        line-height: 1;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        font-weight: 700;
+        color: color-mix(in srgb, var(--accent) 62%, var(--on-surface-var) 38%);
+        opacity: 0.86;
     }
 
     .theme-item.active .theme-name {
         letter-spacing: 0.012em;
-    }
-
-    /* Lock badge */
-    .lock-badge {
-        position: absolute;
-        bottom: -2px;
-        right: -2px;
-        width: 20px;
-        height: 20px;
-        background: var(--surface);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 1px 4px rgba(0,0,0,0.15);
-        transition: background var(--dur-theme) var(--ease-standard);
-    }
-
-    .lock-badge svg {
-        width: 10px;
-        height: 10px;
-        fill: var(--on-surface-var);
     }
 
     /* ════════════════════════════════════════════════════════════
@@ -871,26 +958,52 @@
     .sound-list {
         display: flex;
         flex-direction: column;
+        flex: 1 1 auto;
         gap: 4px;
+        min-height: 0;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        padding-right: 2px;
+        scrollbar-width: none;
     }
+
+    .sound-list::-webkit-scrollbar { display: none; }
 
     .sound-item {
         display: flex;
         align-items: center;
         gap: 14px;
-        padding: 12px 14px;
+        padding: 8px 10px;
         border-radius: var(--radius-md);
-        cursor: pointer;
         transition: background 200ms;
         position: relative;
     }
 
-    .sound-item:active {
+    .sound-preview {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex: 1;
+        min-width: 0;
+        padding: 4px;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+
+    .sound-preview:active {
         background: var(--surface-dim);
     }
 
     .sound-item.active {
         background: var(--accent-container);
+    }
+
+    .sound-item.is-premium .sound-name {
+        color: color-mix(in srgb, var(--on-surface) 80%, var(--accent) 20%);
+    }
+
+    .sound-item.preview-used:not(.active) .sound-preview {
+        opacity: 0.62;
     }
 
     .sound-icon {
@@ -912,6 +1025,13 @@
         transition: fill var(--dur-theme) var(--ease-standard);
     }
 
+    .sound-icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
     .sound-info {
         flex: 1;
         min-width: 0;
@@ -921,12 +1041,18 @@
         font-size: 14px;
         font-weight: 500;
         color: var(--on-surface);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
         transition: color var(--dur-theme) var(--ease-standard);
     }
 
     .sound-desc {
         font-size: 11px;
         color: var(--on-surface-var);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
         transition: color var(--dur-theme) var(--ease-standard);
     }
 
@@ -948,44 +1074,164 @@
         flex-shrink: 0;
     }
 
-    /* ════════════════════════════════════════════════════════════
-       12. LAYOUT TOGGLE (Segmented Button MD3)
-       ════════════════════════════════════════════════════════════ */
-    .segmented-toggle {
-        display: flex;
-        border: 1px solid var(--outline);
+    .sound-select-btn {
+        min-width: 76px;
+        min-height: 36px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        border: 1px solid color-mix(in srgb, var(--outline) 72%, transparent);
         border-radius: var(--radius-full);
-        overflow: hidden;
-        margin-top: 4px;
-        transition: border-color var(--dur-theme) var(--ease-standard);
-    }
-
-    .seg-option {
-        flex: 1;
-        padding: 10px 16px;
-        text-align: center;
-        font-size: 13px;
-        font-weight: 500;
-        background: transparent;
+        padding: 0 12px;
+        background: color-mix(in srgb, var(--surface) 88%, var(--bg) 12%);
         color: var(--on-surface);
-        border: none;
+        font: inherit;
+        font-size: 11px;
+        font-weight: 700;
         cursor: pointer;
-        font-family: inherit;
-        transition: background 200ms, color 200ms;
-        position: relative;
+        flex: 0 0 auto;
     }
 
-    .seg-option + .seg-option {
-        border-left: 1px solid var(--outline);
+    .sound-select-btn svg {
+        width: 14px;
+        height: 14px;
+        fill: currentColor;
     }
 
-    .seg-option.active {
+    .sound-select-btn.active {
+        border-color: transparent;
         background: var(--accent-container);
         color: var(--accent);
+        cursor: default;
     }
 
-    .seg-option:active {
-        background: var(--surface-dim);
+    .skin-carousel {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding: 0;
+    }
+
+    .skin-carousel::-webkit-scrollbar { display: none; }
+
+    .skin-item {
+        flex: 0 0 78px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        min-height: 110px;
+        padding: 8px 5px 7px;
+        border-radius: 18px;
+        border: 1px solid color-mix(in srgb, var(--outline) 64%, transparent);
+        background: color-mix(in srgb, var(--surface) 92%, var(--bg) 8%);
+        box-shadow:
+            3px 3px 10px color-mix(in srgb, var(--shadow-d) 20%, transparent),
+            -2px -2px 8px color-mix(in srgb, var(--shadow-l) 18%, transparent);
+        cursor: pointer;
+        transition: transform 180ms ease, background 180ms ease, border-color var(--dur-theme) var(--ease-standard), box-shadow 180ms ease;
+    }
+
+    .skin-item:active {
+        transform: scale(0.985);
+    }
+
+    .skin-item.active {
+        background: color-mix(in srgb, var(--accent-container) 52%, var(--surface) 48%);
+        border-color: color-mix(in srgb, var(--accent) 18%, var(--outline) 82%);
+        box-shadow:
+            4px 4px 12px color-mix(in srgb, var(--shadow-d) 18%, transparent),
+            -2px -2px 8px color-mix(in srgb, var(--shadow-l) 16%, transparent),
+            inset 0 0 0 1px color-mix(in srgb, var(--accent) 10%, transparent);
+    }
+
+    .skin-item.is-premium .skin-name {
+        color: color-mix(in srgb, var(--on-surface) 78%, var(--accent) 22%);
+    }
+
+    .skin-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 11px;
+        background: color-mix(in srgb, var(--surface-dim) 78%, var(--surface) 22%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition: background var(--dur-theme) var(--ease-standard);
+    }
+
+    .skin-icon svg {
+        width: 17px;
+        height: 17px;
+        fill: var(--on-surface-var);
+        transition: fill var(--dur-theme) var(--ease-standard);
+    }
+
+    .skin-meta {
+        width: 100%;
+        text-align: center;
+        flex: 1;
+    }
+
+    .skin-name {
+        font-size: 10px;
+        font-weight: 700;
+        line-height: 1.2;
+        color: var(--on-surface);
+        transition: color var(--dur-theme) var(--ease-standard);
+    }
+
+    .skin-desc {
+        margin-top: 2px;
+        font-size: 7px;
+        line-height: 1.15;
+        color: var(--on-surface-var);
+        transition: color var(--dur-theme) var(--ease-standard);
+    }
+
+    .skin-foot {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-height: 12px;
+        width: 100%;
+    }
+
+    .skin-badge {
+        font-size: 7px;
+        font-weight: 700;
+        padding: 1px 5px;
+        border-radius: var(--radius-full);
+        background: var(--accent-container);
+        color: var(--accent);
+        white-space: nowrap;
+    }
+
+    .sound-head {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .sound-head-main {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .sound-head-side {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-shrink: 0;
     }
 
     /* ════════════════════════════════════════════════════════════
@@ -1009,14 +1255,29 @@
     }
 
     .paywall-card {
+        position: relative;
         width: 100%;
         max-width: 430px;
-        background: var(--surface);
+        background: color-mix(in srgb, var(--surface) 96%, white 4%);
         border-radius: var(--radius-xl) var(--radius-xl) 0 0;
         padding: 32px 28px calc(28px + env(safe-area-inset-bottom, 0px));
+        overflow: hidden;
+        isolation: isolate;
+        contain: paint;
+        box-shadow: 0 -12px 40px rgba(0,0,0,0.16);
         transform: translateY(100%);
         transition: transform 400ms var(--ease-standard),
                     background var(--dur-theme) var(--ease-standard);
+    }
+
+    .paywall-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background: color-mix(in srgb, var(--surface) 98%, white 2%);
+        z-index: -1;
+        pointer-events: none;
     }
 
     #paywall.visible .paywall-card {
@@ -1215,6 +1476,126 @@
         content: "↗";
         float: right;
         color: var(--on-surface-var);
+    }
+
+    .setting-link--action::after {
+        content: "›";
+        font-size: 20px;
+        line-height: 1;
+    }
+
+    .setting-link--internal::after {
+        content: "›";
+        font-size: 20px;
+        line-height: 1;
+    }
+
+    #rating-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 320;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        background: rgba(0,0,0,0);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 220ms ease, background 220ms ease;
+    }
+
+    #rating-modal.visible {
+        opacity: 1;
+        pointer-events: auto;
+        background: rgba(0,0,0,0.48);
+    }
+
+    .rating-card {
+        width: min(340px, 100%);
+        padding: 26px 24px 22px;
+        border: 1px solid color-mix(in srgb, var(--outline) 72%, transparent);
+        border-radius: 26px;
+        background: var(--surface);
+        box-shadow: 0 18px 56px rgba(0,0,0,0.28);
+        color: var(--on-surface);
+        text-align: center;
+        transform: translateY(12px) scale(0.98);
+        transition: transform 260ms var(--ease-standard), background var(--dur-theme) var(--ease-standard);
+    }
+
+    #rating-modal.visible .rating-card {
+        transform: translateY(0) scale(1);
+    }
+
+    .rating-title {
+        margin: 0;
+        font-size: 22px;
+        line-height: 1.2;
+    }
+
+    .rating-copy {
+        margin: 10px auto 18px;
+        max-width: 260px;
+        color: var(--on-surface-var);
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    .rating-stars {
+        display: flex;
+        justify-content: center;
+        gap: 6px;
+        margin-bottom: 20px;
+    }
+
+    .rating-star {
+        width: 42px;
+        height: 42px;
+        padding: 4px;
+        border: 0;
+        background: transparent;
+        color: color-mix(in srgb, var(--on-surface-var) 58%, transparent);
+        cursor: pointer;
+    }
+
+    .rating-star svg {
+        width: 100%;
+        height: 100%;
+        fill: currentColor;
+    }
+
+    .rating-star.selected {
+        color: var(--accent);
+        transform: translateY(-2px);
+    }
+
+    .rating-primary {
+        width: 100%;
+        min-height: 48px;
+        border: 0;
+        border-radius: var(--radius-full);
+        background: var(--accent);
+        color: var(--on-accent);
+        font: inherit;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .rating-primary:disabled {
+        opacity: 0.45;
+        cursor: default;
+    }
+
+    .rating-later {
+        margin-top: 10px;
+        padding: 8px 14px;
+        border: 0;
+        background: transparent;
+        color: var(--on-surface-var);
+        font: inherit;
+        font-size: 12px;
+        cursor: pointer;
     }
 
     .paywall-buy-btn:disabled {
@@ -1422,7 +1803,7 @@
     <script src="js/billing.js"></script>
 </head>
 
-<body>
+<body data-theme="night">
     <!-- ════════════════════════════════════════════════════════
          ONBOARDING (3 Screens)
          ════════════════════════════════════════════════════════ -->
@@ -1509,7 +1890,7 @@
     <div id="scrim"></div>
 
     <!-- ════════════════════════════════════════════════════════
-         BOTTOM SHEET (Theme & Sound Selector)
+         BOTTOM SHEET (Theme & Skin Selector)
          ════════════════════════════════════════════════════════ -->
     <div id="bottom-sheet">
         <div class="sheet-handle" id="sheet-handle">
@@ -1528,28 +1909,29 @@
                 </button>
             </div>
 
-            <!-- Theme Carousel -->
-            <div class="sheet-section-title">Themes</div>
-            <div class="theme-carousel" id="theme-carousel">
-                <!-- Populated by JS -->
+            <div class="sheet-section sheet-section--themes">
+                <div class="sheet-section-title">Themes</div>
+                <div class="theme-carousel" id="theme-carousel">
+                    <!-- Populated by JS -->
+                </div>
             </div>
 
             <div class="sheet-divider"></div>
 
-            <!-- Sound Packs -->
-            <div class="sheet-section-title">Sounds</div>
-            <div class="sound-list" id="sound-list">
-                <!-- Populated by JS -->
+            <div class="sheet-section sheet-section--sounds">
+                <div class="sheet-section-title">Sounds</div>
+                <div class="sound-list" id="sound-list">
+                    <!-- Populated by JS -->
+                </div>
             </div>
 
-            <div class="sheet-divider"></div>
-
-            <!-- Layout Toggle -->
-            <div class="sheet-section-title">Button Position</div>
-            <div class="segmented-toggle" id="layout-toggle">
-                <button class="seg-option" data-layout="center" onclick="LayoutManager.set('center')">Center</button>
-                <button class="seg-option active" data-layout="bottom" onclick="LayoutManager.set('bottom')">Bottom</button>
+            <div class="sheet-section sheet-section--skins">
+                <div class="sheet-section-title">Skins</div>
+                <div class="skin-carousel" id="skin-carousel">
+                    <!-- Populated by JS -->
+                </div>
             </div>
+
         </div>
     </div>
 
@@ -1557,7 +1939,7 @@
          PAYWALL
          ════════════════════════════════════════════════════════ -->
     <div id="paywall" onclick="Paywall.handleBackdrop(event)" onpointerdown="Paywall.handleBackdrop(event)" ontouchstart="Paywall.handleBackdrop(event)">
-        <div class="paywall-card" style="position: relative;" onclick="event.stopPropagation()" onpointerdown="event.stopPropagation()" ontouchstart="event.stopPropagation()">
+        <div class="paywall-card" onclick="event.stopPropagation()" onpointerdown="event.stopPropagation()" ontouchstart="event.stopPropagation()">
             <button class="paywall-close" onclick="Paywall.close()" aria-label="Close">×</button>
 
             <div class="paywall-icon">
@@ -1566,7 +1948,7 @@
                 </svg>
             </div>
 
-            <h2 class="paywall-title">Unlock Premium</h2>
+            <h2 class="paywall-title">Unlock Sounds, Skins &amp; Themes</h2>
             <p class="paywall-subtitle">Elevate your relaxation experience</p>
 
             <ul class="paywall-benefits">
@@ -1576,7 +1958,7 @@
                 </li>
                 <li>
                     <svg viewBox="0 0 20 20"><path d="M10 0C4.48 0 0 4.48 0 10s4.48 10 10 10 10-4.48 10-10S15.52 0 10 0zm-1 15l-5-5 1.41-1.41L9 12.17l6.59-6.59L17 7l-8 8z"/></svg>
-                    ASMR sound packs
+                    Premium interaction skins
                 </li>
                 <li>
                     <svg viewBox="0 0 20 20"><path d="M10 0C4.48 0 0 4.48 0 10s4.48 10 10 10 10-4.48 10-10S15.52 0 10 0zm-1 15l-5-5 1.41-1.41L9 12.17l6.59-6.59L17 7l-8 8z"/></svg>
@@ -1589,7 +1971,7 @@
             </ul>
 
             <button class="paywall-buy-btn" id="buy-btn" onclick="Paywall.purchase()">
-                1.99$ — Lifetime Access
+                $1.99 • Lifetime Access
             </button>
 
             <button class="paywall-restore" onclick="Paywall.restore()">Restore Purchase</button>
@@ -1621,15 +2003,42 @@
             </label>
         </div>
 
+        <div class="setting-row">
+            <span class="setting-label">Centered Button</span>
+            <label class="toggle-switch">
+                <input type="checkbox" id="toggle-layout-centered" onchange="Settings.toggleLayout(this.checked)">
+                <div class="toggle-track"></div>
+                <div class="toggle-thumb"></div>
+            </label>
+        </div>
+
         <button class="setting-link" onclick="Settings.openLegal('privacyUrl')">Privacy Policy</button>
         <button class="setting-link" onclick="Settings.openLegal('termsUrl')">Terms of Use</button>
         <button class="setting-link" onclick="Settings.openLegal('supportUrl')">Support</button>
+        <button class="setting-link setting-link--internal" onclick="AppActions.share()">Share App</button>
+        <button class="setting-link setting-link--internal" onclick="RatePrompt.open()">Rate App</button>
+        <button class="setting-link setting-link--action" onclick="Settings.restorePurchase()">Restore Purchase</button>
 
         <div class="setting-row" style="border-bottom: none;">
             <span class="setting-label" style="color: var(--on-surface-var); font-size: 12px;">Digital Fidget: Mental ASMR v1.0</span>
         </div>
     </div>
 
+    <div id="rating-modal" onclick="RatePrompt.handleBackdrop(event)">
+        <div class="rating-card" onclick="event.stopPropagation()">
+            <h2 class="rating-title">Enjoying Digital Fidget?</h2>
+            <p class="rating-copy">A quick rating helps more people discover a calmer moment.</p>
+            <div class="rating-stars" aria-label="Choose a rating">
+                <button class="rating-star" type="button" data-rating="1" onclick="RatePrompt.select(1)" aria-label="1 star"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></button>
+                <button class="rating-star" type="button" data-rating="2" onclick="RatePrompt.select(2)" aria-label="2 stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></button>
+                <button class="rating-star" type="button" data-rating="3" onclick="RatePrompt.select(3)" aria-label="3 stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></button>
+                <button class="rating-star" type="button" data-rating="4" onclick="RatePrompt.select(4)" aria-label="4 stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></button>
+                <button class="rating-star" type="button" data-rating="5" onclick="RatePrompt.select(5)" aria-label="5 stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></button>
+            </div>
+            <button class="rating-primary" id="rating-submit" type="button" onclick="RatePrompt.submit()" disabled>Rate in Store</button>
+            <button class="rating-later" type="button" onclick="RatePrompt.close()">Not now</button>
+        </div>
+    </div>
 
     <!-- ════════════════════════════════════════════════════════
          JAVASCRIPT ENGINE
@@ -1640,19 +2049,35 @@
        Native: ViewModel / StateObject
        ════════════════════════════════════════════════════════════ */
     const AppState = {
-        theme: localStorage.getItem('rb_theme') || 'classic',
+        theme: 'night',
         layout: localStorage.getItem('rb_layout') || 'bottom',
         soundEnabled: localStorage.getItem('rb_sound') !== 'false',
         vibrationEnabled: localStorage.getItem('rb_vibration') !== 'false',
         onboardingDone: localStorage.getItem('rb_onboarding') === 'true',
-        currentSound: localStorage.getItem('rb_sound_id') || 'classic-click',
+        currentSoundProfile: localStorage.getItem('rb_sound_profile_id')
+            || localStorage.getItem('rb_sound_id')
+            || 'classic-click',
+        soundMode: localStorage.getItem('rb_sound_mode') || 'matched',
+        currentSkin: localStorage.getItem('rb_skin_id') || (() => {
+            const legacy = localStorage.getItem('rb_sound_id');
+            const legacyMap = {
+                'classic-click': 'classic-button',
+                'typewriter': 'typewriter-key',
+                'mech-switch': 'mech-switch',
+                'lever': 'lever-switch',
+                'rotary-phone': 'classic-button'
+            };
+            return legacyMap[legacy] || 'classic-button';
+        })(),
 
         save(key, value) {
             this[key] = value;
             const storageMap = {
-                theme: 'rb_theme', layout: 'rb_layout',
+                layout: 'rb_layout',
                 soundEnabled: 'rb_sound', vibrationEnabled: 'rb_vibration',
-                currentSound: 'rb_sound_id'
+                currentSoundProfile: 'rb_sound_profile_id',
+                soundMode: 'rb_sound_mode',
+                currentSkin: 'rb_skin_id'
             };
             if (storageMap[key]) {
                 localStorage.setItem(storageMap[key], String(value));
@@ -1662,7 +2087,8 @@
 
     const PreviewAccess = {
         allowsPremiumPreview() {
-            return ['localhost', '127.0.0.1', '::1'].includes(window.location.hostname);
+            return ['localhost', '127.0.0.1', '::1'].includes(window.location.hostname)
+                || window.location.protocol === 'file:';
         }
     };
 
@@ -1699,14 +2125,17 @@
 
             if (!this.entitlements.premium) {
                 const selectedTheme = THEMES.find(theme => theme.id === AppState.theme);
-                const selectedSound = SOUNDS.find(sound => sound.id === AppState.currentSound);
-                if (selectedTheme && !selectedTheme.free) AppState.save('theme', 'classic');
-                if (selectedSound && !selectedSound.free) AppState.save('currentSound', 'classic-click');
+                const selectedSound = SOUND_PROFILES.find(profile => profile.id === AppState.currentSoundProfile);
+                const selectedSkin = SKINS.find(skin => skin.id === AppState.currentSkin);
+                if (selectedTheme && !selectedTheme.free) AppState.save('theme', 'night');
+                if (selectedSound && !selectedSound.free) AppState.save('currentSoundProfile', 'classic-click');
+                if (selectedSkin && !selectedSkin.free) AppState.save('currentSkin', 'classic-button');
             }
 
             if (wasPremium !== this.entitlements.premium) {
                 ThemeManager.buildCarousel();
                 SoundManager.buildList();
+                SkinManager.buildList();
                 ThemeManager.apply(AppState.theme);
             }
         }
@@ -1722,7 +2151,7 @@
           bg: '#E3EDF7', shadowL: '#ffffff', shadowD: '#b8cadf', accent: '#4A6FA5' },
         { id: 'sage', name: 'Sage', free: false,
           bg: '#D1DBCB', shadowL: '#e5ede0', shadowD: '#b2c0a7', accent: '#5A7A4A' },
-        { id: 'night', name: 'Night', free: false,
+        { id: 'night', name: 'Night', free: true,
           bg: '#121212', shadowL: '#1e1e1e', shadowD: '#080808', accent: '#D0BCFF' },
         { id: 'cosmos', name: 'Cosmos', free: false,
           bg: '#1a1a2e', shadowL: '#252540', shadowD: '#10101e', accent: '#8B80F0' },
@@ -1733,22 +2162,87 @@
     ];
 
     /* ════════════════════════════════════════════════════════════
-       3. SOUND DATA
+       3. SOUND PROFILES + INTERACTION SKINS
        ════════════════════════════════════════════════════════════ */
-    const SOUNDS = [
+    const SOUND_PROFILES = [
         { id: 'classic-click', name: 'Classic Click', desc: 'Soft tactile click',
-          free: true, file: 'mpxzowa6-button-click.mp3',
-          iconPath: 'M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z' },
-        { id: 'typewriter', name: 'Typewriter', desc: 'Vintage keystroke',
-          free: false, file: 'mpxzowa6-button-click.mp3',
-          iconPath: 'M19 7h-8l-2-2H5c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm-7 9c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z' },
-        { id: 'mech-switch', name: 'Mech Switch', desc: 'Cherry MX Blue',
-          free: false, file: 'mpxzowa6-button-click.mp3',
-          iconPath: 'M20 5H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-9 3h2v2h-2V8zm0 3h2v2h-2v-2zM8 8h2v2H8V8zm0 3h2v2H8v-2zm-1 2H5v-2h2v2zm0-3H5V8h2v2zm9 7H8v-2h8v2zm0-4h-2v-2h2v2zm0-3h-2V8h2v2zm3 3h-2v-2h2v2zm0-3h-2V8h2v2z' },
-        { id: 'lever', name: 'Lever Switch', desc: 'Industrial toggle',
-          free: false, file: 'mpxzowa6-button-click.mp3',
-          iconPath: 'M17 7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h10c2.76 0 5-2.24 5-5s-2.24-5-5-5zM7 15c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z' }
+          free: true, gain: 0.92, iconPath: 'M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z',
+          mode: 'single', variations: ['mpxzowa6-button-click.mp3'], pitchJitter: 0.008 },
+        { id: 'alien-technology', name: 'Alien Technology', desc: 'Deep extraterrestrial signal',
+          free: false, gain: 0.9, iconPath: 'M12 2a8 8 0 00-8 8c0 4.5 3.58 8.48 8 12 4.42-3.52 8-7.5 8-12a8 8 0 00-8-8zm-3 9a2 2 0 110-4 2 2 0 010 4zm6 0a2 2 0 110-4 2 2 0 010 4zm-3 6c-1.66 0-3-1.34-3-3h6c0 1.66-1.34 3-3 3z',
+          mode: 'single', variations: ['alien-technology.mp3'], pitchJitter: 0 },
+        { id: 'cosmic-frequency', name: 'Cosmic Alien Frequency', desc: 'Distant orbital transmission',
+          free: false, gain: 0.86, iconPath: 'M12 3a9 9 0 100 18 9 9 0 000-18zm0 2c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm0 14c-2.67 0-5.33-1.28-7-3.84C6.69 12.59 9.25 11 12 11s5.31 1.59 7 4.16C17.33 17.72 14.67 19 12 19z',
+          mode: 'single', variations: ['cosmic-alien-frequency.mp3'], pitchJitter: 0 },
+        { id: 'morphed-metal', name: 'Morphed Metal', desc: 'Cinematic lunar discharge',
+          free: false, gain: 0.84, iconPath: 'M4 4h16v3H4V4zm2 5h12v3H6V9zm2 5h8v3H8v-3zm3 5h2v3h-2v-3z',
+          mode: 'single', variations: ['morphed-metal.mp3'], pitchJitter: 0 },
+        { id: 'door-lock', name: 'Door Lock', desc: 'Solid locking mechanism',
+          free: false, gain: 0.96, iconPath: 'M17 8h-1V6c0-2.21-1.79-4-4-4S8 3.79 8 6v2H7c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-5 9c-1.1 0-2-.9-2-2 0-.74.4-1.38 1-1.72V12h2v1.28c.6.34 1 .98 1 1.72 0 1.1-.9 2-2 2zm2-9h-4V6c0-1.1.9-2 2-2s2 .9 2 2v2z',
+          mode: 'single', variations: ['locking-door.mp3'], pitchJitter: 0 },
+        { id: 'button-click', name: 'Button Click', desc: 'Crisp mechanical press',
+          free: false, gain: 0.94, iconPath: 'M12 2a7 7 0 00-7 7v2H3v9h18v-9h-2V9a7 7 0 00-7-7zm0 2a5 5 0 015 5v2H7V9a5 5 0 015-5zm-7 9h14v5H5v-5z',
+          mode: 'single', variations: ['click-button.mp3'], pitchJitter: 0 },
+        { id: 'toggle-off', name: 'Toggle Off', desc: 'Firm switch release',
+          free: false, gain: 0.96, iconPath: 'M17 7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h10c2.76 0 5-2.24 5-5s-2.24-5-5-5zM7 15c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z',
+          mode: 'single', variations: ['toggle-button-off.mp3'], pitchJitter: 0 },
+        { id: 'mouse-click', name: 'Mouse Click', desc: 'Clean desktop click',
+          free: false, gain: 0.92, iconPath: 'M13 1.07V9h7.93A9.01 9.01 0 0013 1.07zM11 1.07A9 9 0 1020.93 11H11V1.07z',
+          mode: 'single', variations: ['mouse-click.mp3'], pitchJitter: 0.006 },
+        { id: 'switch-flip', name: 'Switch Flip', desc: 'Quick tactile snap',
+          free: false, gain: 0.98, iconPath: 'M7 5h10v4h2V3H5v6h2V5zm10 14H7v-4H5v6h14v-6h-2v4zm-6-4h2V9h3l-4-4-4 4h3v6z',
+          mode: 'single', variations: ['switch-flip.mp3'], pitchJitter: 0 },
+        { id: 'toggle-on', name: 'Toggle On', desc: 'Positive switch engage',
+          free: false, gain: 0.96, iconPath: 'M17 7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h10c2.76 0 5-2.24 5-5s-2.24-5-5-5zm0 8c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z',
+          mode: 'single', variations: ['toggle-button-on.mp3'], pitchJitter: 0 }
     ];
+
+    const SKINS = [
+        { id: 'classic-button', name: 'Classic Click', desc: 'Soft tactile click',
+          free: true, iconPath: 'M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z',
+          interaction: 'tap', recommendedSoundProfileId: 'classic-click', hapticProfile: 'light-click' },
+        { id: 'moon', name: 'Moon', desc: 'Lunar space button',
+          free: false, iconPath: 'M20.2 15.4A8.3 8.3 0 018.6 3.8 8.8 8.8 0 1019.9 15c.12.13.22.27.3.4z',
+          interaction: 'tap', recommendedSoundProfileId: 'alien-technology', hapticProfile: 'heavy-toggle' },
+        { id: 'typewriter-key', name: 'Typewriter', desc: 'Vintage keystroke',
+          free: false, iconPath: 'M19 7h-8l-2-2H5c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm-7 9c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z',
+          interaction: 'tap', recommendedSoundProfileId: 'button-click', hapticProfile: 'tactile-click' },
+        { id: 'mech-switch', name: 'Mech Switch', desc: 'Cherry MX Blue',
+          free: false, iconPath: 'M20 5H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-9 3h2v2h-2V8zm0 3h2v2h-2v-2zM8 8h2v2H8V8zm0 3h2v2H8v-2zm-1 2H5v-2h2v2zm0-3H5V8h2v2zm9 7H8v-2h8v2zm0-4h-2v-2h2v2zm0-3h-2V8h2v2zm3 3h-2v-2h2v2zm0-3h-2V8h2v2z',
+          interaction: 'tap', recommendedSoundProfileId: 'mouse-click', hapticProfile: 'tactile-click' },
+        { id: 'lever-switch', name: 'Lever Switch', desc: 'Industrial toggle',
+          free: false, iconPath: 'M17 7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h10c2.76 0 5-2.24 5-5s-2.24-5-5-5zM7 15c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z',
+          interaction: 'tap', recommendedSoundProfileId: 'switch-flip', hapticProfile: 'heavy-toggle' },
+        { id: 'heavy-toggle', name: 'Heavy Toggle', desc: 'Weighted metal switch',
+          free: false, iconPath: 'M12 2c-2.21 0-4 1.79-4 4v4H6c-2.21 0-4 1.79-4 4s1.79 4 4 4h6c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 14H6c-1.1 0-2-.9-2-2s.9-2 2-2h6V6c0-1.1.9-2 2-2 3.31 0 6 2.69 6 6s-2.69 6-6 6z',
+          interaction: 'toggle', recommendedSoundProfileId: 'toggle-on', hapticProfile: 'heavy-toggle' },
+    ];
+
+    const SkinRegistry = {
+        getSkin(skinId) {
+            return SKINS.find(skin => skin.id === skinId) || SKINS[0];
+        },
+
+        getSoundProfile(soundProfileId) {
+            return SOUND_PROFILES.find(profile => profile.id === soundProfileId) || SOUND_PROFILES[0];
+        },
+
+        getSelectedSkin() {
+            return this.getSkin(AppState.currentSkin);
+        },
+
+        getSelectedSoundProfile() {
+            return this.getSoundProfile(AppState.currentSoundProfile);
+        },
+
+        getInteractionConfig(skinId = AppState.currentSkin) {
+            const skin = this.getSkin(skinId);
+            return {
+                interaction: skin.interaction || 'tap',
+                hapticProfile: skin.hapticProfile || 'light-click'
+            };
+        }
+    };
 
     /* ════════════════════════════════════════════════════════════
        4. AUDIO ENGINE
@@ -1757,6 +2251,8 @@
     const AudioEngine = {
         audioContext: null,
         buffers: {},
+        fileFallbacks: {},
+        lastVariationIndices: {},
         fallbackAudio: null,
         initialized: false,
 
@@ -1764,13 +2260,19 @@
             try {
                 this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
-                // Pre-buffer the click sound
-                const response = await fetch('mpxzowa6-button-click.mp3');
-                const arrayBuffer = await response.arrayBuffer();
-                const audioBuffer = await this.audioContext.decodeAudioData(arrayBuffer);
-
-                // Map all sound IDs to this buffer (same file for now)
-                SOUNDS.forEach(s => { this.buffers[s.id] = audioBuffer; });
+                const uniqueFiles = [...new Set(SOUND_PROFILES.flatMap(profile => [
+                    ...(profile.variations || []),
+                    ...Object.values(profile.phases || {}).flatMap(phase => phase.variations || [])
+                ]))];
+                for (const file of uniqueFiles) {
+                    const response = await fetch(file);
+                    if (!response.ok) throw new Error(`Unable to load sound: ${file}`);
+                    const arrayBuffer = await response.arrayBuffer();
+                    this.buffers[file] = await this.audioContext.decodeAudioData(arrayBuffer);
+                    this.fileFallbacks[file] = new Audio(file);
+                    this.fileFallbacks[file].preload = 'auto';
+                    this.fileFallbacks[file].load();
+                }
 
                 this.initialized = true;
             } catch (e) {
@@ -1783,37 +2285,88 @@
             this.fallbackAudio.load();
         },
 
-        play(soundId) {
-            if (!AppState.soundEnabled) return;
+        randomPlaybackRate(pitchJitter = 0) {
+            if (!pitchJitter) return 1;
+            return 1 + ((Math.random() * 2) - 1) * pitchJitter;
+        },
 
-            const id = soundId || AppState.currentSound;
+        clampGain(gain = 1) {
+            return Math.max(0, Math.min(1.25, gain));
+        },
 
-            // Primary: Web Audio API (zero latency)
-            if (this.initialized && this.buffers[id]) {
+        resolvePhaseVariant(profile, phase = 'down') {
+            if (profile.mode !== 'phased') return profile;
+            const phaseConfig = profile.phases?.[phase] || profile.phases?.down;
+            if (!phaseConfig) return null;
+            return {
+                ...profile,
+                ...phaseConfig,
+                id: `${profile.id}:${phase}`
+            };
+        },
+
+        resolvePlayback(soundProfileId, options = {}) {
+            const profile = this.resolvePhaseVariant(
+                SkinRegistry.getSoundProfile(soundProfileId),
+                options.phase || 'down'
+            );
+            if (!profile) return null;
+
+            const variations = profile.variations || [];
+            let variationIndex = options.variationIndex ?? 0;
+            if (options.variationIndex == null) {
+                if (profile.mode === 'roundRobin' && variations.length > 1) {
+                    const previousIndex = this.lastVariationIndices[profile.id] ?? -1;
+                    variationIndex = (previousIndex + 1) % variations.length;
+                } else if (variations.length > 1) {
+                    variationIndex = Math.floor(Math.random() * variations.length);
+                }
+            }
+            const file = variations[variationIndex] || variations[0];
+            if (!file) return null;
+            this.lastVariationIndices[profile.id] = variationIndex;
+
+            return {
+                profile,
+                file,
+                variationIndex,
+                playbackRate: options.playbackRate || this.randomPlaybackRate(profile.pitchJitter),
+                gain: this.clampGain(options.gain ?? profile.gain ?? 1)
+            };
+        },
+
+        play(soundProfileId, options = {}) {
+            if (!options.force && !AppState.soundEnabled) return;
+
+            const playback = this.resolvePlayback(soundProfileId || AppState.currentSoundProfile, options);
+            if (!playback) return;
+
+            if (this.initialized && this.buffers[playback.file]) {
                 if (this.audioContext.state === 'suspended') {
                     this.audioContext.resume();
                 }
                 const source = this.audioContext.createBufferSource();
-                source.buffer = this.buffers[id];
-                source.connect(this.audioContext.destination);
+                const gainNode = this.audioContext.createGain();
+                source.buffer = this.buffers[playback.file];
+                source.playbackRate.value = playback.playbackRate;
+                gainNode.gain.value = playback.gain;
+                source.connect(gainNode);
+                gainNode.connect(this.audioContext.destination);
                 source.start(0);
                 return;
             }
 
-            // Fallback: HTMLAudioElement
-            if (this.fallbackAudio) {
-                const clone = this.fallbackAudio.cloneNode();
-                clone.volume = 1;
+            const fallback = this.fileFallbacks[playback.file] || this.fallbackAudio;
+            if (fallback) {
+                const clone = fallback.cloneNode();
+                clone.volume = Math.max(0, Math.min(1, playback.gain));
+                clone.playbackRate = playback.playbackRate;
                 clone.play().catch(() => {});
             }
         },
 
-        preview(soundId) {
-            // Always play preview regardless of sound toggle
-            const stored = AppState.soundEnabled;
-            AppState.soundEnabled = true;
-            this.play(soundId);
-            AppState.soundEnabled = stored;
+        preview(soundProfileId) {
+            return this.play(soundProfileId, { force: true });
         },
 
         resumeContext() {
@@ -1829,13 +2382,58 @@
        ════════════════════════════════════════════════════════════ */
     const HapticsEngine = {
         supported: 'vibrate' in navigator,
+        profiles: {
+            'light-click': {
+                down: { impact: 'light', vibrate: 12 },
+                up: { impact: 'light', delay: 60, vibrate: 6 },
+                tap: { impact: 'light', vibrate: 4 }
+            },
+            'tactile-click': {
+                down: { impact: 'medium', vibrate: 16 },
+                up: { impact: 'light', delay: 52, vibrate: 8 },
+                tap: { impact: 'medium', vibrate: 6 }
+            },
+            'heavy-toggle': {
+                down: { impact: 'heavy', vibrate: 22 },
+                up: { impact: 'medium', delay: 68, vibrate: 12 },
+                tap: { impact: 'heavy', vibrate: 10 }
+            }
+        },
         
         getPlugins() {
             return (typeof window !== 'undefined' && window.Capacitor && window.Capacitor.Plugins) || null;
         },
 
-        pressDown() {
+        getProfile(profileId) {
+            return this.profiles[profileId] || this.profiles['light-click'];
+        },
+
+        impact(style, delay = 0) {
             if (!AppState.vibrationEnabled) return;
+            const plugins = this.getPlugins();
+            const fire = () => {
+                if (plugins && plugins.Haptics) {
+                    try {
+                        plugins.Haptics.impact({ style });
+                        return;
+                    } catch (e) {
+                        console.warn('Capacitor Haptics failed:', e);
+                    }
+                }
+                const fallbackDurations = { light: 6, medium: 10, heavy: 14 };
+                if (this.supported) navigator.vibrate(fallbackDurations[style] || 6);
+            };
+
+            if (delay > 0) {
+                setTimeout(fire, delay);
+            } else {
+                fire();
+            }
+        },
+
+        pressDown(profileId = SkinRegistry.getSelectedSkin().hapticProfile) {
+            if (!AppState.vibrationEnabled) return;
+            const profile = this.getProfile(profileId).down;
             const plugins = this.getPlugins();
             if (plugins) {
                 if (plugins.NativeHapticPlugin) {
@@ -1848,7 +2446,7 @@
                 }
                 if (plugins.Haptics) {
                     try {
-                        plugins.Haptics.impact({ style: 'light' });
+                        plugins.Haptics.impact({ style: profile.impact });
                         return;
                     } catch (e) {
                         console.warn('Capacitor Haptics failed:', e);
@@ -1856,12 +2454,13 @@
                 }
             }
             if (this.supported) {
-                navigator.vibrate(12);
+                navigator.vibrate(profile.vibrate);
             }
         },
 
-        pressUp() {
+        pressUp(profileId = SkinRegistry.getSelectedSkin().hapticProfile) {
             if (!AppState.vibrationEnabled) return;
+            const profile = this.getProfile(profileId).up;
             const plugins = this.getPlugins();
             // If NativeHapticPlugin is used, it handles the release bounce composition automatically in pressDown, so skip pressUp vibration.
             if (plugins && plugins.NativeHapticPlugin) {
@@ -1870,15 +2469,15 @@
             if (plugins && plugins.Haptics) {
                 try {
                     setTimeout(() => {
-                        plugins.Haptics.impact({ style: 'light' });
-                    }, 60);
+                        plugins.Haptics.impact({ style: profile.impact });
+                    }, profile.delay || 0);
                     return;
                 } catch (e) {
                     console.warn('Capacitor Haptics failed:', e);
                 }
             }
             if (this.supported) {
-                setTimeout(() => navigator.vibrate(6), 60);
+                setTimeout(() => navigator.vibrate(profile.vibrate), profile.delay || 0);
             }
         },
 
@@ -1898,8 +2497,9 @@
             }
         },
 
-        light() {
+        light(profileId = 'light-click') {
             if (!AppState.vibrationEnabled) return;
+            const profile = this.getProfile(profileId).tap;
             const plugins = this.getPlugins();
             if (plugins) {
                 if (plugins.NativeHapticPlugin) {
@@ -1912,7 +2512,7 @@
                 }
                 if (plugins.Haptics) {
                     try {
-                        plugins.Haptics.impact({ style: 'light' });
+                        plugins.Haptics.impact({ style: profile.impact });
                         return;
                     } catch (e) {
                         console.warn('Capacitor Haptics failed:', e);
@@ -1920,7 +2520,7 @@
                 }
             }
             if (this.supported) {
-                navigator.vibrate(4);
+                navigator.vibrate(profile.vibrate);
             }
         }
     };
@@ -1955,7 +2555,7 @@
             demoBtn.addEventListener('pointerdown', (e) => {
                 e.preventDefault();
                 demoBtn.classList.add('pressed');
-                AudioEngine.play();
+                AudioEngine.play(AppState.currentSoundProfile);
                 HapticsEngine.pressDown();
                 AudioEngine.resumeContext();
 
@@ -2039,24 +2639,11 @@
 
         finish() {
             AppState.save('onboardingDone', true);
-            const app = document.getElementById('app');
-            const demoBtn = document.getElementById('ob-demo-btn');
-            if (demoBtn) {
-                const btnRect = demoBtn.getBoundingClientRect();
-                const hostRect = this.el.getBoundingClientRect();
-                const bloomX = btnRect.left + (btnRect.width / 2) - hostRect.left;
-                const bloomY = btnRect.top + (btnRect.height / 2) - hostRect.top;
-                this.el.style.setProperty('--bloom-x', `${bloomX}px`);
-                this.el.style.setProperty('--bloom-y', `${bloomY}px`);
-            }
             this.el.classList.add('igniting');
             setTimeout(() => {
-                app?.classList.add('revealing');
-            }, 320);
-            setTimeout(() => {
                 this.el.style.display = 'none';
-                app?.classList.remove('revealing');
-            }, 1080);
+                RatePrompt.maybeAutoOpen();
+            }, 580);
         }
     };
 
@@ -2102,18 +2689,15 @@
             container.innerHTML = '';
             THEMES.forEach(theme => {
                 const item = document.createElement('div');
-                item.className = 'theme-item' + (theme.id === AppState.theme ? ' active' : '');
+                item.className = 'theme-item'
+                    + (theme.id === AppState.theme ? ' active' : '')
+                    + (!theme.free ? ' is-premium' : '');
                 item.dataset.theme = theme.id;
                 item.onclick = () => this.apply(theme.id);
 
                 item.innerHTML = `
                     <div class="theme-circle" style="--theme-bg: ${theme.bg}; --theme-light: ${theme.shadowL}; --theme-dark: ${theme.shadowD}; --theme-accent: ${theme.accent};">
                         <div class="theme-circle-inner"></div>
-                        ${(!theme.free && !EntitlementManager.isPremium()) ? `
-                            <div class="lock-badge">
-                                <svg viewBox="0 0 16 16"><path d="M12 7h-1V5c0-1.66-1.34-3-3-3S5 3.34 5 5v2H4c-.55 0-1 .45-1 1v5c0 .55.45 1 1 1h8c.55 0 1-.45 1-1V8c0-.55-.45-1-1-1zM8 12c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zM6 7V5c0-1.1.9-2 2-2s2 .9 2 2v2H6z"/></svg>
-                            </div>
-                        ` : ''}
                     </div>
                     <span class="theme-name">${theme.name}</span>
                 `;
@@ -2127,23 +2711,49 @@
        8. SOUND MANAGER
        ════════════════════════════════════════════════════════════ */
     const SoundManager = {
-        select(soundId) {
-            const sound = SOUNDS.find(s => s.id === soundId);
-            if (!sound) return;
+        previewedProfiles: new Set(),
 
-            if (!sound.free && !EntitlementManager.isPremium()) {
-                Paywall.open(soundId, 'sound');
+        preview(soundProfileId) {
+            if (this.previewedProfiles.has(soundProfileId)) return;
+            const profile = SOUND_PROFILES.find(entry => entry.id === soundProfileId);
+            if (!profile) return;
+
+            this.previewedProfiles.add(soundProfileId);
+            AudioEngine.preview(soundProfileId);
+            HapticsEngine.light();
+            this.updateUI();
+        },
+
+        select(soundProfileId, options = {}) {
+            const profile = SOUND_PROFILES.find(entry => entry.id === soundProfileId);
+            if (!profile) return;
+
+            if (!profile.free && !EntitlementManager.isPremium()) {
+                Paywall.open(soundProfileId, 'sound');
                 return;
             }
 
-            AppState.save('currentSound', soundId);
-            HapticsEngine.light();
+            AppState.save('currentSoundProfile', soundProfileId);
+            if (options.mode) {
+                AppState.save('soundMode', options.mode);
+            }
             this.updateUI();
         },
 
         updateUI() {
             document.querySelectorAll('.sound-item').forEach(item => {
-                item.classList.toggle('active', item.dataset.sound === AppState.currentSound);
+                const isActive = item.dataset.soundProfile === AppState.currentSoundProfile;
+                const isPreviewed = this.previewedProfiles.has(item.dataset.soundProfile);
+                item.classList.toggle('active', isActive);
+                item.classList.toggle('preview-used', isPreviewed);
+
+                const button = item.querySelector('.sound-select-btn');
+                if (!button) return;
+                button.classList.toggle('active', isActive);
+                button.disabled = isActive;
+                button.innerHTML = isActive
+                    ? '<svg viewBox="0 0 24 24"><path d="M9 16.17l-3.88-3.88L3.7 13.7 9 19 20.3 7.7l-1.41-1.41z"/></svg>Active'
+                    : '<svg viewBox="0 0 24 24"><path d="M9 16.17l-3.88-3.88L3.7 13.7 9 19 20.3 7.7l-1.41-1.41z"/></svg>Select';
             });
         },
 
@@ -2151,25 +2761,114 @@
             const container = document.getElementById('sound-list');
             container.innerHTML = '';
 
-            SOUNDS.forEach(sound => {
-                const isLocked = !sound.free && !EntitlementManager.isPremium();
-                const isActive = sound.id === AppState.currentSound;
+            if (!SOUND_PROFILES.some(profile => profile.id === AppState.currentSoundProfile)) {
+                AppState.save('currentSoundProfile', 'classic-click');
+            }
+
+            SOUND_PROFILES.forEach(profile => {
+                const isActive = profile.id === AppState.currentSoundProfile;
+                const item = document.createElement('div');
+                item.className = 'sound-item'
+                    + (isActive ? ' active' : '')
+                    + (this.previewedProfiles.has(profile.id) ? ' preview-used' : '')
+                    + (!profile.free ? ' is-premium' : '');
+                item.dataset.soundProfile = profile.id;
+                item.innerHTML = `
+                    <div class="sound-preview" role="button" tabindex="0" aria-label="Preview ${profile.name}">
+                        <div class="sound-icon">
+                            <svg viewBox="0 0 24 24"><path d="${profile.iconPath}"/></svg>
+                        </div>
+                        <div class="sound-info">
+                            <div class="sound-name">${profile.name}</div>
+                            <div class="sound-desc">${profile.desc}</div>
+                        </div>
+                    </div>
+                    <button class="sound-select-btn${isActive ? ' active' : ''}" type="button"${isActive ? ' disabled' : ''}>
+                        <svg viewBox="0 0 24 24"><path d="M9 16.17l-3.88-3.88L3.7 13.7 9 19 20.3 7.7l-1.41-1.41z"/></svg>
+                        ${isActive ? 'Active' : 'Select'}
+                    </button>
+                `;
+
+                const preview = item.querySelector('.sound-preview');
+                preview.addEventListener('click', () => this.preview(profile.id));
+                preview.addEventListener('keydown', event => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        this.preview(profile.id);
+                    }
+                });
+
+                item.querySelector('.sound-select-btn').addEventListener('click', event => {
+                    event.stopPropagation();
+                    this.select(profile.id, {
+                        mode: profile.id === SkinRegistry.getSelectedSkin().recommendedSoundProfileId ? 'matched' : 'custom'
+                    });
+                });
+
+                container.appendChild(item);
+            });
+        }
+    };
+
+    /* ════════════════════════════════════════════════════════════
+       9. SKIN MANAGER
+       ════════════════════════════════════════════════════════════ */
+    const SkinManager = {
+        select(skinId) {
+            const skin = SKINS.find(entry => entry.id === skinId);
+            if (!skin) return;
+
+            if (!skin.free && !EntitlementManager.isPremium()) {
+                Paywall.open(skinId, 'skin');
+                return;
+            }
+
+            AppState.save('currentSkin', skinId);
+            const recommendationKey = `rb_skin_sound_initialized_${skinId}`;
+            const isFirstSelection = localStorage.getItem(recommendationKey) !== 'true';
+            if (isFirstSelection || AppState.soundMode !== 'custom') {
+                AppState.save('currentSoundProfile', skin.recommendedSoundProfileId || 'classic-click');
+                AppState.save('soundMode', 'matched');
+                localStorage.setItem(recommendationKey, 'true');
+            }
+            HapticsEngine.light(skin.hapticProfile);
+            this.updateUI();
+            SoundManager.updateUI();
+        },
+
+        updateUI() {
+            document.body.dataset.skin = AppState.currentSkin;
+            document.querySelectorAll('.skin-item').forEach(item => {
+                item.classList.toggle('active', item.dataset.skin === AppState.currentSkin);
+            });
+        },
+
+        buildList() {
+            const container = document.getElementById('skin-carousel');
+            container.innerHTML = '';
+
+            SKINS.forEach(skin => {
+                const isLocked = !skin.free && !EntitlementManager.isPremium();
+                const isActive = skin.id === AppState.currentSkin;
 
                 const item = document.createElement('div');
-                item.className = 'sound-item' + (isActive ? ' active' : '');
-                item.dataset.sound = sound.id;
-                item.onclick = () => this.select(sound.id);
-
+                item.className = 'skin-item'
+                    + (isActive ? ' active' : '')
+                    + (!skin.free ? ' is-premium' : '');
+                item.dataset.skin = skin.id;
+                item.onclick = () => this.select(skin.id);
                 item.innerHTML = `
-                    <div class="sound-icon">
-                        <svg viewBox="0 0 24 24"><path d="${sound.iconPath}"/></svg>
+                    <div class="skin-icon">
+                        <svg viewBox="0 0 24 24"><path d="${skin.iconPath}"/></svg>
                     </div>
-                    <div class="sound-info">
-                        <div class="sound-name">${sound.name}</div>
-                        <div class="sound-desc">${sound.desc}</div>
+                    <div class="skin-meta">
+                        <div class="skin-name">${skin.name}</div>
+                        <div class="skin-desc">${skin.desc}</div>
                     </div>
-                    ${isActive ? '<span class="sound-badge">Active</span>' : ''}
-                    ${isLocked ? '<svg class="sound-lock" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM12 17c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zM9 8V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9z"/></svg>' : ''}
+                    <div class="skin-foot">
+                        ${isActive ? '<span class="skin-badge">Active</span>' : ''}
+                        ${isLocked ? '<svg class="sound-lock" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM12 17c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zM9 8V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9z"/></svg>' : ''}
+                    </div>
                 `;
 
                 container.appendChild(item);
@@ -2178,7 +2877,7 @@
     };
 
     /* ════════════════════════════════════════════════════════════
-       9. BOTTOM SHEET CONTROLLER
+       10. BOTTOM SHEET CONTROLLER
        Native: BottomSheetBehavior / .sheet
        ════════════════════════════════════════════════════════════ */
     const BottomSheet = {
@@ -2280,9 +2979,27 @@
             }
 
             app.addEventListener('touchstart', (e) => {
-                // Only activate in the bottom 120px zone
                 const touch = e.touches[0];
-                if (touch.clientY > window.innerHeight - 120) {
+                const button = document.getElementById('main-button');
+                const buttonRect = button?.getBoundingClientRect();
+
+                // Keep the gesture intentionally away from the main button to avoid accidental taps.
+                if (buttonRect) {
+                    const guard = 18;
+                    const withinButtonZone =
+                        touch.clientX >= buttonRect.left - guard &&
+                        touch.clientX <= buttonRect.right + guard &&
+                        touch.clientY >= buttonRect.top - guard &&
+                        touch.clientY <= buttonRect.bottom + guard;
+
+                    if (withinButtonZone) {
+                        this.active = false;
+                        return;
+                    }
+                }
+
+                // Only activate in the narrow bottom gesture band.
+                if (touch.clientY > window.innerHeight - 88) {
                     this.startY = touch.clientY;
                     this.startTime = Date.now();
                     this.active = true;
@@ -2352,19 +3069,56 @@
         pressDown() {
             if (this.isPressed) return;
             this.isPressed = true;
+            const interaction = SkinRegistry.getInteractionConfig();
 
             this.button.classList.add('is-pressed');
-            AudioEngine.play();
-            HapticsEngine.pressDown();
+            this.createThemeSmoke();
+            AudioEngine.play(AppState.currentSoundProfile, { phase: 'down' });
+            HapticsEngine.pressDown(interaction.hapticProfile);
+        },
+
+        createThemeSmoke() {
+            const theme = THEMES.find(entry => entry.id === AppState.theme);
+            if (!theme || theme.free) return;
+
+            const app = document.getElementById('app');
+            const appRect = app.getBoundingClientRect();
+            const buttonRect = this.button.getBoundingClientRect();
+            const size = buttonRect.width;
+            const left = buttonRect.left - appRect.left;
+            const top = buttonRect.top - appRect.top;
+            const variants = [
+                { delay: 0, blur: 2.5, scale: 1.72, rotate: -7 },
+                { delay: 105, blur: 4, scale: 1.92, rotate: 8 },
+                { delay: 220, blur: 5.5, scale: 2.08, rotate: -2 }
+            ];
+
+            variants.forEach(variant => {
+                const ring = document.createElement('span');
+                ring.className = 'theme-smoke-ring';
+                ring.style.setProperty('--smoke-size', `${size}px`);
+                ring.style.setProperty('--smoke-left', `${left}px`);
+                ring.style.setProperty('--smoke-top', `${top}px`);
+                ring.style.setProperty('--smoke-delay', `${variant.delay}ms`);
+                ring.style.setProperty('--smoke-blur', `${variant.blur}px`);
+                ring.style.setProperty('--smoke-scale', variant.scale);
+                ring.style.setProperty('--smoke-rotate', `${variant.rotate}deg`);
+                app.insertBefore(ring, this.button);
+                ring.addEventListener('animationend', () => ring.remove(), { once: true });
+            });
         },
 
         pressUp() {
             if (!this.isPressed) return;
             this.isPressed = false;
+            const interaction = SkinRegistry.getInteractionConfig();
 
             this.button.classList.remove('is-pressed');
+            if (interaction.interaction === 'toggle') {
+                AudioEngine.play(AppState.currentSoundProfile, { phase: 'up' });
+            }
             // Spring rebound is handled by CSS transition on the button
-            HapticsEngine.pressUp();
+            HapticsEngine.pressUp(interaction.hapticProfile);
         }
     };
 
@@ -2381,11 +3135,10 @@
             }
             AppState.save('layout', layout);
             HapticsEngine.light();
-
-            // Update toggle UI
-            document.querySelectorAll('.seg-option').forEach(opt => {
-                opt.classList.toggle('active', opt.dataset.layout === layout);
-            });
+            const layoutToggle = document.getElementById('toggle-layout-centered');
+            if (layoutToggle) {
+                layoutToggle.checked = layout === 'center';
+            }
         }
     };
 
@@ -2467,8 +3220,10 @@
 
             ThemeManager.buildCarousel();
             SoundManager.buildList();
+            SkinManager.buildList();
             ThemeManager.updateCarouselUI();
             SoundManager.updateUI();
+            SkinManager.updateUI();
 
             HapticsEngine.themeChange();
 
@@ -2476,7 +3231,9 @@
                 if (savedType === 'theme') {
                     ThemeManager.apply(savedUnlockId);
                 } else if (savedType === 'sound') {
-                    SoundManager.select(savedUnlockId);
+                    SoundManager.select(savedUnlockId, { mode: 'custom' });
+                } else if (savedType === 'skin') {
+                    SkinManager.select(savedUnlockId);
                 }
             }
         },
@@ -2486,8 +3243,101 @@
             if (!button || button.disabled) return;
             const price = state && state.price;
             button.textContent = price
-                ? `${price} — Lifetime Access`
-                : '1.99$ — Lifetime Access';
+                ? `${price} • Lifetime Access`
+                : '$1.99 • Lifetime Access';
+        }
+    };
+
+    const AppActions = {
+        getStoreUrl() {
+            const config = (window.__APP_RUNTIME_CONFIG__ || {}).store || {};
+            const platform = window.Capacitor?.getPlatform?.() || 'web';
+            if (platform === 'android') return config.playStoreUrl || config.landingUrl;
+            if (platform === 'ios') return config.appStoreUrl || config.landingUrl;
+            return config.landingUrl || config.playStoreUrl || config.appStoreUrl || window.location.href;
+        },
+
+        async share() {
+            Settings.close();
+            const url = this.getStoreUrl();
+            const shareData = {
+                title: 'Digital Fidget: Mental ASMR',
+                text: 'Try this tactile reset for calmer moments.',
+                url
+            };
+
+            try {
+                if (navigator.share) {
+                    await navigator.share(shareData);
+                    return;
+                }
+                if (navigator.clipboard?.writeText) {
+                    await navigator.clipboard.writeText(url);
+                    alert('App link copied.');
+                    return;
+                }
+                window.prompt('Share this app link:', url);
+            } catch (error) {
+                if (error?.name !== 'AbortError') {
+                    window.prompt('Share this app link:', url);
+                }
+            }
+        }
+    };
+
+    const RatePrompt = {
+        rating: 0,
+        shouldAutoOpen: false,
+
+        init() {
+            const launches = Number.parseInt(localStorage.getItem('rb_launch_count') || '0', 10) + 1;
+            localStorage.setItem('rb_launch_count', String(launches));
+            this.shouldAutoOpen = launches === 5
+                && localStorage.getItem('rb_rating_prompt_shown') !== 'true'
+                && localStorage.getItem('rb_app_rated') !== 'true';
+
+            if (AppState.onboardingDone) {
+                setTimeout(() => this.maybeAutoOpen(), 900);
+            }
+        },
+
+        maybeAutoOpen() {
+            if (!this.shouldAutoOpen) return;
+            this.shouldAutoOpen = false;
+            localStorage.setItem('rb_rating_prompt_shown', 'true');
+            this.open();
+        },
+
+        open() {
+            Settings.close();
+            BottomSheet.close();
+            document.getElementById('rating-modal').classList.add('visible');
+            HapticsEngine.light();
+        },
+
+        close() {
+            document.getElementById('rating-modal').classList.remove('visible');
+        },
+
+        handleBackdrop(event) {
+            if (event.target?.id === 'rating-modal') this.close();
+        },
+
+        select(value) {
+            this.rating = value;
+            document.querySelectorAll('.rating-star').forEach(star => {
+                star.classList.toggle('selected', Number(star.dataset.rating) <= value);
+            });
+            document.getElementById('rating-submit').disabled = false;
+            HapticsEngine.light();
+        },
+
+        submit() {
+            if (!this.rating) return;
+            localStorage.setItem('rb_app_rated', 'true');
+            const url = AppActions.getStoreUrl();
+            this.close();
+            window.open(url, '_blank', 'noopener');
         }
     };
 
@@ -2512,6 +3362,7 @@
             // Restore toggle states
             document.getElementById('toggle-sound').checked = AppState.soundEnabled;
             document.getElementById('toggle-vibration').checked = AppState.vibrationEnabled;
+            document.getElementById('toggle-layout-centered').checked = AppState.layout === 'center';
         },
 
         open() {
@@ -2531,6 +3382,18 @@
 
         toggleVibration(enabled) {
             AppState.save('vibrationEnabled', enabled);
+        },
+
+        toggleLayout(centered) {
+            LayoutManager.set(centered ? 'center' : 'bottom');
+        },
+
+        async restorePurchase() {
+            try {
+                await Paywall.restore();
+            } finally {
+                this.close();
+            }
         },
 
         openLegal(key) {
@@ -2564,16 +3427,24 @@
         ButtonHandler.init();
         Paywall.init();
         Settings.init();
+        RatePrompt.init();
 
         await EntitlementManager.refresh();
+
+        if (!localStorage.getItem('rb_sound_profile_id') && AppState.soundMode !== 'custom') {
+            AppState.save('currentSoundProfile', SkinRegistry.getSelectedSkin().recommendedSoundProfileId || 'classic-click');
+        }
 
         // Build dynamic UI after entitlement state is known.
         ThemeManager.buildCarousel();
         SoundManager.buildList();
+        SkinManager.buildList();
 
         // Restore saved state
         ThemeManager.apply(AppState.theme);
         LayoutManager.set(AppState.layout);
+        SoundManager.updateUI();
+        SkinManager.updateUI();
 
         document.getElementById('sheet-premium').addEventListener('click', () => {
             BottomSheet.close();

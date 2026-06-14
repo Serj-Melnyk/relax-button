@@ -42,7 +42,7 @@ To review the in-app purchase:
 
 1. Complete the three onboarding screens.
 2. Open the bottom sheet using the Customize control or a swipe up gesture.
-3. The `premium_lifetime` non-consumable unlocks every theme except Classic and every sound except Classic Click.
+3. The `premium_lifetime` non-consumable unlocks every theme except Classic and Night, every sound except Classic Click, and all Premium skins.
 4. Restore Purchase is available below the purchase button.
 
 The app contains no ads and does not use behavioral analytics.

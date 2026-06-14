@@ -5,13 +5,13 @@ Digital Fidget: Mental ASMR is a Capacitor-based tactile wellness app for iOS an
 ## What is included
 - Neomorphic main interaction button
 - Three-step onboarding flow
-- Theme and sound selector
+- Theme and skin selector
 - Premium paywall shell
 - Native haptics bridge
 
 ## Current release notes
 - Premium entitlement is wired to Apple App Store and Google Play through `cordova-plugin-purchase`.
-- Only Classic and Classic Click are free; all other themes and sounds require Premium.
+- Classic and Night themes plus Classic Click are free; all other themes, sounds, and skins require Premium.
 - Store pricing is localized and Restore Purchase is supported.
 - Android backup is disabled for release hardening.
 - The app contains no advertising or behavioral analytics SDK.
