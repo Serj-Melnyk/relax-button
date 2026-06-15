@@ -446,9 +446,9 @@
             0 18px 48px rgba(0, 0, 0, 0.58);
         filter: brightness(0.96) contrast(1.04);
         transition:
-            box-shadow 300ms ease,
-            filter 220ms ease,
-            transform var(--dur-release) var(--spring);
+            box-shadow 620ms cubic-bezier(0.2, 0.8, 0.2, 1),
+            filter 460ms cubic-bezier(0.2, 0.8, 0.2, 1),
+            transform 760ms cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     body[data-skin="moon"] #main-button::after {
@@ -458,12 +458,16 @@
     }
 
     body[data-skin="moon"] #main-button.is-pressed {
-        transform: scale(0.94);
+        transform: scale(0.965);
         filter: brightness(0.82) contrast(1.12);
         box-shadow:
             0 0 46px rgba(175, 226, 240, 0.34),
             inset 0 0 34px rgba(0, 0, 0, 0.34),
             0 12px 34px rgba(0, 0, 0, 0.58);
+        transition:
+            box-shadow 320ms cubic-bezier(0.2, 0.8, 0.2, 1),
+            filter 320ms cubic-bezier(0.2, 0.8, 0.2, 1),
+            transform 320ms cubic-bezier(0.2, 0.8, 0.2, 1);
     }
 
     body[data-skin="moon"] #swipe-indicator {
@@ -1153,10 +1157,56 @@
         color: color-mix(in srgb, var(--on-surface) 78%, var(--accent) 22%);
     }
 
+    .skin-item.coming-soon {
+        position: relative;
+        overflow: hidden;
+        cursor: default;
+        border-color: color-mix(in srgb, var(--outline) 44%, transparent);
+        background:
+            linear-gradient(
+                145deg,
+                color-mix(in srgb, var(--surface) 82%, transparent),
+                color-mix(in srgb, var(--surface-dim) 72%, transparent)
+            );
+        box-shadow:
+            inset 0 0 0 1px color-mix(in srgb, white 5%, transparent),
+            2px 3px 10px color-mix(in srgb, var(--shadow-d) 12%, transparent);
+        backdrop-filter: blur(12px) saturate(0.6);
+        -webkit-backdrop-filter: blur(12px) saturate(0.6);
+    }
+
+    .skin-item.coming-soon:active {
+        transform: none;
+    }
+
+    .skin-item.coming-soon > * {
+        filter: blur(4px);
+        opacity: 0.2;
+        user-select: none;
+    }
+
+    .skin-item.coming-soon::after {
+        content: 'COMING SOON';
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px;
+        color: color-mix(in srgb, var(--on-surface) 68%, transparent);
+        font-size: 8px;
+        font-weight: 800;
+        line-height: 1.2;
+        letter-spacing: 0.1em;
+        text-align: center;
+        text-shadow: 0 1px 8px color-mix(in srgb, var(--surface) 80%, transparent);
+        pointer-events: none;
+    }
+
     .skin-icon {
-        width: 32px;
-        height: 32px;
-        border-radius: 11px;
+        width: 34px;
+        height: 28px;
+        border-radius: 10px;
         background: color-mix(in srgb, var(--surface-dim) 78%, var(--surface) 22%);
         display: flex;
         align-items: center;
@@ -1198,8 +1248,9 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 8px;
-        min-height: 12px;
+        gap: 6px;
+        min-height: 10px;
+        margin-top: 1px;
         width: 100%;
     }
 
@@ -2180,12 +2231,21 @@
         { id: 'door-lock', name: 'Door Lock', desc: 'Solid locking mechanism',
           free: false, gain: 0.96, iconPath: 'M17 8h-1V6c0-2.21-1.79-4-4-4S8 3.79 8 6v2H7c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-5 9c-1.1 0-2-.9-2-2 0-.74.4-1.38 1-1.72V12h2v1.28c.6.34 1 .98 1 1.72 0 1.1-.9 2-2 2zm2-9h-4V6c0-1.1.9-2 2-2s2 .9 2 2v2z',
           mode: 'single', variations: ['locking-door.mp3'], pitchJitter: 0 },
+        { id: 'double-button', name: 'Double Button', desc: 'Layered double tap click',
+          free: false, gain: 0.94, iconPath: 'M7 4h10c1.66 0 3 1.34 3 3v2h-2V7c0-.55-.45-1-1-1H7c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h2v2H7c-1.66 0-3-1.34-3-3V7c0-1.66 1.34-3 3-3zm6 4h4c1.66 0 3 1.34 3 3v6c0 1.66-1.34 3-3 3h-4c-1.66 0-3-1.34-3-3v-6c0-1.66 1.34-3 3-3z',
+          mode: 'single', variations: ['double-button.mp3'], pitchJitter: 0 },
         { id: 'button-click', name: 'Button Click', desc: 'Crisp mechanical press',
           free: false, gain: 0.94, iconPath: 'M12 2a7 7 0 00-7 7v2H3v9h18v-9h-2V9a7 7 0 00-7-7zm0 2a5 5 0 015 5v2H7V9a5 5 0 015-5zm-7 9h14v5H5v-5z',
           mode: 'single', variations: ['click-button.mp3'], pitchJitter: 0 },
+        { id: 'mechanical-push', name: 'Mechanical Push', desc: 'Dense switcher press',
+          free: false, gain: 0.95, iconPath: 'M6 4h12v4H6V4zm-2 6h16v10H4V10zm4 2v6h2v-6H8zm6 0v6h2v-6h-2z',
+          mode: 'single', variations: ['mechanical-push-switcher.mp3'], pitchJitter: 0 },
         { id: 'toggle-off', name: 'Toggle Off', desc: 'Firm switch release',
           free: false, gain: 0.96, iconPath: 'M17 7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h10c2.76 0 5-2.24 5-5s-2.24-5-5-5zM7 15c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z',
           mode: 'single', variations: ['toggle-button-off.mp3'], pitchJitter: 0 },
+        { id: 'switch-on', name: 'Switch On', desc: 'Positive snap engage',
+          free: false, gain: 0.96, iconPath: 'M17 7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h10c2.76 0 5-2.24 5-5s-2.24-5-5-5zm8 5c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z',
+          mode: 'single', variations: ['switch-on.mp3'], pitchJitter: 0 },
         { id: 'mouse-click', name: 'Mouse Click', desc: 'Clean desktop click',
           free: false, gain: 0.92, iconPath: 'M13 1.07V9h7.93A9.01 9.01 0 0013 1.07zM11 1.07A9 9 0 1020.93 11H11V1.07z',
           mode: 'single', variations: ['mouse-click.mp3'], pitchJitter: 0.006 },
@@ -2197,24 +2257,30 @@
           mode: 'single', variations: ['toggle-button-on.mp3'], pitchJitter: 0 }
     ];
 
+    const MOON_SOUND_PROFILE_IDS = new Set([
+        'alien-technology',
+        'cosmic-frequency',
+        'morphed-metal'
+    ]);
+
     const SKINS = [
         { id: 'classic-button', name: 'Classic Click', desc: 'Soft tactile click',
           free: true, iconPath: 'M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z',
           interaction: 'tap', recommendedSoundProfileId: 'classic-click', hapticProfile: 'light-click' },
         { id: 'moon', name: 'Moon', desc: 'Lunar space button',
           free: false, iconPath: 'M20.2 15.4A8.3 8.3 0 018.6 3.8 8.8 8.8 0 1019.9 15c.12.13.22.27.3.4z',
-          interaction: 'tap', recommendedSoundProfileId: 'alien-technology', hapticProfile: 'heavy-toggle' },
+          interaction: 'tap', recommendedSoundProfileId: 'morphed-metal', hapticProfile: 'heavy-toggle' },
         { id: 'typewriter-key', name: 'Typewriter', desc: 'Vintage keystroke',
-          free: false, iconPath: 'M19 7h-8l-2-2H5c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm-7 9c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z',
+          free: false, comingSoon: true, iconPath: 'M19 7h-8l-2-2H5c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm-7 9c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z',
           interaction: 'tap', recommendedSoundProfileId: 'button-click', hapticProfile: 'tactile-click' },
         { id: 'mech-switch', name: 'Mech Switch', desc: 'Cherry MX Blue',
-          free: false, iconPath: 'M20 5H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-9 3h2v2h-2V8zm0 3h2v2h-2v-2zM8 8h2v2H8V8zm0 3h2v2H8v-2zm-1 2H5v-2h2v2zm0-3H5V8h2v2zm9 7H8v-2h8v2zm0-4h-2v-2h2v2zm0-3h-2V8h2v2zm3 3h-2v-2h2v2zm0-3h-2V8h2v2z',
+          free: false, comingSoon: true, iconPath: 'M20 5H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-9 3h2v2h-2V8zm0 3h2v2h-2v-2zM8 8h2v2H8V8zm0 3h2v2H8v-2zm-1 2H5v-2h2v2zm0-3H5V8h2v2zm9 7H8v-2h8v2zm0-4h-2v-2h2v2zm0-3h-2V8h2v2zm3 3h-2v-2h2v2zm0-3h-2V8h2v2z',
           interaction: 'tap', recommendedSoundProfileId: 'mouse-click', hapticProfile: 'tactile-click' },
         { id: 'lever-switch', name: 'Lever Switch', desc: 'Industrial toggle',
-          free: false, iconPath: 'M17 7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h10c2.76 0 5-2.24 5-5s-2.24-5-5-5zM7 15c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z',
+          free: false, comingSoon: true, iconPath: 'M17 7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h10c2.76 0 5-2.24 5-5s-2.24-5-5-5zM7 15c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z',
           interaction: 'tap', recommendedSoundProfileId: 'switch-flip', hapticProfile: 'heavy-toggle' },
         { id: 'heavy-toggle', name: 'Heavy Toggle', desc: 'Weighted metal switch',
-          free: false, iconPath: 'M12 2c-2.21 0-4 1.79-4 4v4H6c-2.21 0-4 1.79-4 4s1.79 4 4 4h6c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 14H6c-1.1 0-2-.9-2-2s.9-2 2-2h6V6c0-1.1.9-2 2-2 3.31 0 6 2.69 6 6s-2.69 6-6 6z',
+          free: false, comingSoon: true, iconPath: 'M12 2c-2.21 0-4 1.79-4 4v4H6c-2.21 0-4 1.79-4 4s1.79 4 4 4h6c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 14H6c-1.1 0-2-.9-2-2s.9-2 2-2h6V6c0-1.1.9-2 2-2 3.31 0 6 2.69 6 6s-2.69 6-6 6z',
           interaction: 'toggle', recommendedSoundProfileId: 'toggle-on', hapticProfile: 'heavy-toggle' },
     ];
 
@@ -2713,6 +2779,13 @@
     const SoundManager = {
         previewedProfiles: new Set(),
 
+        getAvailableProfiles(skinId = AppState.currentSkin) {
+            const isMoon = skinId === 'moon';
+            return SOUND_PROFILES.filter(profile =>
+                isMoon === MOON_SOUND_PROFILE_IDS.has(profile.id)
+            );
+        },
+
         preview(soundProfileId) {
             if (this.previewedProfiles.has(soundProfileId)) return;
             const profile = SOUND_PROFILES.find(entry => entry.id === soundProfileId);
@@ -2760,12 +2833,17 @@
         buildList() {
             const container = document.getElementById('sound-list');
             container.innerHTML = '';
+            const availableProfiles = this.getAvailableProfiles();
 
-            if (!SOUND_PROFILES.some(profile => profile.id === AppState.currentSoundProfile)) {
-                AppState.save('currentSoundProfile', 'classic-click');
+            if (!availableProfiles.some(profile => profile.id === AppState.currentSoundProfile)) {
+                const recommendedId = SkinRegistry.getSelectedSkin().recommendedSoundProfileId;
+                const fallback = availableProfiles.find(profile => profile.id === recommendedId)
+                    || availableProfiles[0];
+                AppState.save('currentSoundProfile', fallback.id);
+                AppState.save('soundMode', 'matched');
             }
 
-            SOUND_PROFILES.forEach(profile => {
+            availableProfiles.forEach(profile => {
                 const isActive = profile.id === AppState.currentSoundProfile;
                 const item = document.createElement('div');
                 item.className = 'sound-item'
@@ -2816,7 +2894,7 @@
     const SkinManager = {
         select(skinId) {
             const skin = SKINS.find(entry => entry.id === skinId);
-            if (!skin) return;
+            if (!skin || skin.comingSoon) return;
 
             if (!skin.free && !EntitlementManager.isPremium()) {
                 Paywall.open(skinId, 'skin');
@@ -2826,20 +2904,27 @@
             AppState.save('currentSkin', skinId);
             const recommendationKey = `rb_skin_sound_initialized_${skinId}`;
             const isFirstSelection = localStorage.getItem(recommendationKey) !== 'true';
-            if (isFirstSelection || AppState.soundMode !== 'custom') {
+            const currentSoundIsAvailable = SoundManager.getAvailableProfiles(skinId)
+                .some(profile => profile.id === AppState.currentSoundProfile);
+            if (isFirstSelection || AppState.soundMode !== 'custom' || !currentSoundIsAvailable) {
                 AppState.save('currentSoundProfile', skin.recommendedSoundProfileId || 'classic-click');
                 AppState.save('soundMode', 'matched');
                 localStorage.setItem(recommendationKey, 'true');
             }
             HapticsEngine.light(skin.hapticProfile);
             this.updateUI();
-            SoundManager.updateUI();
+            SoundManager.buildList();
         },
 
         updateUI() {
             document.body.dataset.skin = AppState.currentSkin;
             document.querySelectorAll('.skin-item').forEach(item => {
-                item.classList.toggle('active', item.dataset.skin === AppState.currentSkin);
+                const isActive = item.dataset.skin === AppState.currentSkin;
+                item.classList.toggle('active', isActive);
+
+                const foot = item.querySelector('.skin-foot');
+                if (!foot || item.classList.contains('coming-soon')) return;
+                foot.innerHTML = isActive ? '<span class="skin-badge">Active</span>' : '';
             });
         },
 
@@ -2848,15 +2933,20 @@
             container.innerHTML = '';
 
             SKINS.forEach(skin => {
-                const isLocked = !skin.free && !EntitlementManager.isPremium();
+                const isLocked = !skin.comingSoon && !skin.free && !EntitlementManager.isPremium();
                 const isActive = skin.id === AppState.currentSkin;
 
                 const item = document.createElement('div');
                 item.className = 'skin-item'
                     + (isActive ? ' active' : '')
-                    + (!skin.free ? ' is-premium' : '');
+                    + (!skin.free ? ' is-premium' : '')
+                    + (skin.comingSoon ? ' coming-soon' : '');
                 item.dataset.skin = skin.id;
-                item.onclick = () => this.select(skin.id);
+                if (skin.comingSoon) {
+                    item.setAttribute('aria-disabled', 'true');
+                } else {
+                    item.onclick = () => this.select(skin.id);
+                }
                 item.innerHTML = `
                     <div class="skin-icon">
                         <svg viewBox="0 0 24 24"><path d="${skin.iconPath}"/></svg>
@@ -3079,7 +3169,7 @@
 
         createThemeSmoke() {
             const theme = THEMES.find(entry => entry.id === AppState.theme);
-            if (!theme || theme.free) return;
+            if (!theme || theme.free || AppState.currentSkin === 'moon') return;
 
             const app = document.getElementById('app');
             const appRect = app.getBoundingClientRect();
@@ -3092,6 +3182,7 @@
                 { delay: 105, blur: 4, scale: 1.92, rotate: 8 },
                 { delay: 220, blur: 5.5, scale: 2.08, rotate: -2 }
             ];
+            const fragment = document.createDocumentFragment();
 
             variants.forEach(variant => {
                 const ring = document.createElement('span');
@@ -3103,9 +3194,11 @@
                 ring.style.setProperty('--smoke-blur', `${variant.blur}px`);
                 ring.style.setProperty('--smoke-scale', variant.scale);
                 ring.style.setProperty('--smoke-rotate', `${variant.rotate}deg`);
-                app.insertBefore(ring, this.button);
+                fragment.appendChild(ring);
                 ring.addEventListener('animationend', () => ring.remove(), { once: true });
             });
+
+            app.insertBefore(fragment, this.button);
         },
 
         pressUp() {
@@ -3430,6 +3523,17 @@
         RatePrompt.init();
 
         await EntitlementManager.refresh();
+
+        const restoredSkin = SKINS.find(skin => skin.id === AppState.currentSkin);
+        if (!restoredSkin || restoredSkin.comingSoon) {
+            AppState.save('currentSkin', 'classic-button');
+            AppState.save('currentSoundProfile', 'classic-click');
+            AppState.save('soundMode', 'matched');
+        }
+
+        if (AppState.currentSkin === 'moon' && AppState.soundMode === 'matched') {
+            AppState.save('currentSoundProfile', 'morphed-metal');
+        }
 
         if (!localStorage.getItem('rb_sound_profile_id') && AppState.soundMode !== 'custom') {
             AppState.save('currentSoundProfile', SkinRegistry.getSelectedSkin().recommendedSoundProfileId || 'classic-click');
