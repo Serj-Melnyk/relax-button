@@ -4,10 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="description" content="Digital Fidget: Mental ASMR — a tactile wellness button with satisfying clicks, gentle haptics, and calming themes.">
-    <meta name="theme-color" content="#121212">
+    <meta name="theme-color" content="#E0E0E0">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Digital Fidget: Mental ASMR — Wellness Button</title>
+
+    <script>
+    (function () {
+        try {
+            const onboardingDone = localStorage.getItem('rb_onboarding') === 'true';
+            const savedTheme = localStorage.getItem('rb_theme') || 'classic';
+            const savedSkin = localStorage.getItem('rb_skin_id') || 'classic-button';
+            const savedLayout = localStorage.getItem('rb_layout') || 'bottom';
+            if (onboardingDone) {
+                document.documentElement.classList.add('onboarding-complete');
+            }
+            document.documentElement.dataset.bootTheme = savedTheme;
+            document.documentElement.dataset.bootSkin = savedSkin;
+            document.documentElement.dataset.bootLayout = savedLayout;
+        } catch (_) {}
+    })();
+    </script>
 
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -49,7 +66,7 @@
         --ease-decel: cubic-bezier(0.0, 0.0, 0.2, 1);
         --dur-press: 50ms;
         --dur-release: 350ms;
-        --dur-theme: 800ms;
+        --dur-theme: 140ms;
         --dur-sheet: 400ms;
     }
 
@@ -151,14 +168,22 @@
         line-height: 1.5;
         color: var(--on-surface);
         background-color: var(--bg);
-        transition: background-color var(--dur-theme) var(--ease-standard),
-                    color var(--dur-theme) var(--ease-standard);
+        transition: color var(--dur-theme) var(--ease-standard);
     }
 
-    /* Safe areas for notched devices */
-    body {
-        padding-top: env(safe-area-inset-top, 0);
-        padding-bottom: env(safe-area-inset-bottom, 0);
+    html.onboarding-complete,
+    html.onboarding-complete body {
+        background-color: #E0E0E0;
+    }
+
+    html[data-boot-theme="night"],
+    html[data-boot-theme="night"] body {
+        background-color: #121212;
+    }
+
+    html[data-boot-theme="classic"],
+    html[data-boot-theme="classic"] body {
+        background-color: #E0E0E0;
     }
 
     /* Desktop: constrain to mobile width */
@@ -188,6 +213,10 @@
         transition: opacity 680ms var(--ease-standard),
                     transform 680ms cubic-bezier(0.22, 1, 0.36, 1),
                     filter 680ms var(--ease-standard);
+    }
+
+    html.onboarding-complete #onboarding {
+        display: none !important;
     }
 
     #onboarding.hidden {
@@ -359,12 +388,37 @@
     #app {
         width: 100%;
         height: 100%;
+        min-height: 100dvh;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         position: relative;
-        transition: justify-content 500ms var(--ease-standard);
+        background-color: var(--bg);
+        contain: layout paint;
+        transform: translateZ(0);
+        transition: justify-content 500ms var(--ease-standard),
+                    background-color var(--dur-theme) var(--ease-standard);
+    }
+
+    body.theme-switching,
+    body.theme-switching #app,
+    body.theme-switching #main-button,
+    body.theme-switching #main-button::before,
+    body.theme-switching #main-button::after,
+    body.theme-switching #main-button .button-scene-layer,
+    body.theme-switching #app::before,
+    body.theme-switching #app::after {
+        transition: none !important;
+    }
+
+    .theme-transition-cover {
+        position: fixed;
+        inset: 0;
+        z-index: 180;
+        pointer-events: none;
+        opacity: 1;
+        transition: opacity 280ms var(--ease-standard);
     }
 
     @media (min-width: 1024px) {
@@ -382,6 +436,11 @@
     #app.layout-bottom {
         justify-content: flex-end;
         padding-bottom: calc(112px + env(safe-area-inset-bottom, 0px));
+    }
+
+    html[data-boot-layout="center"] #app.layout-bottom {
+        justify-content: center;
+        padding-bottom: 0;
     }
 
     /* ════════════════════════════════════════════════════════════
@@ -433,6 +492,30 @@
             opacity var(--dur-theme) var(--ease-standard),
             filter var(--dur-theme) var(--ease-standard),
             transform var(--dur-release) var(--spring);
+    }
+
+    #main-button .main-button-label {
+        position: absolute;
+        inset: 50% auto auto 50%;
+        transform: translate(-50%, -50%);
+        width: min(62%, 148px);
+        text-align: center;
+        font-size: clamp(12px, 3.8vw, 16px);
+        line-height: 1.1;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        font-weight: 500;
+        color: rgba(244, 241, 252, 0.76);
+        text-shadow: 0 3px 14px rgba(7, 8, 16, 0.34);
+        filter: blur(0.35px);
+        opacity: 0;
+        pointer-events: none;
+        z-index: 4;
+        transition:
+            opacity var(--dur-theme) var(--ease-standard),
+            transform var(--dur-press) ease,
+            color var(--dur-theme) var(--ease-standard),
+            filter var(--dur-theme) var(--ease-standard);
     }
 
     #main-button::after {
@@ -625,7 +708,6 @@
     body[data-skin="rain"] #app {
         isolation: isolate;
         overflow: hidden;
-        animation: noiseSceneDrift 28s ease-in-out infinite alternate;
     }
 
     body[data-skin="pink-noise"] #app {
@@ -674,10 +756,8 @@
             radial-gradient(ellipse at 24% 22%, rgba(255, 255, 255, 0.16) 0 10%, transparent 32%),
             radial-gradient(ellipse at 58% 38%, rgba(255, 255, 255, 0.1) 0 16%, transparent 40%),
             radial-gradient(ellipse at 42% 78%, rgba(255, 255, 255, 0.08) 0 18%, transparent 44%);
-        filter: blur(28px);
         mix-blend-mode: screen;
-        opacity: 0.42;
-        animation: ambientCloudDrift 20s ease-in-out infinite alternate;
+        opacity: 0.24;
     }
 
     body[data-skin="pink-noise"] #app::after,
@@ -686,9 +766,7 @@
         background:
             radial-gradient(ellipse at 18% 72%, rgba(255, 255, 255, 0.12) 0 16%, transparent 40%),
             radial-gradient(ellipse at 74% 62%, rgba(255, 255, 255, 0.08) 0 14%, transparent 36%);
-        filter: blur(44px);
-        opacity: 0.28;
-        animation: ambientCloudVeil 24s ease-in-out infinite alternate-reverse;
+        opacity: 0.16;
     }
 
     body[data-skin="pink-noise"] #app::after {
@@ -698,11 +776,7 @@
             linear-gradient(180deg, rgba(10, 0, 14, 0) 0%, rgba(22, 0, 28, 0.04) 44%, rgba(30, 0, 36, 0.18) 62%, rgba(17, 0, 24, 0.5) 100%),
             radial-gradient(ellipse at 50% 88%, rgba(255, 39, 194, 0.14) 0 20%, rgba(255, 39, 194, 0.05) 34%, transparent 60%),
             url('Pink-ring.jpeg') center bottom / cover no-repeat;
-        filter: blur(18px) saturate(1.03) brightness(0.76);
-        opacity: 0.38;
-        mix-blend-mode: screen;
-        -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.92) 32%, rgba(0, 0, 0, 0.46) 58%, transparent 84%);
-        mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.92) 32%, rgba(0, 0, 0, 0.46) 58%, transparent 84%);
+        opacity: 0;
     }
 
     body[data-skin="brown-noise"] #app::after {
@@ -712,11 +786,7 @@
             linear-gradient(180deg, rgba(12, 2, 10, 0) 0%, rgba(24, 6, 18, 0.05) 44%, rgba(36, 8, 18, 0.2) 62%, rgba(22, 4, 12, 0.58) 100%),
             radial-gradient(ellipse at 50% 88%, rgba(255, 164, 84, 0.16) 0 20%, rgba(255, 164, 84, 0.06) 34%, transparent 60%),
             url('brown-illustration.jpeg') center bottom / cover no-repeat;
-        filter: blur(20px) saturate(1.06) brightness(0.72);
-        opacity: 0.42;
-        mix-blend-mode: screen;
-        -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.92) 32%, rgba(0, 0, 0, 0.46) 58%, transparent 84%);
-        mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.92) 32%, rgba(0, 0, 0, 0.46) 58%, transparent 84%);
+        opacity: 0;
     }
 
     body[data-skin="rain"] #app::after {
@@ -726,11 +796,7 @@
             linear-gradient(180deg, rgba(5, 12, 24, 0) 0%, rgba(8, 18, 32, 0.04) 44%, rgba(8, 16, 30, 0.18) 62%, rgba(4, 10, 22, 0.52) 100%),
             radial-gradient(ellipse at 50% 88%, rgba(109, 192, 255, 0.14) 0 20%, rgba(109, 192, 255, 0.05) 34%, transparent 60%),
             url('rain-window.jpeg') center bottom / cover no-repeat;
-        filter: blur(18px) saturate(1.01) brightness(0.76);
-        opacity: 0.36;
-        mix-blend-mode: screen;
-        -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.92) 32%, rgba(0, 0, 0, 0.46) 58%, transparent 84%);
-        mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.92) 32%, rgba(0, 0, 0, 0.46) 58%, transparent 84%);
+        opacity: 0;
     }
 
     body[data-skin="pink-noise"] #main-button,
@@ -745,13 +811,10 @@
             radial-gradient(circle at 50% 66%, var(--skin-button-haze) 0 30%, transparent 66%),
             radial-gradient(circle at 50% 58%, var(--skin-button-core) 0 48%, rgba(255, 255, 255, 0.04) 76%, rgba(255, 255, 255, 0.01) 100%),
             linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03) 42%, rgba(255, 255, 255, 0.01) 100%);
-        backdrop-filter: blur(14px) saturate(1.05) brightness(0.96);
-        -webkit-backdrop-filter: blur(14px) saturate(1.05) brightness(0.96);
         transition:
             border-color var(--dur-theme) var(--ease-standard),
             opacity var(--dur-press) ease,
-            background-position var(--dur-release) var(--spring),
-            backdrop-filter var(--dur-press) ease;
+            background-position var(--dur-release) var(--spring);
     }
 
     body[data-skin="pink-noise"] #main-button::before,
@@ -807,6 +870,30 @@
         opacity: 0.88;
         transform: scale(calc(var(--button-scene-scale, 1.08) * 0.985));
         filter: var(--button-scene-filter-pressed, saturate(1.01) brightness(0.98));
+    }
+
+    body[data-skin="pink-noise"] #main-button .main-button-label,
+    body[data-skin="brown-noise"] #main-button .main-button-label,
+    body[data-skin="rain"] #main-button .main-button-label {
+        opacity: 1;
+    }
+
+    body[data-skin="pink-noise"] #main-button.is-pressed .main-button-label,
+    body[data-skin="brown-noise"] #main-button.is-pressed .main-button-label,
+    body[data-skin="rain"] #main-button.is-pressed .main-button-label {
+        transform: translate(-50%, -50%) scale(0.985);
+    }
+
+    body[data-skin="pink-noise"] #main-button .main-button-label {
+        color: rgba(255, 238, 248, 0.74);
+    }
+
+    body[data-skin="brown-noise"] #main-button .main-button-label {
+        color: rgba(255, 240, 223, 0.72);
+    }
+
+    body[data-skin="rain"] #main-button .main-button-label {
+        color: rgba(234, 246, 255, 0.76);
     }
 
     @keyframes ambientLensGlint {
@@ -1141,9 +1228,12 @@
         gap: 8px;
         overflow-x: auto;
         overflow-y: hidden;
+        touch-action: pan-x;
         scroll-snap-type: x proximity;
         scroll-padding-inline: 16px;
         -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: contain;
+        overscroll-behavior-y: contain;
         padding: 4px 8px 2px;
         scrollbar-width: none;
     }
@@ -1345,8 +1435,8 @@
     .sound-item {
         display: flex;
         align-items: center;
-        gap: 14px;
-        padding: 8px 10px;
+        gap: 10px;
+        padding: 5px 8px;
         border-radius: var(--radius-md);
         transition: background 200ms;
         position: relative;
@@ -1355,10 +1445,10 @@
     .sound-preview {
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 9px;
         flex: 1;
         min-width: 0;
-        padding: 4px;
+        padding: 2px;
         border-radius: 10px;
         cursor: pointer;
     }
@@ -1396,8 +1486,8 @@
     }
 
     .sound-icon {
-        width: 40px;
-        height: 40px;
+        width: 34px;
+        height: 34px;
         border-radius: var(--radius-sm);
         background: var(--surface-dim);
         display: flex;
@@ -1408,8 +1498,8 @@
     }
 
     .sound-icon svg {
-        width: 20px;
-        height: 20px;
+        width: 17px;
+        height: 17px;
         fill: var(--on-surface-var);
         transition: fill var(--dur-theme) var(--ease-standard);
     }
@@ -1427,7 +1517,7 @@
     }
 
     .sound-name {
-        font-size: 14px;
+        font-size: 13px;
         font-weight: 500;
         color: var(--on-surface);
         overflow: hidden;
@@ -1437,7 +1527,7 @@
     }
 
     .sound-desc {
-        font-size: 11px;
+        font-size: 10px;
         color: var(--on-surface-var);
         overflow: hidden;
         text-overflow: ellipsis;
@@ -1464,8 +1554,8 @@
     }
 
     .sound-select-btn {
-        min-width: 76px;
-        min-height: 36px;
+        min-width: 64px;
+        min-height: 30px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -1528,7 +1618,10 @@
         gap: 8px;
         overflow-x: auto;
         overflow-y: hidden;
+        touch-action: pan-x;
         -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: contain;
+        overscroll-behavior-y: contain;
         scrollbar-width: none;
         padding: 0;
     }
@@ -1564,10 +1657,6 @@
             4px 4px 12px color-mix(in srgb, var(--shadow-d) 18%, transparent),
             -2px -2px 8px color-mix(in srgb, var(--shadow-l) 16%, transparent),
             inset 0 0 0 1px color-mix(in srgb, var(--accent) 10%, transparent);
-    }
-
-    .skin-item.is-premium .skin-name {
-        color: color-mix(in srgb, var(--on-surface) 78%, var(--accent) 22%);
     }
 
     .skin-item.coming-soon {
@@ -2081,7 +2170,7 @@
         background: transparent;
         color: var(--on-surface-var);
         font: inherit;
-        font-size: 12px;
+        font-size: 11px;
         cursor: pointer;
     }
 
@@ -2290,7 +2379,21 @@
     <script src="js/billing.js"></script>
 </head>
 
-<body data-theme="night">
+<body>
+    <script>
+    (function () {
+        try {
+            const savedTheme = localStorage.getItem('rb_theme') || 'classic';
+            const savedSkin = localStorage.getItem('rb_skin_id') || 'classic-button';
+            if (savedTheme === 'classic') {
+                document.body.removeAttribute('data-theme');
+            } else {
+                document.body.dataset.theme = savedTheme;
+            }
+            document.body.dataset.skin = savedSkin;
+        } catch (_) {}
+    })();
+    </script>
     <!-- ════════════════════════════════════════════════════════
          ONBOARDING (3 Screens)
          ════════════════════════════════════════════════════════ -->
@@ -2364,6 +2467,7 @@
         <!-- The Neomorphic Button -->
         <button id="main-button" aria-label="Press for relaxation">
             <span class="button-scene-layer" aria-hidden="true"></span>
+            <span class="main-button-label" aria-hidden="true"></span>
         </button>
 
         <!-- Swipe-up indicator and accessible menu trigger -->
@@ -2543,7 +2647,7 @@
        Native: ViewModel / StateObject
        ════════════════════════════════════════════════════════════ */
     const AppState = {
-        theme: 'night',
+        theme: localStorage.getItem('rb_theme') || 'classic',
         layout: localStorage.getItem('rb_layout') || 'bottom',
         soundEnabled: localStorage.getItem('rb_sound') !== 'false',
         vibrationEnabled: localStorage.getItem('rb_vibration') !== 'false',
@@ -2575,8 +2679,10 @@
         save(key, value) {
             this[key] = value;
             const storageMap = {
+                theme: 'rb_theme',
                 layout: 'rb_layout',
                 soundEnabled: 'rb_sound', vibrationEnabled: 'rb_vibration',
+                onboardingDone: 'rb_onboarding',
                 currentSoundProfile: 'rb_sound_profile_id',
                 soundMode: 'rb_sound_mode',
                 favoriteSoundProfiles: 'rb_favorite_sound_profiles',
@@ -2593,6 +2699,23 @@
     };
 
     const FORCE_WALKTHROUGH = window.location.hash.includes('walkthrough');
+
+    function getNativeHapticPlugin() {
+        if (typeof window === 'undefined' || !window.Capacitor) return null;
+        if (window.NativeHapticPluginBridge) return window.NativeHapticPluginBridge;
+        if (window.Capacitor.registerPlugin) {
+            window.NativeHapticPluginBridge = window.Capacitor.registerPlugin('NativeHapticPlugin');
+            return window.NativeHapticPluginBridge;
+        }
+        return window.Capacitor.Plugins?.NativeHapticPlugin || null;
+    }
+
+    function isNativeAndroid() {
+        return typeof window !== 'undefined'
+            && window.Capacitor
+            && typeof window.Capacitor.getPlatform === 'function'
+            && window.Capacitor.getPlatform() === 'android';
+    }
 
     const PreviewAccess = {
         allowsPremiumPreview() {
@@ -2871,6 +2994,12 @@
         activePreviewAudio: null,
         loopPreviewTimeoutId: null,
         loopRequestId: 0,
+        keepAwakeActive: false,
+        nativeLoopActive: false,
+        backgroundLoopRequested: false,
+        activeLoopPlayback: null,
+        activeLoopSources: [],
+        activeLoopTimers: [],
         initialized: false,
 
         async init() {
@@ -2949,6 +3078,22 @@
                         this.ensureBuffer(file).catch(() => {});
                     });
                 });
+        },
+
+        shouldUseNativeContinuousLoop() {
+            const nativePlugin = getNativeHapticPlugin();
+            return isNativeAndroid() && nativePlugin && nativePlugin.startNoiseLoop;
+        },
+
+        shouldUseNativeBackgroundLoop() {
+            return this.shouldUseNativeContinuousLoop();
+        },
+
+        setBackgroundLoopRequested(requested) {
+            this.backgroundLoopRequested = !!requested;
+            if (!this.shouldUseNativeContinuousLoop()) {
+                this.syncBackgroundLoop();
+            }
         },
 
         resolvePhaseVariant(profile, phase = 'down') {
@@ -3032,19 +3177,41 @@
             if (button) {
                 const isContinuous = SkinRegistry.getInteractionConfig().interaction === 'continuous-toggle';
                 const isPlaying = document.body.classList.contains('noise-playing');
+                const label = button.querySelector('.main-button-label');
+                const skinId = AppState.currentSkin;
+                const shouldShowLabel = ['pink-noise', 'brown-noise', 'rain'].includes(skinId) && isPlaying;
                 button.setAttribute('aria-label', isPlaying ? 'Stop noise' : isContinuous ? 'Play noise' : 'Press for relaxation');
                 if (isContinuous) {
                     button.setAttribute('aria-pressed', String(isPlaying));
                 } else {
                     button.removeAttribute('aria-pressed');
                 }
+                if (label) {
+                    label.textContent = shouldShowLabel ? 'Stop' : '';
+                }
             }
         },
 
         setLoopingState(isPlaying) {
             document.body.classList.toggle('noise-playing', isPlaying);
+            this.setNativeKeepAwake(isPlaying);
             this.updateMainButtonState();
             SoundManager.updateUI();
+        },
+
+        setNativeKeepAwake(enabled) {
+            if (this.keepAwakeActive === enabled) return;
+            this.keepAwakeActive = enabled;
+            const nativePlugin = getNativeHapticPlugin();
+            if (!nativePlugin || !nativePlugin.setKeepAwake) return;
+            try {
+                const result = nativePlugin.setKeepAwake({ enabled });
+                if (result && typeof result.catch === 'function') {
+                    result.catch(error => console.warn('Keep-awake bridge failed:', error));
+                }
+            } catch (error) {
+                console.warn('Keep-awake bridge failed:', error);
+            }
         },
 
         buildBufferedLoopSource(playback, buffer, offsetSeconds = 0, initialGain = null) {
@@ -3066,11 +3233,69 @@
         },
 
         startBufferedLoop(playback, buffer, offsetSeconds = 0, initialGain = null) {
-            const loopNodes = this.buildBufferedLoopSource(playback, buffer, offsetSeconds, initialGain);
-            this.activeLoopSource = loopNodes.source;
-            this.activeLoopGain = loopNodes.gainNode;
-            loopNodes.source.start(0, loopNodes.startOffset);
-            return loopNodes;
+            this.clearBufferedLoopSchedule();
+            const loopStart = Math.max(0, Math.min(playback.profile.loopStart ?? 0.08, Math.max(buffer.duration - 0.2, 0)));
+            const loopEnd = Math.max(loopStart + 0.1, buffer.duration - (playback.profile.loopEndTrim ?? 0.12));
+            const loopSpan = Math.max(0.1, Math.min(buffer.duration, loopEnd) - loopStart);
+            const crossfade = Math.min(0.55, Math.max(0.16, loopSpan * 0.12));
+            const targetGain = initialGain ?? playback.gain;
+            const masterGain = this.audioContext.createGain();
+            masterGain.gain.value = targetGain;
+            masterGain.connect(this.audioContext.destination);
+            this.activeLoopGain = masterGain;
+
+            let nextStartAt = this.audioContext.currentTime + 0.02;
+            const requestId = this.loopRequestId;
+            const normalizedOffset = loopStart + ((((offsetSeconds - loopStart) % loopSpan) + loopSpan) % loopSpan);
+
+            const scheduleSegment = (offset) => {
+                if (!this.audioContext || requestId !== this.loopRequestId) return;
+                const segmentDuration = Math.max(0.1, loopEnd - offset);
+                const fadeDuration = Math.min(crossfade, segmentDuration / 2);
+                const source = this.audioContext.createBufferSource();
+                const gainNode = this.audioContext.createGain();
+                source.buffer = buffer;
+                source.playbackRate.value = playback.playbackRate;
+                source.connect(gainNode);
+                gainNode.connect(masterGain);
+                gainNode.gain.setValueAtTime(0.0001, nextStartAt);
+                gainNode.gain.linearRampToValueAtTime(1, nextStartAt + fadeDuration);
+                gainNode.gain.setValueAtTime(1, Math.max(nextStartAt, nextStartAt + segmentDuration - fadeDuration));
+                gainNode.gain.linearRampToValueAtTime(0.0001, nextStartAt + segmentDuration);
+                source.start(nextStartAt, offset, segmentDuration);
+
+                const node = { source, gainNode };
+                this.activeLoopSources.push(node);
+                source.onended = () => {
+                    this.activeLoopSources = this.activeLoopSources.filter(entry => entry !== node);
+                    try {
+                        source.disconnect();
+                        gainNode.disconnect();
+                    } catch {}
+                };
+
+                nextStartAt += Math.max(0.08, segmentDuration - crossfade);
+                const delayMs = Math.max(0, (nextStartAt - this.audioContext.currentTime - 0.1) * 1000);
+                this.activeLoopTimers.push(setTimeout(() => scheduleSegment(loopStart), delayMs));
+            };
+
+            scheduleSegment(normalizedOffset);
+            return { source: null, gainNode: masterGain };
+        },
+
+        clearBufferedLoopSchedule() {
+            this.activeLoopTimers.forEach(timerId => clearTimeout(timerId));
+            this.activeLoopTimers = [];
+            this.activeLoopSources.forEach(node => {
+                try {
+                    node.source.stop();
+                } catch {}
+                try {
+                    node.source.disconnect();
+                    node.gainNode.disconnect();
+                } catch {}
+            });
+            this.activeLoopSources = [];
         },
 
         promoteActiveLoopToBuffered(playback, buffer, audio, requestId) {
@@ -3089,7 +3314,7 @@
             const targetGain = playback.gain;
 
             const fadeStep = (now) => {
-                if (this.activeLoopAudio !== audio || this.activeLoopSource !== loopNodes.source) return;
+                if (this.activeLoopAudio !== audio || this.activeLoopGain !== loopNodes.gainNode) return;
                 const progress = Math.min(1, (now - fadeStartedAt) / fadeDurationMs);
                 loopNodes.gainNode.gain.value = targetGain * progress;
                 audio.volume = startingVolume * (1 - progress);
@@ -3121,24 +3346,27 @@
             const requestId = ++this.loopRequestId;
             this.activeLoopProfileId = playback.profile.id;
             this.activeLoopFile = playback.file;
+            this.activeLoopPlayback = playback;
 
-            if (this.initialized && this.audioContext && this.audioContext.state === 'suspended') {
-                await this.audioContext.resume().catch(() => {});
-            }
-
-            if (this.initialized && this.audioContext && this.buffers[playback.file]) {
-                const buffer = this.buffers[playback.file];
-                if (buffer && this.loopRequestId === requestId && this.activeLoopProfileId === playback.profile.id) {
-                    this.startBufferedLoop(playback, buffer, playback.profile.loopStart ?? 0);
+            if (this.shouldUseNativeContinuousLoop()) {
+                if (this.startNativeLoop(playback, playback.gain)) {
                     this.setLoopingState(true);
                     return true;
                 }
+                this.activeLoopProfileId = null;
+                this.activeLoopFile = null;
+                this.activeLoopPlayback = null;
+                this.setLoopingState(false);
+                return false;
             }
 
             if (this.loopRequestId !== requestId || this.activeLoopProfileId !== playback.profile.id) {
                 return false;
             }
 
+            const resumePromise = this.initialized && this.audioContext && this.audioContext.state === 'suspended'
+                ? this.audioContext.resume().catch(() => {})
+                : Promise.resolve();
             const audio = new Audio(playback.file);
             audio.loop = true;
             audio.preload = 'auto';
@@ -3156,9 +3384,12 @@
                 if (this.activeLoopAudio === audio) this.stopLoop();
             });
 
-            if (this.initialized && this.audioContext) {
-                this.ensureBuffer(playback.file)
-                    .then(buffer => {
+            if (!isNativeAndroid() && this.initialized && this.audioContext) {
+                Promise.all([
+                    resumePromise,
+                    this.ensureBuffer(playback.file).catch(() => null)
+                ])
+                    .then(([, buffer]) => {
                         if (buffer) this.promoteActiveLoopToBuffered(playback, buffer, audio, requestId);
                     })
                     .catch(() => {});
@@ -3168,6 +3399,7 @@
 
         stopLoop() {
             this.loopRequestId += 1;
+            this.stopPreview();
             if (this.loopPreviewTimeoutId) {
                 clearTimeout(this.loopPreviewTimeoutId);
                 this.loopPreviewTimeoutId = null;
@@ -3178,6 +3410,7 @@
                 } catch {}
                 this.activeLoopSource.disconnect();
             }
+            this.clearBufferedLoopSchedule();
             if (this.activeLoopGain) {
                 this.activeLoopGain.disconnect();
             }
@@ -3191,7 +3424,104 @@
             this.activeLoopAudio = null;
             this.activeLoopProfileId = null;
             this.activeLoopFile = null;
+            this.activeLoopPlayback = null;
+            this.stopNativeLoop();
             this.setLoopingState(false);
+        },
+
+        startNativeLoop(playback = this.activeLoopPlayback, gain = 0) {
+            if (!playback || this.nativeLoopActive) return false;
+            const nativePlugin = getNativeHapticPlugin();
+            if (!nativePlugin || !nativePlugin.startNoiseLoop) return false;
+            this.nativeLoopActive = true;
+            try {
+                const result = nativePlugin.startNoiseLoop({ file: playback.file, gain });
+                if (result && typeof result.catch === 'function') {
+                    result.catch(error => {
+                        this.nativeLoopActive = false;
+                        if (this.activeLoopPlayback === playback) {
+                            this.activeLoopProfileId = null;
+                            this.activeLoopFile = null;
+                            this.activeLoopPlayback = null;
+                            this.setLoopingState(false);
+                        }
+                        console.warn('Native loop failed:', error);
+                    });
+                }
+                return true;
+            } catch (error) {
+                this.nativeLoopActive = false;
+                console.warn('Native loop failed:', error);
+                return false;
+            }
+        },
+
+        setNativeLoopVolume(gain) {
+            if (!this.nativeLoopActive) return;
+            const nativePlugin = getNativeHapticPlugin();
+            if (!nativePlugin || !nativePlugin.setNoiseVolume) return;
+            try {
+                const result = nativePlugin.setNoiseVolume({ gain });
+                if (result && typeof result.catch === 'function') {
+                    result.catch(error => console.warn('Native loop volume failed:', error));
+                }
+            } catch (error) {
+                console.warn('Native loop volume failed:', error);
+            }
+        },
+
+        stopNativeLoop() {
+            if (!this.nativeLoopActive) return;
+            this.nativeLoopActive = false;
+            const nativePlugin = getNativeHapticPlugin();
+            if (!nativePlugin || !nativePlugin.stopNoiseLoop) return;
+            try {
+                const result = nativePlugin.stopNoiseLoop();
+                if (result && typeof result.catch === 'function') {
+                    result.catch(error => console.warn('Native loop stop failed:', error));
+                }
+            } catch (error) {
+                console.warn('Native loop stop failed:', error);
+            }
+        },
+
+        syncBackgroundLoop() {
+            if (this.shouldUseNativeContinuousLoop()) {
+                if (this.nativeLoopActive && this.activeLoopPlayback) {
+                    this.setNativeLoopVolume(this.activeLoopPlayback.gain);
+                }
+                return;
+            }
+            const isPlaying = document.body.classList.contains('noise-playing');
+            if (!isPlaying || !this.activeLoopPlayback) {
+                this.stopNativeLoop();
+                return;
+            }
+            if (this.nativeLoopActive && this.shouldUseNativeContinuousLoop()) {
+                this.setNativeLoopVolume(this.activeLoopPlayback.gain);
+                if (this.activeLoopAudio) {
+                    this.activeLoopAudio.volume = 0;
+                }
+                if (this.activeLoopGain) {
+                    this.activeLoopGain.gain.value = 0;
+                }
+                return;
+            }
+            if (this.shouldUseNativeBackgroundLoop()) {
+                if (this.activeLoopAudio) this.activeLoopAudio.volume = 0;
+                if (this.activeLoopGain) this.activeLoopGain.gain.value = 0;
+                this.startNativeLoop(this.activeLoopPlayback, this.activeLoopPlayback.gain);
+                this.setNativeLoopVolume(this.activeLoopPlayback.gain);
+                return;
+            }
+            this.setNativeLoopVolume(0);
+            if (this.activeLoopAudio) {
+                this.activeLoopAudio.volume = Math.max(0, Math.min(1, this.activeLoopPlayback.gain));
+            }
+            if (this.activeLoopGain) {
+                this.activeLoopGain.gain.value = this.activeLoopPlayback.gain;
+            }
+            this.stopNativeLoop();
         },
 
         stopPreview() {
@@ -3212,7 +3542,6 @@
             if (!playback || playback.profile.mode !== 'continuous') return false;
 
             this.stopLoop();
-            this.stopPreview();
 
             const audio = new Audio(playback.file);
             audio.loop = false;
@@ -3251,6 +3580,87 @@
             return this.startLoop(soundProfileId);
         },
 
+        getExpectedContinuousPlayback() {
+            const interaction = SkinRegistry.getInteractionConfig();
+            if (interaction.interaction !== 'continuous-toggle') return null;
+            const playback = this.resolvePlayback(AppState.currentSoundProfile);
+            if (!playback || playback.profile.mode !== 'continuous') return null;
+            return playback;
+        },
+
+        async syncNativeLoopState() {
+            const nativePlugin = getNativeHapticPlugin();
+            if (!nativePlugin || !nativePlugin.getNoiseLoopState) return;
+            try {
+                const state = await nativePlugin.getNoiseLoopState();
+                const isPlaying = !!state?.isPlaying;
+                const file = state?.file || null;
+                const expectedPlayback = this.getExpectedContinuousPlayback();
+
+                if (!isPlaying) {
+                    this.nativeLoopActive = false;
+                    this.activeLoopProfileId = null;
+                    this.activeLoopFile = null;
+                    this.activeLoopPlayback = null;
+                    this.setLoopingState(false);
+                    return;
+                }
+
+                if (!expectedPlayback || (file && expectedPlayback.file !== file)) {
+                    await this.clearNativeLoopState();
+                    return;
+                }
+
+                this.nativeLoopActive = true;
+                if (file && (!this.activeLoopPlayback || this.activeLoopFile !== file)) {
+                    this.activeLoopPlayback = expectedPlayback;
+                    this.activeLoopProfileId = expectedPlayback.profile.id;
+                    this.activeLoopFile = expectedPlayback.file;
+                }
+
+                this.setLoopingState(true);
+            } catch (error) {
+                console.warn('Native loop state sync failed:', error);
+            }
+        },
+
+        async clearNativeLoopState() {
+            const nativePlugin = getNativeHapticPlugin();
+            this.nativeLoopActive = false;
+            this.activeLoopProfileId = null;
+            this.activeLoopFile = null;
+            this.activeLoopPlayback = null;
+            if (this.activeLoopAudio) {
+                this.activeLoopAudio.pause();
+                this.activeLoopAudio.currentTime = 0;
+                this.activeLoopAudio.src = '';
+                this.activeLoopAudio = null;
+            }
+            if (this.activeLoopSource) {
+                try {
+                    this.activeLoopSource.stop();
+                } catch {}
+                this.activeLoopSource.disconnect();
+                this.activeLoopSource = null;
+            }
+            this.clearBufferedLoopSchedule();
+            if (this.activeLoopGain) {
+                this.activeLoopGain.disconnect();
+                this.activeLoopGain = null;
+            }
+            if (nativePlugin?.getNoiseLoopState) {
+                try {
+                    const state = await nativePlugin.getNoiseLoopState();
+                    if (state?.isPlaying && nativePlugin.stopNoiseLoop) {
+                        await nativePlugin.stopNoiseLoop();
+                    }
+                } catch (error) {
+                    console.warn('Native loop clear failed:', error);
+                }
+            }
+            this.setLoopingState(false);
+        },
+
         preview(soundProfileId) {
             return this.play(soundProfileId, { force: true });
         },
@@ -3287,11 +3697,38 @@
         },
         
         getPlugins() {
-            return (typeof window !== 'undefined' && window.Capacitor && window.Capacitor.Plugins) || null;
+            const plugins = (typeof window !== 'undefined' && window.Capacitor && window.Capacitor.Plugins) || null;
+            const nativePlugin = getNativeHapticPlugin();
+            return nativePlugin ? { ...(plugins || {}), NativeHapticPlugin: nativePlugin } : plugins;
+        },
+
+        getPlatform() {
+            if (typeof window === 'undefined' || !window.Capacitor || !window.Capacitor.getPlatform) return null;
+            return window.Capacitor.getPlatform();
         },
 
         getProfile(profileId) {
             return this.profiles[profileId] || this.profiles['light-click'];
+        },
+
+        getCapacitorImpactStyle(style) {
+            const styles = { light: 'LIGHT', medium: 'MEDIUM', heavy: 'HEAVY' };
+            return styles[style] || 'LIGHT';
+        },
+
+        playNativeClick() {
+            const plugins = this.getPlugins();
+            if (!plugins || !plugins.NativeHapticPlugin) return false;
+            try {
+                const result = plugins.NativeHapticPlugin.playPremiumClick();
+                if (result && typeof result.catch === 'function') {
+                    result.catch(error => console.warn('NativeHapticPlugin failed, falling back:', error));
+                }
+                return true;
+            } catch (error) {
+                console.warn('NativeHapticPlugin failed, falling back:', error);
+                return false;
+            }
         },
 
         impact(style, delay = 0) {
@@ -3300,7 +3737,7 @@
             const fire = () => {
                 if (plugins && plugins.Haptics) {
                     try {
-                        plugins.Haptics.impact({ style });
+                        plugins.Haptics.impact({ style: this.getCapacitorImpactStyle(style) });
                         return;
                     } catch (e) {
                         console.warn('Capacitor Haptics failed:', e);
@@ -3321,22 +3758,16 @@
             if (!AppState.vibrationEnabled) return;
             const profile = this.getProfile(profileId).down;
             const plugins = this.getPlugins();
-            if (plugins) {
-                if (plugins.NativeHapticPlugin) {
-                    try {
-                        plugins.NativeHapticPlugin.playPremiumClick();
-                        return; // Native composition already handles the entire click sequence (down + bounce)
-                    } catch (e) {
-                        console.warn('NativeHapticPlugin failed, falling back:', e);
-                    }
-                }
-                if (plugins.Haptics) {
-                    try {
-                        plugins.Haptics.impact({ style: profile.impact });
-                        return;
-                    } catch (e) {
-                        console.warn('Capacitor Haptics failed:', e);
-                    }
+            const usedNativeClick = this.playNativeClick();
+            if (usedNativeClick && this.getPlatform() === 'android') {
+                return;
+            }
+            if (plugins && plugins.Haptics) {
+                try {
+                    plugins.Haptics.impact({ style: this.getCapacitorImpactStyle(profile.impact) });
+                    return;
+                } catch (e) {
+                    console.warn('Capacitor Haptics failed:', e);
                 }
             }
             if (this.supported) {
@@ -3348,14 +3779,14 @@
             if (!AppState.vibrationEnabled) return;
             const profile = this.getProfile(profileId).up;
             const plugins = this.getPlugins();
-            // If NativeHapticPlugin is used, it handles the release bounce composition automatically in pressDown, so skip pressUp vibration.
+            // Native composition already handles the release bounce in pressDown.
             if (plugins && plugins.NativeHapticPlugin) {
                 return;
             }
             if (plugins && plugins.Haptics) {
                 try {
                     setTimeout(() => {
-                        plugins.Haptics.impact({ style: profile.impact });
+                        plugins.Haptics.impact({ style: this.getCapacitorImpactStyle(profile.impact) });
                     }, profile.delay || 0);
                     return;
                 } catch (e) {
@@ -3368,37 +3799,20 @@
         },
 
         themeChange() {
-            if (!AppState.vibrationEnabled) return;
-            const plugins = this.getPlugins();
-            if (plugins && plugins.Haptics) {
-                try {
-                    plugins.Haptics.notification({ type: 'success' });
-                    return;
-                } catch (e) {
-                    console.warn('Capacitor Haptics failed:', e);
-                }
-            }
-            if (this.supported) {
-                navigator.vibrate([8, 40, 8]);
-            }
+            // Theme switching stays visual-only to avoid distracting haptic bumps.
         },
 
         light(profileId = 'light-click') {
             if (!AppState.vibrationEnabled) return;
+            if (this.getPlatform() === 'android') return;
             const profile = this.getProfile(profileId).tap;
             const plugins = this.getPlugins();
+            const usedNativeClick = this.playNativeClick();
+            if (usedNativeClick && this.getPlatform() === 'android') return;
             if (plugins) {
-                if (plugins.NativeHapticPlugin) {
-                    try {
-                        plugins.NativeHapticPlugin.playPremiumClick();
-                        return;
-                    } catch (e) {
-                        console.warn('NativeHapticPlugin failed:', e);
-                    }
-                }
                 if (plugins.Haptics) {
                     try {
-                        plugins.Haptics.impact({ style: profile.impact });
+                        plugins.Haptics.impact({ style: this.getCapacitorImpactStyle(profile.impact) });
                         return;
                     } catch (e) {
                         console.warn('Capacitor Haptics failed:', e);
@@ -3448,7 +3862,6 @@
                 e.preventDefault();
                 demoBtn.classList.add('pressed');
                 AudioEngine.play('classic-click', { force: true });
-                HapticsEngine.pressDown();
                 AudioEngine.resumeContext();
 
                 this.demoPresses += 1;
@@ -3470,7 +3883,6 @@
 
             demoBtn.addEventListener('pointerup', () => {
                 demoBtn.classList.remove('pressed');
-                HapticsEngine.pressUp();
             });
 
             demoBtn.addEventListener('pointerleave', () => {
@@ -3553,6 +3965,8 @@
        Native: ThemeRepository
        ════════════════════════════════════════════════════════════ */
     const ThemeManager = {
+        pendingFrame: 0,
+
         apply(themeId) {
             const theme = THEMES.find(t => t.id === themeId);
             if (!theme) return;
@@ -3563,25 +3977,45 @@
                 return;
             }
 
-            // Apply theme via data attribute
-            if (themeId === 'classic') {
-                document.body.removeAttribute('data-theme');
-            } else {
-                document.body.setAttribute('data-theme', themeId);
+            const appliedThemeId = document.body.getAttribute('data-theme') || 'classic';
+            if (themeId === AppState.theme && themeId === appliedThemeId) return;
+
+            if (this.pendingFrame) {
+                cancelAnimationFrame(this.pendingFrame);
             }
 
-            // Update meta theme-color
-            document.querySelector('meta[name="theme-color"]')
-                ?.setAttribute('content', theme.bg);
+            this.pendingFrame = requestAnimationFrame(() => {
+                this.pendingFrame = 0;
+                const cover = document.createElement('div');
+                cover.className = 'theme-transition-cover';
+                cover.style.background = getComputedStyle(document.getElementById('app')).backgroundColor || theme.bg;
+                document.body.appendChild(cover);
+                document.body.classList.add('theme-switching');
 
-            AppState.save('theme', themeId);
-            HapticsEngine.themeChange();
-            this.updateCarouselUI();
+                if (themeId === 'classic') {
+                    document.body.removeAttribute('data-theme');
+                } else {
+                    document.body.setAttribute('data-theme', themeId);
+                }
+
+                document.querySelector('meta[name="theme-color"]')
+                    ?.setAttribute('content', theme.bg);
+
+                this.updateCarouselUI(themeId);
+                AppState.save('theme', themeId);
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        document.body.classList.remove('theme-switching');
+                        cover.style.opacity = '0';
+                        setTimeout(() => cover.remove(), 320);
+                    });
+                });
+            });
         },
 
-        updateCarouselUI() {
+        updateCarouselUI(themeId = AppState.theme) {
             document.querySelectorAll('.theme-item').forEach(item => {
-                item.classList.toggle('active', item.dataset.theme === AppState.theme);
+                item.classList.toggle('active', item.dataset.theme === themeId);
             });
         },
 
@@ -3880,14 +4314,57 @@
         el: null,
         scrim: null,
         isOpen: false,
-        startY: 0,
-        currentTranslate: 0,
         isDragging: false,
+        dragStartY: 0,
+        dragLastY: 0,
+        dragLastAt: 0,
 
         init() {
             this.el = document.getElementById('bottom-sheet');
             this.scrim = document.getElementById('scrim');
-            const handle = document.getElementById('sheet-handle');
+            const beginDrag = (touch, target) => {
+                if (!this.isOpen || this.isDragging) return;
+                if (target.closest('.theme-carousel, .skin-carousel')) return;
+                const rect = this.el.getBoundingClientRect();
+                const startedOnHandle = !!target.closest('#sheet-handle');
+                const withinTopZone = touch.clientY <= rect.top + 220;
+                if (!startedOnHandle && !withinTopZone) return;
+
+                this.isDragging = true;
+                this.dragStartY = touch.clientY;
+                this.dragLastY = touch.clientY;
+                this.dragLastAt = Date.now();
+                this.el.style.transition = 'none';
+            };
+
+            const moveDrag = (touch) => {
+                if (!this.isDragging) return;
+                const dy = touch.clientY - this.dragStartY;
+                const constrainedDy = dy < 0 ? Math.max(dy * 0.28, -28) : dy;
+                this.dragLastY = touch.clientY;
+                this.dragLastAt = Date.now();
+                this.el.style.transform = this._getTransform(constrainedDy);
+            };
+
+            const endDrag = (touch) => {
+                if (!this.isDragging) return;
+                this.isDragging = false;
+                this.el.style.transition = '';
+
+                const dy = touch.clientY - this.dragStartY;
+                const dt = Math.max(Date.now() - this.dragLastAt, 1);
+                const velocity = (touch.clientY - this.dragLastY) / dt;
+
+                if (dy > 34 || velocity > 0.18) {
+                    this.close();
+                    return;
+                }
+
+                this.el.style.transform = '';
+                if (this.isOpen) {
+                    this.el.classList.add('is-open');
+                }
+            };
 
             // Scrim tap to close
             this.scrim.addEventListener('click', () => this.close());
@@ -3896,34 +4373,23 @@
                 this.close();
             }, { passive: false });
 
-            // Handle drag
-            handle.addEventListener('touchstart', (e) => {
-                this.isDragging = true;
-                this.startY = e.touches[0].clientY;
-                this.el.style.transition = 'none';
+            this.el.addEventListener('touchstart', (e) => {
+                beginDrag(e.touches[0], e.target);
             }, { passive: true });
 
-            handle.addEventListener('touchmove', (e) => {
-                if (!this.isDragging) return;
-                const dy = e.touches[0].clientY - this.startY;
-                if (dy > 0) { // Only allow dragging down
-                    this.el.style.transform = this._getTransform(dy);
-                }
+            this.el.addEventListener('touchmove', (e) => {
+                moveDrag(e.touches[0]);
             }, { passive: true });
 
-            handle.addEventListener('touchend', (e) => {
+            this.el.addEventListener('touchend', (e) => {
+                endDrag(e.changedTouches[0]);
+            }, { passive: true });
+
+            this.el.addEventListener('touchcancel', () => {
                 if (!this.isDragging) return;
                 this.isDragging = false;
                 this.el.style.transition = '';
-                const dy = e.changedTouches[0].clientY - this.startY;
-                if (dy > 80) {
-                    this.close();
-                } else {
-                    this.el.style.transform = '';
-                    if (this.isOpen) {
-                        this.el.classList.add('is-open');
-                    }
-                }
+                this.el.style.transform = '';
             }, { passive: true });
         },
 
@@ -3999,7 +4465,7 @@
                 }
 
                 // Only activate in the narrow bottom gesture band.
-                if (touch.clientY > window.innerHeight - 88) {
+                if (touch.clientY > window.innerHeight - 132) {
                     this.startY = touch.clientY;
                     this.startTime = Date.now();
                     this.active = true;
@@ -4016,7 +4482,7 @@
                 const velocity = dy / dt;
 
                 // Swipe up: distance > 50px OR velocity > 0.3
-                if (dy > 50 || (dy > 20 && velocity > 0.3)) {
+                if (dy > 44 || (dy > 18 && velocity > 0.26)) {
                     BottomSheet.open();
                 }
             }, { passive: true });
@@ -4043,6 +4509,7 @@
                 if (this.button.setPointerCapture) {
                     try { this.button.setPointerCapture(e.pointerId); } catch (_) {}
                 }
+                AudioEngine.resumeContext();
                 this.pressDown();
             });
 
@@ -4069,6 +4536,12 @@
             this.button.addEventListener('touchstart', (e) => {
                 e.preventDefault(); // Bypass 300ms tap delay
                 AudioEngine.resumeContext();
+                this.pressDown();
+            }, { passive: false });
+
+            this.button.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                this.pressUp();
             }, { passive: false });
         },
 
@@ -4081,14 +4554,15 @@
             this.createThemeSmoke();
             HapticsEngine.pressDown(interaction.hapticProfile);
 
-            // Let the pressed frame paint first so continuous audio startup doesn't make the button feel sluggish.
+            if (interaction.interaction === 'continuous-toggle') {
+                AudioEngine.toggleLoop(AppState.currentSoundProfile);
+                return;
+            }
+
+            // Let the pressed frame paint first so one-shot sounds do not blunt the button press.
             requestAnimationFrame(() => {
                 if (!this.isPressed) return;
-                if (interaction.interaction === 'continuous-toggle') {
-                    AudioEngine.toggleLoop(AppState.currentSoundProfile);
-                } else {
-                    AudioEngine.play(AppState.currentSoundProfile, { phase: 'down' });
-                }
+                AudioEngine.play(AppState.currentSoundProfile, { phase: 'down' });
             });
         },
 
@@ -4243,8 +4717,6 @@
             SoundManager.updateUI();
             SkinManager.updateUI();
 
-            HapticsEngine.themeChange();
-
             if (savedUnlockId) {
                 if (savedType === 'theme') {
                     ThemeManager.apply(savedUnlockId);
@@ -4365,6 +4837,10 @@
     const Settings = {
         panel: null,
         scrim: null,
+        dragStartX: 0,
+        dragLastX: 0,
+        dragLastAt: 0,
+        isDragging: false,
 
         init() {
             this.panel = document.getElementById('settings-panel');
@@ -4376,6 +4852,46 @@
             });
 
             this.scrim.addEventListener('click', () => this.close());
+            this.panel.addEventListener('touchstart', (e) => {
+                if (!this.panel.classList.contains('is-open')) return;
+                const touch = e.touches[0];
+                this.isDragging = true;
+                this.dragStartX = touch.clientX;
+                this.dragLastX = touch.clientX;
+                this.dragLastAt = Date.now();
+                this.panel.style.transition = 'none';
+            }, { passive: true });
+
+            this.panel.addEventListener('touchmove', (e) => {
+                if (!this.isDragging) return;
+                const touch = e.touches[0];
+                const dx = Math.min(0, touch.clientX - this.dragStartX);
+                this.dragLastX = touch.clientX;
+                this.dragLastAt = Date.now();
+                this.panel.style.transform = `translateX(${dx}px)`;
+            }, { passive: true });
+
+            this.panel.addEventListener('touchend', (e) => {
+                if (!this.isDragging) return;
+                this.isDragging = false;
+                this.panel.style.transition = '';
+                const touch = e.changedTouches[0];
+                const dx = touch.clientX - this.dragStartX;
+                const dt = Math.max(Date.now() - this.dragLastAt, 1);
+                const velocity = (touch.clientX - this.dragLastX) / dt;
+                if (dx < -48 || velocity < -0.22) {
+                    this.close();
+                    return;
+                }
+                this.panel.style.transform = '';
+            }, { passive: true });
+
+            this.panel.addEventListener('touchcancel', () => {
+                if (!this.isDragging) return;
+                this.isDragging = false;
+                this.panel.style.transition = '';
+                this.panel.style.transform = '';
+            }, { passive: true });
 
             // Restore toggle states
             document.getElementById('toggle-sound').checked = AppState.soundEnabled;
@@ -4392,6 +4908,7 @@
         close() {
             this.panel.classList.remove('is-open');
             this.scrim.classList.remove('visible');
+            this.panel.style.transform = '';
         },
 
         toggleSound(enabled) {
@@ -4477,9 +4994,13 @@
 
         // Restore saved state
         ThemeManager.apply(AppState.theme);
+        delete document.documentElement.dataset.bootTheme;
+        delete document.documentElement.dataset.bootSkin;
         LayoutManager.set(AppState.layout);
+        delete document.documentElement.dataset.bootLayout;
         SoundManager.updateUI();
         SkinManager.updateUI();
+        await AudioEngine.syncNativeLoopState();
         AudioEngine.updateMainButtonState();
         AudioEngine.warmAllContinuousProfiles();
 
@@ -4499,6 +5020,19 @@
     // Resume audio context on first user interaction (iOS requirement)
     document.addEventListener('touchstart', () => AudioEngine.resumeContext(), { once: true });
     document.addEventListener('click', () => AudioEngine.resumeContext(), { once: true });
+    document.addEventListener('visibilitychange', () => {
+        AudioEngine.setBackgroundLoopRequested(document.hidden);
+    });
+    document.addEventListener('pause', () => AudioEngine.setBackgroundLoopRequested(true), false);
+    document.addEventListener('resume', () => {
+        AudioEngine.setBackgroundLoopRequested(false);
+        AudioEngine.syncNativeLoopState();
+    }, false);
+    window.addEventListener('pagehide', () => AudioEngine.setBackgroundLoopRequested(true));
+    window.addEventListener('pageshow', () => {
+        AudioEngine.setBackgroundLoopRequested(false);
+        AudioEngine.syncNativeLoopState();
+    });
     </script>
 </body>
 </html>
