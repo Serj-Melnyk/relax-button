@@ -125,6 +125,8 @@ public class NativeHapticPlugin extends Plugin {
     public void startNoiseLoop(PluginCall call) {
         String file = call.getString("file");
         Double gain = call.getDouble("gain", 0.72);
+        Integer loopStartMs = call.getInt("loopStartMs", 1000);
+        Integer loopEndTrimMs = call.getInt("loopEndTrimMs", 1000);
         if (file == null || file.trim().isEmpty()) {
             call.reject("Missing audio file");
             return;
@@ -135,6 +137,8 @@ public class NativeHapticPlugin extends Plugin {
         intent.setAction(NoisePlaybackService.ACTION_START);
         intent.putExtra(NoisePlaybackService.EXTRA_FILE, file);
         intent.putExtra(NoisePlaybackService.EXTRA_VOLUME, gain.floatValue());
+        intent.putExtra(NoisePlaybackService.EXTRA_LOOP_START_MS, loopStartMs);
+        intent.putExtra(NoisePlaybackService.EXTRA_LOOP_END_TRIM_MS, loopEndTrimMs);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             getContext().startForegroundService(intent);
         } else {

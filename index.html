@@ -3435,7 +3435,12 @@
             if (!nativePlugin || !nativePlugin.startNoiseLoop) return false;
             this.nativeLoopActive = true;
             try {
-                const result = nativePlugin.startNoiseLoop({ file: playback.file, gain });
+                const result = nativePlugin.startNoiseLoop({
+                    file: playback.file,
+                    gain,
+                    loopStartMs: Math.round((playback.profile.loopStart ?? 0.08) * 1000),
+                    loopEndTrimMs: Math.round((playback.profile.loopEndTrim ?? 0.12) * 1000)
+                });
                 if (result && typeof result.catch === 'function') {
                     result.catch(error => {
                         this.nativeLoopActive = false;
