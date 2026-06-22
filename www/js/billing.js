@@ -202,7 +202,7 @@
     const store = CdvPurchase && CdvPurchase.store;
 
     if (!state.available || !store) {
-      throw new Error(state.error || "Purchases are available in the installed app.");
+      throw new Error(state.error || "Purchases are only available in the installed app.");
     }
 
     const product = store.get(productId);
@@ -221,7 +221,7 @@
     const store = CdvPurchase && CdvPurchase.store;
 
     if (!state.available || !store) {
-      throw new Error(state.error || "Restore is available in the installed app.");
+      throw new Error(state.error || "Restore is only available in the installed app.");
     }
 
     publish({ error: null });

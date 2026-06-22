@@ -12,7 +12,8 @@
     <script>
     (function () {
         try {
-            const onboardingDone = localStorage.getItem('rb_onboarding') === 'true';
+            const onboardingPreview = window.location.hash.includes('onboarding-preview');
+            const onboardingDone = localStorage.getItem('rb_onboarding') === 'true' && !onboardingPreview;
             const savedTheme = localStorage.getItem('rb_theme') || 'classic';
             const savedSkin = localStorage.getItem('rb_skin_id') || 'classic-button';
             const savedLayout = localStorage.getItem('rb_layout') || 'bottom';
@@ -544,13 +545,13 @@
         filter: var(--button-scene-filter-pressed, saturate(1.01) brightness(0.98));
     }
 
-    body[data-theme="night"]:not([data-skin="moon"]):not([data-skin="pink-noise"]):not([data-skin="brown-noise"]):not([data-skin="rain"]) #app {
+    body[data-theme="night"]:not([data-skin="moon"]):not([data-skin="white-noise"]):not([data-skin="pink-noise"]):not([data-skin="brown-noise"]):not([data-skin="rain"]) #app {
         background:
             radial-gradient(circle at 50% 18%, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.035) 18%, transparent 44%),
             linear-gradient(180deg, #4a4a4d 0%, #202022 56%, #151516 100%);
     }
 
-    body[data-theme="night"]:not([data-skin="moon"]):not([data-skin="pink-noise"]):not([data-skin="brown-noise"]):not([data-skin="rain"]) #main-button {
+    body[data-theme="night"]:not([data-skin="moon"]):not([data-skin="white-noise"]):not([data-skin="pink-noise"]):not([data-skin="brown-noise"]):not([data-skin="rain"]) #main-button {
         background:
             radial-gradient(circle at 30% 28%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 42%, transparent 66%),
             linear-gradient(180deg, #2b2b2f 0%, #1c1c1f 100%);
@@ -559,18 +560,18 @@
             -12px -12px 24px rgba(71,71,76,0.34);
     }
 
-    body[data-theme="night"]:not([data-skin="moon"]):not([data-skin="pink-noise"]):not([data-skin="brown-noise"]):not([data-skin="rain"]) #main-button::after {
+    body[data-theme="night"]:not([data-skin="moon"]):not([data-skin="white-noise"]):not([data-skin="pink-noise"]):not([data-skin="brown-noise"]):not([data-skin="rain"]) #main-button::after {
         background:
             radial-gradient(circle at 32% 28%, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.06) 24%, transparent 62%);
     }
 
-    body[data-theme="night"]:not([data-skin="moon"]):not([data-skin="pink-noise"]):not([data-skin="brown-noise"]):not([data-skin="rain"]) #main-button.is-pressed {
+    body[data-theme="night"]:not([data-skin="moon"]):not([data-skin="white-noise"]):not([data-skin="pink-noise"]):not([data-skin="brown-noise"]):not([data-skin="rain"]) #main-button.is-pressed {
         box-shadow:
             inset 12px 12px 26px rgba(10,10,12,0.55),
             inset -10px -10px 22px rgba(66,66,72,0.22);
     }
 
-    body[data-theme="night"]:not([data-skin="moon"]):not([data-skin="pink-noise"]):not([data-skin="brown-noise"]):not([data-skin="rain"]) #swipe-indicator {
+    body[data-theme="night"]:not([data-skin="moon"]):not([data-skin="white-noise"]):not([data-skin="pink-noise"]):not([data-skin="brown-noise"]):not([data-skin="rain"]) #swipe-indicator {
         color: rgba(236, 232, 244, 0.7);
         text-shadow: 0 1px 10px rgba(0, 0, 0, 0.55);
     }
@@ -625,6 +626,145 @@
         box-shadow: 0 0 12px rgba(188, 230, 242, 0.24);
     }
 
+    body[data-skin="white-noise"] {
+        --skin-button-core: rgba(244, 248, 255, 0.2);
+        --skin-button-haze: rgba(208, 221, 244, 0.16);
+        --skin-button-rim: rgba(255, 255, 255, 0.3);
+        --skin-button-glow: rgba(220, 233, 255, 0.16);
+        --skin-button-shadow: rgba(88, 103, 128, 0.22);
+        --button-shell-shadow-raised:
+            inset 0 1px 0 rgba(255, 255, 255, 0.4),
+            inset 0 10px 22px rgba(255, 255, 255, 0.1),
+            inset 0 -22px 32px var(--skin-button-shadow),
+            inset 14px 0 18px rgba(255, 255, 255, 0.05),
+            inset -14px 0 18px rgba(255, 255, 255, 0.04),
+            0 10px 22px rgba(56, 69, 92, 0.16),
+            0 0 18px var(--skin-button-glow);
+        --button-shell-shadow-pressed:
+            inset 12px 12px 24px rgba(96, 108, 132, 0.22),
+            inset -12px -12px 24px rgba(255, 255, 255, 0.08);
+        --button-scene-fill: url('snow.jpeg');
+        --button-scene-size: 188%;
+        --button-scene-position: 50% 58%;
+        --button-scene-opacity: 0.96;
+        --button-scene-scale: 1.02;
+        --button-scene-filter: saturate(0.82) brightness(1.04) contrast(1.04);
+        --button-scene-filter-pressed: saturate(0.76) brightness(0.92) contrast(1.06);
+    }
+
+    body[data-skin="white-noise"] #app {
+        isolation: isolate;
+        overflow: hidden;
+        background:
+            linear-gradient(180deg, rgba(229, 236, 245, 0.5) 0%, rgba(213, 223, 238, 0.26) 38%, rgba(184, 197, 219, 0.34) 100%),
+            radial-gradient(circle at 50% 42%, rgba(255, 255, 255, 0.46) 0 16%, rgba(255, 255, 255, 0.14) 28%, transparent 56%),
+            url('snow.jpeg') center / cover no-repeat,
+            linear-gradient(180deg, #eef3fa 0%, #dae4f2 100%);
+    }
+
+    body[data-skin="white-noise"] #app::before,
+    body[data-skin="white-noise"] #app::after {
+        content: '';
+        position: absolute;
+        inset: -12% -16%;
+        z-index: 0;
+        pointer-events: none;
+        will-change: transform, opacity;
+    }
+
+    body[data-skin="white-noise"] #app::before {
+        background:
+            radial-gradient(ellipse at 24% 22%, rgba(255, 255, 255, 0.24) 0 10%, transparent 32%),
+            radial-gradient(ellipse at 58% 38%, rgba(255, 255, 255, 0.16) 0 16%, transparent 40%),
+            radial-gradient(ellipse at 42% 78%, rgba(255, 255, 255, 0.12) 0 18%, transparent 44%);
+        mix-blend-mode: screen;
+        opacity: 0.3;
+    }
+
+    body[data-skin="white-noise"] #app::after {
+        inset: -10% -10% -4% -10%;
+        z-index: 2;
+        background:
+            linear-gradient(180deg, rgba(232, 239, 248, 0) 0%, rgba(217, 227, 241, 0.06) 44%, rgba(194, 206, 225, 0.16) 62%, rgba(170, 184, 206, 0.34) 100%),
+            radial-gradient(ellipse at 50% 88%, rgba(255, 255, 255, 0.28) 0 20%, rgba(255, 255, 255, 0.08) 34%, transparent 60%),
+            url('snow.jpeg') center bottom / cover no-repeat;
+        opacity: 0;
+    }
+
+    body[data-skin="white-noise"] #main-button {
+        width: var(--btn-size);
+        height: var(--btn-size);
+        margin-top: 0;
+        border: 1px solid var(--skin-button-rim);
+        background:
+            radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.4) 0 10%, rgba(255, 255, 255, 0.14) 24%, transparent 44%),
+            radial-gradient(circle at 50% 66%, var(--skin-button-haze) 0 30%, transparent 66%),
+            radial-gradient(circle at 50% 58%, var(--skin-button-core) 0 48%, rgba(255, 255, 255, 0.06) 76%, rgba(255, 255, 255, 0.02) 100%),
+            linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04) 42%, rgba(255, 255, 255, 0.02) 100%);
+        transition:
+            border-color var(--dur-theme) var(--ease-standard),
+            opacity var(--dur-press) ease,
+            background-position var(--dur-release) var(--spring);
+    }
+
+    body[data-skin="white-noise"] #main-button::before {
+        content: '';
+        position: absolute;
+        inset: 5%;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.08);
+        opacity: 0.76;
+        z-index: 2;
+        transition: opacity var(--dur-press) ease, transform var(--dur-press) ease;
+    }
+
+    body[data-skin="white-noise"] #main-button::after {
+        content: '';
+        position: absolute;
+        inset: 7% 13% 48% 13%;
+        border-radius: 50%;
+        background:
+            radial-gradient(ellipse at 50% 18%, rgba(255, 255, 255, 0.98) 0 24%, rgba(255, 255, 255, 0.54) 42%, transparent 74%);
+        filter: blur(2px);
+        opacity: 0.56;
+        animation: ambientLensGlint 9s ease-in-out infinite alternate;
+        z-index: 3;
+        transition: opacity var(--dur-press) ease, transform var(--dur-press) ease, filter var(--dur-press) ease;
+    }
+
+    body[data-skin="white-noise"] #main-button.is-pressed::before {
+        opacity: 0.52;
+        transform: scale(0.992);
+    }
+
+    body[data-skin="white-noise"] #main-button.is-pressed::after {
+        opacity: 0.2;
+        transform: translateY(1px) scale(0.985);
+        filter: blur(2.6px);
+    }
+
+    body[data-skin="white-noise"] #main-button.is-pressed .button-scene-layer {
+        opacity: 0.9;
+        transform: scale(calc(var(--button-scene-scale, 1.08) * 0.985));
+        filter: var(--button-scene-filter-pressed, saturate(1.01) brightness(0.98));
+    }
+
+    body[data-skin="white-noise"] #main-button .main-button-label {
+        opacity: 1;
+        color: rgba(248, 252, 255, 0.78);
+        text-shadow: 0 1px 10px rgba(103, 120, 145, 0.22);
+    }
+
+    body[data-skin="white-noise"] #main-button.is-pressed .main-button-label {
+        transform: translate(-50%, -50%) scale(0.985);
+    }
+
+    body[data-skin="white-noise"] #swipe-indicator {
+        color: rgba(236, 244, 255, 0.76);
+        text-shadow: 0 1px 10px rgba(118, 130, 148, 0.28);
+    }
+
     body[data-skin="pink-noise"] {
         --skin-button-core: rgba(255, 203, 234, 0.14);
         --skin-button-haze: rgba(170, 182, 255, 0.12);
@@ -651,6 +791,32 @@
         --button-scene-filter-pressed: saturate(1.03) brightness(0.81) contrast(1);
     }
 
+    body[data-skin="orange-noise"] {
+        --skin-button-core: rgba(255, 184, 120, 0.16);
+        --skin-button-haze: rgba(255, 98, 0, 0.16);
+        --skin-button-rim: rgba(255, 231, 205, 0.24);
+        --skin-button-glow: rgba(255, 133, 46, 0.16);
+        --skin-button-shadow: rgba(64, 12, 0, 0.32);
+        --button-shell-shadow-raised:
+            inset 0 1px 0 rgba(255, 255, 255, 0.26),
+            inset 0 10px 20px rgba(255, 255, 255, 0.07),
+            inset 0 -22px 32px var(--skin-button-shadow),
+            inset 14px 0 18px rgba(255, 255, 255, 0.04),
+            inset -14px 0 18px rgba(255, 255, 255, 0.03),
+            0 10px 22px rgba(18, 4, 0, 0.18),
+            0 0 20px var(--skin-button-glow);
+        --button-shell-shadow-pressed:
+            inset 12px 12px 24px rgba(48, 10, 0, 0.28),
+            inset -12px -12px 24px rgba(255, 255, 255, 0.04);
+        --button-scene-fill: url('Orange.jpeg');
+        --button-scene-size: 182%;
+        --button-scene-position: 50% 58%;
+        --button-scene-opacity: 0.94;
+        --button-scene-scale: 1.02;
+        --button-scene-filter: saturate(1.12) brightness(0.9) contrast(1.04);
+        --button-scene-filter-pressed: saturate(1.05) brightness(0.81) contrast(1.02);
+    }
+
     body[data-skin="brown-noise"] {
         --skin-button-core: rgba(255, 214, 170, 0.18);
         --skin-button-haze: rgba(214, 141, 255, 0.14);
@@ -675,6 +841,32 @@
         --button-scene-scale: 1.03;
         --button-scene-filter: saturate(1.08) brightness(0.86) contrast(1.06);
         --button-scene-filter-pressed: saturate(1.04) brightness(0.79) contrast(1.03);
+    }
+
+    body[data-skin="infrared-noise"] {
+        --skin-button-core: rgba(255, 118, 110, 0.16);
+        --skin-button-haze: rgba(255, 72, 92, 0.16);
+        --skin-button-rim: rgba(255, 222, 216, 0.2);
+        --skin-button-glow: rgba(255, 72, 72, 0.14);
+        --skin-button-shadow: rgba(52, 0, 8, 0.42);
+        --button-shell-shadow-raised:
+            inset 0 1px 0 rgba(255, 255, 255, 0.18),
+            inset 0 10px 18px rgba(255, 255, 255, 0.04),
+            inset 0 -24px 34px var(--skin-button-shadow),
+            inset 14px 0 18px rgba(255, 255, 255, 0.02),
+            inset -14px 0 18px rgba(255, 255, 255, 0.01),
+            0 8px 22px rgba(0, 0, 0, 0.2),
+            0 0 20px var(--skin-button-glow);
+        --button-shell-shadow-pressed:
+            inset 14px 14px 26px rgba(28, 0, 4, 0.34),
+            inset -12px -12px 24px rgba(255, 255, 255, 0.02);
+        --button-scene-fill: url('Infared.jpeg');
+        --button-scene-size: 186%;
+        --button-scene-position: 50% 56%;
+        --button-scene-opacity: 0.96;
+        --button-scene-scale: 1.03;
+        --button-scene-filter: saturate(1.12) brightness(0.9) contrast(1.08);
+        --button-scene-filter-pressed: saturate(1.04) brightness(0.8) contrast(1.04);
     }
 
     body[data-skin="rain"] {
@@ -704,7 +896,9 @@
     }
 
     body[data-skin="pink-noise"] #app,
+    body[data-skin="orange-noise"] #app,
     body[data-skin="brown-noise"] #app,
+    body[data-skin="infrared-noise"] #app,
     body[data-skin="rain"] #app {
         isolation: isolate;
         overflow: hidden;
@@ -719,12 +913,29 @@
             linear-gradient(180deg, #140116 0%, #170118 100%);
     }
 
+    body[data-skin="orange-noise"] #app {
+        background:
+            linear-gradient(180deg, rgba(24, 6, 0, 0.1) 0%, rgba(48, 10, 0, 0.08) 40%, rgba(22, 4, 0, 0.26) 100%),
+            radial-gradient(circle at 42% 24%, rgba(255, 147, 56, 0.22) 0 14%, rgba(255, 147, 56, 0.08) 28%, transparent 52%),
+            radial-gradient(circle at 60% 78%, rgba(164, 0, 74, 0.22) 0 18%, transparent 44%),
+            url('Orange.jpeg') center / cover no-repeat,
+            linear-gradient(180deg, #180500 0%, #160104 100%);
+    }
+
     body[data-skin="brown-noise"] #app {
         background:
             linear-gradient(180deg, rgba(16, 0, 11, 0.16) 0%, rgba(28, 0, 18, 0.14) 38%, rgba(22, 0, 16, 0.38) 100%),
             radial-gradient(circle at 50% 44%, rgba(255, 176, 72, 0.18) 0 16%, rgba(255, 176, 72, 0.06) 28%, transparent 54%),
             url('brown-illustration.jpeg') center / cover no-repeat,
             linear-gradient(180deg, #14020f 0%, #190414 100%);
+    }
+
+    body[data-skin="infrared-noise"] #app {
+        background:
+            linear-gradient(180deg, rgba(18, 0, 4, 0.24) 0%, rgba(36, 0, 10, 0.18) 38%, rgba(18, 0, 5, 0.48) 100%),
+            radial-gradient(circle at 50% 42%, rgba(255, 118, 92, 0.18) 0 15%, rgba(255, 118, 92, 0.06) 30%, transparent 54%),
+            url('Infared.jpeg') center / cover no-repeat,
+            linear-gradient(180deg, #160104 0%, #1f0206 100%);
     }
 
     body[data-skin="rain"] #app {
@@ -736,10 +947,14 @@
     }
 
     body[data-skin="pink-noise"] #app::before,
+    body[data-skin="orange-noise"] #app::before,
     body[data-skin="brown-noise"] #app::before,
+    body[data-skin="infrared-noise"] #app::before,
     body[data-skin="rain"] #app::before,
     body[data-skin="pink-noise"] #app::after,
+    body[data-skin="orange-noise"] #app::after,
     body[data-skin="brown-noise"] #app::after,
+    body[data-skin="infrared-noise"] #app::after,
     body[data-skin="rain"] #app::after {
         content: '';
         position: absolute;
@@ -750,7 +965,9 @@
     }
 
     body[data-skin="pink-noise"] #app::before,
+    body[data-skin="orange-noise"] #app::before,
     body[data-skin="brown-noise"] #app::before,
+    body[data-skin="infrared-noise"] #app::before,
     body[data-skin="rain"] #app::before {
         background:
             radial-gradient(ellipse at 24% 22%, rgba(255, 255, 255, 0.16) 0 10%, transparent 32%),
@@ -761,7 +978,9 @@
     }
 
     body[data-skin="pink-noise"] #app::after,
+    body[data-skin="orange-noise"] #app::after,
     body[data-skin="brown-noise"] #app::after,
+    body[data-skin="infrared-noise"] #app::after,
     body[data-skin="rain"] #app::after {
         background:
             radial-gradient(ellipse at 18% 72%, rgba(255, 255, 255, 0.12) 0 16%, transparent 40%),
@@ -779,6 +998,26 @@
         opacity: 0;
     }
 
+    body[data-skin="orange-noise"] #app::before {
+        background:
+            radial-gradient(ellipse at 22% 26%, rgba(255, 247, 232, 0.18) 0 10%, transparent 32%),
+            radial-gradient(ellipse at 54% 34%, rgba(255, 181, 76, 0.16) 0 18%, transparent 42%),
+            radial-gradient(ellipse at 70% 76%, rgba(191, 0, 96, 0.12) 0 18%, transparent 42%);
+        mix-blend-mode: screen;
+        opacity: 0.34;
+        animation: orangeAuroraDrift 18s ease-in-out infinite alternate;
+    }
+
+    body[data-skin="orange-noise"] #app::after {
+        inset: -10% -10% -4% -10%;
+        z-index: 2;
+        background:
+            linear-gradient(180deg, rgba(18, 2, 0, 0) 0%, rgba(36, 8, 0, 0.05) 42%, rgba(60, 12, 0, 0.18) 62%, rgba(34, 4, 12, 0.48) 100%),
+            radial-gradient(ellipse at 50% 88%, rgba(255, 142, 52, 0.18) 0 20%, rgba(255, 142, 52, 0.06) 34%, transparent 60%),
+            url('Orange.jpeg') center bottom / cover no-repeat;
+        opacity: 0;
+    }
+
     body[data-skin="brown-noise"] #app::after {
         inset: -10% -10% -4% -10%;
         z-index: 2;
@@ -786,6 +1025,16 @@
             linear-gradient(180deg, rgba(12, 2, 10, 0) 0%, rgba(24, 6, 18, 0.05) 44%, rgba(36, 8, 18, 0.2) 62%, rgba(22, 4, 12, 0.58) 100%),
             radial-gradient(ellipse at 50% 88%, rgba(255, 164, 84, 0.16) 0 20%, rgba(255, 164, 84, 0.06) 34%, transparent 60%),
             url('brown-illustration.jpeg') center bottom / cover no-repeat;
+        opacity: 0;
+    }
+
+    body[data-skin="infrared-noise"] #app::after {
+        inset: -10% -10% -4% -10%;
+        z-index: 2;
+        background:
+            linear-gradient(180deg, rgba(16, 0, 2, 0) 0%, rgba(30, 2, 8, 0.06) 44%, rgba(48, 6, 10, 0.24) 62%, rgba(24, 2, 6, 0.62) 100%),
+            radial-gradient(ellipse at 50% 88%, rgba(255, 104, 80, 0.18) 0 20%, rgba(255, 104, 80, 0.06) 34%, transparent 60%),
+            url('Infared.jpeg') center bottom / cover no-repeat;
         opacity: 0;
     }
 
@@ -800,7 +1049,9 @@
     }
 
     body[data-skin="pink-noise"] #main-button,
+    body[data-skin="orange-noise"] #main-button,
     body[data-skin="brown-noise"] #main-button,
+    body[data-skin="infrared-noise"] #main-button,
     body[data-skin="rain"] #main-button {
         width: var(--btn-size);
         height: var(--btn-size);
@@ -818,7 +1069,9 @@
     }
 
     body[data-skin="pink-noise"] #main-button::before,
+    body[data-skin="orange-noise"] #main-button::before,
     body[data-skin="brown-noise"] #main-button::before,
+    body[data-skin="infrared-noise"] #main-button::before,
     body[data-skin="rain"] #main-button::before {
         content: '';
         position: absolute;
@@ -834,7 +1087,9 @@
     }
 
     body[data-skin="pink-noise"] #main-button::after,
+    body[data-skin="orange-noise"] #main-button::after,
     body[data-skin="brown-noise"] #main-button::after,
+    body[data-skin="infrared-noise"] #main-button::after,
     body[data-skin="rain"] #main-button::after {
         content: '';
         position: absolute;
@@ -850,14 +1105,18 @@
     }
 
     body[data-skin="pink-noise"] #main-button.is-pressed::before,
+    body[data-skin="orange-noise"] #main-button.is-pressed::before,
     body[data-skin="brown-noise"] #main-button.is-pressed::before,
+    body[data-skin="infrared-noise"] #main-button.is-pressed::before,
     body[data-skin="rain"] #main-button.is-pressed::before {
         opacity: 0.5;
         transform: scale(0.992);
     }
 
     body[data-skin="pink-noise"] #main-button.is-pressed::after,
+    body[data-skin="orange-noise"] #main-button.is-pressed::after,
     body[data-skin="brown-noise"] #main-button.is-pressed::after,
+    body[data-skin="infrared-noise"] #main-button.is-pressed::after,
     body[data-skin="rain"] #main-button.is-pressed::after {
         opacity: 0.18;
         transform: translateY(1px) scale(0.985);
@@ -865,7 +1124,9 @@
     }
 
     body[data-skin="pink-noise"] #main-button.is-pressed .button-scene-layer,
+    body[data-skin="orange-noise"] #main-button.is-pressed .button-scene-layer,
     body[data-skin="brown-noise"] #main-button.is-pressed .button-scene-layer,
+    body[data-skin="infrared-noise"] #main-button.is-pressed .button-scene-layer,
     body[data-skin="rain"] #main-button.is-pressed .button-scene-layer {
         opacity: 0.88;
         transform: scale(calc(var(--button-scene-scale, 1.08) * 0.985));
@@ -873,13 +1134,17 @@
     }
 
     body[data-skin="pink-noise"] #main-button .main-button-label,
+    body[data-skin="orange-noise"] #main-button .main-button-label,
     body[data-skin="brown-noise"] #main-button .main-button-label,
+    body[data-skin="infrared-noise"] #main-button .main-button-label,
     body[data-skin="rain"] #main-button .main-button-label {
         opacity: 1;
     }
 
     body[data-skin="pink-noise"] #main-button.is-pressed .main-button-label,
+    body[data-skin="orange-noise"] #main-button.is-pressed .main-button-label,
     body[data-skin="brown-noise"] #main-button.is-pressed .main-button-label,
+    body[data-skin="infrared-noise"] #main-button.is-pressed .main-button-label,
     body[data-skin="rain"] #main-button.is-pressed .main-button-label {
         transform: translate(-50%, -50%) scale(0.985);
     }
@@ -888,8 +1153,16 @@
         color: rgba(255, 238, 248, 0.74);
     }
 
+    body[data-skin="orange-noise"] #main-button .main-button-label {
+        color: rgba(255, 242, 229, 0.76);
+    }
+
     body[data-skin="brown-noise"] #main-button .main-button-label {
         color: rgba(255, 240, 223, 0.72);
+    }
+
+    body[data-skin="infrared-noise"] #main-button .main-button-label {
+        color: rgba(255, 232, 224, 0.72);
     }
 
     body[data-skin="rain"] #main-button .main-button-label {
@@ -902,11 +1175,438 @@
         100% { transform: translateY(1%) scale(1); opacity: 0.82; }
     }
 
+    @keyframes orangeAuroraDrift {
+        0% { transform: translate3d(-2%, -1%, 0) scale(1); opacity: 0.28; }
+        50% { transform: translate3d(2%, 2%, 0) scale(1.06); opacity: 0.4; }
+        100% { transform: translate3d(-1%, 4%, 0) scale(1.03); opacity: 0.32; }
+    }
+
     body[data-skin="pink-noise"] #swipe-indicator,
+    body[data-skin="orange-noise"] #swipe-indicator,
     body[data-skin="brown-noise"] #swipe-indicator,
+    body[data-skin="infrared-noise"] #swipe-indicator,
     body[data-skin="rain"] #swipe-indicator {
         color: rgba(239, 243, 255, 0.68);
         text-shadow: 0 1px 12px rgba(0, 0, 0, 0.82);
+    }
+
+    .noise-top-controls {
+        position: absolute;
+        top: calc(18px + env(safe-area-inset-top, 0px));
+        left: 18px;
+        right: 18px;
+        z-index: 8;
+        display: none;
+        align-items: flex-start;
+        justify-content: space-between;
+        pointer-events: none;
+    }
+
+    body[data-skin="white-noise"] .noise-top-controls,
+    body[data-skin="pink-noise"] .noise-top-controls,
+    body[data-skin="orange-noise"] .noise-top-controls,
+    body[data-skin="brown-noise"] .noise-top-controls,
+    body[data-skin="infrared-noise"] .noise-top-controls,
+    body[data-skin="rain"] .noise-top-controls {
+        display: flex;
+    }
+
+    .noise-icon-button {
+        width: 48px;
+        height: 48px;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        border-radius: 50%;
+        background: rgba(8, 10, 18, 0.26);
+        color: rgba(246, 248, 255, 0.84);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+        display: grid;
+        place-items: center;
+        pointer-events: auto;
+        touch-action: manipulation;
+    }
+
+    .noise-icon-button:active {
+        transform: scale(0.96);
+        background: rgba(8, 10, 18, 0.36);
+    }
+
+    .noise-icon-button.active {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.2);
+        border-color: rgba(255, 255, 255, 0.38);
+        box-shadow:
+            0 10px 30px rgba(0, 0, 0, 0.24),
+            0 0 0 1px rgba(255, 255, 255, 0.08),
+            0 0 28px rgba(255, 255, 255, 0.12);
+    }
+
+    .noise-icon-button svg {
+        width: 22px;
+        height: 22px;
+        fill: currentColor;
+    }
+
+    .dev-preview-button {
+        position: fixed;
+        right: 16px;
+        bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+        z-index: 140;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        min-height: 40px;
+        padding: 0 14px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 999px;
+        background: rgba(8, 11, 21, 0.72);
+        color: rgba(248, 250, 255, 0.92);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.24);
+        font: inherit;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.01em;
+        cursor: pointer;
+    }
+
+    .dev-preview-button.is-visible {
+        display: inline-flex;
+    }
+
+    .dev-preview-button:active {
+        transform: scale(0.97);
+    }
+
+    .sleep-timer-wrap,
+    .knowledge-wrap {
+        position: relative;
+        pointer-events: auto;
+    }
+
+    .sleep-timer-panel,
+    .knowledge-panel {
+        position: absolute;
+        top: 58px;
+        width: min(318px, calc(100vw - 36px));
+        padding: 16px;
+        border-radius: 28px;
+        background:
+            radial-gradient(circle at 18% 0%, rgba(255, 255, 255, 0.22), transparent 34%),
+            radial-gradient(circle at 92% 18%, rgba(138, 182, 255, 0.16), transparent 42%),
+            rgba(8, 11, 21, 0.68);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        box-shadow:
+            0 24px 70px rgba(0, 0, 0, 0.38),
+            inset 0 1px 0 rgba(255, 255, 255, 0.15),
+            inset 0 -1px 0 rgba(255, 255, 255, 0.06);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        color: rgba(248, 250, 255, 0.92);
+        opacity: 0;
+        transform: translateY(-8px) scale(0.98);
+        pointer-events: none;
+        transition: opacity 180ms ease, transform 180ms ease;
+    }
+
+    .sleep-timer-panel {
+        right: 0;
+    }
+
+    .knowledge-panel {
+        left: 0;
+        width: min(310px, calc(100vw - 36px));
+        max-height: min(62vh, 480px);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        padding-right: 22px;
+    }
+
+    .knowledge-panel::-webkit-scrollbar {
+        display: none;
+    }
+
+    .sleep-timer-panel.is-open,
+    .knowledge-panel.is-open {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        pointer-events: auto;
+    }
+
+    .sleep-timer-title,
+    .knowledge-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+    }
+
+    .sleep-timer-heading,
+    .knowledge-title {
+        font-size: 13px;
+        font-weight: 760;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+    }
+
+    .sleep-timer-count-pill {
+        min-width: 58px;
+        padding: 7px 10px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.14);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        color: #fff;
+        font-size: 12px;
+        font-weight: 760;
+        letter-spacing: 0.02em;
+        text-align: center;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    }
+
+    .sleep-timer-status,
+    .knowledge-subtitle {
+        margin-top: 6px;
+        min-height: 18px;
+        font-size: 13px;
+        line-height: 1.45;
+        color: rgba(248, 250, 255, 0.68);
+    }
+
+    .sleep-timer-custom {
+        position: relative;
+        display: grid;
+        grid-template-columns: 42px minmax(0, 1fr) minmax(0, 1fr) 42px;
+        gap: 9px;
+        margin-top: 14px;
+        align-items: center;
+    }
+
+    .sleep-timer-step,
+    .sleep-timer-start,
+    .sleep-timer-clear {
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.08);
+        color: rgba(248, 250, 255, 0.9);
+        font: inherit;
+        font-size: 12px;
+        font-weight: 680;
+        touch-action: manipulation;
+    }
+
+    .sleep-timer-step {
+        min-height: 62px;
+        border-radius: 21px;
+        background: rgba(255, 255, 255, 0.12);
+        font-size: 22px;
+        line-height: 1;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    .sleep-timer-step:active,
+    .sleep-timer-start:active,
+    .sleep-timer-clear:active {
+        transform: translateY(1px) scale(0.98);
+    }
+
+    .sleep-timer-wheel {
+        position: relative;
+        min-height: 160px;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        border-radius: 24px;
+        background:
+            linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.07));
+        overflow: hidden;
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.12),
+            0 10px 24px rgba(0, 0, 0, 0.16);
+    }
+
+    .sleep-timer-wheel::before,
+    .sleep-timer-wheel::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 42px;
+        pointer-events: none;
+        z-index: 2;
+    }
+
+    .sleep-timer-wheel::before {
+        top: 0;
+        background: linear-gradient(180deg, rgba(8, 11, 21, 0.54), rgba(8, 11, 21, 0));
+    }
+
+    .sleep-timer-wheel::after {
+        bottom: 0;
+        background: linear-gradient(0deg, rgba(8, 11, 21, 0.54), rgba(8, 11, 21, 0));
+    }
+
+    .sleep-timer-wheel-window {
+        position: absolute;
+        left: 8px;
+        right: 8px;
+        top: 50%;
+        height: 42px;
+        transform: translateY(-50%);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .sleep-timer-wheel-list {
+        position: relative;
+        height: 160px;
+        padding: 59px 0;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        scroll-snap-type: y mandatory;
+        scrollbar-width: none;
+        z-index: 0;
+    }
+
+    .sleep-timer-wheel-list::-webkit-scrollbar {
+        display: none;
+    }
+
+    .sleep-timer-wheel-item {
+        height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        color: rgba(248, 250, 255, 0.42);
+        font-size: 16px;
+        font-weight: 720;
+        line-height: 1;
+        scroll-snap-align: center;
+        transition: color 160ms ease, transform 160ms ease, opacity 160ms ease;
+    }
+
+    .sleep-timer-wheel-item.is-selected {
+        color: #fff;
+        transform: scale(1.02);
+    }
+
+    .sleep-timer-wheel-value {
+        min-width: 18px;
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .sleep-timer-wheel-unit {
+        min-width: 34px;
+        text-align: left;
+        color: inherit;
+        opacity: 0.9;
+        font-size: 11px;
+        font-weight: 760;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+
+    .sleep-timer-start {
+        width: 100%;
+        min-height: 48px;
+        margin-top: 12px;
+        border-radius: 19px;
+        background:
+            linear-gradient(180deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.18));
+        border-color: rgba(255, 255, 255, 0.38);
+        color: #fff;
+        font-size: 13px;
+        letter-spacing: 0.02em;
+        box-shadow:
+            0 14px 30px rgba(0, 0, 0, 0.2),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+
+    .sleep-timer-clear {
+        width: 100%;
+        min-height: 36px;
+        margin-top: 8px;
+        border: 0;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.07);
+        color: rgba(248, 250, 255, 0.76);
+        font: inherit;
+        font-size: 12px;
+        font-weight: 650;
+    }
+
+    .knowledge-list {
+        display: grid;
+        gap: 10px;
+        margin-top: 14px;
+        min-height: 0;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding-right: 6px;
+        touch-action: pan-y;
+    }
+
+    .knowledge-list::-webkit-scrollbar {
+        display: none;
+    }
+
+    .knowledge-scrollbar {
+        position: absolute;
+        top: 84px;
+        right: 8px;
+        bottom: 16px;
+        width: 4px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        opacity: 0;
+        transform: scaleX(0.85);
+        transform-origin: center;
+        pointer-events: none;
+        transition: opacity 160ms ease, transform 160ms ease;
+    }
+
+    .knowledge-panel.is-scrollable .knowledge-scrollbar {
+        opacity: 1;
+        transform: scaleX(1);
+    }
+
+    .knowledge-scrollbar-thumb {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 48px;
+        border-radius: inherit;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(183, 215, 255, 0.68));
+        box-shadow: 0 0 12px rgba(255, 255, 255, 0.16);
+    }
+
+    .knowledge-item {
+        padding: 14px;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .knowledge-item-title {
+        font-size: 15px;
+        font-weight: 740;
+        color: rgba(255, 255, 255, 0.94);
+    }
+
+    .knowledge-item-copy {
+        margin-top: 7px;
+        font-size: 13px;
+        line-height: 1.62;
+        color: rgba(248, 250, 255, 0.68);
     }
 
     @keyframes ambientCloudDrift {
@@ -1476,6 +2176,13 @@
         animation: playingSoundPulse 2.4s ease-in-out infinite;
     }
 
+    .sound-list-empty {
+        padding: 10px 8px 4px;
+        color: var(--on-surface-var);
+        font-size: 12px;
+        line-height: 1.45;
+    }
+
     .sound-item.is-playing .sound-icon svg {
         fill: currentColor;
     }
@@ -1554,7 +2261,8 @@
     }
 
     .sound-select-btn {
-        min-width: 64px;
+        width: 108px;
+        min-width: 108px;
         min-height: 30px;
         display: inline-flex;
         align-items: center;
@@ -1583,6 +2291,17 @@
         background: var(--accent-container);
         color: var(--accent);
         cursor: default;
+    }
+
+    .sound-actions {
+        width: 154px;
+        min-width: 154px;
+        display: grid;
+        grid-template-columns: 36px 108px;
+        align-items: center;
+        justify-content: end;
+        gap: 10px;
+        flex: 0 0 auto;
     }
 
     .sound-favorite-btn {
@@ -1751,8 +2470,8 @@
         align-items: center;
         justify-content: center;
         gap: 6px;
-        min-height: 10px;
-        margin-top: 1px;
+        min-height: 9px;
+        margin-top: -1px;
         width: 100%;
     }
 
@@ -2012,6 +2731,19 @@
         font-weight: 500;
         color: var(--on-surface);
         transition: color var(--dur-theme) var(--ease-standard);
+    }
+
+    .setting-select {
+        min-width: 132px;
+        border: 1px solid var(--outline);
+        border-radius: 14px;
+        background: var(--surface);
+        color: var(--on-surface);
+        font: inherit;
+        font-size: 13px;
+        padding: 8px 10px;
+        outline: 0;
+        transition: background var(--dur-theme) var(--ease-standard), color var(--dur-theme) var(--ease-standard), border-color var(--dur-theme) var(--ease-standard);
     }
 
     .setting-link {
@@ -2358,6 +3090,169 @@
         }
     }
 
+    @media (orientation: landscape) and (max-height: 560px) {
+        .noise-top-controls {
+            top: calc(12px + env(safe-area-inset-top, 0px));
+            left: 14px;
+            right: 14px;
+        }
+
+        .noise-icon-button {
+            width: 42px;
+            height: 42px;
+        }
+
+        .noise-icon-button svg {
+            width: 19px;
+            height: 19px;
+        }
+
+        .dev-preview-button {
+            right: 12px;
+            bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+            min-height: 36px;
+            padding: 0 12px;
+            font-size: 11px;
+        }
+
+        #bottom-sheet {
+            max-height: min(86vh, 410px);
+        }
+
+        .sheet-content {
+            max-height: calc(min(86vh, 410px) - 16px);
+            min-height: calc(min(86vh, 410px) - 16px);
+            padding: 0 16px 12px;
+            grid-template-rows: auto auto auto minmax(0, 1fr) auto;
+        }
+
+        .sheet-handle {
+            padding: 8px 0 6px;
+        }
+
+        .sheet-actions {
+            gap: 8px;
+            margin: 0 0 4px;
+        }
+
+        .sheet-action {
+            min-height: 44px;
+            font-size: 11px;
+        }
+
+        .sheet-section-title {
+            margin: 10px 0 8px;
+            font-size: 10px;
+            letter-spacing: 1.2px;
+        }
+
+        .sheet-section--themes .sheet-section-title,
+        .sheet-section--sounds .sheet-section-title,
+        .sheet-section--skins .sheet-section-title {
+            margin: 8px 0 6px;
+        }
+
+        .sheet-section--sounds {
+            min-height: clamp(118px, 30vh, 170px);
+            padding-top: 2px;
+            padding-bottom: 4px;
+        }
+
+        .theme-carousel {
+            gap: 6px;
+            padding: 2px 4px 0;
+        }
+
+        .theme-item {
+            width: 52px;
+            gap: 6px;
+        }
+
+        .theme-circle {
+            width: 38px;
+            height: 38px;
+        }
+
+        .theme-name {
+            font-size: 8px;
+            min-height: 16px;
+        }
+
+        .sound-list {
+            gap: 3px;
+            padding-right: 0;
+        }
+
+        .sound-item {
+            gap: 8px;
+            padding: 4px 6px;
+        }
+
+        .sound-icon {
+            width: 30px;
+            height: 30px;
+        }
+
+        .sound-icon svg {
+            width: 15px;
+            height: 15px;
+        }
+
+        .sound-name {
+            font-size: 12px;
+        }
+
+        .sound-desc {
+            font-size: 9px;
+        }
+
+        .sound-favorite-btn {
+            width: 32px;
+            height: 32px;
+        }
+
+        .sound-select-btn {
+            width: 102px;
+            min-width: 102px;
+            min-height: 28px;
+            padding: 0 10px;
+            font-size: 10px;
+        }
+
+        .sound-actions {
+            width: 142px;
+            min-width: 142px;
+            grid-template-columns: 32px 102px;
+            gap: 8px;
+        }
+
+        .skin-carousel {
+            gap: 6px;
+        }
+
+        .skin-item {
+            flex-basis: 70px;
+            min-height: 92px;
+            padding: 6px 4px;
+            gap: 4px;
+            border-radius: 16px;
+        }
+
+        .skin-icon {
+            width: 30px;
+            height: 24px;
+        }
+
+        .skin-name {
+            font-size: 9px;
+        }
+
+        .skin-badge {
+            font-size: 6px;
+            padding: 1px 4px;
+        }
+    }
+
     /* Hover effects for desktop */
     @media (hover: hover) {
         #swipe-indicator:hover {
@@ -2375,8 +3270,15 @@
     </style>
     <!-- Capacitor native bridge -->
     <script src="capacitor.js"></script>
-    <script src="www/js/runtime-config.js"></script>
-    <script src="www/js/billing.js"></script>
+    <script>
+    (function loadRuntimeScripts() {
+        const useRootJs = window.location.pathname.includes('/www/')
+            || (window.location.protocol === 'https:' && window.location.hostname === 'localhost');
+        const prefix = useRootJs ? '' : 'www/';
+        document.write(`<script src="${prefix}js/runtime-config.js"><\/script>`);
+        document.write(`<script src="${prefix}js/billing.js"><\/script>`);
+    })();
+    </script>
 </head>
 
 <body>
@@ -2401,22 +3303,22 @@
         <div class="ob-track" id="ob-track">
             <!-- Slide 1: Problem Awareness -->
             <div class="ob-slide">
-                <p class="ob-subtext" style="margin-bottom: 16px;">A small ritual for<br>overstimulated moments</p>
-                <h1 class="ob-headline" style="animation-delay: 200ms;">Shift your<br>focus</h1>
-                <p class="ob-subtext" style="animation: breathe 4s ease-in-out infinite;">Just for a moment</p>
+                <p class="ob-subtext" data-i18n="onboarding.slide1Kicker" style="margin-bottom: 16px;">A small ritual for<br>overstimulated moments</p>
+                <h1 class="ob-headline" data-i18n="onboarding.slide1Title" style="animation-delay: 200ms;">Shift your<br>focus</h1>
+                <p class="ob-subtext" data-i18n="onboarding.slide1Sub" style="animation: breathe 4s ease-in-out infinite;">Just for a moment</p>
                 <div class="ob-nav">
                     <div class="ob-dots">
                         <div class="ob-dot active" data-dot="0"></div>
                         <div class="ob-dot" data-dot="1"></div>
                         <div class="ob-dot" data-dot="2"></div>
                     </div>
-                    <button class="ob-next" onclick="Onboarding.next()">Next →</button>
+                    <button class="ob-next" data-i18n="onboarding.next" onclick="Onboarding.next()">Next -></button>
                 </div>
             </div>
 
             <!-- Slide 2: Explanation -->
             <div class="ob-slide">
-                <p class="ob-subtext" style="margin-bottom: 16px; font-size: 12px; letter-spacing: 0.18em;">AUDIO SHIFT</p>
+                <p class="ob-subtext" data-i18n="onboarding.slide2Kicker" style="margin-bottom: 16px; font-size: 12px; letter-spacing: 0.18em;">AUDIO SHIFT</p>
                 <div class="ob-icon">
                     <svg viewBox="0 0 64 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <rect x="2" y="20" width="4" height="8" rx="2" fill="white" opacity="0.4"/>
@@ -2429,24 +3331,30 @@
                         <rect x="58" y="20" width="4" height="8" rx="2" fill="white" opacity="0.3"/>
                     </svg>
                 </div>
-                <h1 class="ob-headline">A Sensory Reset</h1>
-                <p class="ob-subtext">Clear your mind for what’s next<span style="display: block; margin-top: 10px; font-size: 0.9em; font-style: italic; opacity: 0.82;">🎧 Headphones recommended</span></p>
+                <h1 class="ob-headline" data-i18n="onboarding.slide2Title">A Sensory Reset</h1>
+                <p class="ob-subtext">
+                    <span data-i18n="onboarding.slide2Sub">Clear your mind for what is next</span>
+                    <span style="display: flex; width: 100%; align-items: center; justify-content: center; gap: 6px; margin-top: 10px; font-size: 0.9em; font-style: italic; opacity: 0.82;">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" style="width: 14px; height: 14px; fill: currentColor; flex: 0 0 auto;"><path d="M12 3a8 8 0 00-8 8v5a2 2 0 002 2h1v-6H5v-1a7 7 0 0114 0v1h-2v6h1a2 2 0 002-2v-5a8 8 0 00-8-8zm-5 10h2v6H7v-6zm8 0h2v6h-2v-6z"/></svg>
+                        <span data-i18n="onboarding.headphones">Headphones recommended</span>
+                    </span>
+                </p>
                 <div class="ob-nav">
                     <div class="ob-dots">
                         <div class="ob-dot" data-dot="0"></div>
                         <div class="ob-dot active" data-dot="1"></div>
                         <div class="ob-dot" data-dot="2"></div>
                     </div>
-                    <button class="ob-next" onclick="Onboarding.next()">Next →</button>
+                    <button class="ob-next" data-i18n="onboarding.next" onclick="Onboarding.next()">Next -></button>
                 </div>
             </div>
 
             <!-- Slide 3: Interactive Demo -->
             <div class="ob-slide">
-                <h1 class="ob-headline">Press. Listen.<br>Reset.</h1>
+                <h1 class="ob-headline" data-i18n="onboarding.slide3Title">Press. Listen.<br>Reset.</h1>
                 <button class="ob-demo-btn" id="ob-demo-btn" aria-label="Demo button"></button>
                 <div style="margin-top: 8px; display: flex; flex-direction: column; align-items: center; gap: 10px;">
-                    <p class="ob-subtext" style="margin: 0;">Tap, hear the click, feel the haptic</p>
+                    <p class="ob-subtext" data-i18n="onboarding.demoHint" style="margin: 0;">Tap, hear the click, feel the haptic</p>
                     <p class="ob-subtext" id="ob-demo-caption" style="margin: 0;">3 more presses to enter</p>
                 </div>
                 <div class="ob-nav" style="justify-content: center;">
@@ -2464,6 +3372,49 @@
          MAIN APPLICATION
          ════════════════════════════════════════════════════════ -->
     <div id="app" class="layout-bottom">
+        <div class="noise-top-controls" aria-label="Noise controls">
+            <div class="knowledge-wrap">
+                <button id="noise-knowledge-button" class="noise-icon-button" type="button" data-i18n-aria="knowledge.title" aria-label="Open sound guide" aria-expanded="false">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4.5A2.5 2.5 0 016.5 2H20v17.5A2.5 2.5 0 0117.5 22H6.75A2.75 2.75 0 014 19.25V4.5zm2.5-.5a.5.5 0 00-.5.5v13.13A2.73 2.73 0 016.75 17H18V4H6.5zM6.75 19a.75.75 0 000 1.5H17.5a.5.5 0 00.5-.5v-1H6.75zM8 7h8v1.5H8V7zm0 3h7v1.5H8V10z"/></svg>
+                </button>
+                <div id="knowledge-panel" class="knowledge-panel" aria-label="Sound knowledge base">
+                    <div class="knowledge-title" data-i18n="knowledge.title">Sound guide</div>
+                    <div class="knowledge-subtitle" data-i18n="knowledge.subtitle">A quick note about the noise colors.</div>
+                    <div id="knowledge-list" class="knowledge-list"></div>
+                    <div class="knowledge-scrollbar" aria-hidden="true">
+                        <div id="knowledge-scrollbar-thumb" class="knowledge-scrollbar-thumb"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sleep-timer-wrap">
+                <button id="sleep-timer-button" class="noise-icon-button" type="button" data-i18n-aria="timer.open" aria-label="Open sleep timer" aria-expanded="false">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1010 10A10.02 10.02 0 0012 2zm0 18a8 8 0 118-8 8.01 8.01 0 01-8 8zm.75-13h-1.5v5.38l4.35 2.61.75-1.23-3.6-2.13V7z"/></svg>
+                </button>
+                <div id="sleep-timer-panel" class="sleep-timer-panel" data-i18n-aria="timer.title" aria-label="Sleep timer">
+                    <div class="sleep-timer-title">
+                        <span class="sleep-timer-heading" data-i18n="timer.title">Sleep timer</span>
+                        <span id="sleep-timer-countdown" class="sleep-timer-count-pill">Off</span>
+                    </div>
+                    <div id="sleep-timer-status" class="sleep-timer-status">Choose when the noise fades out.</div>
+                    <div class="sleep-timer-custom">
+                        <button id="sleep-timer-decrease" class="sleep-timer-step" type="button" data-i18n-aria="timer.decrease" aria-label="Decrease timer">-</button>
+                        <div class="sleep-timer-wheel">
+                            <div class="sleep-timer-wheel-window" aria-hidden="true"></div>
+                            <div id="sleep-timer-hours-list" class="sleep-timer-wheel-list" aria-label="Hours"></div>
+                        </div>
+                        <div class="sleep-timer-wheel">
+                            <div class="sleep-timer-wheel-window" aria-hidden="true"></div>
+                            <div id="sleep-timer-minutes-list" class="sleep-timer-wheel-list" aria-label="Minutes"></div>
+                        </div>
+                        <button id="sleep-timer-increase" class="sleep-timer-step" type="button" data-i18n-aria="timer.increase" aria-label="Increase timer">+</button>
+                    </div>
+                    <button id="sleep-timer-start" class="sleep-timer-start" type="button" data-i18n="timer.set">Set sleep timer</button>
+                    <button id="sleep-timer-clear" class="sleep-timer-clear" type="button" data-i18n="timer.clear">Clear timer</button>
+                </div>
+            </div>
+        </div>
+
         <!-- The Neomorphic Button -->
         <button id="main-button" aria-label="Press for relaxation">
             <span class="button-scene-layer" aria-hidden="true"></span>
@@ -2473,7 +3424,7 @@
         <!-- Swipe-up indicator and accessible menu trigger -->
         <button id="swipe-indicator" type="button" aria-label="Open customization menu">
             <div class="line"></div>
-            <span class="hint-label">Swipe up</span>
+            <span class="hint-label" data-i18n="nav.swipeUp">Swipe up</span>
         </button>
     </div>
 
@@ -2494,16 +3445,16 @@
             <div class="sheet-actions" aria-label="Menu actions">
                 <button class="sheet-action" id="sheet-settings" type="button">
                     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 00.12-.61l-1.92-3.32a.49.49 0 00-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 00-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96a.49.49 0 00-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.07.62-.07.94s.02.64.07.94l-2.03 1.58a.49.49 0 00-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6A3.6 3.6 0 1112 8.4a3.6 3.6 0 010 7.2z"/></svg>
-                    <span>Settings</span>
+                    <span data-i18n="nav.settings">Settings</span>
                 </button>
                 <button class="sheet-action premium" id="sheet-premium" type="button">
                     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2L9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2z"/></svg>
-                    <span>Premium</span>
+                    <span data-i18n="nav.premium">Premium</span>
                 </button>
             </div>
 
             <div class="sheet-section sheet-section--themes">
-                <div class="sheet-section-title">Themes</div>
+                <div class="sheet-section-title" data-i18n="nav.themes">Themes</div>
                 <div class="theme-carousel" id="theme-carousel">
                     <!-- Populated by JS -->
                 </div>
@@ -2512,14 +3463,14 @@
             <div class="sheet-divider"></div>
 
             <div class="sheet-section sheet-section--sounds">
-                <div class="sheet-section-title">Sounds</div>
+                <div class="sheet-section-title" data-i18n="nav.sounds">Sounds</div>
                 <div class="sound-list" id="sound-list">
                     <!-- Populated by JS -->
                 </div>
             </div>
 
             <div class="sheet-section sheet-section--skins">
-                <div class="sheet-section-title">Skins</div>
+                <div class="sheet-section-title" data-i18n="nav.skins">Skins</div>
                 <div class="skin-carousel" id="skin-carousel">
                     <!-- Populated by JS -->
                 </div>
@@ -2533,7 +3484,7 @@
          ════════════════════════════════════════════════════════ -->
     <div id="paywall" onclick="Paywall.handleBackdrop(event)" onpointerdown="Paywall.handleBackdrop(event)" ontouchstart="Paywall.handleBackdrop(event)">
         <div class="paywall-card" onclick="event.stopPropagation()" onpointerdown="event.stopPropagation()" ontouchstart="event.stopPropagation()">
-            <button class="paywall-close" onclick="Paywall.close()" aria-label="Close">×</button>
+            <button class="paywall-close" onclick="Paywall.close()" data-i18n-aria="nav.close" aria-label="Close">×</button>
 
             <div class="paywall-icon">
                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -2541,33 +3492,33 @@
                 </svg>
             </div>
 
-            <h2 class="paywall-title">Unlock Sounds, Skins &amp; Themes</h2>
-            <p class="paywall-subtitle">Elevate your relaxation experience</p>
+            <h2 class="paywall-title" data-i18n="paywall.title">Unlock Sounds, Skins &amp; Themes</h2>
+            <p class="paywall-subtitle" data-i18n="paywall.subtitle">Elevate your relaxation experience</p>
 
             <ul class="paywall-benefits">
                 <li>
                     <svg viewBox="0 0 20 20"><path d="M10 0C4.48 0 0 4.48 0 10s4.48 10 10 10 10-4.48 10-10S15.52 0 10 0zm-1 15l-5-5 1.41-1.41L9 12.17l6.59-6.59L17 7l-8 8z"/></svg>
-                    Exclusive themes
+                    <span data-i18n="paywall.feature3">Premium visual themes</span>
                 </li>
                 <li>
                     <svg viewBox="0 0 20 20"><path d="M10 0C4.48 0 0 4.48 0 10s4.48 10 10 10 10-4.48 10-10S15.52 0 10 0zm-1 15l-5-5 1.41-1.41L9 12.17l6.59-6.59L17 7l-8 8z"/></svg>
-                    Premium interaction skins
+                    <span data-i18n="paywall.feature1">Premium interaction skins</span>
                 </li>
                 <li>
                     <svg viewBox="0 0 20 20"><path d="M10 0C4.48 0 0 4.48 0 10s4.48 10 10 10 10-4.48 10-10S15.52 0 10 0zm-1 15l-5-5 1.41-1.41L9 12.17l6.59-6.59L17 7l-8 8z"/></svg>
-                    New content added regularly
+                    <span data-i18n="paywall.feature2">Premium sound library</span>
                 </li>
                 <li>
                     <svg viewBox="0 0 20 20"><path d="M10 0C4.48 0 0 4.48 0 10s4.48 10 10 10 10-4.48 10-10S15.52 0 10 0zm-1 15l-5-5 1.41-1.41L9 12.17l6.59-6.59L17 7l-8 8z"/></svg>
-                    No ads, ever
+                    <span data-i18n="paywall.feature4">No ads, ever</span>
                 </li>
             </ul>
 
             <button class="paywall-buy-btn" id="buy-btn" onclick="Paywall.purchase()">
-                $1.99 • Lifetime Access
+                $2.99 • Lifetime Access
             </button>
 
-            <button class="paywall-restore" onclick="Paywall.restore()">Restore Purchase</button>
+            <button class="paywall-restore" data-i18n="paywall.restore" onclick="Paywall.restore()">Restore Purchase</button>
         </div>
     </div>
 
@@ -2576,10 +3527,10 @@
          ════════════════════════════════════════════════════════ -->
     <div id="settings-scrim"></div>
     <div id="settings-panel">
-        <h2 class="settings-title">Settings</h2>
+        <h2 class="settings-title" data-i18n="settings.title">Settings</h2>
 
         <div class="setting-row">
-            <span class="setting-label">Sound</span>
+            <span class="setting-label" data-i18n="settings.sound">Sound</span>
             <label class="toggle-switch">
                 <input type="checkbox" id="toggle-sound" checked onchange="Settings.toggleSound(this.checked)">
                 <div class="toggle-track"></div>
@@ -2588,7 +3539,7 @@
         </div>
 
         <div class="setting-row">
-            <span class="setting-label">Vibration</span>
+            <span class="setting-label" data-i18n="settings.vibration">Vibration</span>
             <label class="toggle-switch">
                 <input type="checkbox" id="toggle-vibration" checked onchange="Settings.toggleVibration(this.checked)">
                 <div class="toggle-track"></div>
@@ -2597,7 +3548,7 @@
         </div>
 
         <div class="setting-row">
-            <span class="setting-label">Centered Button</span>
+            <span class="setting-label" data-i18n="settings.centered">Centered Button</span>
             <label class="toggle-switch">
                 <input type="checkbox" id="toggle-layout-centered" onchange="Settings.toggleLayout(this.checked)">
                 <div class="toggle-track"></div>
@@ -2605,36 +3556,45 @@
             </label>
         </div>
 
+        <div class="setting-row">
+            <span class="setting-label" data-i18n="settings.language">Language</span>
+            <select id="language-select" class="setting-select" onchange="I18n.setLanguage(this.value)" aria-label="Language"></select>
+        </div>
+
         <button class="setting-link setting-link--share" onclick="AppActions.share()">
-            <span>Share App</span>
+            <span data-i18n="settings.share">Share App</span>
             <span class="setting-link-icon" aria-hidden="true">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M680-80q-50 0-85-35t-35-85q0-6 3-28L282-392q-16 15-37 23.5t-45 8.5q-50 0-85-35t-35-85q0-50 35-85t85-35q24 0 45 8.5t37 23.5l281-164q-2-7-2.5-13.5T560-760q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-24 0-45-8.5T598-672L317-508q2 7 2.5 13.5t.5 14.5q0 8-.5 14.5T317-452l281 164q16-15 37-23.5t45-8.5q50 0 85 35t35 85q0 50-35 85t-85 35Zm0-80q17 0 28.5-11.5T720-200q0-17-11.5-28.5T680-240q-17 0-28.5 11.5T640-200q0 17 11.5 28.5T680-160ZM200-440q17 0 28.5-11.5T240-480q0-17-11.5-28.5T200-520q-17 0-28.5 11.5T160-480q0 17 11.5 28.5T200-440Zm508.5-291.5Q720-743 720-760t-11.5-28.5Q697-800 680-800t-28.5 11.5Q640-777 640-760t11.5 28.5Q663-720 680-720t28.5-11.5ZM680-200ZM200-480Zm480-280Z"/></svg>
             </span>
         </button>
-        <button class="setting-link setting-link--internal" onclick="RatePrompt.open()">Rate App</button>
-        <button class="setting-link" onclick="Settings.openLegal('privacyUrl')">Privacy Policy</button>
-        <button class="setting-link" onclick="Settings.openLegal('termsUrl')">Terms of Use</button>
-        <button class="setting-link" onclick="Settings.openLegal('supportUrl')">Support</button>
-        <button class="setting-link setting-link--action" onclick="Settings.restorePurchase()">Restore Purchase</button>
+        <button class="setting-link setting-link--internal" data-i18n="settings.rate" onclick="RatePrompt.open()">Rate App</button>
+        <button class="setting-link" data-i18n="settings.privacy" onclick="Settings.openLegal('privacyUrl')">Privacy Policy</button>
+        <button class="setting-link" data-i18n="settings.terms" onclick="Settings.openLegal('termsUrl')">Terms of Use</button>
+        <button class="setting-link" data-i18n="settings.support" onclick="Settings.openLegal('supportUrl')">Support</button>
+        <button class="setting-link setting-link--action" data-i18n="settings.restore" onclick="Settings.restorePurchase()">Restore Purchase</button>
 
         <div class="setting-row" style="border-bottom: none;">
-            <span class="setting-label" style="color: var(--on-surface-var); font-size: 12px;">Digital Fidget: Mental ASMR v1.0</span>
+            <span class="setting-label" data-i18n="settings.version" style="color: var(--on-surface-var); font-size: 12px;">Digital Fidget: Mental ASMR v1.0</span>
         </div>
     </div>
 
+    <button id="dev-preview-onboarding" class="dev-preview-button" type="button" aria-label="Preview onboarding">
+        Preview onboarding
+    </button>
+
     <div id="rating-modal" onclick="RatePrompt.handleBackdrop(event)">
         <div class="rating-card" onclick="event.stopPropagation()">
-            <h2 class="rating-title">Enjoying Digital Fidget?</h2>
-            <p class="rating-copy">A quick rating helps more people discover a calmer moment.</p>
-            <div class="rating-stars" aria-label="Choose a rating">
+            <h2 class="rating-title" data-i18n="rating.title">Enjoying Digital Fidget?</h2>
+            <p class="rating-copy" data-i18n="rating.copy">A quick rating helps more people discover a calmer moment.</p>
+            <div class="rating-stars" data-i18n-aria="rating.choose" aria-label="Choose a rating">
                 <button class="rating-star" type="button" data-rating="1" onclick="RatePrompt.select(1)" aria-label="1 star"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></button>
                 <button class="rating-star" type="button" data-rating="2" onclick="RatePrompt.select(2)" aria-label="2 stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></button>
                 <button class="rating-star" type="button" data-rating="3" onclick="RatePrompt.select(3)" aria-label="3 stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></button>
                 <button class="rating-star" type="button" data-rating="4" onclick="RatePrompt.select(4)" aria-label="4 stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></button>
                 <button class="rating-star" type="button" data-rating="5" onclick="RatePrompt.select(5)" aria-label="5 stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></button>
             </div>
-            <button class="rating-primary" id="rating-submit" type="button" onclick="RatePrompt.submit()" disabled>Rate in Store</button>
-            <button class="rating-later" type="button" onclick="RatePrompt.close()">Not now</button>
+            <button class="rating-primary" id="rating-submit" type="button" data-i18n="rating.rate" onclick="RatePrompt.submit()" disabled>Rate in Store</button>
+            <button class="rating-later" type="button" data-i18n="rating.later" onclick="RatePrompt.close()">Not now</button>
         </div>
     </div>
 
@@ -2651,6 +3611,12 @@
         layout: localStorage.getItem('rb_layout') || 'bottom',
         soundEnabled: localStorage.getItem('rb_sound') !== 'false',
         vibrationEnabled: localStorage.getItem('rb_vibration') !== 'false',
+        language: (() => {
+            const lang = new URLSearchParams(window.location.search).get('lang');
+            return ['en', 'ja', 'fr', 'de', 'es', 'pt', 'uk'].includes(lang)
+                ? lang
+                : localStorage.getItem('rb_language') || 'en';
+        })(),
         onboardingDone: localStorage.getItem('rb_onboarding') === 'true',
         currentSoundProfile: localStorage.getItem('rb_sound_profile_id')
             || localStorage.getItem('rb_sound_id')
@@ -2681,6 +3647,7 @@
             const storageMap = {
                 theme: 'rb_theme',
                 layout: 'rb_layout',
+                language: 'rb_language',
                 soundEnabled: 'rb_sound', vibrationEnabled: 'rb_vibration',
                 onboardingDone: 'rb_onboarding',
                 currentSoundProfile: 'rb_sound_profile_id',
@@ -2698,7 +3665,391 @@
         }
     };
 
+    const I18N = {
+        en: {
+            languageName: 'English',
+            appTitle: 'Digital Fidget: Mental ASMR',
+            metaTitle: 'Digital Fidget: Mental ASMR - Wellness Button',
+            nav: {
+                settings: 'Settings', premium: 'Premium', themes: 'Themes', sounds: 'Sounds', skins: 'Skins',
+                swipeUp: 'Swipe up', close: 'Close'
+            },
+            onboarding: {
+                slide1Kicker: 'A small ritual for<br>overstimulated moments',
+                slide1Title: 'Shift your<br>focus',
+                slide1Sub: 'Just for a moment',
+                slide2Kicker: 'AUDIO SHIFT',
+                slide2Title: 'A Sensory Reset',
+                slide2Sub: 'Clear your mind for what is next',
+                headphones: 'Headphones recommended',
+                slide3Title: 'Press. Listen.<br>Reset.',
+                demoHint: 'Tap, hear the click, feel the haptic',
+                next: 'Next ->',
+                pressesLeft: count => count === 1 ? '1 more press to enter' : `${count} more presses to enter`
+            },
+            knowledge: {
+                title: 'Sound guide',
+                subtitle: 'A quick note about the noise colors.',
+                whiteTitle: 'White noise',
+                whiteCopy: '<strong>Core feel:</strong> A uniform technical signal. Energy is spread evenly across the whole audible spectrum, so it feels bright, dense, and relentless.<br><br><strong>What it resembles:</strong> TV static, an untuned radio, or a sharp bed of acoustic sand that instantly covers smaller details around it.<br><br><strong>Often used for:</strong> Aggressive masking of outside sounds, short hard-focus sessions, and reducing the perception of tinnitus through full-spectrum coverage.<br><br><strong>Listening feel:</strong> Very effective, but tiring faster than pink or brown noise. Best in shorter sessions and at moderate volume.',
+                pinkTitle: 'Pink noise',
+                pinkCopy: '<strong>Core feel:</strong> Balanced and soft. Pink noise gently rolls off the highs, so it feels smoother than white noise while still keeping enough detail to stay mentally alert.<br><br><strong>What it resembles:</strong> Steady rainfall, wind through trees, or a calm wash of air that fills the room without sounding sharp.<br><br><strong>Often used for:</strong> Focus, studying, writing, masking office chatter, and creating a calm work cocoon that does not feel too heavy.<br><br><strong>Listening feel:</strong> Easy to keep on for longer sessions because it stays present without pushing too much low-end pressure.',
+                orangeTitle: 'Orange noise',
+                orangeCopy: '<strong>Core feel:</strong> A balanced transition spectrum with the sub-bass cut away, so it stays warm, clean, and spacious instead of heavy.<br><br><strong>What it resembles:</strong> Velvet rain, dense warm wind, or a smooth linear wash that masks distraction without turning muddy.<br><br><strong>Often used for:</strong> Deep work, long coding sessions, writing, and protecting focus in noisy places without tipping the brain toward sleep.<br><br><strong>Listening feel:</strong> Extremely comfortable over time. It avoids both low-end pressure and sharp highs, so it is one of the easiest spectra to keep running for hours.',
+                brownTitle: 'Brown noise',
+                brownCopy: '<strong>Core feel:</strong> Lower, deeper, and heavier. Brown noise strongly reduces the top end and leans into the bass, which can feel grounding and sheltering.<br><br><strong>What it resembles:</strong> Distant surf, a waterfall behind a wall, deep rain, or a soft rolling rumble that wraps around other sounds.<br><br><strong>Often used for:</strong> Sleep, nervous-system downshifting, blocking chaotic surroundings, and quick sensory decompression after intense mental load.<br><br><strong>Listening feel:</strong> Warm and dense. Best at low or medium volume so the bass stays calming instead of tiring.',
+                infraTitle: 'Infrared noise',
+                infraCopy: '<strong>Core feel:</strong> Extreme sub-bass pressure with the audible spectrum almost entirely stripped away. It feels less like a sound and more like a sealed chamber of low-frequency mass.<br><br><strong>What it resembles:</strong> A planetary hum, a pressurized bunker, or deep machinery behind thick walls.<br><br><strong>Often used for:</strong> Emergency mental reset, blocking heavy industrial rumble, and shutting down loud internal chatter for a short recovery window.<br><br><strong>Listening feel:</strong> Very physical and potentially fatiguing. Keep it low to medium volume and use it in shorter sessions.',
+                rainTitle: 'Rain',
+                rainCopy: '<strong>Core feel:</strong> Natural, repeating, and familiar. Rain adds movement and texture without asking for attention.<br><br><strong>What it resembles:</strong> Rain on glass, a quiet storm outside, or a soft weather curtain between you and the rest of the room.<br><br><strong>Often used for:</strong> Settling racing thoughts, softening silence, reading, winding down, and making a space feel safer and more private.<br><br><strong>Listening feel:</strong> Gentle and atmospheric, especially when you want something soothing but less abstract than pure noise.'
+            },
+            timer: {
+                title: 'Sleep timer', off: 'Off', idle: 'Swipe hours or minutes, or use +/- 5 min.',
+                active: value => `Noise will stop in ${value}.`,
+                hours: 'Hours', minutes: 'Minutes', hr: 'hr', min: 'min',
+                set: 'Set sleep timer', clear: 'Clear timer',
+                open: 'Open sleep timer', decrease: 'Decrease timer', increase: 'Increase timer'
+            },
+            paywall: {
+                title: 'Unlock Sounds, Skins & Themes',
+                subtitle: 'Elevate your relaxation experience',
+                feature1: 'Premium interaction skins',
+                feature2: 'Premium sound library',
+                feature3: 'Premium visual themes',
+                feature4: 'No ads, ever',
+                buy: 'Unlock Premium', restore: 'Restore Purchase',
+                connecting: 'Connecting to store...', pending: 'Purchase is pending or could not be verified.',
+                unavailable: 'Purchases are not available.', none: 'No active purchase found.',
+                restoreUnavailable: 'Restore purchases is not available on this build yet.',
+                lifetime: 'Lifetime Access'
+            },
+            settings: {
+                title: 'Settings', sound: 'Sound', vibration: 'Vibration', centered: 'Centered Button',
+                language: 'Language', share: 'Share App', rate: 'Rate App',
+                privacy: 'Privacy Policy', terms: 'Terms of Use', support: 'Support',
+                restore: 'Restore Purchase', version: 'Digital Fidget: Mental ASMR v1.0'
+            },
+            rating: {
+                title: 'Enjoying Digital Fidget?',
+                copy: 'A quick rating helps more people discover a calmer moment.',
+                choose: 'Choose a rating', rate: 'Rate in Store', later: 'Not now',
+                star: count => count === 1 ? '1 star' : `${count} stars`
+            },
+            actions: {
+                active: 'Active', select: 'Select', stop: 'Stop', preview: name => `Preview ${name}`,
+                addFavorite: name => `Add ${name} to favorites`, removeFavorite: name => `Remove ${name} from favorites`,
+                copied: 'App link copied.', sharePrompt: 'Share this app link:',
+                shareTitle: 'Digital Fidget: Mental ASMR', shareText: 'Try this tactile reset for calmer moments.'
+            },
+            fallback: {
+                singleSound: 'Tactile click sound',
+                continuousSound: 'Looping relaxation sound'
+            },
+            themes: {
+                classic: 'Classic', night: 'Night', arctic: 'Arctic', sage: 'Sage', cosmos: 'Cosmos', blush: 'Blush', obsidian: 'Obsidian'
+            },
+            sounds: {
+                'classic-click': ['Classic Click', 'Soft tactile click'],
+                'classic-click-original': ['Click', 'Original tactile click'],
+                'foot-switch-click': ['Foot Switch', 'Chunky foot switch press'],
+                'light-switch-flip-click': ['Light Switch Flip', 'Light wall switch flip'],
+                'light-switch-on-click': ['Light Switch On', 'Sharp light switch engage'],
+                'mouse-click-soft': ['Mouse Click Soft', 'Compact mouse button tap'],
+                'noisy-switch-click': ['Noisy Switch', 'Textured noisy switch hit'],
+                'mouse-click-deep': ['Classic Button Click', 'Heavier mouse click snap'],
+                'white-noise': ['White Noise', 'Bright full-spectrum hiss'],
+                'switch-click': ['Switch', 'Simple mechanical switch'],
+                'switching-button-click': ['Switching Button', 'Snappy button toggle'],
+                'alien-technology': ['Alien Technology', 'Deep extraterrestrial signal'],
+                'cosmic-frequency': ['Cosmic Alien Frequency', 'Distant orbital transmission'],
+                'distortion-bass': ['Distortion Bass', 'Gritty low-end impact'],
+                'futuristic-organic': ['Futuristic Organic', 'Hybrid bio-synthetic pulse'],
+                'morph-transforms': ['Morph Transforms', 'Shifting metallic mutation'],
+                'motion-amp': ['Motion Amp', 'Charged kinetic swell'],
+                'morphed-metal': ['Morphed Metal', 'Cinematic lunar discharge'],
+                'simple-neurobass': ['Simple Neurobass', 'Compact sci-fi bass tick'],
+                'techno-horn': ['Techno Horn', 'Resonant techno flare'],
+                'infrared-noise': ['Infrared Noise', 'Extreme sub-bass blackout'],
+                'orange-noise': ['Orange Noise', 'Warm river-spectrum focus wash'],
+                'pink-rain-water': ['Rain Water', 'Relaxing rain and water'],
+                'pink-noise': ['Wind Pink Noise', 'Soft wind and balanced noise'],
+                'pink-light-rain': ['Light Rain Outside', 'Gentle rain beyond the window'],
+                'brown-noise': ['Brown Noise', 'Deep low noise'],
+                'brown-ocean-waves': ['Ocean Waves', 'Brown noise with distant surf'],
+                'door-lock': ['Door Lock', 'Solid locking mechanism'],
+                'double-button': ['Double Button', 'Layered double tap click'],
+                'button-click': ['Button Click', 'Crisp mechanical press'],
+                'mechanical-push': ['Mechanical Push', 'Dense switcher press'],
+                'toggle-off': ['Toggle Off', 'Firm switch release'],
+                'switch-on': ['Switch On', 'Positive snap engage'],
+                'mouse-click': ['Mouse Click', 'Clean desktop click'],
+                'switch-flip': ['Switch Flip', 'Quick tactile snap'],
+                'toggle-on': ['Toggle On', 'Positive switch engage']
+            },
+            skins: {
+                'classic-button': ['Click', 'Soft tactile click'],
+                moon: ['Moon', 'Lunar space button'],
+                'white-noise': ['White Noise', 'Snowfield static hush'],
+                'pink-noise': ['Pink Noise', 'Soft aurora glow'],
+                'orange-noise': ['Orange Noise', 'Glass aurora focus flow'],
+                'brown-noise': ['Brown Noise', 'Deep aurora glow'],
+                'infrared-noise': ['Infrared Noise', 'Sub-bass bunker hush'],
+                rain: ['Rain', 'Rainy window hush'],
+                'typewriter-key': ['Typewriter', 'Vintage keystroke'],
+                'mech-switch': ['Mech Switch', 'Cherry MX Blue'],
+                'lever-switch': ['Lever Switch', 'Industrial toggle'],
+                'heavy-toggle': ['Heavy Toggle', 'Weighted metal switch']
+            }
+        }
+    };
+
+    I18N.uk = {
+        ...I18N.en,
+        languageName: 'Українська',
+        nav: { settings: 'Налаштування', premium: 'Преміум', themes: 'Теми', sounds: 'Звуки', skins: 'Скіни', swipeUp: 'Свайп вгору', close: 'Закрити' },
+        onboarding: {
+            ...I18N.en.onboarding,
+            slide1Kicker: 'Маленький ритуал для<br>перевантажених моментів',
+            slide1Title: 'Перемкни<br>фокус',
+            slide1Sub: 'Лише на мить',
+            slide2Kicker: 'ЗВУКОВЕ ПЕРЕМИКАННЯ',
+            slide2Title: 'Сенсорне перезавантаження',
+            slide2Sub: 'Очисти думки перед наступним кроком',
+            headphones: 'Краще в навушниках',
+            slide3Title: 'Натисни. Послухай.<br>Видихни.',
+            demoHint: 'Торкнись, почуй клік і відчуй haptic',
+            next: 'Далі ->',
+            pressesLeft: count => count === 1 ? 'Ще 1 натискання' : `Ще ${count} натискання`
+        },
+        knowledge: {
+            title: 'Гід по звуках', subtitle: 'Коротко про кольори шуму.',
+            whiteTitle: 'Білий шум', whiteCopy: '<strong>Суть:</strong> Рівномірний технічний сигнал. Енергія розподілена однаково по всіх частотах, тому він звучить яскраво, щільно й безкомпромісно.<br><br><strong>Як звучить:</strong> Різке інтенсивне шипіння, схоже на перешкоди телевізора без сигналу, радіо без хвилі або суцільний акустичний пісок.<br><br><strong>Психосоматичний ефект:</strong><br>Абсолютне маскування: щільно перекриває зовнішні звуки майже по всьому чутному спектру.<br>Стимуляція бадьорості: не заколисує, а тримає слух у тонусі, ніби холодний душ для уваги.<br>Клінічний щит: часто найкраще перекриває суб’єктивний писк у вухах завдяки суцільному заповненню спектра.<br><br><strong>Втома слуху:</strong> Вища, ніж у рожевого чи коричневого шуму. Краще слухати коротшими сесіями та не на високій гучності.<br><br><strong>Найкраще для:</strong> Радикального відсікання зовнішніх звуків, короткого жорсткого фокусу та приглушення симптомів тінітусу.',
+            pinkTitle: 'Рожевий шум', pinkCopy: '<strong>Суть:</strong> М’який і збалансований шум. Високі частоти тут приглушені плавніше, тому звук відчувається природніше за білий шум, але все ще добре тримає увагу.<br><br><strong>Як звучить:</strong> Схоже на рівний дощ, вітер у кронах дерев або спокійний повітряний фон без різкого шипіння.<br><br><strong>Коли допомагає:</strong> Для фокусу, навчання, читання, маскування офісних розмов і створення спокійного робочого кокона.<br><br><strong>Відчуття при прослуховуванні:</strong> Комфортний для довших сесій, бо лишається присутнім, але не тисне низькими частотами.',
+            orangeTitle: 'Помаранчевий шум', orangeCopy: '<strong>Суть:</strong> Математичний перехідний спектр з відсіканням усього нижче 200 Гц. Через це в ньому немає важкого суб-басового гулу, і звук лишається теплим, чистим та просторим.<br><br><strong>Як звучить:</strong> Оксамитовий, глибокий лінійний дощ або щільний теплий вітер. Він м’якший за рожевий шум і значно легший за коричневий.<br><br><strong>Психосоматичний ефект:</strong> Утримує мозок між робочим фокусом і внутрішнім спокоєм, добре маскує людські голоси та хаотичний фон, але не хилить у сон.<br><br><strong>Втома слуху:</strong> Мізерна. Через відсутність тиску суб-басу і приглушені верхи його комфортно слухати годинами навіть у навушниках.<br><br><strong>Найкраще для:</strong> Глибокої фокусної роботи, довгих сесій кодингу, проектування та письма в гамірному середовищі.',
+            brownTitle: 'Коричневий шум', brownCopy: '<strong>Суть:</strong> Глибокий, низький і щільний шум. Верхні частоти тут сильно приглушені, а басова частина дає відчуття заземлення й укриття від зовнішнього хаосу.<br><br><strong>Як звучить:</strong> Наче далекий прибій, водоспад за стіною, густий дощ або м’який низький гул, що накриває інші звуки.<br><br><strong>Коли допомагає:</strong> Для засинання, швидкого заспокоєння нервової системи, маскування навколишнього шуму й сенсорного перезавантаження після напруженого дня.<br><br><strong>Відчуття при прослуховуванні:</strong> Теплий і щільний. Найкраще працює на тихій або середній гучності, щоб низи заспокоювали, а не перевтомлювали.',
+            infraTitle: 'Інфрачервоний шум', infraCopy: '<strong>Суть:</strong> Екстремальний наднизькочастотний сигнал. Енергія стрімко падає на 23+ дБ на октаву, тому середні й високі частоти майже повністю зникають, лишаючи чистий суб-бас.<br><br><strong>Як звучить:</strong> Надглухий, майже нечутний фізичний гул або мікровібрація. Наче гудіння планети, закрита барокамера або космічний вакуум.<br><br><strong>Психосоматичний ефект:</strong> Акустичний наркоз і тотальна ізоляція від зовнішнього світу. Сприймається більше тілом, ніж вухами, і миттєво гальмує внутрішній діалог.<br><br><strong>Втома слуху:</strong> Висока на великій гучності. Краще слухати лише на мінімальній або середній гучності й короткими сесіями.<br><br><strong>Найкраще для:</strong> Екстреного ментального перезавантаження на 10-15 хвилин, жорсткого вигорання та блокування важкого промислового гулу за стіною.',
+            rainTitle: 'Дощ', rainCopy: '<strong>Суть:</strong> Природна, повторювана й знайома звукова текстура. Дощ додає рух і атмосферу, але не вимагає від тебе уваги.<br><br><strong>Як звучить:</strong> Наче краплі по склу, тихий дощ надворі або м’яка завіса між тобою та всім іншим у кімнаті.<br><br><strong>Коли допомагає:</strong> Щоб уповільнити думки, пом’якшити тишу, читати, відпочивати й зробити простір відчутно спокійнішим та приватнішим.<br><br><strong>Відчуття при прослуховуванні:</strong> Ніжний і атмосферний фон, коли хочеться чогось заспокійливого, але менш абстрактного, ніж чистий шум.'
+        },
+        timer: {
+            ...I18N.en.timer,
+            title: 'Таймер сну', off: 'Вимк.', idle: 'Крути години або хвилини, або +/- 5 хв.',
+            active: value => `Шум вимкнеться через ${value}.`,
+            hours: 'Години', minutes: 'Хвилини', hr: 'год', min: 'хв',
+            set: 'Запустити таймер', clear: 'Скинути таймер',
+            open: 'Відкрити таймер', decrease: 'Зменшити час', increase: 'Збільшити час'
+        },
+        paywall: {
+            title: 'Відкрий звуки, скіни й теми', subtitle: 'Зроби відпочинок глибшим',
+            feature1: 'Преміум-скіни взаємодії', feature2: 'Преміум-бібліотека звуків', feature3: 'Преміум-візуальні теми', feature4: 'Без реклами. Взагалі.',
+            buy: 'Відкрити Преміум', restore: 'Відновити покупку',
+            connecting: 'Підключення до магазину...', pending: 'Покупка очікує підтвердження або не перевірена.',
+            unavailable: 'Покупки недоступні.', none: 'Активну покупку не знайдено.', restoreUnavailable: 'Відновлення покупок у цій збірці поки недоступне.', lifetime: 'Назавжди'
+        },
+        settings: {
+            title: 'Налаштування', sound: 'Звук', vibration: 'Вібрація', centered: 'Кнопка по центру',
+            language: 'Мова', share: 'Поділитися', rate: 'Оцінити застосунок',
+            privacy: 'Політика приватності', terms: 'Умови використання', support: 'Підтримка',
+            restore: 'Відновити покупку', version: 'Digital Fidget: Mental ASMR v1.0'
+        },
+        rating: {
+            title: 'Подобається Digital Fidget?', copy: 'Коротка оцінка допоможе іншим знайти спокійнішу мить.',
+            choose: 'Оберіть оцінку', rate: 'Оцінити в магазині', later: 'Не зараз',
+            star: count => `${count} ${count === 1 ? 'зірка' : 'зірок'}`
+        },
+        actions: {
+            active: 'Активно', select: 'Обрати', stop: 'Стоп', preview: name => `Прослухати ${name}`,
+            addFavorite: name => `Додати ${name} в обране`, removeFavorite: name => `Прибрати ${name} з обраного`,
+            copied: 'Посилання скопійовано.', sharePrompt: 'Посилання на застосунок:',
+            shareTitle: 'Digital Fidget: Mental ASMR', shareText: 'Спробуй цей тактильний reset для спокійнішої миті.'
+        },
+        fallback: { singleSound: 'Тактильний звук кліку', continuousSound: 'Зациклений звук для відпочинку' },
+        themes: { classic: 'Класична', night: 'Нічна', arctic: 'Арктична', sage: 'Шавлія', cosmos: 'Космос', blush: 'Рум’янець', obsidian: 'Обсидіан' },
+        skins: {
+            ...I18N.en.skins,
+            'classic-button': ['Click', 'М’який тактильний клік'], moon: ['Місяць', 'Космічна місячна кнопка'],
+            'white-noise': ['Білий шум', 'Снігова статика'],
+            'pink-noise': ['Рожевий шум', 'М’яке сяйво'], 'orange-noise': ['Помаранчевий шум', 'Скляне фокусне сяйво'], 'brown-noise': ['Коричневий шум', 'Глибоке сяйво'], 'infrared-noise': ['Інфрачервоний шум', 'Суб-басове укриття'], rain: ['Дощ', 'Тиха дощова шибка']
+        },
+        sounds: {
+            ...I18N.en.sounds,
+            'classic-click': ['Класичний клік', 'М’який тактильний клік'],
+            'classic-click-original': ['Клік', 'Оригінальний тактильний клік'],
+            'mouse-click-deep': ['Клік класичної кнопки', 'Глибший чіткий клік'],
+            'white-noise': ['Білий шум', 'Яскраве повноспектральне шипіння'],
+            'noisy-switch-click': ['Шумний перемикач', 'Фактурний удар перемикача'],
+            'switch-click': ['Перемикач', 'Простий механічний перемикач'],
+            'alien-technology': ['Alien Technology', 'Глибокий позаземний сигнал'],
+            'cosmic-frequency': ['Cosmic Alien Frequency', 'Далекий орбітальний сигнал'],
+            'distortion-bass': ['Distortion Bass', 'Шорсткий низькочастотний імпульс'],
+            'futuristic-organic': ['Futuristic Organic', 'Гібридний біосинтетичний пульс'],
+            'morph-transforms': ['Morph Transforms', 'Мінлива металева мутація'],
+            'motion-amp': ['Motion Amp', 'Заряджений кінетичний сплеск'],
+            'morphed-metal': ['Morphed Metal', 'Кінематографічний місячний розряд'],
+            'simple-neurobass': ['Simple Neurobass', 'Компактний sci-fi басовий тик'],
+            'techno-horn': ['Techno Horn', 'Резонансний техно-сигнал'],
+            'infrared-noise': ['Інфрачервоний шум', 'Екстремальний суб-басовий блекаут'],
+            'orange-noise': ['Помаранчевий шум', 'Теплий річковий спектр для фокусу'],
+            'pink-rain-water': ['Дощова вода', 'Розслаблюючий дощ і вода'],
+            'pink-noise': ['Вітер і рожевий шум', 'М’який вітер і збалансований шум'],
+            'pink-light-rain': ['Легкий дощ за вікном', 'Ніжний дощ поза вікном'],
+            'brown-noise': ['Коричневий шум', 'Глибокий низький шум'],
+            'brown-ocean-waves': ['Океанські хвилі', 'Коричневий шум із далеким прибоєм']
+        }
+    };
+
+    I18N.ja = {
+        ...I18N.en,
+        languageName: '日本語',
+        nav: { settings: '設定', premium: 'プレミアム', themes: 'テーマ', sounds: 'サウンド', skins: 'スキン', swipeUp: '上にスワイプ', close: '閉じる' },
+        onboarding: { ...I18N.en.onboarding, slide1Kicker: '刺激が多すぎる瞬間のための<br>小さな儀式', slide1Title: '意識を<br>切り替える', slide1Sub: 'ほんの少しだけ', slide2Kicker: 'オーディオシフト', slide2Title: '感覚のリセット', slide2Sub: '次へ進む前に、心を整える', headphones: 'ヘッドホン推奨', slide3Title: '押す。聴く。<br>整える。', demoHint: 'タップして、クリック音と触覚を感じる', next: '次へ ->', pressesLeft: count => `あと${count}回押してください` },
+        settings: { ...I18N.en.settings, title: '設定', sound: 'サウンド', vibration: '振動', centered: '中央ボタン', language: '言語', share: 'アプリを共有', rate: 'アプリを評価', privacy: 'プライバシーポリシー', terms: '利用規約', support: 'サポート', restore: '購入を復元' },
+        timer: { ...I18N.en.timer, title: 'スリープタイマー', off: 'オフ', idle: '時間または分をスワイプ、または +/- 5分。', active: value => `${value}後に音が止まります。`, hours: '時間', minutes: '分', hr: '時', min: '分', set: 'タイマーを設定', clear: 'タイマーを解除' },
+        knowledge: { ...I18N.en.knowledge, title: 'サウンドガイド', subtitle: 'ノイズカラーの短い説明です。', whiteTitle: 'ホワイトノイズ', whiteCopy: '<strong>特徴:</strong> 全帯域に均一に広がる技術的なノイズです。明るく密度が高く、細かな外音を一気に覆いやすいのが特徴です。<br><br><strong>印象:</strong> テレビの砂嵐、周波数の合っていないラジオ、鋭い音の砂のように感じられます。<br><br><strong>向いている場面:</strong> 外音を強く遮りたい時、短時間の強い集中、耳鳴りの知覚を和らげたい時。<br><br><strong>聴き心地:</strong> 効果は強いですが疲れやすいため、長時間より短めの利用と中くらいの音量が向いています。', pinkTitle: 'ピンクノイズ', pinkCopy: '<strong>特徴:</strong> やわらかく均整の取れたノイズです。高音がなだらかに抑えられているため、ホワイトノイズより自然で、集中も保ちやすい音です。<br><br><strong>印象:</strong> 一定の雨音、木々を抜ける風、部屋を満たす穏やかな空気の流れのように聞こえます。<br><br><strong>向いている場面:</strong> 集中、勉強、読書、生活音のマスキング、落ち着いた作業空間づくり。<br><br><strong>聴き心地:</strong> 低音の圧が強すぎないので、長めの作業中にも流しやすい音です。', brownTitle: 'ブラウンノイズ', brownCopy: '<strong>特徴:</strong> 低く深く、包み込むようなノイズです。高音が大きく減り、低音が前に出るため、安心感や接地感が出やすい音です。<br><br><strong>印象:</strong> 遠い波音、壁越しの滝、深い雨音、やわらかな低い響きのように感じられます。<br><br><strong>向いている場面:</strong> 入眠、緊張を下げたい時、周囲の雑音を隠したい時、頭を静かに切り替えたい時。<br><br><strong>聴き心地:</strong> あたたかく密度のある音です。低音が重くなりすぎないよう、音量は小さめから中くらいが向いています。', rainTitle: '雨', rainCopy: '<strong>特徴:</strong> 自然で反復的、そして親しみやすい音です。動きはありますが、強く注意を引かないのが雨の良さです。<br><br><strong>印象:</strong> 窓に当たる雨、外で静かに降る通り雨、部屋との間にやさしい膜ができるような感覚です。<br><br><strong>向いている場面:</strong> 思考を落ち着かせたい時、静けさをやわらげたい時、読書、休息、空間を少しプライベートに感じたい時。<br><br><strong>聴き心地:</strong> 純粋なノイズより情景があり、やさしく落ち着ける雰囲気のある音です。' },
+        paywall: { ...I18N.en.paywall, title: 'サウンド、スキン、テーマを解放', subtitle: 'リラックス体験を深める', buy: 'プレミアムを解放', restore: '購入を復元' },
+        rating: { ...I18N.en.rating, title: 'Digital Fidgetを楽しんでいますか？', copy: '短い評価が、落ち着ける瞬間を探す人の助けになります。', choose: '評価を選択', rate: 'ストアで評価', later: '今はしない', star: count => `${count}つ星` }
+        ,fallback: { singleSound: '触覚的なクリック音', continuousSound: 'リラックス用のループ音' }
+    };
+
+    I18N.fr = {
+        ...I18N.en,
+        languageName: 'Français',
+        nav: { settings: 'Réglages', premium: 'Premium', themes: 'Thèmes', sounds: 'Sons', skins: 'Skins', swipeUp: 'Balayer vers le haut', close: 'Fermer' },
+        onboarding: { ...I18N.en.onboarding, slide1Kicker: 'Un petit rituel pour<br>les moments saturés', slide1Title: 'Change<br>de focus', slide1Sub: 'Juste un instant', slide2Kicker: 'BASCULE AUDIO', slide2Title: 'Une remise à zéro sensorielle', slide2Sub: 'Libère ton esprit pour la suite', headphones: 'Casque recommandé', slide3Title: 'Appuie. Écoute.<br>Respire.', demoHint: 'Touche, entends le clic, sens le retour haptique', next: 'Suivant ->', pressesLeft: count => count === 1 ? 'Encore 1 pression' : `Encore ${count} pressions` },
+        settings: { ...I18N.en.settings, title: 'Réglages', sound: 'Son', vibration: 'Vibration', centered: 'Bouton centré', language: 'Langue', share: 'Partager', rate: 'Noter l’app', privacy: 'Confidentialité', terms: 'Conditions d’utilisation', support: 'Assistance', restore: 'Restaurer l’achat' },
+        timer: { ...I18N.en.timer, title: 'Minuteur de sommeil', off: 'Off', idle: 'Fais glisser heures ou minutes, ou utilise +/- 5 min.', active: value => `Le son s’arrêtera dans ${value}.`, hours: 'Heures', minutes: 'Minutes', hr: 'h', min: 'min', set: 'Régler le minuteur', clear: 'Effacer' },
+        knowledge: { ...I18N.en.knowledge, title: 'Guide des sons', subtitle: 'Quelques mots sur les couleurs de bruit.', whiteTitle: 'Bruit blanc', whiteCopy: '<strong>Sensation générale :</strong> Un signal uniforme et technique, réparti sur tout le spectre audible. Il paraît brillant, dense et très direct.<br><br><strong>À quoi ça ressemble :</strong> Une neige télévisée, une radio non réglée ou un sable acoustique très net qui recouvre instantanément les petits détails autour.<br><br><strong>Utile pour :</strong> Masquer fortement les sons extérieurs, tenir une courte session de focus intense et atténuer la perception des acouphènes.<br><br><strong>À l’écoute :</strong> Très efficace, mais plus fatigant que le bruit rose ou brun. Mieux en sessions courtes et à volume modéré.', pinkTitle: 'Bruit rose', pinkCopy: '<strong>Sensation générale :</strong> Doux et équilibré. Les aigus sont plus feutrés que dans le bruit blanc, ce qui le rend plus naturel tout en gardant de la clarté mentale.<br><br><strong>À quoi ça ressemble :</strong> Une pluie régulière, du vent dans les arbres ou un souffle calme qui remplit la pièce sans agresser l’oreille.<br><br><strong>Utile pour :</strong> Se concentrer, étudier, lire, masquer les conversations autour de soi et installer une bulle de travail apaisante.<br><br><strong>À l’écoute :</strong> Confortable sur des sessions longues, car il reste présent sans trop charger le bas du spectre.', brownTitle: 'Bruit brun', brownCopy: '<strong>Sensation générale :</strong> Plus grave, plus profond et plus dense. Le haut du spectre s’efface davantage, ce qui donne une impression de chaleur et d’ancrage.<br><br><strong>À quoi ça ressemble :</strong> Un ressac lointain, une cascade derrière un mur, une pluie épaisse ou un roulement grave et doux qui enveloppe les autres sons.<br><br><strong>Utile pour :</strong> S’endormir, relâcher le système nerveux, bloquer le chaos sonore ambiant et décompresser vite après une charge mentale intense.<br><br><strong>À l’écoute :</strong> Chaud et enveloppant. Mieux vaut le garder à volume faible ou moyen pour que les basses restent apaisantes.', rainTitle: 'Pluie', rainCopy: '<strong>Sensation générale :</strong> Une texture naturelle, répétitive et familière. La pluie apporte du mouvement sans demander d’attention.<br><br><strong>À quoi ça ressemble :</strong> Des gouttes sur une vitre, une averse calme dehors, comme un voile doux entre toi et le reste de la pièce.<br><br><strong>Utile pour :</strong> Calmer les pensées rapides, adoucir le silence, lire, ralentir et rendre l’espace plus intime.<br><br><strong>À l’écoute :</strong> Atmosphérique et douce, idéale si tu veux quelque chose de relaxant mais moins abstrait qu’un bruit pur.' },
+        paywall: { ...I18N.en.paywall, title: 'Débloquer sons, skins et thèmes', subtitle: 'Rends ton moment de détente plus profond', buy: 'Débloquer Premium', restore: 'Restaurer l’achat' },
+        rating: { ...I18N.en.rating, title: 'Tu aimes Digital Fidget ?', copy: 'Une note rapide aide d’autres personnes à trouver un moment plus calme.', choose: 'Choisir une note', rate: 'Noter dans le store', later: 'Pas maintenant', star: count => `${count} étoile${count > 1 ? 's' : ''}` }
+        ,fallback: { singleSound: 'Son de clic tactile', continuousSound: 'Son relaxant en boucle' }
+    };
+
+    I18N.de = {
+        ...I18N.en,
+        languageName: 'Deutsch',
+        nav: { settings: 'Einstellungen', premium: 'Premium', themes: 'Themes', sounds: 'Sounds', skins: 'Skins', swipeUp: 'Nach oben wischen', close: 'Schließen' },
+        onboarding: { ...I18N.en.onboarding, slide1Kicker: 'Ein kleines Ritual für<br>überreizte Momente', slide1Title: 'Fokus<br>wechseln', slide1Sub: 'Nur für einen Moment', slide2Kicker: 'AUDIO-WECHSEL', slide2Title: 'Ein sensorischer Reset', slide2Sub: 'Mach den Kopf frei für das Nächste', headphones: 'Kopfhörer empfohlen', slide3Title: 'Drücken. Hören.<br>Reset.', demoHint: 'Tippe, höre den Klick, spüre das Haptik-Feedback', next: 'Weiter ->', pressesLeft: count => count === 1 ? 'Noch 1 Druck' : `Noch ${count} Drücke` },
+        settings: { ...I18N.en.settings, title: 'Einstellungen', sound: 'Sound', vibration: 'Vibration', centered: 'Zentrierter Button', language: 'Sprache', share: 'App teilen', rate: 'App bewerten', privacy: 'Datenschutz', terms: 'Nutzungsbedingungen', support: 'Support', restore: 'Kauf wiederherstellen' },
+        timer: { ...I18N.en.timer, title: 'Sleep-Timer', off: 'Aus', idle: 'Stunden oder Minuten wischen, oder +/- 5 Min.', active: value => `Der Sound stoppt in ${value}.`, hours: 'Stunden', minutes: 'Minuten', hr: 'Std', min: 'Min', set: 'Timer setzen', clear: 'Timer löschen' },
+        knowledge: { ...I18N.en.knowledge, title: 'Sound-Guide', subtitle: 'Kurz erklärt: die Farben des Rauschens.', whiteTitle: 'Weißes Rauschen', whiteCopy: '<strong>Grundgefühl:</strong> Ein gleichmäßig verteilter technischer Klang über das ganze hörbare Spektrum. Dadurch wirkt er hell, dicht und sehr direkt.<br><br><strong>Klingt wie:</strong> Fernsehrauschen, ein nicht eingestelltes Radio oder akustischer Sand, der kleine Details in der Umgebung sofort überdeckt.<br><br><strong>Hilft oft bei:</strong> Radikalem Abschirmen äußerer Geräusche, kurzen harten Fokus-Sessions und beim Dämpfen der Wahrnehmung von Tinnitus.<br><br><strong>Hörgefühl:</strong> Sehr wirksam, aber ermüdender als rosa oder braunes Rauschen. Besser in kürzeren Sessions und bei mittlerer Lautstärke.', pinkTitle: 'Rosa Rauschen', pinkCopy: '<strong>Grundgefühl:</strong> Weich und ausgewogen. Die Höhen sind sanfter als bei weißem Rauschen, dadurch wirkt es natürlicher und hält den Kopf trotzdem klar genug für Fokus.<br><br><strong>Klingt wie:</strong> Gleichmäßiger Regen, Wind in Bäumen oder ein ruhiger Luftteppich im Raum ohne scharfes Zischen.<br><br><strong>Hilft oft bei:</strong> Konzentration, Lernen, Lesen, dem Ausblenden von Gesprächen und dem Aufbau einer ruhigen Arbeitsblase.<br><br><strong>Hörgefühl:</strong> Gut für längere Sessions, weil es präsent bleibt, ohne mit zu viel Bass zu drücken.', brownTitle: 'Braunes Rauschen', brownCopy: '<strong>Grundgefühl:</strong> Tiefer, dunkler und dichter. Die hohen Frequenzen treten stark zurück, während der Bass mehr Wärme und ein geerdetes Gefühl gibt.<br><br><strong>Klingt wie:</strong> Ferne Brandung, ein Wasserfall hinter einer Wand, starker Regen oder ein weiches tiefes Grollen, das andere Geräusche umhüllt.<br><br><strong>Hilft oft bei:</strong> Einschlafen, Herunterregeln des Nervensystems, Abschirmen chaotischer Umgebung und schnellem sensorischem Reset.<br><br><strong>Hörgefühl:</strong> Warm und schwerer. Am besten leise bis mittel laut, damit die Tiefen beruhigen statt zu ermüden.', rainTitle: 'Regen', rainCopy: '<strong>Grundgefühl:</strong> Natürlich, wiederholend und vertraut. Regen bringt Bewegung in die Stille, ohne Aufmerksamkeit einzufordern.<br><br><strong>Klingt wie:</strong> Tropfen am Fenster, ein leiser Schauer draußen oder ein sanfter Vorhang zwischen dir und dem Rest des Raums.<br><br><strong>Hilft oft bei:</strong> Rasende Gedanken beruhigen, Stille weicher machen, Lesen, Abschalten und einem Raum mehr Geborgenheit geben.<br><br><strong>Hörgefühl:</strong> Sanft und atmosphärisch, besonders wenn du etwas Beruhigendes willst, das weniger abstrakt ist als reines Rauschen.' },
+        paywall: { ...I18N.en.paywall, title: 'Sounds, Skins und Themes freischalten', subtitle: 'Mach deine Entspannung tiefer', buy: 'Premium freischalten', restore: 'Kauf wiederherstellen' },
+        rating: { ...I18N.en.rating, title: 'Gefällt dir Digital Fidget?', copy: 'Eine kurze Bewertung hilft anderen, einen ruhigeren Moment zu finden.', choose: 'Bewertung auswählen', rate: 'Im Store bewerten', later: 'Nicht jetzt', star: count => `${count} Stern${count > 1 ? 'e' : ''}` }
+        ,fallback: { singleSound: 'Taktiler Klicksound', continuousSound: 'Loopender Entspannungssound' }
+    };
+
+    I18N.es = {
+        ...I18N.en,
+        languageName: 'Español',
+        nav: { settings: 'Ajustes', premium: 'Premium', themes: 'Temas', sounds: 'Sonidos', skins: 'Skins', swipeUp: 'Desliza hacia arriba', close: 'Cerrar' },
+        onboarding: { ...I18N.en.onboarding, slide1Kicker: 'Un pequeño ritual para<br>momentos saturados', slide1Title: 'Cambia<br>el foco', slide1Sub: 'Solo por un momento', slide2Kicker: 'CAMBIO DE AUDIO', slide2Title: 'Un reinicio sensorial', slide2Sub: 'Aclara tu mente para lo que sigue', headphones: 'Se recomiendan auriculares', slide3Title: 'Pulsa. Escucha.<br>Respira.', demoHint: 'Toca, oye el clic y siente la respuesta háptica', next: 'Siguiente ->', pressesLeft: count => count === 1 ? '1 pulsación más' : `${count} pulsaciones más` },
+        settings: { ...I18N.en.settings, title: 'Ajustes', sound: 'Sonido', vibration: 'Vibración', centered: 'Botón centrado', language: 'Idioma', share: 'Compartir app', rate: 'Valorar app', privacy: 'Privacidad', terms: 'Condiciones de uso', support: 'Soporte', restore: 'Restaurar compra' },
+        timer: { ...I18N.en.timer, title: 'Temporizador', off: 'Off', idle: 'Desliza horas o minutos, o usa +/- 5 min.', active: value => `El sonido se detendrá en ${value}.`, hours: 'Horas', minutes: 'Minutos', hr: 'h', min: 'min', set: 'Activar temporizador', clear: 'Borrar' },
+        knowledge: { ...I18N.en.knowledge, title: 'Guía de sonidos', subtitle: 'Una nota breve sobre los colores del ruido.', whiteTitle: 'Ruido blanco', whiteCopy: '<strong>Sensación general:</strong> Una señal técnica uniforme repartida por todo el espectro audible. Se siente brillante, densa y muy directa.<br><br><strong>A qué se parece:</strong> La estática del televisor, una radio sin sintonizar o arena acústica que tapa de inmediato los detalles pequeños del entorno.<br><br><strong>Suele servir para:</strong> Aislar con fuerza sonidos externos, sesiones cortas de enfoque intenso y reducir la percepción del tinnitus.<br><br><strong>Al escucharlo:</strong> Es muy eficaz, pero fatiga más rápido que el ruido rosa o marrón. Mejor en sesiones cortas y con volumen moderado.', pinkTitle: 'Ruido rosa', pinkCopy: '<strong>Sensación general:</strong> Suave y equilibrado. Los agudos están más contenidos que en el ruido blanco, así que se siente más natural sin perder claridad mental.<br><br><strong>A qué se parece:</strong> Lluvia constante, viento entre árboles o un fondo de aire sereno que llena el espacio sin sonar áspero.<br><br><strong>Suele servir para:</strong> Concentrarse, estudiar, leer, tapar conversaciones cercanas y crear una burbuja de trabajo tranquila.<br><br><strong>Al escucharlo:</strong> Resulta cómodo durante sesiones largas porque está presente sin empujar demasiado los graves.', brownTitle: 'Ruido marrón', brownCopy: '<strong>Sensación general:</strong> Más bajo, profundo y denso. Reduce mucho la parte aguda y se apoya en los graves, lo que da una sensación de refugio y aterrizaje.<br><br><strong>A qué se parece:</strong> Oleaje lejano, una cascada detrás de una pared, lluvia espesa o un rumor grave y suave que envuelve otros sonidos.<br><br><strong>Suele servir para:</strong> Dormir, bajar revoluciones, bloquear entornos caóticos y hacer una descompresión sensorial rápida.<br><br><strong>Al escucharlo:</strong> Cálido y pesado. Va mejor a volumen bajo o medio para que los graves relajen sin fatigar.', rainTitle: 'Lluvia', rainCopy: '<strong>Sensación general:</strong> Una textura natural, repetitiva y familiar. La lluvia aporta movimiento sin pedir atención.<br><br><strong>A qué se parece:</strong> Gotas en la ventana, una lluvia tranquila afuera o una cortina suave entre tú y el resto de la habitación.<br><br><strong>Suele servir para:</strong> Bajar pensamientos acelerados, suavizar el silencio, leer, descansar y hacer que el espacio se sienta más íntimo.<br><br><strong>Al escucharlo:</strong> Es suave y atmosférico, ideal si quieres algo calmante pero menos abstracto que un ruido puro.' },
+        paywall: { ...I18N.en.paywall, title: 'Desbloquea sonidos, skins y temas', subtitle: 'Eleva tu momento de calma', buy: 'Desbloquear Premium', restore: 'Restaurar compra' },
+        rating: { ...I18N.en.rating, title: '¿Te gusta Digital Fidget?', copy: 'Una valoración rápida ayuda a más personas a encontrar un momento de calma.', choose: 'Elige una valoración', rate: 'Valorar en la tienda', later: 'Ahora no', star: count => `${count} estrella${count > 1 ? 's' : ''}` }
+        ,fallback: { singleSound: 'Sonido de clic táctil', continuousSound: 'Sonido relajante en bucle' }
+    };
+
+    I18N.pt = {
+        ...I18N.en,
+        languageName: 'Português',
+        nav: { settings: 'Definições', premium: 'Premium', themes: 'Temas', sounds: 'Sons', skins: 'Skins', swipeUp: 'Deslize para cima', close: 'Fechar' },
+        onboarding: { ...I18N.en.onboarding, slide1Kicker: 'Um pequeno ritual para<br>momentos sobrecarregados', slide1Title: 'Mude<br>o foco', slide1Sub: 'Só por um momento', slide2Kicker: 'MUDANÇA DE ÁUDIO', slide2Title: 'Um reset sensorial', slide2Sub: 'Limpe a mente para o que vem a seguir', headphones: 'Fones recomendados', slide3Title: 'Pressione. Ouça.<br>Respire.', demoHint: 'Toque, ouça o clique e sinta o háptico', next: 'Seguinte ->', pressesLeft: count => count === 1 ? 'Mais 1 toque' : `Mais ${count} toques` },
+        settings: { ...I18N.en.settings, title: 'Definições', sound: 'Som', vibration: 'Vibração', centered: 'Botão centralizado', language: 'Idioma', share: 'Partilhar app', rate: 'Avaliar app', privacy: 'Política de privacidade', terms: 'Termos de uso', support: 'Suporte', restore: 'Restaurar compra' },
+        timer: { ...I18N.en.timer, title: 'Temporizador de sono', off: 'Off', idle: 'Deslize horas ou minutos, ou use +/- 5 min.', active: value => `O som vai parar em ${value}.`, hours: 'Horas', minutes: 'Minutos', hr: 'h', min: 'min', set: 'Definir temporizador', clear: 'Limpar' },
+        knowledge: { ...I18N.en.knowledge, title: 'Guia de sons', subtitle: 'Uma nota rápida sobre as cores do ruído.', whiteTitle: 'Ruído branco', whiteCopy: '<strong>Sensação geral:</strong> Um sinal técnico uniforme distribuído por todo o espectro audível. Ele soa brilhante, denso e muito direto.<br><br><strong>Lembra o quê:</strong> Estática de TV, rádio fora de sintonia ou areia acústica cobrindo imediatamente os pequenos detalhes do ambiente.<br><br><strong>Costuma ajudar em:</strong> Isolar agressivamente sons externos, sessões curtas de foco intenso e reduzir a percepção do zumbido.<br><br><strong>Ao ouvir:</strong> É muito eficaz, mas cansa mais rápido do que o ruído rosa ou marrom. Funciona melhor em sessões curtas e volume moderado.', pinkTitle: 'Ruído rosa', pinkCopy: '<strong>Sensação geral:</strong> Suave e equilibrado. Os agudos ficam mais contidos do que no ruído branco, então ele soa mais natural sem perder clareza para manter o foco.<br><br><strong>Lembra o quê:</strong> Chuva constante, vento nas árvores ou um fundo de ar calmo preenchendo o ambiente sem aspereza.<br><br><strong>Costuma ajudar em:</strong> Foco, estudo, leitura, mascarar conversas ao redor e criar uma bolha de trabalho tranquila.<br><br><strong>Ao ouvir:</strong> É confortável por períodos mais longos, porque permanece presente sem pressionar demais os graves.', brownTitle: 'Ruído marrom', brownCopy: '<strong>Sensação geral:</strong> Mais baixo, profundo e denso. A parte aguda quase desaparece e os graves trazem sensação de abrigo e aterramento.<br><br><strong>Lembra o quê:</strong> Ondas distantes, uma cachoeira atrás da parede, chuva pesada ou um ronco grave e macio cobrindo outros sons.<br><br><strong>Costuma ajudar em:</strong> Dormir, desacelerar o sistema nervoso, bloquear ambientes caóticos e fazer uma descompressão sensorial rápida.<br><br><strong>Ao ouvir:</strong> Quente e encorpado. Funciona melhor em volume baixo ou médio para que os graves acalmem sem cansar.', rainTitle: 'Chuva', rainCopy: '<strong>Sensação geral:</strong> Uma textura natural, repetitiva e familiar. A chuva traz movimento sem exigir sua atenção.<br><br><strong>Lembra o quê:</strong> Gotas na janela, uma chuva calma lá fora ou uma cortina suave entre você e o resto do ambiente.<br><br><strong>Costuma ajudar em:</strong> Acalmar pensamentos acelerados, suavizar o silêncio, ler, descansar e deixar o espaço mais acolhedor e privado.<br><br><strong>Ao ouvir:</strong> É gentil e atmosférico, ótimo quando você quer algo calmante, mas menos abstrato do que um ruído puro.' },
+        paywall: { ...I18N.en.paywall, title: 'Desbloqueie sons, skins e temas', subtitle: 'Aprofunde seu momento de calma', buy: 'Desbloquear Premium', restore: 'Restaurar compra' },
+        rating: { ...I18N.en.rating, title: 'Gostando do Digital Fidget?', copy: 'Uma avaliação rápida ajuda mais pessoas a encontrar um momento de calma.', choose: 'Escolha uma avaliação', rate: 'Avaliar na loja', later: 'Agora não', star: count => `${count} estrela${count > 1 ? 's' : ''}` }
+        ,fallback: { singleSound: 'Som de clique tátil', continuousSound: 'Som relaxante em loop' }
+    };
+
+    const SUPPORTED_LANGUAGES = ['en', 'ja', 'fr', 'de', 'es', 'pt', 'uk'];
+
+    const I18n = {
+        get lang() {
+            return SUPPORTED_LANGUAGES.includes(AppState.language) ? AppState.language : 'en';
+        },
+
+        dict() {
+            return I18N[this.lang] || I18N.en;
+        },
+
+        t(path, fallback = '') {
+            const getValue = dict => path.split('.').reduce((value, key) => value?.[key], dict);
+            const value = getValue(this.dict()) ?? getValue(I18N.en);
+            return value ?? fallback;
+        },
+
+        call(path, ...args) {
+            const value = this.t(path);
+            return typeof value === 'function' ? value(...args) : value;
+        },
+
+        sound(profile, field) {
+            const index = field === 'desc' ? 1 : 0;
+            return I18N.en.sounds?.[profile.id]?.[index] || profile[field] || '';
+        },
+
+        skin(skin, field) {
+            const index = field === 'desc' ? 1 : 0;
+            return this.t(`skins.${skin.id}.${index}`, skin[field] || '');
+        },
+
+        theme(theme) {
+            return I18N.en.themes?.[theme.id] || theme.name;
+        },
+
+        setLanguage(lang) {
+            const nextLang = SUPPORTED_LANGUAGES.includes(lang) ? lang : 'en';
+            AppState.save('language', nextLang);
+            this.apply();
+        },
+
+        populateLanguageSelect() {
+            const select = document.getElementById('language-select');
+            if (!select || select.dataset.ready === 'true') return;
+            SUPPORTED_LANGUAGES.forEach(lang => {
+                const option = document.createElement('option');
+                option.value = lang;
+                option.textContent = I18N[lang].languageName;
+                select.appendChild(option);
+            });
+            select.dataset.ready = 'true';
+        },
+
+        apply() {
+            document.documentElement.lang = this.lang;
+            document.title = this.t('metaTitle');
+            this.populateLanguageSelect();
+            const languageSelect = document.getElementById('language-select');
+            if (languageSelect) languageSelect.value = this.lang;
+
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                element.innerHTML = this.t(element.dataset.i18n, element.innerHTML);
+            });
+            document.querySelectorAll('[data-i18n-aria]').forEach(element => {
+                element.setAttribute('aria-label', this.t(element.dataset.i18nAria, element.getAttribute('aria-label') || ''));
+            });
+            document.querySelectorAll('.rating-star').forEach(star => {
+                const rating = Number(star.dataset.rating || '0');
+                if (rating) star.setAttribute('aria-label', this.call('rating.star', rating));
+            });
+
+            const demoCaption = document.getElementById('ob-demo-caption');
+            if (demoCaption && window.Onboarding) {
+                demoCaption.textContent = Onboarding.getDemoCaption();
+            }
+
+            ThemeManager?.buildCarousel?.();
+            SoundManager?.buildList?.();
+            SkinManager?.buildList?.();
+            SleepTimerManager?.updateUI?.();
+            KnowledgeManager?.render?.();
+        }
+    };
+    window.I18n = I18n;
+
     const FORCE_WALKTHROUGH = window.location.hash.includes('walkthrough');
+    const FORCE_ONBOARDING_PREVIEW = window.location.hash.includes('onboarding-preview');
 
     function getNativeHapticPlugin() {
         if (typeof window === 'undefined' || !window.Capacitor) return null;
@@ -2724,6 +4075,62 @@
         }
     };
 
+    const ACCESS_DEFAULTS = {
+        trialDurationMs: 3 * 24 * 60 * 60 * 1000,
+        firstOpenedAtKey: 'rb_first_opened_at',
+        freeThemeIds: new Set(['classic', 'night']),
+        freeSkinIds: new Set(['classic-button']),
+        freeSoundProfileIds: new Set(['classic-click'])
+    };
+
+    const AccessManager = {
+        firstOpenedAt: 0,
+
+        init() {
+            const saved = Number.parseInt(localStorage.getItem(ACCESS_DEFAULTS.firstOpenedAtKey) || '0', 10);
+            this.firstOpenedAt = Number.isFinite(saved) && saved > 0 ? saved : Date.now();
+            if (!saved) {
+                localStorage.setItem(ACCESS_DEFAULTS.firstOpenedAtKey, String(this.firstOpenedAt));
+            }
+        },
+
+        isTrialActive() {
+            return Date.now() - this.firstOpenedAt < ACCESS_DEFAULTS.trialDurationMs;
+        },
+
+        hasFullAccess() {
+            return EntitlementManager.hasPaidPremium()
+                || this.isTrialActive()
+                || PreviewAccess.allowsPremiumPreview();
+        },
+
+        canUseTheme(themeId) {
+            return this.hasFullAccess() || ACCESS_DEFAULTS.freeThemeIds.has(themeId);
+        },
+
+        canUseSkin(skinId) {
+            return this.hasFullAccess() || ACCESS_DEFAULTS.freeSkinIds.has(skinId);
+        },
+
+        canUseSoundProfile(soundProfileId) {
+            if (!soundProfileId) return true;
+            return this.hasFullAccess() || ACCESS_DEFAULTS.freeSoundProfileIds.has(soundProfileId);
+        },
+
+        sanitizeState() {
+            if (!this.canUseTheme(AppState.theme)) {
+                AppState.save('theme', 'classic');
+            }
+            if (!this.canUseSkin(AppState.currentSkin)) {
+                AppState.save('currentSkin', 'classic-button');
+            }
+            if (!this.canUseSoundProfile(AppState.currentSoundProfile)) {
+                AppState.save('currentSoundProfile', 'classic-click');
+                AppState.save('soundMode', 'matched');
+            }
+        }
+    };
+
     const EntitlementManager = {
         entitlements: { premium: false },
 
@@ -2735,8 +4142,12 @@
             return this.entitlements.premium;
         },
 
+        hasPaidPremium() {
+            return this.entitlements.premium === true;
+        },
+
         isPremium() {
-            return this.entitlements.premium === true || PreviewAccess.allowsPremiumPreview();
+            return this.hasPaidPremium() || AccessManager.isTrialActive() || PreviewAccess.allowsPremiumPreview();
         },
 
         async purchase() {
@@ -2755,16 +4166,8 @@
             const wasPremium = this.entitlements.premium;
             this.entitlements.premium = !!(state && state.premium);
 
-            if (!this.entitlements.premium) {
-                const selectedTheme = THEMES.find(theme => theme.id === AppState.theme);
-                const selectedSound = SOUND_PROFILES.find(profile => profile.id === AppState.currentSoundProfile);
-                const selectedSkin = SKINS.find(skin => skin.id === AppState.currentSkin);
-                if (selectedTheme && !selectedTheme.free) AppState.save('theme', 'night');
-                if (selectedSound && !selectedSound.free) AppState.save('currentSoundProfile', 'classic-click');
-                if (selectedSkin && !selectedSkin.free) AppState.save('currentSkin', 'classic-button');
-            }
-
             if (wasPremium !== this.entitlements.premium) {
+                AccessManager.sanitizeState();
                 ThemeManager.buildCarousel();
                 SoundManager.buildList();
                 SkinManager.buildList();
@@ -2799,7 +4202,7 @@
     const SOUND_PROFILES = [
         { id: 'classic-click', name: 'Classic Click', desc: 'Soft tactile click',
           free: true, gain: 0.92, iconPath: 'M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z',
-          mode: 'single', variations: ['sound-click.mp3'], pitchJitter: 0.008 },
+          mode: 'single', variations: ['sound-click.mp3'], pitchJitter: 0.008, hapticOffsetMs: -30 },
         { id: 'classic-click-original', name: 'Click', desc: 'Original tactile click',
           free: true, gain: 0.92, iconPath: 'M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z',
           mode: 'single', variations: ['mpxzowa6-button-click.mp3'], pitchJitter: 0.008 },
@@ -2818,8 +4221,8 @@
         { id: 'noisy-switch-click', name: 'Noisy Switch', desc: 'Textured noisy switch hit',
           free: false, gain: 0.95, iconPath: 'M12 2a7 7 0 00-7 7v2H3v9h18v-9h-2V9a7 7 0 00-7-7zm0 2a5 5 0 015 5v2H7V9a5 5 0 015-5zm-7 9h14v5H5v-5z',
           mode: 'single', variations: ['noisy-switch.mp3'], pitchJitter: 0 },
-        { id: 'mouse-click-deep', name: 'Mouse Click Deep', desc: 'Heavier mouse click snap',
-          free: false, gain: 0.93, iconPath: 'M13 1.07V9h7.93A9.01 9.01 0 0013 1.07zM11 1.07A9 9 0 1020.93 11H11V1.07z',
+        { id: 'mouse-click-deep', name: 'Classic Button Click', desc: 'Heavier mouse click snap',
+          free: true, gain: 0.93, iconPath: 'M13 1.07V9h7.93A9.01 9.01 0 0013 1.07zM11 1.07A9 9 0 1020.93 11H11V1.07z',
           mode: 'single', variations: ['sound-of-mouse-click-4.mp3'], pitchJitter: 0.004 },
         { id: 'switch-click', name: 'Switch', desc: 'Simple mechanical switch',
           free: false, gain: 0.95, iconPath: 'M17 7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h10c2.76 0 5-2.24 5-5s-2.24-5-5-5zm0 8c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z',
@@ -2833,9 +4236,36 @@
         { id: 'cosmic-frequency', name: 'Cosmic Alien Frequency', desc: 'Distant orbital transmission',
           free: false, gain: 0.86, iconPath: 'M12 3a9 9 0 100 18 9 9 0 000-18zm0 2c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm0 14c-2.67 0-5.33-1.28-7-3.84C6.69 12.59 9.25 11 12 11s5.31 1.59 7 4.16C17.33 17.72 14.67 19 12 19z',
           mode: 'single', variations: ['cosmic-alien-frequency-1.mp3'], pitchJitter: 0 },
+        { id: 'distortion-bass', name: 'Distortion Bass', desc: 'Gritty low-end impact',
+          free: false, gain: 0.9, iconPath: 'M5 5h14v2H5V5zm2 4h10v2H7V9zm-2 4h14v2H5v-2zm4 4h6v2H9v-2z',
+          mode: 'single', variations: ['distortion-bass.mp3'], pitchJitter: 0 },
+        { id: 'futuristic-organic', name: 'Futuristic Organic', desc: 'Hybrid bio-synthetic pulse',
+          free: false, gain: 0.88, iconPath: 'M12 2c2.8 0 5 2.2 5 5 0 1.6-.75 3.03-1.92 3.95A4.98 4.98 0 0117 15c0 2.76-2.24 5-5 5s-5-2.24-5-5c0-1.63.78-3.08 1.98-3.99A4.97 4.97 0 017 7c0-2.8 2.2-5 5-5zm0 2a3 3 0 100 6 3 3 0 000-6zm0 8a3 3 0 100 6 3 3 0 000-6z',
+          mode: 'single', variations: ['futuristic-organic.mp3'], pitchJitter: 0 },
+        { id: 'morph-transforms', name: 'Morph Transforms', desc: 'Shifting metallic mutation',
+          free: false, gain: 0.88, iconPath: 'M6 4h12v4H6V4zm2 6h8v4H8v-4zm-2 6h12v4H6v-4z',
+          mode: 'single', variations: ['morph-transforms.mp3'], pitchJitter: 0 },
+        { id: 'motion-amp', name: 'Motion Amp', desc: 'Charged kinetic swell',
+          free: false, gain: 0.86, iconPath: 'M4 14h3l3-8 4 12 3-8h3',
+          mode: 'single', variations: ['motion-amp.mp3'], pitchJitter: 0 },
         { id: 'morphed-metal', name: 'Morphed Metal', desc: 'Cinematic lunar discharge',
           free: false, gain: 0.84, iconPath: 'M4 4h16v3H4V4zm2 5h12v3H6V9zm2 5h8v3H8v-3zm3 5h2v3h-2v-3z',
           mode: 'single', variations: ['morphed-metal.mp3'], pitchJitter: 0 },
+        { id: 'simple-neurobass', name: 'Simple Neurobass', desc: 'Compact sci-fi bass tick',
+          free: false, gain: 0.87, iconPath: 'M12 3l2.4 4.9L20 9l-4 3.9.94 5.6L12 16l-4.94 2.5L8 12.9 4 9l5.6-1.1L12 3z',
+          mode: 'single', variations: ['simple-neurobass.mp3'], pitchJitter: 0 },
+        { id: 'techno-horn', name: 'Techno Horn', desc: 'Resonant techno flare',
+          free: false, gain: 0.9, iconPath: 'M4 10h4l5-4v12l-5-4H4v-4zm11.5-2.5a5.5 5.5 0 010 9',
+          mode: 'single', variations: ['techno-horn.mp3'], pitchJitter: 0 },
+        { id: 'infrared-noise', name: 'Infrared Noise', desc: 'Extreme sub-bass blackout',
+          free: true, gain: 0.58, iconPath: 'M3 13c1.8-2.8 3.6-2.8 5.4 0s3.6 2.8 5.4 0 3.6-2.8 5.4 0 2.4 1.8 2.4 1.8v3.2c0 0-.6-3.7-2.4-1.8s-3.6 2.8-5.4 0-3.6 2.8-5.4 0-3.6 2.8-5.4 0V13z',
+          mode: 'continuous', variations: ['Loop-2x-INFARED noise-ocean-waves.wav'], pitchJitter: 0, loopStart: 0.08, loopEndTrim: 0.14 },
+        { id: 'orange-noise', name: 'Orange Noise', desc: 'Warm river-spectrum focus wash',
+          free: true, gain: 0.7, iconPath: 'M3 12c2-3 4-3 6 0s4 3 6 0 4-3 6 0 3 2 3 2v3c0 0-1-2-3-2s-4 3-6 0-4-3-6 0-4 3-6 0-3-2-3-2v-3z',
+          mode: 'continuous', variations: ['Loop-2x-ORANGE-noise-from-river.wav'], pitchJitter: 0, loopStart: 0.08, loopEndTrim: 0.14 },
+        { id: 'white-noise', name: 'White Noise', desc: 'Bright full-spectrum hiss',
+          free: true, gain: 0.68, iconPath: 'M12 2l1.4 3.9L17 4.7l-1.7 3.8L19 10l-3.7 1.5 1.7 3.8-3.6-1.2L12 18l-1.4-3.9-3.6 1.2 1.7-3.8L5 10l3.7-1.5L7 4.7l3.6 1.2L12 2z',
+          mode: 'continuous', variations: ['Loop-2x-WHITE-rain-noise.wav'], pitchJitter: 0, loopStart: 0.08, loopEndTrim: 0.12 },
         { id: 'pink-rain-water', name: 'Rain Water', desc: 'Relaxing rain and water',
           free: true, gain: 0.72, iconPath: 'M12 2.5c-2.6 3.4-6 6.8-6 11a6 6 0 0012 0c0-4.2-3.4-7.6-6-11zm0 15.5a4.5 4.5 0 01-4.5-4.5c0-2.7 2-5.2 4.5-8.4 2.5 3.2 4.5 5.7 4.5 8.4A4.5 4.5 0 0112 18z',
           mode: 'continuous', variations: ['relaxing-rain-water-pink-noise.mp3'], pitchJitter: 0, loopStart: 0.08, loopEndTrim: 0.12 },
@@ -2844,13 +4274,13 @@
           mode: 'continuous', variations: ['wind-pink-noise.mp3'], pitchJitter: 0, loopStart: 0.08, loopEndTrim: 0.12 },
         { id: 'pink-light-rain', name: 'Light Rain Outside', desc: 'Gentle rain beyond the window',
           free: true, gain: 0.72, iconPath: 'M6.5 8A4.5 4.5 0 0115 6.1 3.8 3.8 0 0117.2 13H6.5a2.5 2.5 0 010-5zm1 7h2l-1.5 4h-2l1.5-4zm4 0h2l-1.5 4h-2l1.5-4zm4 0h2l-1.5 4h-2l1.5-4z',
-          mode: 'continuous', variations: ['light-rain-outside-pink-noise.mp3'], pitchJitter: 0, loopStart: 0.08, loopEndTrim: 0.12 },
+          mode: 'continuous', variations: ['light-rain-outside-pink-noise.wav'], pitchJitter: 0, loopStart: 0.08, loopEndTrim: 0.12 },
         { id: 'brown-noise', name: 'Brown Noise', desc: 'Deep low noise',
           free: true, gain: 0.72, iconPath: 'M3 10.5c1.7-2.2 3.4-2.2 5.1 0s3.4 2.2 5.1 0 3.4-2.2 5.1 0 2.7 1.5 2.7 1.5v3c0 0-1-3.7-2.7-1.5s-3.4 2.2-5.1 0-3.4-2.2-5.1 0-3.4 2.2-5.1 0V10.5z',
           mode: 'continuous', variations: ['brown-noise.mp3'], pitchJitter: 0, loopStart: 0.08, loopEndTrim: 0.12 },
         { id: 'brown-ocean-waves', name: 'Ocean Waves', desc: 'Brown noise with distant surf',
           free: true, gain: 0.72, iconPath: 'M3 13c2.1-3.5 4.2-3.5 6.3 0s4.2 3.5 6.3 0 4.2-3.5 5.4-1.1V14c-1.2-2.4-3.3-2.4-5.4 1.1s-4.2 3.5-6.3 0S5.1 11.6 3 15.1V13zm1.5 4c1.5-1.6 3-1.6 4.5 0s3 1.6 4.5 0 3-1.6 4.5 0 3 1.6 4.5 0v2c-1.5 1.6-3 1.6-4.5 0s-3-1.6-4.5 0-3 1.6-4.5 0-3-1.6-4.5 0v-2z',
-          mode: 'continuous', variations: ['brown-noise-ocean-waves.mp3'], pitchJitter: 0, loopStart: 0.08, loopEndTrim: 0.12 },
+          mode: 'continuous', variations: ['brown-noise-ocean-waves.wav'], pitchJitter: 0, loopStart: 0.08, loopEndTrim: 0.12 },
         { id: 'door-lock', name: 'Door Lock', desc: 'Solid locking mechanism',
           free: false, gain: 0.96, iconPath: 'M17 8h-1V6c0-2.21-1.79-4-4-4S8 3.79 8 6v2H7c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-5 9c-1.1 0-2-.9-2-2 0-.74.4-1.38 1-1.72V12h2v1.28c.6.34 1 .98 1 1.72 0 1.1-.9 2-2 2zm2-9h-4V6c0-1.1.9-2 2-2s2 .9 2 2v2z',
           mode: 'single', variations: ['locking-door.mp3'], pitchJitter: 0 },
@@ -2883,18 +4313,28 @@
     const MOON_SOUND_PROFILE_IDS = new Set([
         'alien-technology',
         'cosmic-frequency',
-        'morphed-metal'
+        'distortion-bass',
+        'futuristic-organic',
+        'morph-transforms',
+        'motion-amp',
+        'morphed-metal',
+        'simple-neurobass',
+        'techno-horn'
     ]);
 
     const PINK_NOISE_SOUND_PROFILE_IDS = new Set([
-        'pink-rain-water',
-        'pink-noise',
-        'pink-light-rain'
+    ]);
+
+    const ORANGE_NOISE_SOUND_PROFILE_IDS = new Set([
+        'orange-noise'
+    ]);
+
+    const WHITE_NOISE_SOUND_PROFILE_IDS = new Set([
+        'white-noise'
     ]);
 
     const RAIN_SOUND_PROFILE_IDS = new Set([
-        'pink-rain-water',
-        'pink-light-rain'
+        'pink-light-rain',
     ]);
 
     const CLASSIC_BUTTON_SOUND_PROFILE_IDS = new Set([
@@ -2911,31 +4351,56 @@
 
     function isSoundProfileAvailableForSkin(soundProfileId, skinId = AppState.currentSkin) {
         if (skinId === 'moon') return MOON_SOUND_PROFILE_IDS.has(soundProfileId);
+        if (skinId === 'white-noise') return WHITE_NOISE_SOUND_PROFILE_IDS.has(soundProfileId);
         if (skinId === 'pink-noise') return PINK_NOISE_SOUND_PROFILE_IDS.has(soundProfileId);
-        if (skinId === 'brown-noise') return ['brown-noise', 'brown-ocean-waves'].includes(soundProfileId);
+        if (skinId === 'orange-noise') return ORANGE_NOISE_SOUND_PROFILE_IDS.has(soundProfileId);
+        if (skinId === 'brown-noise') return ['pink-light-rain', 'brown-ocean-waves'].includes(soundProfileId);
+        if (skinId === 'infrared-noise') return soundProfileId === 'infrared-noise';
         if (skinId === 'rain') return RAIN_SOUND_PROFILE_IDS.has(soundProfileId);
         return !MOON_SOUND_PROFILE_IDS.has(soundProfileId)
+            && !WHITE_NOISE_SOUND_PROFILE_IDS.has(soundProfileId)
             && !PINK_NOISE_SOUND_PROFILE_IDS.has(soundProfileId)
-            && !['brown-noise', 'brown-ocean-waves'].includes(soundProfileId)
+            && !ORANGE_NOISE_SOUND_PROFILE_IDS.has(soundProfileId)
+            && soundProfileId !== 'infrared-noise'
+            && !['pink-light-rain', 'brown-ocean-waves'].includes(soundProfileId)
             && !RAIN_SOUND_PROFILE_IDS.has(soundProfileId);
     }
 
+    function getPreferredSoundProfileIdForSkin(skinId = AppState.currentSkin) {
+        const skin = SKINS.find(entry => entry.id === skinId) || SKINS[0];
+        const recommendedId = skin?.recommendedSoundProfileId || '';
+        const availableProfiles = SOUND_PROFILES.filter(profile => isSoundProfileAvailableForSkin(profile.id, skinId));
+        if (recommendedId && availableProfiles.some(profile => profile.id === recommendedId)) {
+            return recommendedId;
+        }
+        return availableProfiles[0]?.id || '';
+    }
+
     const SKINS = [
-        { id: 'classic-button', name: 'Classic Click', desc: 'Soft tactile click',
+        { id: 'classic-button', name: 'Click', desc: 'Soft tactile click',
           free: true, iconPath: 'M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z',
           interaction: 'tap', recommendedSoundProfileId: 'classic-click', hapticProfile: 'light-click' },
         { id: 'moon', name: 'Moon', desc: 'Lunar space button',
           free: false, iconPath: 'M20.2 15.4A8.3 8.3 0 018.6 3.8 8.8 8.8 0 1019.9 15c.12.13.22.27.3.4z',
           interaction: 'tap', recommendedSoundProfileId: 'morphed-metal', hapticProfile: 'heavy-toggle' },
+        { id: 'white-noise', name: 'White Noise', desc: 'Snowfield static hush',
+          free: true, iconPath: 'M12 2l1.4 3.9L17 4.7l-1.7 3.8L19 10l-3.7 1.5 1.7 3.8-3.6-1.2L12 18l-1.4-3.9-3.6 1.2 1.7-3.8L5 10l3.7-1.5L7 4.7l3.6 1.2L12 2z',
+          interaction: 'continuous-toggle', recommendedSoundProfileId: 'white-noise', hapticProfile: 'light-click' },
         { id: 'pink-noise', name: 'Pink Noise', desc: 'Soft aurora glow',
           free: true, iconPath: 'M2.5 12c2.2-4.8 4.4-4.8 6.6 0s4.4 4.8 6.6 0 4.4-4.8 5.8-.8v2.7c-1.4-4-3.6-4-5.8.8s-4.4 4.8-6.6 0-4.4-4.8-6.6 0V12z',
-          interaction: 'continuous-toggle', recommendedSoundProfileId: 'pink-rain-water', hapticProfile: 'light-click' },
+          interaction: 'continuous-toggle', recommendedSoundProfileId: '', hapticProfile: 'light-click' },
+        { id: 'orange-noise', name: 'Orange Noise', desc: 'Glass aurora focus flow',
+          free: true, iconPath: 'M3 12c2.1-3.9 4.2-3.9 6.3 0s4.2 3.9 6.3 0 4.2-3.9 5.4-1.1v2.5c-1.2-2.8-3.3-2.8-5.4 1.1s-4.2 3.9-6.3 0S5.1 10.8 3 14.6V12z',
+          interaction: 'continuous-toggle', recommendedSoundProfileId: 'orange-noise', hapticProfile: 'light-click' },
         { id: 'brown-noise', name: 'Brown Noise', desc: 'Deep aurora glow',
           free: true, iconPath: 'M2.5 9.8c1.9-2.6 3.8-2.6 5.7 0s3.8 2.6 5.7 0 3.8-2.6 5.7 0 1.9 1.3 1.9 1.3v4.2s0-3.9-1.9-1.3-3.8 2.6-5.7 0-3.8-2.6-5.7 0-3.8 2.6-5.7 0V9.8z',
-          interaction: 'continuous-toggle', recommendedSoundProfileId: 'brown-ocean-waves', hapticProfile: 'light-click' },
+          interaction: 'continuous-toggle', recommendedSoundProfileId: 'pink-light-rain', hapticProfile: 'light-click' },
+        { id: 'infrared-noise', name: 'Infrared Noise', desc: 'Sub-bass bunker hush',
+          free: true, iconPath: 'M3 13c1.8-2.8 3.6-2.8 5.4 0s3.6 2.8 5.4 0 3.6-2.8 5.4 0 2.4 1.8 2.4 1.8v3.2c0 0-.6-3.7-2.4-1.8s-3.6 2.8-5.4 0-3.6 2.8-5.4 0-3.6 2.8-5.4 0V13z',
+          interaction: 'continuous-toggle', recommendedSoundProfileId: 'infrared-noise', hapticProfile: 'light-click' },
         { id: 'rain', name: 'Rain', desc: 'Rainy window hush',
           free: true, iconPath: 'M12 2.5c-2.6 3.4-6 6.8-6 11a6 6 0 0012 0c0-4.2-3.4-7.6-6-11zm-4 14.5h2l-1.4 3.5H6.6L8 17zm4 0h2l-1.4 3.5h-2L12 17zm4 0h2l-1.4 3.5h-2L16 17z',
-          interaction: 'continuous-toggle', recommendedSoundProfileId: 'pink-rain-water', hapticProfile: 'light-click' },
+          interaction: 'continuous-toggle', recommendedSoundProfileId: 'pink-light-rain', hapticProfile: 'light-click' },
         { id: 'typewriter-key', name: 'Typewriter', desc: 'Vintage keystroke',
           free: false, comingSoon: true, iconPath: 'M19 7h-8l-2-2H5c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm-7 9c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z',
           interaction: 'tap', recommendedSoundProfileId: 'button-click', hapticProfile: 'tactile-click' },
@@ -2956,7 +4421,8 @@
         },
 
         getSoundProfile(soundProfileId) {
-            return SOUND_PROFILES.find(profile => profile.id === soundProfileId) || SOUND_PROFILES[0];
+            if (!soundProfileId) return null;
+            return SOUND_PROFILES.find(profile => profile.id === soundProfileId) || null;
         },
 
         getSelectedSkin() {
@@ -2997,6 +4463,8 @@
         keepAwakeActive: false,
         nativeLoopActive: false,
         backgroundLoopRequested: false,
+        lastBackgroundStateChangeAt: 0,
+        resumeSyncTimeoutId: null,
         activeLoopPlayback: null,
         activeLoopSources: [],
         activeLoopTimers: [],
@@ -3091,9 +4559,24 @@
 
         setBackgroundLoopRequested(requested) {
             this.backgroundLoopRequested = !!requested;
+            this.lastBackgroundStateChangeAt = Date.now();
+            if (requested && this.resumeSyncTimeoutId) {
+                clearTimeout(this.resumeSyncTimeoutId);
+                this.resumeSyncTimeoutId = null;
+            }
             if (!this.shouldUseNativeContinuousLoop()) {
                 this.syncBackgroundLoop();
             }
+        },
+
+        scheduleNativeLoopStateSync(delayMs = 180) {
+            if (this.resumeSyncTimeoutId) {
+                clearTimeout(this.resumeSyncTimeoutId);
+            }
+            this.resumeSyncTimeoutId = window.setTimeout(() => {
+                this.resumeSyncTimeoutId = null;
+                this.syncNativeLoopState({ preserveTransientStop: true });
+            }, delayMs);
         },
 
         resolvePhaseVariant(profile, phase = 'down') {
@@ -3108,10 +4591,9 @@
         },
 
         resolvePlayback(soundProfileId, options = {}) {
-            const profile = this.resolvePhaseVariant(
-                SkinRegistry.getSoundProfile(soundProfileId),
-                options.phase || 'down'
-            );
+            const selectedProfile = SkinRegistry.getSoundProfile(soundProfileId);
+            if (!selectedProfile) return null;
+            const profile = this.resolvePhaseVariant(selectedProfile, options.phase || 'down');
             if (!profile) return null;
 
             const variations = profile.variations || [];
@@ -3179,7 +4661,7 @@
                 const isPlaying = document.body.classList.contains('noise-playing');
                 const label = button.querySelector('.main-button-label');
                 const skinId = AppState.currentSkin;
-                const shouldShowLabel = ['pink-noise', 'brown-noise', 'rain'].includes(skinId) && isPlaying;
+                const shouldShowLabel = ['white-noise', 'pink-noise', 'orange-noise', 'brown-noise', 'infrared-noise', 'rain'].includes(skinId) && isPlaying;
                 button.setAttribute('aria-label', isPlaying ? 'Stop noise' : isContinuous ? 'Play noise' : 'Press for relaxation');
                 if (isContinuous) {
                     button.setAttribute('aria-pressed', String(isPlaying));
@@ -3193,10 +4675,16 @@
         },
 
         setLoopingState(isPlaying) {
+            const wasPlaying = document.body.classList.contains('noise-playing');
             document.body.classList.toggle('noise-playing', isPlaying);
             this.setNativeKeepAwake(isPlaying);
             this.updateMainButtonState();
-            SoundManager.updateUI();
+            if (window.SleepTimerManager?.onLoopStateChange) {
+                window.SleepTimerManager.onLoopStateChange(isPlaying);
+            }
+            if (wasPlaying !== isPlaying) {
+                SoundManager.updateUI();
+            }
         },
 
         setNativeKeepAwake(enabled) {
@@ -3593,7 +5081,15 @@
             return playback;
         },
 
-        async syncNativeLoopState() {
+        shouldSkipResumeSync() {
+            if (!isNativeAndroid()) return false;
+            const expectedPlayback = this.getExpectedContinuousPlayback();
+            if (!expectedPlayback) return false;
+            return document.body.classList.contains('noise-playing')
+                && this.activeLoopProfileId === expectedPlayback.profile.id;
+        },
+
+        async syncNativeLoopState(options = {}) {
             const nativePlugin = getNativeHapticPlugin();
             if (!nativePlugin || !nativePlugin.getNoiseLoopState) return;
             try {
@@ -3601,8 +5097,21 @@
                 const isPlaying = !!state?.isPlaying;
                 const file = state?.file || null;
                 const expectedPlayback = this.getExpectedContinuousPlayback();
+                const preserveTransientStop = options.preserveTransientStop !== false;
 
                 if (!isPlaying) {
+                    const recentlyBackgrounded = Date.now() - this.lastBackgroundStateChangeAt < 1500;
+                    const shouldPreserveState =
+                        preserveTransientStop
+                        && expectedPlayback
+                        && !document.hidden
+                        && recentlyBackgrounded
+                        && (this.nativeLoopActive
+                            || this.activeLoopProfileId === expectedPlayback.profile.id
+                            || document.body.classList.contains('noise-playing'));
+                    if (shouldPreserveState) {
+                        return;
+                    }
                     this.nativeLoopActive = false;
                     this.activeLoopProfileId = null;
                     this.activeLoopFile = null;
@@ -3736,6 +5245,21 @@
             }
         },
 
+        playNativeRelease() {
+            const plugins = this.getPlugins();
+            if (!plugins || !plugins.NativeHapticPlugin || !plugins.NativeHapticPlugin.playPremiumRelease) return false;
+            try {
+                const result = plugins.NativeHapticPlugin.playPremiumRelease();
+                if (result && typeof result.catch === 'function') {
+                    result.catch(error => console.warn('NativeHapticPlugin release failed:', error));
+                }
+                return true;
+            } catch (error) {
+                console.warn('NativeHapticPlugin release failed:', error);
+                return false;
+            }
+        },
+
         impact(style, delay = 0) {
             if (!AppState.vibrationEnabled) return;
             const plugins = this.getPlugins();
@@ -3784,8 +5308,7 @@
             if (!AppState.vibrationEnabled) return;
             const profile = this.getProfile(profileId).up;
             const plugins = this.getPlugins();
-            // Native composition already handles the release bounce in pressDown.
-            if (plugins && plugins.NativeHapticPlugin) {
+            if (this.getPlatform() === 'android' && this.playNativeRelease()) {
                 return;
             }
             if (plugins && plugins.Haptics) {
@@ -3846,16 +5369,18 @@
             this.el = document.getElementById('onboarding');
             this.track = document.getElementById('ob-track');
 
-            if (AppState.onboardingDone) {
+            if (AppState.onboardingDone && !FORCE_ONBOARDING_PREVIEW) {
                 this.el.style.display = 'none';
                 return;
             }
 
             AudioEngine.stopLoop();
-            AppState.save('theme', 'night');
-            AppState.save('currentSkin', 'classic-button');
-            AppState.save('currentSoundProfile', 'classic-click');
-            AppState.save('soundMode', 'matched');
+            if (!FORCE_ONBOARDING_PREVIEW) {
+                AppState.save('theme', 'night');
+                AppState.save('currentSkin', 'classic-button');
+                AppState.save('currentSoundProfile', 'classic-click');
+                AppState.save('soundMode', 'matched');
+            }
 
             // Demo button touch handling
             const demoBtn = document.getElementById('ob-demo-btn');
@@ -3866,6 +5391,7 @@
             demoBtn.addEventListener('pointerdown', (e) => {
                 e.preventDefault();
                 demoBtn.classList.add('pressed');
+                HapticsEngine.pressDown('light-click');
                 AudioEngine.play('classic-click', { force: true });
                 AudioEngine.resumeContext();
 
@@ -3888,10 +5414,12 @@
 
             demoBtn.addEventListener('pointerup', () => {
                 demoBtn.classList.remove('pressed');
+                HapticsEngine.pressUp('light-click');
             });
 
             demoBtn.addEventListener('pointerleave', () => {
                 demoBtn.classList.remove('pressed');
+                HapticsEngine.pressUp('light-click');
             });
 
             // Swipe gesture for onboarding
@@ -3907,6 +5435,11 @@
                     else if (dx < 0 && this.currentSlide > 0) this.goTo(this.currentSlide - 1);
                 }
             }, { passive: true });
+
+            if (FORCE_ONBOARDING_PREVIEW) {
+                const previewSlide = Number.parseInt(new URLSearchParams(window.location.search).get('slide') || '1', 10);
+                this.goTo(Math.max(0, Math.min(2, previewSlide - 1)));
+            }
         },
 
         goTo(index) {
@@ -3937,13 +5470,15 @@
 
         updateDemoCaption() {
             if (!this.demoCaption) return;
+            this.demoCaption.textContent = this.getDemoCaption();
+        },
+
+        getDemoCaption() {
             const remaining = Math.max(this.requiredPresses - this.demoPresses, 0);
             if (remaining === 0) {
-                return;
+                return '';
             }
-
-            const pressWord = remaining === 1 ? 'press' : 'presses';
-            this.demoCaption.innerHTML = `${remaining} more ${pressWord} to enter`;
+            return I18n.call('onboarding.pressesLeft', remaining);
         },
 
         finish() {
@@ -3976,8 +5511,7 @@
             const theme = THEMES.find(t => t.id === themeId);
             if (!theme) return;
 
-            // Check premium
-            if (!theme.free && !EntitlementManager.isPremium()) {
+            if (!AccessManager.canUseTheme(theme.id)) {
                 Paywall.open(themeId, 'theme');
                 return;
             }
@@ -4028,10 +5562,11 @@
             const container = document.getElementById('theme-carousel');
             container.innerHTML = '';
             THEMES.forEach(theme => {
+                const isLocked = !AccessManager.canUseTheme(theme.id);
                 const item = document.createElement('div');
                 item.className = 'theme-item'
                     + (theme.id === AppState.theme ? ' active' : '')
-                    + (!theme.free ? ' is-premium' : '');
+                    + (isLocked ? ' is-premium' : '');
                 item.dataset.theme = theme.id;
                 item.onclick = () => this.apply(theme.id);
 
@@ -4039,7 +5574,7 @@
                     <div class="theme-circle" style="--theme-bg: ${theme.bg}; --theme-light: ${theme.shadowL}; --theme-dark: ${theme.shadowD}; --theme-accent: ${theme.accent};">
                         <div class="theme-circle-inner"></div>
                     </div>
-                    <span class="theme-name">${theme.name}</span>
+                    <span class="theme-name">${I18n.theme(theme)}</span>
                 `;
 
                 container.appendChild(item);
@@ -4051,12 +5586,25 @@
        8. SOUND MANAGER
        ════════════════════════════════════════════════════════════ */
     const SoundManager = {
-        previewedProfiles: new Set(),
+        previewCounts: new Map(),
+        maxPreviewCount: 3,
         favoriteProfiles: new Set(AppState.favoriteSoundProfiles),
 
         resetPreviewHistory() {
-            this.previewedProfiles.clear();
+            this.previewCounts.clear();
             this.updateUI();
+        },
+
+        getPreviewCount(soundProfileId) {
+            return this.previewCounts.get(soundProfileId) || 0;
+        },
+
+        isPreviewLimitReached(soundProfileId) {
+            return this.getPreviewCount(soundProfileId) >= this.maxPreviewCount;
+        },
+
+        recordPreview(soundProfileId) {
+            this.previewCounts.set(soundProfileId, this.getPreviewCount(soundProfileId) + 1);
         },
 
         isFavorite(soundProfileId) {
@@ -4096,17 +5644,16 @@
         preview(soundProfileId) {
             const profile = SOUND_PROFILES.find(entry => entry.id === soundProfileId);
             if (!profile) return;
-            if (this.previewedProfiles.has(soundProfileId)) return;
+            if (this.isPreviewLimitReached(soundProfileId)) return;
 
+            this.recordPreview(soundProfileId);
             if (profile.mode === 'continuous') {
-                this.previewedProfiles.add(soundProfileId);
                 AudioEngine.previewLoop(soundProfileId, 5000);
                 HapticsEngine.light();
                 this.updateUI();
                 return;
             }
 
-            this.previewedProfiles.add(soundProfileId);
             AudioEngine.preview(soundProfileId);
             HapticsEngine.light();
             this.updateUI();
@@ -4116,7 +5663,7 @@
             const profile = SOUND_PROFILES.find(entry => entry.id === soundProfileId);
             if (!profile) return;
 
-            if (!profile.free && !EntitlementManager.isPremium()) {
+            if (!AccessManager.canUseSoundProfile(profile.id)) {
                 Paywall.open(soundProfileId, 'sound');
                 return;
             }
@@ -4132,7 +5679,7 @@
         updateUI() {
             document.querySelectorAll('.sound-item').forEach(item => {
                 const isActive = item.dataset.soundProfile === AppState.currentSoundProfile;
-                const isPreviewed = this.previewedProfiles.has(item.dataset.soundProfile);
+                const isPreviewed = this.isPreviewLimitReached(item.dataset.soundProfile);
                 const isFavorite = this.isFavorite(item.dataset.soundProfile);
                 const isPlaying = AudioEngine.activeLoopProfileId === item.dataset.soundProfile
                     && document.body.classList.contains('noise-playing');
@@ -4147,15 +5694,15 @@
                     const soundName = item.querySelector('.sound-name')?.textContent || 'sound';
                     favoriteButton.classList.toggle('active', isFavorite);
                     favoriteButton.setAttribute('aria-pressed', String(isFavorite));
-                    favoriteButton.setAttribute('aria-label', isFavorite ? `Remove ${soundName} from favorites` : `Add ${soundName} to favorites`);
+                    favoriteButton.setAttribute('aria-label', isFavorite ? I18n.call('actions.removeFavorite', soundName) : I18n.call('actions.addFavorite', soundName));
                     favoriteButton.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
                 }
                 if (!button) return;
                 button.classList.toggle('active', isActive);
                 button.disabled = isActive;
                 button.innerHTML = isActive
-                    ? '<svg viewBox="0 0 24 24"><path d="M9 16.17l-3.88-3.88L3.7 13.7 9 19 20.3 7.7l-1.41-1.41z"/></svg>Active'
-                    : '<svg viewBox="0 0 24 24"><path d="M9 16.17l-3.88-3.88L3.7 13.7 9 19 20.3 7.7l-1.41-1.41z"/></svg>Select';
+                    ? `<svg viewBox="0 0 24 24"><path d="M9 16.17l-3.88-3.88L3.7 13.7 9 19 20.3 7.7l-1.41-1.41z"/></svg>${I18n.t('actions.active')}`
+                    : `<svg viewBox="0 0 24 24"><path d="M9 16.17l-3.88-3.88L3.7 13.7 9 19 20.3 7.7l-1.41-1.41z"/></svg>${I18n.t('actions.select')}`;
             });
         },
 
@@ -4164,39 +5711,54 @@
             container.innerHTML = '';
             const availableProfiles = this.getAvailableProfiles();
 
+            if (!availableProfiles.length) {
+                if (AppState.currentSoundProfile) {
+                    AppState.save('currentSoundProfile', '');
+                }
+                AppState.save('soundMode', 'matched');
+                AudioEngine.stopLoop();
+                const empty = document.createElement('div');
+                empty.className = 'sound-list-empty';
+                empty.textContent = I18n.lang === 'uk'
+                    ? 'Для цього скіна окремих звуків немає.'
+                    : 'There are no separate sounds for this skin.';
+                container.appendChild(empty);
+                return;
+            }
+
             if (!availableProfiles.some(profile => profile.id === AppState.currentSoundProfile)) {
-                const recommendedId = SkinRegistry.getSelectedSkin().recommendedSoundProfileId;
-                const fallback = availableProfiles.find(profile => profile.id === recommendedId)
-                    || availableProfiles[0];
-                AppState.save('currentSoundProfile', fallback.id);
+                AppState.save('currentSoundProfile', getPreferredSoundProfileIdForSkin());
                 AppState.save('soundMode', 'matched');
             }
 
             availableProfiles.forEach(profile => {
                 const isActive = profile.id === AppState.currentSoundProfile;
+                const isLocked = !AccessManager.canUseSoundProfile(profile.id);
                 const item = document.createElement('div');
                 item.className = 'sound-item'
                     + (isActive ? ' active' : '')
-                    + (this.previewedProfiles.has(profile.id) ? ' preview-used' : '')
-                    + (!profile.free ? ' is-premium' : '');
+                    + (this.isPreviewLimitReached(profile.id) ? ' preview-used' : '')
+                    + (isLocked ? ' is-premium' : '');
                 item.dataset.soundProfile = profile.id;
                 item.innerHTML = `
-                    <div class="sound-preview" role="button" tabindex="0" aria-label="Preview ${profile.name}">
+                    <div class="sound-preview" role="button" tabindex="0" aria-label="${I18n.call('actions.preview', I18n.sound(profile, 'name'))}">
                         <div class="sound-icon">
                             <svg viewBox="0 0 24 24"><path d="${profile.iconPath}"/></svg>
                         </div>
                         <div class="sound-info">
-                            <div class="sound-name">${profile.name}</div>
-                            <div class="sound-desc">${profile.desc}</div>
+                            <div class="sound-name">${I18n.sound(profile, 'name')}</div>
+                            <div class="sound-desc">${I18n.sound(profile, 'desc')}</div>
                         </div>
                     </div>
-                    <button class="sound-favorite-btn${this.isFavorite(profile.id) ? ' active' : ''}" type="button" aria-label="${this.isFavorite(profile.id) ? `Remove ${profile.name} from favorites` : `Add ${profile.name} to favorites`}" aria-pressed="${this.isFavorite(profile.id)}">
-                        <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-                    </button>
-                    <button class="sound-select-btn${isActive ? ' active' : ''}" type="button"${isActive ? ' disabled' : ''}>
-                        <svg viewBox="0 0 24 24"><path d="M9 16.17l-3.88-3.88L3.7 13.7 9 19 20.3 7.7l-1.41-1.41z"/></svg>
-                        ${isActive ? 'Active' : 'Select'}
-                    </button>
+                    <div class="sound-actions">
+                        <button class="sound-favorite-btn${this.isFavorite(profile.id) ? ' active' : ''}" type="button" aria-label="${this.isFavorite(profile.id) ? I18n.call('actions.removeFavorite', I18n.sound(profile, 'name')) : I18n.call('actions.addFavorite', I18n.sound(profile, 'name'))}" aria-pressed="${this.isFavorite(profile.id)}">
+                            <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                        </button>
+                        <button class="sound-select-btn${isActive ? ' active' : ''}" type="button"${isActive ? ' disabled' : ''}>
+                            <svg viewBox="0 0 24 24"><path d="M9 16.17l-3.88-3.88L3.7 13.7 9 19 20.3 7.7l-1.41-1.41z"/></svg>
+                            ${isActive ? I18n.t('actions.active') : I18n.t('actions.select')}
+                        </button>
+                    </div>
                 `;
 
                 const preview = item.querySelector('.sound-preview');
@@ -4233,7 +5795,7 @@
             const skin = SKINS.find(entry => entry.id === skinId);
             if (!skin || skin.comingSoon) return;
 
-            if (!skin.free && !EntitlementManager.isPremium()) {
+            if (!AccessManager.canUseSkin(skin.id)) {
                 Paywall.open(skinId, 'skin');
                 return;
             }
@@ -4245,18 +5807,19 @@
             const currentSoundIsAvailable = SoundManager.getAvailableProfiles(skinId)
                 .some(profile => profile.id === AppState.currentSoundProfile);
             if (isFirstSelection || AppState.soundMode !== 'custom' || !currentSoundIsAvailable) {
-                AppState.save('currentSoundProfile', skin.recommendedSoundProfileId || 'classic-click');
+                AppState.save('currentSoundProfile', getPreferredSoundProfileIdForSkin(skinId));
                 AppState.save('soundMode', 'matched');
                 localStorage.setItem(recommendationKey, 'true');
             }
             HapticsEngine.light(skin.hapticProfile);
             this.updateUI();
             SoundManager.buildList();
+            KnowledgeManager.render();
             this.warmSkinAudio(skinId);
         },
 
         warmSkinAudio(skinId = AppState.currentSkin) {
-            if (!['pink-noise', 'brown-noise', 'rain'].includes(skinId)) return;
+            if (!['white-noise', 'pink-noise', 'orange-noise', 'brown-noise', 'infrared-noise', 'rain'].includes(skinId)) return;
             AudioEngine.warmContinuousProfilesForSkin(skinId);
         },
 
@@ -4269,7 +5832,7 @@
 
                 const foot = item.querySelector('.skin-foot');
                 if (!foot || item.classList.contains('coming-soon')) return;
-                foot.innerHTML = isActive ? '<span class="skin-badge">Active</span>' : '';
+                foot.innerHTML = isActive ? `<span class="skin-badge">${I18n.t('actions.active')}</span>` : '';
             });
         },
 
@@ -4278,13 +5841,13 @@
             container.innerHTML = '';
 
             SKINS.forEach(skin => {
-                const isLocked = !skin.comingSoon && !skin.free && !EntitlementManager.isPremium();
+                const isLocked = !skin.comingSoon && !AccessManager.canUseSkin(skin.id);
                 const isActive = skin.id === AppState.currentSkin;
 
                 const item = document.createElement('div');
                 item.className = 'skin-item'
                     + (isActive ? ' active' : '')
-                    + (!skin.free ? ' is-premium' : '')
+                    + (isLocked ? ' is-premium' : '')
                     + (skin.comingSoon ? ' coming-soon' : '');
                 item.dataset.skin = skin.id;
                 if (skin.comingSoon) {
@@ -4297,11 +5860,10 @@
                         <svg viewBox="0 0 24 24"><path d="${skin.iconPath}"/></svg>
                     </div>
                     <div class="skin-meta">
-                        <div class="skin-name">${skin.name}</div>
-                        <div class="skin-desc">${skin.desc}</div>
+                        <div class="skin-name">${I18n.skin(skin, 'name')}</div>
                     </div>
                     <div class="skin-foot">
-                        ${isActive ? '<span class="skin-badge">Active</span>' : ''}
+                        ${isActive ? `<span class="skin-badge">${I18n.t('actions.active')}</span>` : ''}
                         ${isLocked ? '<svg class="sound-lock" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM12 17c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zM9 8V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9z"/></svg>' : ''}
                     </div>
                 `;
@@ -4557,23 +6119,36 @@
 
             this.button.classList.add('is-pressed');
             this.createThemeSmoke();
-            HapticsEngine.pressDown(interaction.hapticProfile);
 
             if (interaction.interaction === 'continuous-toggle') {
+                HapticsEngine.pressDown(interaction.hapticProfile);
                 AudioEngine.toggleLoop(AppState.currentSoundProfile);
                 return;
             }
 
-            // Let the pressed frame paint first so one-shot sounds do not blunt the button press.
+            // Keep one-shot sound and haptic on the same frame so they feel like one physical press.
             requestAnimationFrame(() => {
                 if (!this.isPressed) return;
-                AudioEngine.play(AppState.currentSoundProfile, { phase: 'down' });
+                const soundProfile = SkinRegistry.getSoundProfile(AppState.currentSoundProfile);
+                const hapticOffsetMs = Number(soundProfile?.hapticOffsetMs ?? -30);
+                const fireHaptic = () => HapticsEngine.pressDown(interaction.hapticProfile);
+                const playSound = () => AudioEngine.play(AppState.currentSoundProfile, { phase: 'down' });
+                if (hapticOffsetMs < 0) {
+                    fireHaptic();
+                    setTimeout(playSound, Math.abs(hapticOffsetMs));
+                } else if (hapticOffsetMs > 0) {
+                    playSound();
+                    setTimeout(fireHaptic, hapticOffsetMs);
+                } else {
+                    fireHaptic();
+                    playSound();
+                }
             });
         },
 
         createThemeSmoke() {
             const theme = THEMES.find(entry => entry.id === AppState.theme);
-            if (!theme || theme.free || ['moon', 'pink-noise', 'brown-noise', 'rain'].includes(AppState.currentSkin)) return;
+            if (!theme || theme.free || ['moon', 'white-noise', 'pink-noise', 'orange-noise', 'brown-noise', 'infrared-noise', 'rain'].includes(AppState.currentSkin)) return;
 
             const app = document.getElementById('app');
             const appRect = app.getBoundingClientRect();
@@ -4667,6 +6242,7 @@
         open(pendingId = null, type = null) {
             this.pendingUnlockId = pendingId;
             this.pendingType = type;
+            this.updateBillingState(window.BillingBridge?.getState());
             this.el.classList.add('visible');
             HapticsEngine.light();
         },
@@ -4680,18 +6256,19 @@
         async purchase() {
             const button = document.getElementById('buy-btn');
             try {
+                button.dataset.busy = 'true';
                 button.disabled = true;
-                button.textContent = 'Connecting to store…';
+                button.textContent = I18n.t('paywall.connecting');
                 const premium = await EntitlementManager.purchase();
                 if (!premium) {
-                    alert('Purchase is pending or could not be verified.');
+                    alert(I18n.t('paywall.pending'));
                     return;
                 }
                 this.onEntitlementVerified();
             } catch (e) {
-                alert(e.message || 'Purchases are not available.');
+                alert(e.message || I18n.t('paywall.unavailable'));
             } finally {
-                button.disabled = false;
+                delete button.dataset.busy;
                 this.updateBillingState(window.BillingBridge?.getState());
             }
         },
@@ -4700,12 +6277,12 @@
             try {
                 const premium = await EntitlementManager.restore();
                 if (!premium) {
-                    alert('No active purchase found.');
+                    alert(I18n.t('paywall.none'));
                     return;
                 }
                 this.onEntitlementVerified();
             } catch (e) {
-                alert(e.message || 'Restore purchases is not available on this build yet.');
+                alert(e.message || I18n.t('paywall.restoreUnavailable'));
             }
         },
 
@@ -4735,11 +6312,23 @@
 
         updateBillingState(state) {
             const button = document.getElementById('buy-btn');
-            if (!button || button.disabled) return;
+            if (!button || button.dataset.busy === 'true') return;
+            const ready = state?.ready === true;
+            const available = state?.available === true;
             const price = state && state.price;
+
+            button.disabled = !ready || !available;
+            if (!ready) {
+                button.textContent = I18n.t('paywall.connecting');
+                return;
+            }
+            if (!available) {
+                button.textContent = I18n.t('paywall.unavailable');
+                return;
+            }
             button.textContent = price
-                ? `${price} • Lifetime Access`
-                : '$1.99 • Lifetime Access';
+                ? `${price} • ${I18n.t('paywall.lifetime')}`
+                : `$2.99 • ${I18n.t('paywall.lifetime')}`;
         }
     };
 
@@ -4756,8 +6345,8 @@
             Settings.close();
             const url = this.getStoreUrl();
             const shareData = {
-                title: 'Digital Fidget: Mental ASMR',
-                text: 'Try this tactile reset for calmer moments.',
+                title: I18n.t('actions.shareTitle'),
+                text: I18n.t('actions.shareText'),
                 url
             };
 
@@ -4768,13 +6357,13 @@
                 }
                 if (navigator.clipboard?.writeText) {
                     await navigator.clipboard.writeText(url);
-                    alert('App link copied.');
+                    alert(I18n.t('actions.copied'));
                     return;
                 }
-                window.prompt('Share this app link:', url);
+                window.prompt(I18n.t('actions.sharePrompt'), url);
             } catch (error) {
                 if (error?.name !== 'AbortError') {
-                    window.prompt('Share this app link:', url);
+                    window.prompt(I18n.t('actions.sharePrompt'), url);
                 }
             }
         }
@@ -4833,6 +6422,516 @@
             const url = AppActions.getStoreUrl();
             this.close();
             window.open(url, '_blank', 'noopener');
+        }
+    };
+
+    const SleepTimerManager = {
+        panel: null,
+        button: null,
+        statusEl: null,
+        countdownEl: null,
+        clearButton: null,
+        hoursList: null,
+        minutesList: null,
+        startButton: null,
+        decreaseButton: null,
+        increaseButton: null,
+        endsAt: 0,
+        activeMinutes: 0,
+        tickId: null,
+        completing: false,
+        minTotalMinutes: 1,
+        maxTotalMinutes: 480,
+        selectedHours: 0,
+        selectedMinutes: 15,
+        wheelItemHeight: 42,
+        wheelSyncFrame: 0,
+        isSyncingWheelScroll: false,
+        dismissSwipe: null,
+
+        init() {
+            this.panel = document.getElementById('sleep-timer-panel');
+            this.button = document.getElementById('sleep-timer-button');
+            this.statusEl = document.getElementById('sleep-timer-status');
+            this.countdownEl = document.getElementById('sleep-timer-countdown');
+            this.clearButton = document.getElementById('sleep-timer-clear');
+            this.hoursList = document.getElementById('sleep-timer-hours-list');
+            this.minutesList = document.getElementById('sleep-timer-minutes-list');
+            this.startButton = document.getElementById('sleep-timer-start');
+            this.decreaseButton = document.getElementById('sleep-timer-decrease');
+            this.increaseButton = document.getElementById('sleep-timer-increase');
+
+            this.button?.addEventListener('click', event => {
+                event.stopPropagation();
+                KnowledgeManager.close();
+                this.toggle();
+            });
+
+            this.panel?.addEventListener('click', event => event.stopPropagation());
+            document.addEventListener('click', event => {
+                if (!this.panel?.classList.contains('is-open')) return;
+                if (event.target.closest('.sleep-timer-wrap')) return;
+                this.close();
+            });
+
+            this.decreaseButton?.addEventListener('click', () => this.adjust(-5));
+            this.increaseButton?.addEventListener('click', () => this.adjust(5));
+            this.startButton?.addEventListener('click', () => this.start(this.getInputTotalMinutes()));
+            this.buildWheelList(this.hoursList, 'hours');
+            this.buildWheelList(this.minutesList, 'minutes');
+            this.setupWheel(this.hoursList, 'hours');
+            this.setupWheel(this.minutesList, 'minutes');
+            this.clearButton?.addEventListener('click', () => this.clear());
+            this.setInputTotalMinutes(15);
+            this.updateUI();
+            this.dismissSwipe = createHorizontalDismissGesture({
+                panel: this.panel,
+                onDismiss: () => this.close(),
+                ignoreSelector: '.sleep-timer-wheel-list, .sleep-timer-step, .sleep-timer-start, .sleep-timer-clear'
+            });
+        },
+
+        toggle() {
+            if (this.panel?.classList.contains('is-open')) {
+                this.close();
+            } else {
+                this.open();
+            }
+        },
+
+        open() {
+            this.setInputTotalMinutes(this.getInputTotalMinutes());
+            this.panel?.classList.add('is-open');
+            this.panel?.style.removeProperty('transform');
+            this.panel?.style.removeProperty('transition');
+            this.button?.setAttribute('aria-expanded', 'true');
+            HapticsEngine.light();
+        },
+
+        close() {
+            this.panel?.classList.remove('is-open');
+            this.panel?.style.removeProperty('transform');
+            this.panel?.style.removeProperty('transition');
+            this.button?.setAttribute('aria-expanded', 'false');
+        },
+
+        start(minutes) {
+            minutes = this.clampTotalMinutes(minutes);
+            this.setInputTotalMinutes(minutes);
+            this.endsAt = Date.now() + minutes * 60 * 1000;
+            this.activeMinutes = minutes;
+            this.completing = false;
+            this.setNativeTimer(minutes * 60 * 1000);
+            this.scheduleTick();
+            this.updateUI();
+            this.close();
+            HapticsEngine.light();
+        },
+
+        clampTotalMinutes(value) {
+            const parsed = Number.parseInt(value, 10);
+            if (!Number.isFinite(parsed)) return 15;
+            return Math.max(this.minTotalMinutes, Math.min(this.maxTotalMinutes, parsed));
+        },
+
+        getInputTotalMinutes() {
+            return this.clampTotalMinutes(this.selectedHours * 60 + this.selectedMinutes);
+        },
+
+        setInputTotalMinutes(totalMinutes, options = {}) {
+            const safeMinutes = this.clampTotalMinutes(totalMinutes);
+            const hours = Math.floor(safeMinutes / 60);
+            const minutes = safeMinutes % 60;
+            this.selectedHours = Math.max(0, Math.min(8, hours));
+            this.selectedMinutes = Math.max(0, Math.min(55, minutes - (minutes % 5)));
+            this.updateWheelSelection('hours', this.selectedHours, options.syncScroll !== false);
+            this.updateWheelSelection('minutes', this.selectedMinutes, options.syncScroll !== false);
+            if (!this.endsAt) this.updateUI();
+            return safeMinutes;
+        },
+
+        adjust(delta) {
+            this.setInputTotalMinutes(this.getInputTotalMinutes() + delta);
+            HapticsEngine.light();
+        },
+
+        buildWheelList(element, unit) {
+            if (!element) return;
+            const values = unit === 'hours'
+                ? Array.from({ length: 9 }, (_, index) => index)
+                : Array.from({ length: 12 }, (_, index) => index * 5);
+            const unitKey = unit === 'hours' ? 'timer.hr' : 'timer.min';
+            element.innerHTML = values.map(value => `
+                <div class="sleep-timer-wheel-item" data-unit="${unit}" data-value="${value}">
+                    <span class="sleep-timer-wheel-value">${value}</span>
+                    <span class="sleep-timer-wheel-unit">${I18n.t(unitKey)}</span>
+                </div>
+            `).join('');
+        },
+
+        setupWheel(element, unit) {
+            if (!element) return;
+            element.addEventListener('scroll', () => {
+                if (this.isSyncingWheelScroll) return;
+                if (this.wheelSyncFrame) cancelAnimationFrame(this.wheelSyncFrame);
+                this.wheelSyncFrame = requestAnimationFrame(() => this.syncWheelSelection(unit));
+            }, { passive: true });
+            element.addEventListener('click', event => {
+                const item = event.target.closest('.sleep-timer-wheel-item');
+                if (!item) return;
+                const value = Number.parseInt(item.dataset.value || '0', 10);
+                this.setWheelValue(unit, value);
+            });
+        },
+
+        syncWheelSelection(unit) {
+            const list = unit === 'hours' ? this.hoursList : this.minutesList;
+            if (!list) return;
+            const rawIndex = Math.round(list.scrollTop / this.wheelItemHeight);
+            const maxIndex = unit === 'hours' ? 8 : 11;
+            const index = Math.max(0, Math.min(maxIndex, rawIndex));
+            const value = unit === 'hours' ? index : index * 5;
+            this.setWheelValue(unit, value, { syncScroll: false, silent: true });
+            this.snapWheel(list, index);
+        },
+
+        setWheelValue(unit, value, options = {}) {
+            if (unit === 'hours') {
+                this.selectedHours = Math.max(0, Math.min(8, value));
+            } else {
+                this.selectedMinutes = Math.max(0, Math.min(55, value - (value % 5)));
+            }
+            this.setInputTotalMinutes(this.selectedHours * 60 + this.selectedMinutes, {
+                syncScroll: options.syncScroll !== false
+            });
+            if (!options.silent) HapticsEngine.light();
+        },
+
+        updateWheelSelection(unit, value, syncScroll = true) {
+            const list = unit === 'hours' ? this.hoursList : this.minutesList;
+            if (!list) return;
+            list.querySelectorAll('.sleep-timer-wheel-item').forEach(item => {
+                item.classList.toggle('is-selected', Number.parseInt(item.dataset.value || '0', 10) === value);
+            });
+            if (syncScroll) {
+                const index = unit === 'hours' ? value : Math.round(value / 5);
+                this.snapWheel(list, index);
+            }
+        },
+
+        snapWheel(list, index) {
+            this.isSyncingWheelScroll = true;
+            list.scrollTo({ top: index * this.wheelItemHeight, behavior: 'smooth' });
+            window.setTimeout(() => {
+                this.isSyncingWheelScroll = false;
+            }, 180);
+        },
+
+        clear(syncNative = true) {
+            this.clearTick();
+            this.endsAt = 0;
+            this.activeMinutes = 0;
+            this.completing = false;
+            if (syncNative) this.clearNativeTimer();
+            this.updateUI();
+            HapticsEngine.light();
+        },
+
+        clearTick() {
+            if (this.tickId) {
+                clearInterval(this.tickId);
+                this.tickId = null;
+            }
+        },
+
+        scheduleTick() {
+            this.clearTick();
+            this.tickId = window.setInterval(() => this.tick(), 1000);
+            this.tick();
+        },
+
+        tick() {
+            if (!this.endsAt) return;
+            const remainingMs = this.endsAt - Date.now();
+            if (remainingMs <= 0) {
+                this.complete();
+                return;
+            }
+            this.updateUI();
+        },
+
+        complete() {
+            this.completing = true;
+            this.clearTick();
+            this.endsAt = 0;
+            this.activeMinutes = 0;
+            this.close();
+            AudioEngine.stopLoop();
+            this.completing = false;
+            this.updateUI();
+        },
+
+        setNativeTimer(durationMs) {
+            const plugin = getNativeHapticPlugin();
+            if (!plugin?.setNoiseSleepTimer) return;
+            try {
+                const result = plugin.setNoiseSleepTimer({ durationMs });
+                if (result && typeof result.catch === 'function') {
+                    result.catch(error => console.warn('Native sleep timer failed:', error));
+                }
+            } catch (error) {
+                console.warn('Native sleep timer failed:', error);
+            }
+        },
+
+        clearNativeTimer() {
+            const plugin = getNativeHapticPlugin();
+            if (!plugin?.clearNoiseSleepTimer) return;
+            try {
+                const result = plugin.clearNoiseSleepTimer();
+                if (result && typeof result.catch === 'function') {
+                    result.catch(error => console.warn('Native sleep timer clear failed:', error));
+                }
+            } catch (error) {
+                console.warn('Native sleep timer clear failed:', error);
+            }
+        },
+
+        onLoopStateChange(isPlaying) {
+            if (!isPlaying && !this.completing && this.endsAt) {
+                this.clear(false);
+            }
+        },
+
+        formatRemaining() {
+            if (!this.endsAt) return I18n.t('timer.off');
+            const remainingSeconds = Math.max(0, Math.ceil((this.endsAt - Date.now()) / 1000));
+            const hours = Math.floor(remainingSeconds / 3600);
+            const minutes = Math.floor((remainingSeconds % 3600) / 60);
+            if (hours > 0) return `${hours}${I18n.t('timer.hr')} ${String(minutes).padStart(2, '0')}${I18n.t('timer.min')}`;
+            return `${Math.max(1, minutes)}${I18n.t('timer.min')}`;
+        },
+
+        formatSelectedDuration() {
+            const totalMinutes = this.getInputTotalMinutes();
+            const hours = Math.floor(totalMinutes / 60);
+            const minutes = totalMinutes % 60;
+            if (hours > 0) return `${hours}${I18n.t('timer.hr')} ${String(minutes).padStart(2, '0')}${I18n.t('timer.min')}`;
+            return `${Math.max(1, minutes)}${I18n.t('timer.min')}`;
+        },
+
+        updateUI() {
+            const hasTimer = this.endsAt > 0;
+            const displayValue = hasTimer ? this.formatRemaining() : this.formatSelectedDuration();
+            if (this.countdownEl) this.countdownEl.textContent = displayValue;
+            if (this.statusEl) {
+                this.statusEl.textContent = hasTimer
+                    ? I18n.call('timer.active', displayValue)
+                    : I18n.t('timer.idle');
+            }
+            this.button?.classList.toggle('active', hasTimer);
+        }
+    };
+    window.SleepTimerManager = SleepTimerManager;
+
+    const KnowledgeManager = {
+        panel: null,
+        button: null,
+        list: null,
+        scrollbarThumb: null,
+        dismissSwipe: null,
+        skinKeyMap: {
+            'white-noise': { title: 'knowledge.whiteTitle', copy: 'knowledge.whiteCopy' },
+            'pink-noise': { title: 'knowledge.pinkTitle', copy: 'knowledge.pinkCopy' },
+            'orange-noise': { title: 'knowledge.orangeTitle', copy: 'knowledge.orangeCopy' },
+            'brown-noise': { title: 'knowledge.brownTitle', copy: 'knowledge.brownCopy' },
+            'infrared-noise': { title: 'knowledge.infraTitle', copy: 'knowledge.infraCopy' },
+            rain: { title: 'knowledge.rainTitle', copy: 'knowledge.rainCopy' }
+        },
+
+        init() {
+            this.panel = document.getElementById('knowledge-panel');
+            this.button = document.getElementById('noise-knowledge-button');
+            this.list = document.getElementById('knowledge-list');
+            this.scrollbarThumb = document.getElementById('knowledge-scrollbar-thumb');
+            this.button?.addEventListener('click', event => {
+                event.stopPropagation();
+                SleepTimerManager.close();
+                this.toggle();
+            });
+            this.panel?.addEventListener('click', event => event.stopPropagation());
+            this.list?.addEventListener('scroll', () => this.updateScrollIndicator(), { passive: true });
+            document.addEventListener('click', event => {
+                if (!this.panel?.classList.contains('is-open')) return;
+                if (event.target.closest('.knowledge-wrap')) return;
+                this.close();
+            });
+            window.addEventListener('resize', () => this.updateScrollIndicator());
+            this.dismissSwipe = createHorizontalDismissGesture({
+                panel: this.panel,
+                onDismiss: () => this.close()
+            });
+            this.render();
+        },
+
+        toggle() {
+            if (this.panel?.classList.contains('is-open')) {
+                this.close();
+            } else {
+                this.open();
+            }
+        },
+
+        open() {
+            this.render();
+            this.panel?.classList.add('is-open');
+            this.panel?.style.removeProperty('transform');
+            this.panel?.style.removeProperty('transition');
+            this.button?.classList.add('active');
+            this.button?.setAttribute('aria-expanded', 'true');
+            this.updateScrollIndicator();
+            HapticsEngine.light();
+        },
+
+        close() {
+            this.panel?.classList.remove('is-open');
+            this.panel?.style.removeProperty('transform');
+            this.panel?.style.removeProperty('transition');
+            this.button?.classList.remove('active');
+            this.button?.setAttribute('aria-expanded', 'false');
+        },
+
+        render() {
+            if (!this.list) return;
+            const config = this.skinKeyMap[AppState.currentSkin];
+            if (!config) {
+                this.list.innerHTML = '';
+                return;
+            }
+
+            this.list.innerHTML = `
+                <div class="knowledge-item">
+                    <div class="knowledge-item-title">${I18n.t(config.title)}</div>
+                    <div class="knowledge-item-copy">${I18n.t(config.copy)}</div>
+                </div>
+            `;
+            this.list.scrollTop = 0;
+            this.updateScrollIndicator();
+        },
+
+        updateScrollIndicator() {
+            if (!this.list || !this.panel || !this.scrollbarThumb) return;
+            const maxScroll = this.list.scrollHeight - this.list.clientHeight;
+            const isScrollable = maxScroll > 4;
+            this.panel.classList.toggle('is-scrollable', isScrollable);
+            if (!isScrollable) {
+                this.scrollbarThumb.style.transform = 'translateY(0)';
+                this.scrollbarThumb.style.height = '48px';
+                return;
+            }
+
+            const visibleRatio = this.list.clientHeight / this.list.scrollHeight;
+            const trackHeight = this.list.clientHeight;
+            const thumbHeight = Math.max(42, Math.round(trackHeight * visibleRatio));
+            const maxThumbOffset = Math.max(trackHeight - thumbHeight, 0);
+            const progress = Math.min(Math.max(this.list.scrollTop / maxScroll, 0), 1);
+            this.scrollbarThumb.style.height = `${thumbHeight}px`;
+            this.scrollbarThumb.style.transform = `translateY(${Math.round(maxThumbOffset * progress)}px)`;
+        }
+    };
+
+    function createHorizontalDismissGesture({ panel, onDismiss, ignoreSelector = '' }) {
+        if (!panel || typeof onDismiss !== 'function') return null;
+        const state = {
+            tracking: false,
+            dragging: false,
+            startX: 0,
+            startY: 0,
+            lastX: 0,
+            lastAt: 0
+        };
+
+        const reset = () => {
+            state.tracking = false;
+            state.dragging = false;
+            panel.style.removeProperty('transform');
+            panel.style.removeProperty('transition');
+        };
+
+        panel.addEventListener('touchstart', event => {
+            if (!panel.classList.contains('is-open')) return;
+            if (ignoreSelector && event.target.closest(ignoreSelector)) return;
+            const touch = event.touches[0];
+            state.tracking = true;
+            state.dragging = false;
+            state.startX = touch.clientX;
+            state.startY = touch.clientY;
+            state.lastX = touch.clientX;
+            state.lastAt = Date.now();
+        }, { passive: true });
+
+        panel.addEventListener('touchmove', event => {
+            if (!state.tracking) return;
+            const touch = event.touches[0];
+            const dx = touch.clientX - state.startX;
+            const dy = touch.clientY - state.startY;
+            const absDx = Math.abs(dx);
+            const absDy = Math.abs(dy);
+
+            if (!state.dragging) {
+                if (absDy > absDx) {
+                    state.tracking = false;
+                    return;
+                }
+                if (absDx < 12 || absDx < absDy * 1.15) return;
+                state.dragging = true;
+                panel.style.transition = 'none';
+            }
+
+            state.lastX = touch.clientX;
+            state.lastAt = Date.now();
+            panel.style.transform = `translateX(${dx}px)`;
+            event.preventDefault();
+        }, { passive: false });
+
+        panel.addEventListener('touchend', event => {
+            if (!state.tracking && !state.dragging) return;
+            const touch = event.changedTouches[0];
+            const dx = touch.clientX - state.startX;
+            const dt = Math.max(Date.now() - state.lastAt, 1);
+            const velocity = (touch.clientX - state.lastX) / dt;
+            const shouldDismiss = Math.abs(dx) > 72 || Math.abs(velocity) > 0.35;
+
+            panel.style.removeProperty('transition');
+            if (shouldDismiss) {
+                onDismiss();
+            } else {
+                panel.style.transform = '';
+            }
+            state.tracking = false;
+            state.dragging = false;
+        }, { passive: true });
+
+        panel.addEventListener('touchcancel', reset, { passive: true });
+        return { reset };
+    }
+
+    const DevPreviewManager = {
+        button: null,
+
+        init() {
+            this.button = document.getElementById('dev-preview-onboarding');
+            if (!this.button || !PreviewAccess.allowsPremiumPreview()) return;
+            this.button.classList.add('is-visible');
+            this.button.addEventListener('click', () => this.openOnboardingPreview());
+        },
+
+        openOnboardingPreview() {
+            const url = new URL(window.location.href);
+            url.searchParams.set('lang', I18n.lang);
+            url.searchParams.set('slide', '1');
+            url.hash = 'onboarding-preview';
+            window.location.assign(url.toString());
         }
     };
 
@@ -4902,6 +7001,9 @@
             document.getElementById('toggle-sound').checked = AppState.soundEnabled;
             document.getElementById('toggle-vibration').checked = AppState.vibrationEnabled;
             document.getElementById('toggle-layout-centered').checked = AppState.layout === 'center';
+            I18n.populateLanguageSelect();
+            const languageSelect = document.getElementById('language-select');
+            if (languageSelect) languageSelect.value = AppState.language;
         },
 
         open() {
@@ -4950,6 +7052,11 @@
                 supportUrl: 'site/support/'
             };
             const target = isLocalPreview ? localPaths[key] || url : url;
+            const separator = target.includes('?') ? '&' : '?';
+            if (SUPPORTED_LANGUAGES.includes(I18n.lang)) {
+                window.location.assign(`${target}${separator}lang=${encodeURIComponent(I18n.lang)}`);
+                return;
+            }
             window.location.assign(target);
         }
     };
@@ -4958,6 +7065,8 @@
        15. INITIALIZATION
        ════════════════════════════════════════════════════════════ */
     async function initApp() {
+        AccessManager.init();
+
         // Init audio engine
         await AudioEngine.init();
 
@@ -4968,9 +7077,13 @@
         ButtonHandler.init();
         Paywall.init();
         Settings.init();
+        SleepTimerManager.init();
+        KnowledgeManager.init();
+        DevPreviewManager.init();
         RatePrompt.init();
 
         await EntitlementManager.refresh();
+        AccessManager.sanitizeState();
 
         const restoredSkin = SKINS.find(skin => skin.id === AppState.currentSkin);
         if (!restoredSkin || restoredSkin.comingSoon) {
@@ -4984,18 +7097,21 @@
         }
 
         if (!localStorage.getItem('rb_sound_profile_id') && AppState.soundMode !== 'custom') {
-            AppState.save('currentSoundProfile', SkinRegistry.getSelectedSkin().recommendedSoundProfileId || 'classic-click');
+            AppState.save('currentSoundProfile', getPreferredSoundProfileIdForSkin());
         }
 
         if (!isSoundProfileAvailableForSkin(AppState.currentSoundProfile, AppState.currentSkin)) {
-            AppState.save('currentSoundProfile', SkinRegistry.getSelectedSkin().recommendedSoundProfileId || 'classic-click');
+            AppState.save('currentSoundProfile', getPreferredSoundProfileIdForSkin());
             AppState.save('soundMode', 'matched');
         }
+
+        AccessManager.sanitizeState();
 
         // Build dynamic UI after entitlement state is known.
         ThemeManager.buildCarousel();
         SoundManager.buildList();
         SkinManager.buildList();
+        I18n.apply();
 
         // Restore saved state
         ThemeManager.apply(AppState.theme);
@@ -5011,7 +7127,7 @@
 
         document.getElementById('sheet-premium').addEventListener('click', () => {
             BottomSheet.close();
-            if (EntitlementManager.isPremium()) {
+            if (EntitlementManager.hasPaidPremium()) {
                 Settings.open();
             } else {
                 Paywall.open();
@@ -5031,11 +7147,25 @@
     document.addEventListener('pause', () => AudioEngine.setBackgroundLoopRequested(true), false);
     document.addEventListener('resume', () => {
         AudioEngine.setBackgroundLoopRequested(false);
+        if (AudioEngine.shouldSkipResumeSync()) {
+            return;
+        }
+        if (isNativeAndroid()) {
+            AudioEngine.scheduleNativeLoopStateSync();
+            return;
+        }
         AudioEngine.syncNativeLoopState();
     }, false);
     window.addEventListener('pagehide', () => AudioEngine.setBackgroundLoopRequested(true));
     window.addEventListener('pageshow', () => {
         AudioEngine.setBackgroundLoopRequested(false);
+        if (AudioEngine.shouldSkipResumeSync()) {
+            return;
+        }
+        if (isNativeAndroid()) {
+            AudioEngine.scheduleNativeLoopStateSync();
+            return;
+        }
         AudioEngine.syncNativeLoopState();
     });
     </script>
