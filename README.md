@@ -17,6 +17,11 @@ Digital Fidget: Mental ASMR is a Capacitor-based tactile wellness app for iOS an
 - The app contains no advertising or behavioral analytics SDK.
 - Local development junk such as `node_modules` and build artifacts are ignored.
 
+## Noise verification
+- Noise-color labels are verified from the source audio rather than assigned by feel alone.
+- The analysis uses Welch PSD estimation over averaged FFT frames, followed by linear regression in log-frequency coordinates to estimate the slope coefficient `alpha`.
+- We also track the `R^2` fit score to confirm that a recording closely matches the expected white, pink, brown, orange, infrared, or rain-adjacent spectral model.
+
 ## Build targets
 - Android via Capacitor
 - iOS via Capacitor

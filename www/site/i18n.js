@@ -14,7 +14,16 @@ const SITE_TEXT = {
         ['Tactile by design', 'Responsive sound and native haptics make each press feel deliberate and grounded.'],
         ['The core is free', 'Classic Click plus Classic and Night themes are always available. Premium unlocks the additional themes, sounds, and skins.'],
         ['Private and focused', 'No ads, no account required, and no behavioral analytics in the app.']
-      ]
+      ],
+      analysis: {
+        kicker: 'Noise verification',
+        title: 'Our noise labels are checked, not guessed.',
+        lead: 'To classify and verify each noise color, we analyze the power spectral density of the source audio and measure how energy decays across frequencies.',
+        items: [
+          ['Spectral method', 'We use Welch averaging across FFT frames, then fit the spectrum in logarithmic coordinates to estimate the slope coefficient alpha that defines the noise color.'],
+          ['Model confidence', 'We also track the R squared fit score to confirm that the measured spectrum actually matches the expected noise model with high confidence.']
+        ]
+      }
     },
     pages: {
       privacy: {
@@ -65,7 +74,7 @@ const SITE_TEXT = {
 
 Object.assign(SITE_TEXT, {
   uk: { ...SITE_TEXT.en, name: 'Українська', nav: ['Приватність', 'Умови', 'Підтримка'],
-    landing: { title: 'Digital Fidget: Mental ASMR - Натисни. Послухай. Видихни.', eyebrow: 'Маленький тактильний ритуал', h1: 'Натисни.<br>Послухай.<br>Видихни.', lead: 'Тиха wellness-кнопка для перевантажених моментів. Відчуй м’який haptic, почуй приємний клік і зроби коротку паузу для фокусу.', store: 'Скоро в', features: [['Тактильність у центрі', 'Живий звук і native haptics роблять кожне натискання чітким і заземленим.'], ['Основа безкоштовна', 'Classic Click, Classic і Night доступні завжди. Premium відкриває додаткові теми, звуки й скіни.'], ['Приватно й сфокусовано', 'Без реклами, без акаунта і без поведінкової аналітики в застосунку.']] },
+    landing: { title: 'Digital Fidget: Mental ASMR - Натисни. Послухай. Видихни.', eyebrow: 'Маленький тактильний ритуал', h1: 'Натисни.<br>Послухай.<br>Видихни.', lead: 'Тиха wellness-кнопка для перевантажених моментів. Відчуй м’який haptic, почуй приємний клік і зроби коротку паузу для фокусу.', store: 'Скоро в', features: [['Тактильність у центрі', 'Живий звук і native haptics роблять кожне натискання чітким і заземленим.'], ['Основа безкоштовна', 'Classic Click, Classic і Night доступні завжди. Premium відкриває додаткові теми, звуки й скіни.'], ['Приватно й сфокусовано', 'Без реклами, без акаунта і без поведінкової аналітики в застосунку.']], analysis: { kicker: 'Верифікація шуму', title: 'Наші назви шумів перевіряються, а не вгадуються.', lead: 'Щоб класифікувати й верифікувати кожен колір шуму, ми аналізуємо спектральну щільність потужності вихідного аудіо та вимірюємо, як енергія спадає по частотах.', items: [['Спектральний метод', 'Ми використовуємо метод Велча з усередненням FFT-фреймів, а потім апроксимуємо спектр у логарифмічних координатах, щоб оцінити показник схилу alpha, який визначає колір шуму.'], ['Надійність моделі', 'Додатково ми відстежуємо показник відповідності R squared, щоб підтвердити, що виміряний спектр справді з високою точністю відповідає очікуваній моделі шуму.']] } },
     pages: {
       privacy: { updated: 'Чинна з 10 червня 2026', h1: 'Політика приватності', intro: 'Digital Fidget: Mental ASMR працює без акаунта, реклами й поведінкової аналітики. Тут описано мінімальні дані, пов’язані з використанням застосунку та покупками.', sections: [['Дані на пристрої', 'Обрана тема, звук, позиція кнопки, онбординг і налаштування звуку/вібрації зберігаються локально. Ми їх не отримуємо.'], ['Покупки', 'Premium є lifetime-покупкою через App Store або Google Play. Ми не отримуємо повні дані платіжної картки.'], ['Перевірка квитанцій', 'Якщо увімкнено серверну перевірку, квитанція й обмежені технічні дані можуть оброблятися лише для підтвердження покупки, захисту від шахрайства й підтримки.'], ['Аналітика й реклама', 'Релізний застосунок не містить рекламних SDK, cross-app tracking або поведінкової аналітики. Ми не продаємо персональні дані.'], ['Постачальники', 'Apple і Google обробляють покупки за власними політиками. Iaptic і Google Cloud можуть допомагати з перевіркою покупок.'], ['Зберігання', 'Локальні налаштування залишаються на пристрої до очищення даних або видалення застосунку.'], ['Діти', 'Застосунок призначений для широкої аудиторії і не спрямований на дітей до 13 років.'], ['Ваш вибір', 'Можна скинути локальні налаштування, очистивши дані застосунку або видаливши його.'], ['Контакт', 'Email <a href="mailto:melnyklabs@gmail.com">melnyklabs@gmail.com</a>.']] },
       terms: { updated: 'Чинні з 10 червня 2026', h1: 'Умови використання', intro: 'Користуючись Digital Fidget: Mental ASMR, ви погоджуєтесь із цими умовами.', sections: [['Сервіс', 'Застосунок надає звуки, теми й haptic-відгук для загального розслаблення та розваги. Це не медичний пристрій.'], ['Premium', 'Premium є lifetime-покупкою для Apple або Google акаунта, з якого її придбано.'], ['Оплати й повернення', 'Оплати обробляє Apple або Google. Повернення регулюються правилами відповідного магазину.'], ['Допустиме використання', 'Використовуйте застосунок особисто й законно. Не втручайтесь у перевірку покупок і не поширюйте платні assets.'], ['Доступність', 'Ми можемо покращувати, оновлювати або змінювати частини застосунку.'], ['Відмова від гарантій', 'Застосунок надається “як є” у межах, дозволених законом.'], ['Контакт', 'Питання надсилайте на <a href="mailto:melnyklabs@gmail.com">melnyklabs@gmail.com</a>.']] },
@@ -195,6 +204,15 @@ function applySiteI18n() {
       const feature = text.landing.features[index] || SITE_TEXT.en.landing.features[index];
       item.querySelector('strong').textContent = feature[0];
       item.querySelector('p').textContent = feature[1];
+    });
+    const analysis = text.landing.analysis || SITE_TEXT.en.landing.analysis;
+    document.querySelector('.analysis-kicker').textContent = analysis.kicker;
+    document.querySelector('.analysis-card h2').textContent = analysis.title;
+    document.querySelector('.analysis-lead').textContent = analysis.lead;
+    document.querySelectorAll('.analysis-block').forEach((item, index) => {
+      const block = analysis.items[index] || SITE_TEXT.en.landing.analysis.items[index];
+      item.querySelector('strong').textContent = block[0];
+      item.querySelector('p').textContent = block[1];
     });
     return;
   }

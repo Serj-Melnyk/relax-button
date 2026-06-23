@@ -41,6 +41,24 @@
       <article class="feature"><strong>The core is free</strong><p>Classic Click plus Classic and Night themes are always available. Premium unlocks the additional themes, sounds, and skins.</p></article>
       <article class="feature"><strong>Private and focused</strong><p>No ads, no account required, and no behavioral analytics in the app.</p></article>
     </section>
+
+    <section class="shell analysis-section" aria-label="Noise verification">
+      <div class="analysis-card">
+        <p class="analysis-kicker">Noise verification</p>
+        <h2>Our noise labels are checked, not guessed.</h2>
+        <p class="analysis-lead">To classify and verify each noise color, we analyze the power spectral density of the source audio and measure how energy decays across frequencies.</p>
+        <div class="analysis-grid">
+          <article class="analysis-block">
+            <strong>Spectral method</strong>
+            <p>We use Welch averaging across FFT frames, then fit the spectrum in logarithmic coordinates to estimate the slope coefficient α that defines the noise color.</p>
+          </article>
+          <article class="analysis-block">
+            <strong>Model confidence</strong>
+            <p>We also track the R² fit score to confirm that the measured spectrum actually matches the expected noise model with high confidence.</p>
+          </article>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer class="shell footer">
