@@ -9,7 +9,7 @@
 - Confirm Premium unlocks every other theme and all additional sounds
 - Confirm Purchase and Restore use the localized store product
 - Confirm Privacy, Terms, and Support pages are deployed over HTTPS
-- Confirm `oktober15sm@gmail.com` is monitored
+- Confirm `melnyklabs@gmail.com` is monitored
 
 ## Android
 

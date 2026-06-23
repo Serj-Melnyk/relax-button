@@ -5,9 +5,9 @@
 - Primary category: Health & Fitness
 - Secondary category: Lifestyle
 - Age rating target: 4+
-- Privacy URL: https://relaxbutton.app/privacy
-- Support URL: https://relaxbutton.app/support
-- Marketing URL: https://relaxbutton.app
+- Privacy URL: https://relaxbutton.melnyklabs.com/privacy
+- Support URL: https://relaxbutton.melnyklabs.com/support
+- Marketing URL: https://relaxbutton.melnyklabs.com
 
 ## Promotional Text
 

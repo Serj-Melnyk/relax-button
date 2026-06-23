@@ -3776,6 +3776,8 @@
                 'pink-light-rain': ['Light Rain Outside', 'Gentle rain beyond the window'],
                 'brown-noise': ['Brown Noise', 'Deep low noise'],
                 'brown-ocean-waves': ['Ocean Waves', 'Brown noise with distant surf'],
+                'brown-ideal-ocean-waves': ['Ideal Ocean Waves', 'Brown noise with ideal ocean waves'],
+                'brown-spring-birds': ['Spring Birds', 'Brown noise with soft spring birds'],
                 'door-lock': ['Door Lock', 'Solid locking mechanism'],
                 'double-button': ['Double Button', 'Layered double tap click'],
                 'button-click': ['Button Click', 'Crisp mechanical press'],
@@ -3893,7 +3895,9 @@
             'pink-noise': ['Вітер і рожевий шум', 'М’який вітер і збалансований шум'],
             'pink-light-rain': ['Легкий дощ за вікном', 'Ніжний дощ поза вікном'],
             'brown-noise': ['Коричневий шум', 'Глибокий низький шум'],
-            'brown-ocean-waves': ['Океанські хвилі', 'Коричневий шум із далеким прибоєм']
+            'brown-ocean-waves': ['Океанські хвилі', 'Коричневий шум із далеким прибоєм'],
+            'brown-ideal-ocean-waves': ['Ідеальні океанські хвилі', 'Коричневий шум з ідеальними океанськими хвилями'],
+            'brown-spring-birds': ['Весняні птахи', 'Коричневий шум із м’якими весняними птахами']
         }
     };
 
@@ -4281,6 +4285,12 @@
         { id: 'brown-ocean-waves', name: 'Ocean Waves', desc: 'Brown noise with distant surf',
           free: true, gain: 0.72, iconPath: 'M3 13c2.1-3.5 4.2-3.5 6.3 0s4.2 3.5 6.3 0 4.2-3.5 5.4-1.1V14c-1.2-2.4-3.3-2.4-5.4 1.1s-4.2 3.5-6.3 0S5.1 11.6 3 15.1V13zm1.5 4c1.5-1.6 3-1.6 4.5 0s3 1.6 4.5 0 3-1.6 4.5 0 3 1.6 4.5 0v2c-1.5 1.6-3 1.6-4.5 0s-3-1.6-4.5 0-3 1.6-4.5 0-3-1.6-4.5 0v-2z',
           mode: 'continuous', variations: ['brown-noise-ocean-waves.wav'], pitchJitter: 0, loopStart: 0.08, loopEndTrim: 0.12 },
+        { id: 'brown-ideal-ocean-waves', name: 'Ideal Ocean Waves', desc: 'Brown noise with ideal ocean waves',
+          free: true, gain: 0.72, iconPath: 'M3 13c2.1-3.5 4.2-3.5 6.3 0s4.2 3.5 6.3 0 4.2-3.5 5.4-1.1V14c-1.2-2.4-3.3-2.4-5.4 1.1s-4.2 3.5-6.3 0S5.1 11.6 3 15.1V13zm1.5 4c1.5-1.6 3-1.6 4.5 0s3 1.6 4.5 0 3-1.6 4.5 0 3 1.6 4.5 0v2c-1.5 1.6-3 1.6-4.5 0s-3-1.6-4.5 0-3 1.6-4.5 0-3-1.6-4.5 0v-2z',
+          mode: 'continuous', variations: ['Loop-1x-BROWN-ideal-noise-ocean-waves.m4a'], pitchJitter: 0, loopStart: 0.08, loopEndTrim: 0.12 },
+        { id: 'brown-spring-birds', name: 'Spring Birds', desc: 'Brown noise with soft spring birds',
+          free: true, gain: 0.72, iconPath: 'M4.5 14.5c1.4-1.8 3-2.4 4.7-1.6 1.2.6 2.2 1.6 3.3 1.6 1.1 0 2.1-1 3.3-1.6 1.7-.8 3.3-.2 4.7 1.6-.6-3.5-2.5-5.7-5.2-5.7-1.4 0-2.2.6-3.3 1.3-1.1-.7-1.9-1.3-3.3-1.3-2.7 0-4.6 2.2-5.2 5.7zm2.3 2.5c.9 0 1.5-.5 2.1-1 .8-.6 1.6-1.2 3.1-1.2s2.3.6 3.1 1.2c.6.5 1.2 1 2.1 1 1.7 0 3-1 3.8-2.7V17c-.8 1.1-2 1.8-3.8 1.8-1.3 0-2.2-.6-3-1.2-.7-.5-1.3-1-2.2-1s-1.5.5-2.2 1c-.8.6-1.7 1.2-3 1.2-1.8 0-3-.7-3.8-1.8v-2.7C3.8 16 5.1 17 6.8 17z',
+          mode: 'continuous', variations: ['Loop-2x-BROWN-spring-birds.m4a'], pitchJitter: 0, loopStart: 0.08, loopEndTrim: 0.12 },
         { id: 'door-lock', name: 'Door Lock', desc: 'Solid locking mechanism',
           free: false, gain: 0.96, iconPath: 'M17 8h-1V6c0-2.21-1.79-4-4-4S8 3.79 8 6v2H7c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-5 9c-1.1 0-2-.9-2-2 0-.74.4-1.38 1-1.72V12h2v1.28c.6.34 1 .98 1 1.72 0 1.1-.9 2-2 2zm2-9h-4V6c0-1.1.9-2 2-2s2 .9 2 2v2z',
           mode: 'single', variations: ['locking-door.mp3'], pitchJitter: 0 },
@@ -4354,7 +4364,7 @@
         if (skinId === 'white-noise') return WHITE_NOISE_SOUND_PROFILE_IDS.has(soundProfileId);
         if (skinId === 'pink-noise') return PINK_NOISE_SOUND_PROFILE_IDS.has(soundProfileId);
         if (skinId === 'orange-noise') return ORANGE_NOISE_SOUND_PROFILE_IDS.has(soundProfileId);
-        if (skinId === 'brown-noise') return ['pink-light-rain', 'brown-ocean-waves'].includes(soundProfileId);
+        if (skinId === 'brown-noise') return ['brown-ideal-ocean-waves', 'brown-spring-birds'].includes(soundProfileId);
         if (skinId === 'infrared-noise') return soundProfileId === 'infrared-noise';
         if (skinId === 'rain') return RAIN_SOUND_PROFILE_IDS.has(soundProfileId);
         return !MOON_SOUND_PROFILE_IDS.has(soundProfileId)
@@ -4362,7 +4372,7 @@
             && !PINK_NOISE_SOUND_PROFILE_IDS.has(soundProfileId)
             && !ORANGE_NOISE_SOUND_PROFILE_IDS.has(soundProfileId)
             && soundProfileId !== 'infrared-noise'
-            && !['pink-light-rain', 'brown-ocean-waves'].includes(soundProfileId)
+            && !['brown-ideal-ocean-waves', 'brown-spring-birds'].includes(soundProfileId)
             && !RAIN_SOUND_PROFILE_IDS.has(soundProfileId);
     }
 

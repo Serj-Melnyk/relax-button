@@ -29,8 +29,8 @@ If server-side receipt validation is enabled, disclose Purchases under App Funct
 
 ## Public URLs
 
-- Privacy: `https://relaxbutton.app/privacy`
-- Terms: `https://relaxbutton.app/terms`
-- Support: `https://relaxbutton.app/support`
+- Privacy: `https://relaxbutton.melnyklabs.com/privacy`
+- Terms: `https://relaxbutton.melnyklabs.com/terms`
+- Support: `https://relaxbutton.melnyklabs.com/support`
 
-The support mailbox `oktober15sm@gmail.com` must be active before submission.
+The support mailbox `melnyklabs@gmail.com` must be active before submission.

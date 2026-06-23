@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Build;
+import android.os.VibrationAttributes;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.os.VibratorManager;
@@ -28,6 +29,12 @@ public class NativeHapticPlugin extends Plugin {
     }
 
     @PluginMethod
+    public void playPremiumRelease(PluginCall call) {
+        Log.d(TAG, "playPremiumRelease");
+        playHapticWithStyle(call, "release");
+    }
+
+    @PluginMethod
     public void playHaptic(PluginCall call) {
         String style = call.getString("style", "light");
         playHapticWithStyle(call, style);
@@ -40,9 +47,16 @@ public class NativeHapticPlugin extends Plugin {
         }
 
         getActivity().runOnUiThread(() -> {
-            boolean handled = triggerSystemHaptic(style);
-            if (!handled) {
+            boolean handled;
+            if ("premium".equals(style)) {
                 handled = triggerVibratorWithStyle(style);
+            } else if ("release".equals(style)) {
+                handled = true;
+            } else {
+                handled = triggerSystemHaptic(style);
+                if (!handled && shouldUseVibratorFallback(style)) {
+                    handled = triggerVibratorWithStyle(style);
+                }
             }
             Log.d(TAG, "playHaptic (" + style + ") handled=" + handled);
             call.resolve();
@@ -55,29 +69,44 @@ public class NativeHapticPlugin extends Plugin {
                 return false;
             }
 
-            View view = getActivity().getWindow().getDecorView();
-            if (view == null) {
+            View decorView = getActivity().getWindow().getDecorView();
+            View webView = getBridge() != null ? getBridge().getWebView() : null;
+            if (decorView == null && webView == null) {
                 return false;
             }
 
-            view.setHapticFeedbackEnabled(true);
             int feedbackConstant;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && "premium".equals(style)) {
-                feedbackConstant = HapticFeedbackConstants.CONFIRM;
-            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if ("release".equals(style)) {
+                feedbackConstant = HapticFeedbackConstants.VIRTUAL_KEY_RELEASE;
+            } else if ("heavy".equals(style) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 feedbackConstant = HapticFeedbackConstants.CONTEXT_CLICK;
+            } else if ("light".equals(style) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                feedbackConstant = HapticFeedbackConstants.CLOCK_TICK;
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                feedbackConstant = HapticFeedbackConstants.VIRTUAL_KEY;
             } else {
                 feedbackConstant = HapticFeedbackConstants.VIRTUAL_KEY;
             }
 
-            return view.performHapticFeedback(
-                feedbackConstant,
-                HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING
-            );
+            return performSystemHaptic(webView, feedbackConstant)
+                || performSystemHaptic(decorView, feedbackConstant);
         } catch (Exception error) {
             Log.w(TAG, "System haptic failed", error);
             return false;
         }
+    }
+
+    private boolean performSystemHaptic(View view, int feedbackConstant) {
+        if (view == null) return false;
+        view.setHapticFeedbackEnabled(true);
+        return view.performHapticFeedback(
+            feedbackConstant,
+            HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING
+        );
+    }
+
+    private boolean shouldUseVibratorFallback(String style) {
+        return !("premium".equals(style) || "release".equals(style) || "light".equals(style));
     }
 
     private boolean triggerVibratorWithStyle(String style) {
@@ -95,30 +124,64 @@ public class NativeHapticPlugin extends Plugin {
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+                if ("premium".equals(style)
+                    && Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+                    && vibrator.areAllPrimitivesSupported(
+                        VibrationEffect.Composition.PRIMITIVE_CLICK,
+                        VibrationEffect.Composition.PRIMITIVE_TICK
+                    )) {
+                    Log.d(TAG, "Vibrator premium mechanical CLICK/TICK");
+                    vibrateEffect(
+                        vibrator,
+                        VibrationEffect.startComposition()
+                            .addPrimitive(VibrationEffect.Composition.PRIMITIVE_CLICK, 0.48f)
+                            .addPrimitive(VibrationEffect.Composition.PRIMITIVE_LOW_TICK, 0.14f, 28)
+                            .compose(),
+                        true
+                    );
+                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
                     && vibrator.areAllPrimitivesSupported(VibrationEffect.Composition.PRIMITIVE_CLICK)) {
-                    float scale = "heavy".equals(style) ? 0.85f : ("medium".equals(style) ? 0.65f : 0.48f);
-                    vibrator.vibrate(
+                    float scale = "premium".equals(style) ? 0.70f : ("heavy".equals(style) ? 0.85f : ("medium".equals(style) ? 0.65f : 0.48f));
+                    Log.d(TAG, "Vibrator primitive CLICK scale=" + scale);
+                    vibrateEffect(
+                        vibrator,
                         VibrationEffect.startComposition()
                             .addPrimitive(VibrationEffect.Composition.PRIMITIVE_CLICK, scale)
-                            .compose()
+                            .compose(),
+                        "premium".equals(style)
                     );
                 } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    int effect = "heavy".equals(style)
+                    int effect = ("premium".equals(style) || "heavy".equals(style))
                         ? VibrationEffect.EFFECT_CLICK
                         : VibrationEffect.EFFECT_TICK;
-                    vibrator.vibrate(VibrationEffect.createPredefined(effect));
+                    Log.d(TAG, "Vibrator predefined effect=" + effect);
+                    vibrateEffect(vibrator, VibrationEffect.createPredefined(effect), "premium".equals(style));
                 } else {
-                    vibrator.vibrate(VibrationEffect.createOneShot("heavy".equals(style) ? 10 : 6, VibrationEffect.DEFAULT_AMPLITUDE));
+                    long duration = "premium".equals(style) ? 12 : ("heavy".equals(style) ? 10 : 6);
+                    int amplitude = "premium".equals(style) ? 180 : VibrationEffect.DEFAULT_AMPLITUDE;
+                    Log.d(TAG, "Vibrator oneshot duration=" + duration + " amplitude=" + amplitude);
+                    vibrateEffect(vibrator, VibrationEffect.createOneShot(duration, amplitude), "premium".equals(style));
                 }
             } else {
-                vibrator.vibrate("heavy".equals(style) ? 10 : 6);
+                vibrator.vibrate("premium".equals(style) ? 12 : ("heavy".equals(style) ? 10 : 6));
             }
             return true;
         } catch (Exception error) {
             Log.w(TAG, "Vibrator fallback failed", error);
             return false;
         }
+    }
+
+    private void vibrateEffect(Vibrator vibrator, VibrationEffect effect, boolean useHardwareFeedback) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && useHardwareFeedback) {
+            VibrationAttributes attributes = new VibrationAttributes.Builder()
+                .setUsage(VibrationAttributes.USAGE_HARDWARE_FEEDBACK)
+                .build();
+            Log.d(TAG, "Vibrator attributes usage=HARDWARE_FEEDBACK");
+            vibrator.vibrate(effect, attributes);
+            return;
+        }
+        vibrator.vibrate(effect);
     }
 
     @PluginMethod
@@ -162,6 +225,25 @@ public class NativeHapticPlugin extends Plugin {
         Intent intent = new Intent(getContext(), NoisePlaybackService.class);
         intent.setAction(NoisePlaybackService.ACTION_VOLUME);
         intent.putExtra(NoisePlaybackService.EXTRA_VOLUME, gain.floatValue());
+        getContext().startService(intent);
+        call.resolve();
+    }
+
+    @PluginMethod
+    public void setNoiseSleepTimer(PluginCall call) {
+        Double durationMs = call.getDouble("durationMs", 0.0);
+        Intent intent = new Intent(getContext(), NoisePlaybackService.class);
+        intent.setAction(NoisePlaybackService.ACTION_SLEEP_TIMER);
+        intent.putExtra(NoisePlaybackService.EXTRA_SLEEP_TIMER_MS, durationMs.longValue());
+        getContext().startService(intent);
+        call.resolve();
+    }
+
+    @PluginMethod
+    public void clearNoiseSleepTimer(PluginCall call) {
+        Intent intent = new Intent(getContext(), NoisePlaybackService.class);
+        intent.setAction(NoisePlaybackService.ACTION_SLEEP_TIMER);
+        intent.putExtra(NoisePlaybackService.EXTRA_SLEEP_TIMER_MS, 0L);
         getContext().startService(intent);
         call.resolve();
     }

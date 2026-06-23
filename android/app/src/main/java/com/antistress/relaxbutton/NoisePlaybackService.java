@@ -31,10 +31,12 @@ public class NoisePlaybackService extends Service {
     public static final String ACTION_START = "com.antistress.relaxbutton.START_NOISE";
     public static final String ACTION_STOP = "com.antistress.relaxbutton.STOP_NOISE";
     public static final String ACTION_VOLUME = "com.antistress.relaxbutton.NOISE_VOLUME";
+    public static final String ACTION_SLEEP_TIMER = "com.antistress.relaxbutton.SLEEP_TIMER";
     public static final String EXTRA_FILE = "file";
     public static final String EXTRA_VOLUME = "volume";
     public static final String EXTRA_LOOP_START_MS = "loopStartMs";
     public static final String EXTRA_LOOP_END_TRIM_MS = "loopEndTrimMs";
+    public static final String EXTRA_SLEEP_TIMER_MS = "sleepTimerMs";
     private static final String CHANNEL_ID = "relax_noise_playback";
     private static final int NOTIFICATION_ID = 7001;
     private static final String TAG = "NoisePlaybackService";
@@ -69,6 +71,17 @@ public class NoisePlaybackService extends Service {
     private AudioManager audioManager;
     private AudioFocusRequest audioFocusRequest;
     private final Handler watchdogHandler = new Handler(Looper.getMainLooper());
+    private final Runnable sleepTimerStop = new Runnable() {
+        @Override
+        public void run() {
+            Log.d(TAG, "Sleep timer elapsed; stopping noise");
+            clearSavedState();
+            abandonAudioFocus();
+            stopPlayback();
+            dismissPlaybackNotification();
+            stopSelf();
+        }
+    };
     private final Runnable playbackWatchdog = new Runnable() {
         @Override
         public void run() {
@@ -101,6 +114,10 @@ public class NoisePlaybackService extends Service {
         if (intent != null && ACTION_VOLUME.equals(intent.getAction())) {
             setPlayerVolume(intent.getFloatExtra(EXTRA_VOLUME, 0f));
             savePlaybackState(currentFile, currentVolume, exoPlayer != null && exoPlayer.isPlaying(), currentLoopStartMs, currentLoopEndTrimMs);
+            return START_REDELIVER_INTENT;
+        }
+        if (intent != null && ACTION_SLEEP_TIMER.equals(intent.getAction())) {
+            scheduleSleepTimer(intent.getLongExtra(EXTRA_SLEEP_TIMER_MS, 0L));
             return START_REDELIVER_INTENT;
         }
 
@@ -196,6 +213,7 @@ public class NoisePlaybackService extends Service {
     private void stopPlayback() {
         loopGeneration += 1;
         scheduledExoRolloverGeneration = -1;
+        watchdogHandler.removeCallbacks(sleepTimerStop);
         stopWatchdog();
         if (exoPlayer != null) {
             try {
@@ -224,6 +242,16 @@ public class NoisePlaybackService extends Service {
         player = null;
         currentFile = null;
         clearLiveState();
+    }
+
+    private void scheduleSleepTimer(long durationMs) {
+        watchdogHandler.removeCallbacks(sleepTimerStop);
+        if (durationMs <= 0L) {
+            Log.d(TAG, "Sleep timer cleared");
+            return;
+        }
+        Log.d(TAG, "Sleep timer scheduled durationMs=" + durationMs);
+        watchdogHandler.postDelayed(sleepTimerStop, durationMs);
     }
 
     private ExoPlayer createExoPlayer(String file, float volume) {
