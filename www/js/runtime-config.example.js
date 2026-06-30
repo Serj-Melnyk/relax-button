@@ -15,5 +15,10 @@ window.__APP_RUNTIME_CONFIG__ = {
     landingUrl: "https://example.com",
     playStoreUrl: "https://play.google.com/store/apps/details?id=com.example.app",
     appStoreUrl: "https://apps.apple.com/app/id0000000000"
+  },
+  media: {
+    // Deployed Firebase HTTPS function or another server endpoint that proxies Pixabay.
+    // Never place the raw Pixabay API key in this file.
+    pixabayProxyUrl: "https://us-central1-your-project.cloudfunctions.net/searchPixabay"
   }
 };

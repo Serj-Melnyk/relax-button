@@ -17,6 +17,12 @@ Digital Fidget: Mental ASMR is a Capacitor-based tactile wellness app for iOS an
 - The app contains no advertising or behavioral analytics SDK.
 - Local development junk such as `node_modules` and build artifacts are ignored.
 
+## Secret handling
+- Third-party API keys must stay on the server side only.
+- `functions/validateReceipt` proxies Iaptic receipt validation with Firebase secrets.
+- `functions/searchPixabay` proxies Pixabay search with a Firebase secret and returns a reduced safe payload for the app.
+- Public runtime config may contain a deployed proxy URL such as `media.pixabayProxyUrl`, but never a raw vendor API key.
+
 ## Noise verification
 - Noise-color labels are verified from the source audio rather than assigned by feel alone.
 - The analysis uses Welch PSD estimation over averaged FFT frames, followed by linear regression in log-frequency coordinates to estimate the slope coefficient `alpha`.
@@ -29,6 +35,7 @@ Digital Fidget: Mental ASMR is a Capacitor-based tactile wellness app for iOS an
 ## Next steps
 - Create and activate `premium_lifetime` in App Store Connect and Play Console.
 - Deploy the optional receipt validator and configure its URL.
+- If Button needs remote image search, deploy `functions/searchPixabay` and configure `media.pixabayProxyUrl`.
 - Configure release signing and publish the public `site/` directory.
 - Regenerate store artwork when UI changes with `npm run assets:release`.
 - Follow `release/STORE-SUBMISSION.md`.

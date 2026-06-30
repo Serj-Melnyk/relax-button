@@ -1,0 +1,13 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1024" height="1024" fill="#FFFFFF"/>
+  <defs>
+    <filter id="brandShadow" x="112" y="112" width="800" height="800" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="26" dy="26" stdDeviation="34" flood-color="#BEC2C7" flood-opacity="0.9"/>
+      <feDropShadow dx="-18" dy="-18" stdDeviation="30" flood-color="#FFFFFF" flood-opacity="0.98"/>
+    </filter>
+  </defs>
+  <g filter="url(#brandShadow)">
+    <circle cx="512" cy="512" r="288" fill="#E5E7E9"/>
+  </g>
+  <circle cx="512" cy="512" r="122" fill="#6550AA"/>
+</svg>

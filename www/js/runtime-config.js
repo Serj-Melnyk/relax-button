@@ -14,5 +14,8 @@ window.__APP_RUNTIME_CONFIG__ = {
     landingUrl: "https://relaxbutton.melnyklabs.com",
     playStoreUrl: "https://play.google.com/store/apps/details?id=com.antistress.relaxbutton",
     appStoreUrl: ""
+  },
+  media: {
+    pixabayProxyUrl: ""
   }
 };

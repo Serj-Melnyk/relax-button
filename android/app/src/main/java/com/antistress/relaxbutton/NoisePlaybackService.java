@@ -8,19 +8,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ServiceInfo;
-import android.content.res.AssetFileDescriptor;
+import android.media.AudioAttributes;
 import android.media.AudioFocusRequest;
 import android.media.AudioManager;
-import android.media.AudioAttributes;
-import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
-import android.os.PowerManager;
+import android.os.SystemClock;
 import android.util.Log;
+
 import androidx.media3.common.C;
 import androidx.media3.common.MediaItem;
 import androidx.media3.common.PlaybackException;
@@ -37,6 +36,7 @@ public class NoisePlaybackService extends Service {
     public static final String EXTRA_LOOP_START_MS = "loopStartMs";
     public static final String EXTRA_LOOP_END_TRIM_MS = "loopEndTrimMs";
     public static final String EXTRA_SLEEP_TIMER_MS = "sleepTimerMs";
+
     private static final String CHANNEL_ID = "relax_noise_playback";
     private static final int NOTIFICATION_ID = 7001;
     private static final String TAG = "NoisePlaybackService";
@@ -47,11 +47,10 @@ public class NoisePlaybackService extends Service {
     private static final String PREF_LOOP_START_MS = "loop_start_ms";
     private static final String PREF_LOOP_END_TRIM_MS = "loop_end_trim_ms";
     private static final long WATCHDOG_INTERVAL_MS = 15000L;
-    private static final long LOOP_CROSSFADE_MS = 420L;
-    private static final int LOOP_FADE_STEPS = 12;
     private static final long EXO_LOOP_CROSSFADE_MS = 780L;
     private static final long EXO_LOOP_PREPARE_LEAD_MS = 2500L;
     private static final int EXO_LOOP_FADE_STEPS = 24;
+
     private static volatile boolean serviceRunning = false;
     private static volatile boolean playbackActive = false;
     private static volatile String activePlaybackFile = null;
@@ -59,17 +58,15 @@ public class NoisePlaybackService extends Service {
 
     private ExoPlayer exoPlayer;
     private ExoPlayer preparedNextExoPlayer;
-    private MediaPlayer player;
-    private MediaPlayer preparedNextPlayer;
     private String currentFile;
     private float currentVolume = 0.72f;
     private int currentLoopStartMs = 80;
     private int currentLoopEndTrimMs = 120;
     private int loopGeneration = 0;
     private int scheduledExoRolloverGeneration = -1;
-    private int scheduledRolloverGeneration = -1;
     private AudioManager audioManager;
     private AudioFocusRequest audioFocusRequest;
+
     private final Handler watchdogHandler = new Handler(Looper.getMainLooper());
     private final Runnable sleepTimerStop = new Runnable() {
         @Override
@@ -102,6 +99,12 @@ public class NoisePlaybackService extends Service {
     };
 
     @Override
+    public void onCreate() {
+        super.onCreate();
+        serviceRunning = true;
+    }
+
+    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent != null && ACTION_STOP.equals(intent.getAction())) {
             clearSavedState();
@@ -111,11 +114,13 @@ public class NoisePlaybackService extends Service {
             stopSelf();
             return START_NOT_STICKY;
         }
+
         if (intent != null && ACTION_VOLUME.equals(intent.getAction())) {
             setPlayerVolume(intent.getFloatExtra(EXTRA_VOLUME, 0f));
             savePlaybackState(currentFile, currentVolume, exoPlayer != null && exoPlayer.isPlaying(), currentLoopStartMs, currentLoopEndTrimMs);
             return START_REDELIVER_INTENT;
         }
+
         if (intent != null && ACTION_SLEEP_TIMER.equals(intent.getAction())) {
             scheduleSleepTimer(intent.getLongExtra(EXTRA_SLEEP_TIMER_MS, 0L));
             return START_REDELIVER_INTENT;
@@ -125,12 +130,14 @@ public class NoisePlaybackService extends Service {
         float volume = intent != null ? intent.getFloatExtra(EXTRA_VOLUME, currentVolume) : currentVolume;
         int loopStartMs = intent != null ? intent.getIntExtra(EXTRA_LOOP_START_MS, currentLoopStartMs) : currentLoopStartMs;
         int loopEndTrimMs = intent != null ? intent.getIntExtra(EXTRA_LOOP_END_TRIM_MS, currentLoopEndTrimMs) : currentLoopEndTrimMs;
+
         if ((file == null || file.trim().isEmpty()) && isSavedPlaybackActive()) {
             file = getSavedFile();
             volume = getSavedVolume();
             loopStartMs = getSavedLoopStartMs();
             loopEndTrimMs = getSavedLoopEndTrimMs();
         }
+
         if (file == null || file.trim().isEmpty()) {
             dismissPlaybackNotification();
             stopSelf();
@@ -164,7 +171,13 @@ public class NoisePlaybackService extends Service {
         int safeLoopStartMs = Math.max(0, loopStartMs);
         int safeLoopEndTrimMs = Math.max(0, loopEndTrimMs);
         requestAudioFocus();
-        if (exoPlayer != null && file.equals(currentFile)) {
+
+        if (
+            exoPlayer != null
+                && file.equals(currentFile)
+                && safeLoopStartMs == currentLoopStartMs
+                && safeLoopEndTrimMs == currentLoopEndTrimMs
+        ) {
             currentVolume = clampedVolume;
             currentLoopStartMs = safeLoopStartMs;
             currentLoopEndTrimMs = safeLoopEndTrimMs;
@@ -177,9 +190,14 @@ public class NoisePlaybackService extends Service {
         }
 
         stopPlayback();
+        currentFile = file;
+        currentVolume = clampedVolume;
+        currentLoopStartMs = safeLoopStartMs;
+        currentLoopEndTrimMs = safeLoopEndTrimMs;
+
         try {
             Log.d(TAG, "startPlaybackExo " + file);
-            exoPlayer = createExoPlayer(file, clampedVolume);
+            exoPlayer = createExoPlayer(file, clampedVolume, safeLoopStartMs, safeLoopEndTrimMs);
             exoPlayer.setVolume(clampedVolume);
             attachCurrentExoListener(exoPlayer, file, loopGeneration);
             exoPlayer.prepare();
@@ -187,10 +205,6 @@ public class NoisePlaybackService extends Service {
                 exoPlayer.seekTo(safeLoopStartMs);
             }
             exoPlayer.play();
-            currentFile = file;
-            currentVolume = clampedVolume;
-            currentLoopStartMs = safeLoopStartMs;
-            currentLoopEndTrimMs = safeLoopEndTrimMs;
             updateLiveState(true, file, clampedVolume);
             savePlaybackState(file, clampedVolume, true, safeLoopStartMs, safeLoopEndTrimMs);
             startWatchdog();
@@ -215,31 +229,10 @@ public class NoisePlaybackService extends Service {
         scheduledExoRolloverGeneration = -1;
         watchdogHandler.removeCallbacks(sleepTimerStop);
         stopWatchdog();
-        if (exoPlayer != null) {
-            try {
-                exoPlayer.stop();
-            } catch (Exception ignored) {
-            }
-            exoPlayer.release();
-            exoPlayer = null;
-        }
         releaseExoPlayerQuietly(preparedNextExoPlayer);
         preparedNextExoPlayer = null;
-        releasePlayerQuietly(preparedNextPlayer);
-        preparedNextPlayer = null;
-        if (player == null) {
-            currentFile = null;
-            clearLiveState();
-            return;
-        }
-        try {
-            player.stop();
-        } catch (Exception ignored) {
-        }
-        player.release();
-        releasePlayerQuietly(preparedNextPlayer);
-        preparedNextPlayer = null;
-        player = null;
+        releaseExoPlayerQuietly(exoPlayer);
+        exoPlayer = null;
         currentFile = null;
         clearLiveState();
     }
@@ -254,7 +247,7 @@ public class NoisePlaybackService extends Service {
         watchdogHandler.postDelayed(sleepTimerStop, durationMs);
     }
 
-    private ExoPlayer createExoPlayer(String file, float volume) {
+    private ExoPlayer createExoPlayer(String file, float volume, int loopStartMs, int loopEndTrimMs) {
         ExoPlayer newPlayer = new ExoPlayer.Builder(this).build();
         newPlayer.setVolume(volume);
         newPlayer.setRepeatMode(Player.REPEAT_MODE_OFF);
@@ -301,15 +294,23 @@ public class NoisePlaybackService extends Service {
                 scheduledPlayer.setRepeatMode(Player.REPEAT_MODE_ONE);
                 return;
             }
+
             scheduledExoRolloverGeneration = generation;
             long loopStartMs = Math.max(0L, Math.min(currentLoopStartMs, Math.max(durationMs - 1000L, 0L)));
             long loopEndMs = Math.max(loopStartMs + 1000L, durationMs - currentLoopEndTrimMs);
             long crossfadeDelayMs = Math.max(250L, loopEndMs - EXO_LOOP_CROSSFADE_MS);
             long prepareDelayMs = Math.max(250L, crossfadeDelayMs - EXO_LOOP_PREPARE_LEAD_MS);
             long startDelayAfterPrepareMs = Math.max(0L, crossfadeDelayMs - prepareDelayMs);
-            Log.d(TAG, "scheduleExoLoopRollover file=" + file + " durationMs=" + durationMs
-                + " loopEndMs=" + loopEndMs + " prepareDelayMs=" + prepareDelayMs
-                + " startDelayAfterPrepareMs=" + startDelayAfterPrepareMs);
+
+            Log.d(
+                TAG,
+                "scheduleExoLoopRollover file=" + file
+                    + " durationMs=" + durationMs
+                    + " loopEndMs=" + loopEndMs
+                    + " prepareDelayMs=" + prepareDelayMs
+                    + " startDelayAfterPrepareMs=" + startDelayAfterPrepareMs
+            );
+
             watchdogHandler.postDelayed(
                 () -> prepareNextExoForRollover(scheduledPlayer, file, generation, startDelayAfterPrepareMs),
                 prepareDelayMs
@@ -329,18 +330,39 @@ public class NoisePlaybackService extends Service {
             scheduledExoRolloverGeneration = -1;
         }
         if (generation != loopGeneration || oldPlayer != exoPlayer || currentFile == null) return;
+
         try {
             releaseExoPlayerQuietly(preparedNextExoPlayer);
-            preparedNextExoPlayer = createExoPlayer(file, 0f);
-            preparedNextExoPlayer.prepare();
+            final long targetStartAtMs = SystemClock.uptimeMillis() + Math.max(0L, startDelayMs);
+            ExoPlayer nextPlayer = createExoPlayer(file, 0f, currentLoopStartMs, currentLoopEndTrimMs);
+            preparedNextExoPlayer = nextPlayer;
+            nextPlayer.addListener(new Player.Listener() {
+                private boolean rolloverPosted = false;
+
+                private void postRolloverIfReady() {
+                    if (rolloverPosted) return;
+                    if (generation != loopGeneration || oldPlayer != exoPlayer || currentFile == null) return;
+                    if (preparedNextExoPlayer != nextPlayer) return;
+                    rolloverPosted = true;
+                    long remainingDelayMs = Math.max(0L, targetStartAtMs - SystemClock.uptimeMillis());
+                    Log.d(TAG, "preparedNextExoPlayer ready file=" + file + " remainingDelayMs=" + remainingDelayMs);
+                    watchdogHandler.postDelayed(
+                        () -> rollToPreparedNextExoPlayer(oldPlayer, file, generation),
+                        remainingDelayMs
+                    );
+                }
+
+                @Override
+                public void onPlaybackStateChanged(int playbackState) {
+                    if (playbackState == Player.STATE_READY) {
+                        postRolloverIfReady();
+                    }
+                }
+            });
+            nextPlayer.prepare();
             if (currentLoopStartMs > 0) {
-                preparedNextExoPlayer.seekTo(currentLoopStartMs);
+                nextPlayer.seekTo(currentLoopStartMs);
             }
-            Log.d(TAG, "preparedNextExoPlayer file=" + file + " startDelayMs=" + startDelayMs);
-            watchdogHandler.postDelayed(
-                () -> rollToPreparedNextExoPlayer(oldPlayer, file, generation),
-                startDelayMs
-            );
         } catch (Exception error) {
             Log.w(TAG, "ExoPlayer loop preload failed; falling back to repeat mode", error);
             try {
@@ -356,15 +378,13 @@ public class NoisePlaybackService extends Service {
             preparedNextExoPlayer = null;
             return;
         }
+
         try {
             ExoPlayer nextPlayer = preparedNextExoPlayer;
             preparedNextExoPlayer = null;
             int nextGeneration = ++loopGeneration;
             exoPlayer = nextPlayer;
             attachCurrentExoListener(nextPlayer, file, nextGeneration);
-            if (currentLoopStartMs > 0) {
-                nextPlayer.seekTo(currentLoopStartMs);
-            }
             nextPlayer.play();
             fadeBetweenExoPlayers(oldPlayer, nextPlayer, currentVolume, nextGeneration);
             scheduleExoLoopRollover(nextPlayer, file, nextGeneration);
@@ -383,9 +403,11 @@ public class NoisePlaybackService extends Service {
                     releaseExoPlayerQuietly(oldPlayer);
                     return;
                 }
+
                 double progress = Math.min(1d, Math.max(0d, fadeStep / (double) EXO_LOOP_FADE_STEPS));
                 float inGain = (float) Math.sin(progress * Math.PI * 0.5d);
                 float outGain = (float) Math.cos(progress * Math.PI * 0.5d);
+
                 try {
                     nextPlayer.setVolume(targetVolume * inGain);
                 } catch (Exception ignored) {
@@ -413,131 +435,6 @@ public class NoisePlaybackService extends Service {
         }
     }
 
-    private MediaPlayer createPreparedPlayer(String file, float volume) throws Exception {
-        AssetFileDescriptor afd = getAssets().openFd("public/" + file);
-        MediaPlayer mediaPlayer = new MediaPlayer();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mediaPlayer.setAudioAttributes(new AudioAttributes.Builder()
-                .setUsage(AudioAttributes.USAGE_MEDIA)
-                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                .build());
-        }
-        mediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
-        mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-        afd.close();
-        mediaPlayer.setVolume(volume, volume);
-        mediaPlayer.setLooping(false);
-        mediaPlayer.setOnErrorListener((failedPlayer, what, extra) -> {
-            Log.w(TAG, "Player error, restarting loop what=" + what + " extra=" + extra);
-            restartPlayback(file, currentVolume);
-            return true;
-        });
-        mediaPlayer.setOnCompletionListener(completedPlayer -> {
-            handlePlayerCompletion(completedPlayer, file);
-        });
-        mediaPlayer.prepare();
-        seekToLoopStart(mediaPlayer, currentLoopStartMs);
-        return mediaPlayer;
-    }
-
-    private void scheduleLoopRollover(MediaPlayer scheduledPlayer, String file, int generation) {
-        if (scheduledRolloverGeneration == generation) return;
-        scheduledRolloverGeneration = generation;
-        try {
-            int durationMs = scheduledPlayer.getDuration();
-            if (durationMs <= LOOP_CROSSFADE_MS + 300) {
-                scheduledPlayer.setLooping(true);
-                return;
-            }
-            long delayMs = Math.max(250L, durationMs - LOOP_CROSSFADE_MS);
-            watchdogHandler.postDelayed(() -> rollToNextPlayer(scheduledPlayer, file, generation), delayMs);
-        } catch (Exception error) {
-            scheduledRolloverGeneration = -1;
-            Log.w(TAG, "Unable to schedule loop rollover; using platform looping", error);
-            try {
-                scheduledPlayer.setLooping(true);
-            } catch (Exception ignored) {
-            }
-        }
-    }
-
-    private void rollToNextPlayer(MediaPlayer oldPlayer, String file, int generation) {
-        if (scheduledRolloverGeneration == generation) {
-            scheduledRolloverGeneration = -1;
-        }
-        if (generation != loopGeneration || oldPlayer != player || currentFile == null) return;
-        try {
-            MediaPlayer nextPlayer = createPreparedPlayer(file, 0f);
-            int nextGeneration = ++loopGeneration;
-            player = nextPlayer;
-            nextPlayer.start();
-            fadeBetweenPlayers(oldPlayer, nextPlayer, currentVolume, nextGeneration);
-            scheduleLoopRollover(nextPlayer, file, nextGeneration);
-        } catch (Exception error) {
-            Log.w(TAG, "Loop rollover failed; falling back to restart", error);
-            restartPlayback(file, currentVolume);
-        }
-    }
-
-    private void handlePlayerCompletion(MediaPlayer completedPlayer, String file) {
-        if (completedPlayer == player) {
-            Log.w(TAG, "Player completed before rollover, restarting loop");
-            restartPlayback(file, currentVolume);
-        }
-    }
-
-    private void fadeBetweenPlayers(MediaPlayer oldPlayer, MediaPlayer nextPlayer, float targetVolume, int generation) {
-        long stepDelay = Math.max(12L, LOOP_CROSSFADE_MS / LOOP_FADE_STEPS);
-        for (int step = 0; step <= LOOP_FADE_STEPS; step += 1) {
-            final int fadeStep = step;
-            watchdogHandler.postDelayed(() -> {
-                if (generation != loopGeneration) {
-                    releasePlayerQuietly(oldPlayer);
-                    return;
-                }
-                float progress = Math.min(1f, Math.max(0f, fadeStep / (float) LOOP_FADE_STEPS));
-                float inVolume = targetVolume * progress;
-                float outVolume = targetVolume * (1f - progress);
-                try {
-                    nextPlayer.setVolume(inVolume, inVolume);
-                } catch (Exception ignored) {
-                }
-                try {
-                    oldPlayer.setVolume(outVolume, outVolume);
-                } catch (Exception ignored) {
-                }
-                if (fadeStep >= LOOP_FADE_STEPS) {
-                    releasePlayerQuietly(oldPlayer);
-                }
-            }, stepDelay * step);
-        }
-    }
-
-    private void releasePlayerQuietly(MediaPlayer mediaPlayer) {
-        if (mediaPlayer == null) return;
-        try {
-            mediaPlayer.stop();
-        } catch (Exception ignored) {
-        }
-        try {
-            mediaPlayer.release();
-        } catch (Exception ignored) {
-        }
-    }
-
-    private void seekToLoopStart(MediaPlayer mediaPlayer, int loopStartMs) {
-        if (mediaPlayer == null || loopStartMs <= 0) return;
-        try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                mediaPlayer.seekTo(loopStartMs, MediaPlayer.SEEK_CLOSEST);
-            } else {
-                mediaPlayer.seekTo(loopStartMs);
-            }
-        } catch (Exception error) {
-            Log.w(TAG, "Unable to seek to loop start", error);
-        }
-    }
-
     private void setPlayerVolume(float volume) {
         float clampedVolume = Math.max(0f, Math.min(1f, volume));
         currentVolume = clampedVolume;
@@ -546,9 +443,6 @@ public class NoisePlaybackService extends Service {
         }
         if (exoPlayer != null) {
             exoPlayer.setVolume(clampedVolume);
-        }
-        if (player != null) {
-            player.setVolume(clampedVolume, clampedVolume);
         }
     }
 
@@ -610,12 +504,6 @@ public class NoisePlaybackService extends Service {
         bundle.putString("file", activePlaybackFile);
         bundle.putDouble("volume", activePlaybackVolume);
         return bundle;
-    }
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        serviceRunning = true;
     }
 
     private void updateLiveState(boolean isPlaying, String file, float volume) {
