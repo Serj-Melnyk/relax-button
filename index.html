@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="description" content="Digital Fidget: Mental ASMR — a tactile wellness button with satisfying clicks, gentle haptics, and calming themes.">
-    <meta name="theme-color" content="#E0E0E0">
+    <meta name="theme-color" content="#D8DADF">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Digital Fidget: Mental ASMR — Wellness Button</title>
@@ -12,26 +12,46 @@
     <script>
     (function () {
         try {
+            const supportedLanguages = ['en', 'ja', 'fr', 'de', 'es', 'pt', 'uk'];
+            const normalizeLanguage = (value) => {
+                if (typeof value !== 'string') return '';
+                const lower = value.trim().toLowerCase();
+                return supportedLanguages.find(lang => lower === lang || lower.startsWith(`${lang}-`)) || '';
+            };
+            const searchParams = new URLSearchParams(window.location.search);
             const onboardingPreview = window.location.hash.includes('onboarding-preview');
             const onboardingDone = localStorage.getItem('rb_onboarding') === 'true' && !onboardingPreview;
             const savedTheme = localStorage.getItem('rb_theme') || 'classic';
             const savedSkin = localStorage.getItem('rb_skin_id') || 'classic-button';
             const savedLayout = localStorage.getItem('rb_layout') || 'bottom';
+            const savedLanguage = normalizeLanguage(searchParams.get('lang'))
+                || normalizeLanguage(localStorage.getItem('rb_language'))
+                || normalizeLanguage((navigator.languages && navigator.languages.find(Boolean)) || navigator.language || '')
+                || 'en';
             if (onboardingDone) {
                 document.documentElement.classList.add('onboarding-complete');
                 document.documentElement.classList.add('boot-home-view');
             }
+            window.__BUTTON_BOOT__ = {
+                language: savedLanguage,
+                theme: savedTheme,
+                skin: savedSkin,
+                layout: savedLayout,
+                onboardingDone
+            };
+            document.documentElement.lang = savedLanguage;
             document.documentElement.dataset.bootTheme = savedTheme;
             document.documentElement.dataset.bootSkin = savedSkin;
             document.documentElement.dataset.bootLayout = savedLayout;
+            document.documentElement.dataset.bootLanguage = savedLanguage;
         } catch (_) {}
     })();
     </script>
-
-    <!-- Google Fonts: Inter -->
+    <!-- Google Fonts: Inter + Cormorant Garamond -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
     /* ════════════════════════════════════════════════════════════
@@ -40,38 +60,56 @@
        ════════════════════════════════════════════════════════════ */
     :root {
         /* ── Classic (Free) ── */
-        --bg: #E0E0E0;
-        --btn: #E0E0E0;
-        --shadow-l: #ffffff;
-        --shadow-d: #bebebe;
-        --surface: rgba(255,255,255,0.94);
+        --bg: #D8DADF;
+        --btn: #D8DADF;
+        --shadow-l: #F7F8FB;
+        --shadow-d: #B8BDC6;
+        --surface: rgba(248,249,251,0.94);
         --surface-dim: rgba(0,0,0,0.04);
-        --on-surface: #1C1B1F;
-        --on-surface-var: rgba(28,27,31,0.55);
+        --on-surface: #23262D;
+        --on-surface-var: rgba(35,38,45,0.55);
         --outline: rgba(0,0,0,0.10);
         --icon-color: rgba(0,0,0,0.22);
-        --accent: #6750A4;
+        --accent: #6F7683;
         --on-accent: #FFFFFF;
-        --accent-container: rgba(103,80,164,0.12);
+        --accent-container: rgba(111,118,131,0.12);
 
         /* ── Enhanced Nav Bar ── */
         --m3-nav-surface: linear-gradient(160deg, rgba(30,31,34,0.82) 0%, rgba(18,19,22,0.88) 100%);
         --m3-nav-outline: rgba(255, 255, 255, 0.14);
-        --m3-nav-icon: rgba(210, 212, 230, 0.60);
-        --m3-nav-label: rgba(210, 212, 230, 0.62);
-        --m3-nav-indicator: rgba(130, 110, 220, 0.26);
-        --m3-nav-indicator-icon: rgba(232, 220, 255, 0.98);
+        --m3-nav-icon: rgba(52, 56, 64, 0.68);
+        --m3-nav-label: rgba(52, 56, 64, 0.74);
+        --m3-nav-indicator: rgba(132, 140, 154, 0.24);
+        --m3-nav-indicator-icon: rgba(35, 38, 44, 0.94);
+        --m3-nav-icon-filter: drop-shadow(0 1px 1px rgba(255,255,255,0.52));
+        --m3-nav-label-shadow: 0 1px 1px rgba(255,255,255,0.52);
+        --m3-nav-bg:
+            radial-gradient(circle at 22% 0%, rgba(255,255,255,0.26), transparent 34%),
+            radial-gradient(circle at 82% 100%, rgba(255,255,255,0.10), transparent 42%),
+            linear-gradient(155deg, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0.075) 48%, rgba(255,255,255,0.045) 100%);
+        --m3-nav-border: rgba(255,255,255,0.34);
+        --m3-nav-box-shadow:
+            0 24px 58px rgba(56,60,70,0.16),
+            0 8px 18px rgba(0,0,0,0.09),
+            inset 0 1px 0 rgba(255,255,255,0.48),
+            inset 0 -1px 0 rgba(255,255,255,0.12),
+            inset 0 -24px 36px rgba(28,32,40,0.07);
+        --m3-nav-veil:
+            radial-gradient(circle at 18% 0%, rgba(255,255,255,0.22), transparent 30%),
+            radial-gradient(circle at 76% 96%, rgba(255,255,255,0.08), transparent 36%),
+            linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.025) 46%, rgba(255,255,255,0.01));
+        --m3-nav-veil-opacity: 0.72;
         --m3-nav-shadow: 0 20px 48px rgba(0,0,0,0.36), 0 4px 12px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.12), inset 0 -1px 0 rgba(0,0,0,0.18);
-        --nav-bar-height: 74px;
+        --nav-bar-height: 64px;
 
         /* ── Glass & Glow Tokens ── */
         --glass-blur: blur(28px) saturate(1.18);
         --glass-surface: rgba(255,255,255,0.72);
         --glass-border: rgba(255,255,255,0.28);
-        --glow-accent: rgba(103,80,164,0.38);
-        --glow-accent-soft: rgba(103,80,164,0.16);
+        --glow-accent: rgba(111,118,131,0.22);
+        --glow-accent-soft: rgba(111,118,131,0.10);
         --surface-elevated: rgba(255,255,255,0.98);
-        --sheet-bg: rgba(245,244,252,0.97);
+        --sheet-bg: rgba(242,243,246,0.97);
 
         /* ── Dimensions ── */
         --btn-size: 220px;
@@ -84,11 +122,13 @@
         /* ── Motion ── */
         --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
         --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+        --ease-emphasized: cubic-bezier(0.16, 1, 0.3, 1);
         --ease-decel: cubic-bezier(0.0, 0.0, 0.2, 1);
         --dur-press: 50ms;
         --dur-release: 350ms;
-        --dur-theme: 140ms;
-        --dur-sheet: 400ms;
+        --dur-theme: 220ms;
+        --dur-sheet: 460ms;
+        --dur-scrim: 320ms;
     }
 
     /* ── Dark theme glass/glow tokens ── */
@@ -101,6 +141,43 @@
         --glow-accent-soft: rgba(208,188,255,0.10);
         --surface-elevated: rgba(28,28,36,0.98);
         --sheet-bg: rgba(22,22,30,0.97);
+        --m3-nav-icon: rgba(255, 252, 255, 0.88);
+        --m3-nav-label: rgba(255, 252, 255, 0.9);
+        --m3-nav-indicator-icon: rgba(255, 255, 255, 0.98);
+        --m3-nav-icon-filter: drop-shadow(0 1px 2px rgba(0,0,0,0.62)) drop-shadow(0 0 5px rgba(0,0,0,0.22));
+        --m3-nav-label-shadow: 0 1px 2px rgba(0,0,0,0.68), 0 0 5px rgba(0,0,0,0.22);
+        --m3-nav-bg:
+            radial-gradient(circle at 22% 0%, rgba(255,255,255,0.16), transparent 34%),
+            radial-gradient(circle at 82% 100%, rgba(255,255,255,0.05), transparent 42%),
+            linear-gradient(155deg, rgba(255,255,255,0.085) 0%, rgba(255,255,255,0.04) 48%, rgba(255,255,255,0.018) 100%);
+        --m3-nav-border: rgba(255,255,255,0.20);
+        --m3-nav-box-shadow:
+            0 20px 42px rgba(0,0,0,0.22),
+            0 6px 14px rgba(0,0,0,0.10),
+            inset 0 1px 0 rgba(255,255,255,0.26),
+            inset 0 -1px 0 rgba(255,255,255,0.04),
+            inset 0 -18px 28px rgba(10,10,16,0.06);
+        --m3-nav-veil:
+            radial-gradient(circle at 18% 0%, rgba(255,255,255,0.14), transparent 30%),
+            radial-gradient(circle at 76% 96%, rgba(255,255,255,0.04), transparent 36%),
+            linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.012) 46%, rgba(255,255,255,0.004));
+        --m3-nav-veil-opacity: 0.42;
+    }
+
+    body[data-theme="night"] {
+        --glass-surface: rgba(34,35,40,0.74);
+        --glow-accent: rgba(154,161,173,0.16);
+        --glow-accent-soft: rgba(154,161,173,0.07);
+        --surface-elevated: rgba(30,31,35,0.98);
+        --sheet-bg: rgba(25,26,31,0.97);
+    }
+
+    body[data-theme="obsidian"] {
+        --glass-surface: rgba(16,18,18,0.78);
+        --glow-accent: rgba(53,198,124,0.10);
+        --glow-accent-soft: rgba(53,198,124,0.04);
+        --surface-elevated: rgba(13,15,15,0.98);
+        --sheet-bg: rgba(14,17,16,0.975);
     }
 
     /* ── Arctic (Premium) ── */
@@ -131,15 +208,15 @@
 
     /* ── Night ── */
     body[data-theme="night"] {
-        --bg: #151516; --btn: #1d1d20;
-        --shadow-l: #2e2e32; --shadow-d: #0d0d10;
-        --surface: rgba(32,32,34,0.94);
+        --bg: #17181B; --btn: #1E1F23;
+        --shadow-l: #31333A; --shadow-d: #0D0E11;
+        --surface: rgba(35,36,41,0.94);
         --surface-dim: rgba(255,255,255,0.06);
-        --on-surface: #E6E1E5; --on-surface-var: rgba(230,225,229,0.55);
+        --on-surface: #E7E8EC; --on-surface-var: rgba(231,232,236,0.55);
         --outline: rgba(255,255,255,0.10);
         --icon-color: rgba(255,255,255,0.22);
-        --accent: #D0BCFF; --on-accent: #381E72;
-        --accent-container: rgba(208,188,255,0.12);
+        --accent: #9AA1AD; --on-accent: #17181B;
+        --accent-container: rgba(154,161,173,0.14);
     }
 
     /* ── Cosmos (Premium) ── */
@@ -170,15 +247,15 @@
 
     /* ── Obsidian (Premium) ── */
     body[data-theme="obsidian"] {
-        --bg: #0d0d0d; --btn: #0d0d0d;
-        --shadow-l: #1a1a1a; --shadow-d: #000000;
-        --surface: rgba(20,20,20,0.96);
+        --bg: #0B0C0D; --btn: #0B0C0D;
+        --shadow-l: #17191A; --shadow-d: #000000;
+        --surface: rgba(16,18,18,0.96);
         --surface-dim: rgba(255,255,255,0.04);
-        --on-surface: #d0d0d0; --on-surface-var: rgba(208,208,208,0.55);
+        --on-surface: #D5D7D6; --on-surface-var: rgba(213,215,214,0.55);
         --outline: rgba(255,255,255,0.08);
         --icon-color: rgba(255,255,255,0.22);
-        --accent: #00E87B; --on-accent: #0d0d0d;
-        --accent-container: rgba(0,232,123,0.12);
+        --accent: #35C67C; --on-accent: #0B0C0D;
+        --accent-container: rgba(53,198,124,0.08);
     }
 
     /* ════════════════════════════════════════════════════════════
@@ -206,7 +283,7 @@
 
     html.onboarding-complete,
     html.onboarding-complete body {
-        background-color: #E0E0E0;
+        background-color: #D8DADF;
     }
 
     html[data-boot-theme="night"],
@@ -216,7 +293,7 @@
 
     html[data-boot-theme="classic"],
     html[data-boot-theme="classic"] body {
-        background-color: #E0E0E0;
+        background-color: #D8DADF;
     }
 
     html.boot-home-view #home-screen {
@@ -520,28 +597,12 @@
         background-color: var(--bg);
         contain: layout paint;
         transform: translateZ(0);
-        transition: justify-content 500ms var(--ease-standard),
-                    background-color var(--dur-theme) var(--ease-standard);
-    }
-
-    body.theme-switching,
-    body.theme-switching #app,
-    body.theme-switching #main-button,
-    body.theme-switching #main-button::before,
-    body.theme-switching #main-button::after,
-    body.theme-switching #main-button .button-scene-layer,
-    body.theme-switching #app::before,
-    body.theme-switching #app::after {
-        transition: none !important;
-    }
-
-    .theme-transition-cover {
-        position: fixed;
-        inset: 0;
-        z-index: 180;
-        pointer-events: none;
         opacity: 1;
-        transition: opacity 280ms var(--ease-standard);
+        visibility: visible;
+        transition:
+            opacity 260ms var(--ease-standard),
+            transform 260ms var(--ease-standard),
+            background-color var(--dur-theme) var(--ease-standard);
     }
 
     @media (min-width: 1024px) {
@@ -570,10 +631,63 @@
         opacity: 0;
         visibility: hidden;
         pointer-events: none;
+        transform: translate3d(0, 10px, 0) scale(0.992);
     }
 
     body.home-view-active #app .noise-top-controls {
         display: none;
+    }
+
+    body.home-view-active {
+        --m3-nav-icon: rgba(255, 252, 255, 0.9);
+        --m3-nav-label: rgba(255, 252, 255, 0.92);
+        --m3-nav-indicator-icon: rgba(255, 255, 255, 0.98);
+        --m3-nav-icon-filter:
+            drop-shadow(0 1px 2px rgba(0,0,0,0.66))
+            drop-shadow(0 0 5px rgba(0,0,0,0.26));
+        --m3-nav-label-shadow:
+            0 1px 2px rgba(0,0,0,0.72),
+            0 0 5px rgba(0,0,0,0.28);
+        --m3-nav-bg:
+            radial-gradient(circle at 20% 0%, rgba(255,255,255,0.10), transparent 32%),
+            radial-gradient(circle at 82% 100%, rgba(255,255,255,0.04), transparent 40%),
+            linear-gradient(155deg, rgba(73,78,103,0.26) 0%, rgba(31,34,52,0.44) 46%, rgba(14,16,28,0.62) 100%);
+        --m3-nav-border: rgba(255,255,255,0.18);
+        --m3-nav-box-shadow:
+            0 24px 52px rgba(6,8,18,0.42),
+            0 8px 18px rgba(0,0,0,0.22),
+            inset 0 1px 0 rgba(255,255,255,0.22),
+            inset 0 -1px 0 rgba(255,255,255,0.04),
+            inset 0 -18px 28px rgba(4,6,16,0.20);
+        --m3-nav-veil:
+            radial-gradient(circle at 18% 0%, rgba(255,255,255,0.10), transparent 28%),
+            radial-gradient(circle at 76% 96%, rgba(255,255,255,0.03), transparent 34%),
+            linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01) 44%, rgba(255,255,255,0.004));
+        --m3-nav-veil-opacity: 0.34;
+    }
+
+    body:not(.home-view-active) {
+        --m3-nav-icon: rgba(255, 255, 255, 0.74);
+        --m3-nav-label: rgba(255, 255, 255, 0.8);
+        --m3-nav-indicator-icon: rgba(255, 255, 255, 0.99);
+        --m3-nav-icon-filter:
+            drop-shadow(0 1px 2px rgba(0,0,0,0.82))
+            drop-shadow(0 0 7px rgba(0,0,0,0.34));
+        --m3-nav-label-shadow:
+            0 1px 2px rgba(0,0,0,0.82),
+            0 0 6px rgba(0,0,0,0.32);
+    }
+
+    body:not(.home-view-active):not([data-theme="night"]):not([data-theme="cosmos"]):not([data-theme="obsidian"]) {
+        --m3-nav-icon: rgba(60, 65, 74, 0.84);
+        --m3-nav-label: rgba(55, 60, 69, 0.88);
+        --m3-nav-indicator-icon: rgba(28, 32, 38, 0.96);
+        --m3-nav-icon-filter:
+            drop-shadow(0 1px 0 rgba(255,255,255,0.34))
+            drop-shadow(0 1px 2px rgba(0,0,0,0.12));
+        --m3-nav-label-shadow:
+            0 1px 0 rgba(255,255,255,0.28),
+            0 1px 2px rgba(0,0,0,0.10);
     }
 
     /* ════════════════════════════════════════════════════════════
@@ -713,6 +827,15 @@
 
     body.noise-player-mode #main-button {
         display: none;
+    }
+
+    body[data-skin="white-noise"] #main-button,
+    body[data-skin="pink-noise"] #main-button,
+    body[data-skin="orange-noise"] #main-button,
+    body[data-skin="brown-noise"] #main-button,
+    body[data-skin="infrared-noise"] #main-button,
+    body[data-skin="rain"] #main-button {
+        display: none !important;
     }
 
     .noise-player-meta {
@@ -984,10 +1107,10 @@
         --button-shell-shadow-pressed:
             inset 12px 12px 24px rgba(96, 108, 132, 0.22),
             inset -12px -12px 24px rgba(255, 255, 255, 0.08);
-        --noise-backdrop-image: url('snow.jpeg');
-        --noise-backdrop-image-bottom: url('snow.jpeg');
-        --noise-button-scene-fill: url('snow.jpeg');
-        --button-scene-fill: var(--noise-button-scene-fill);
+        --noise-backdrop-image: none;
+        --noise-backdrop-image-bottom: none;
+        --noise-button-scene-fill: none;
+        --button-scene-fill: none;
         --button-scene-size: 188%;
         --button-scene-position: 50% 58%;
         --button-scene-opacity: 0.96;
@@ -1002,7 +1125,7 @@
         background:
             linear-gradient(180deg, rgba(229, 236, 245, 0.5) 0%, rgba(213, 223, 238, 0.26) 38%, rgba(184, 197, 219, 0.34) 100%),
             radial-gradient(circle at 50% 42%, rgba(255, 255, 255, 0.46) 0 16%, rgba(255, 255, 255, 0.14) 28%, transparent 56%),
-            var(--noise-backdrop-image, url('snow.jpeg')) center / cover no-repeat,
+            var(--noise-backdrop-image, none) center / cover no-repeat,
             linear-gradient(180deg, #eef3fa 0%, #dae4f2 100%);
     }
 
@@ -1031,77 +1154,8 @@
         background:
             linear-gradient(180deg, rgba(232, 239, 248, 0) 0%, rgba(217, 227, 241, 0.06) 44%, rgba(194, 206, 225, 0.16) 62%, rgba(170, 184, 206, 0.34) 100%),
             radial-gradient(ellipse at 50% 88%, rgba(255, 255, 255, 0.28) 0 20%, rgba(255, 255, 255, 0.08) 34%, transparent 60%),
-            var(--noise-backdrop-image-bottom, url('snow.jpeg')) center bottom / cover no-repeat;
+            var(--noise-backdrop-image-bottom, none) center bottom / cover no-repeat;
         opacity: 0;
-    }
-
-    body[data-skin="white-noise"] #main-button {
-        width: var(--btn-size);
-        height: var(--btn-size);
-        margin-top: 0;
-        border: 1px solid var(--skin-button-rim);
-        background:
-            radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.4) 0 10%, rgba(255, 255, 255, 0.14) 24%, transparent 44%),
-            radial-gradient(circle at 50% 66%, var(--skin-button-haze) 0 30%, transparent 66%),
-            radial-gradient(circle at 50% 58%, var(--skin-button-core) 0 48%, rgba(255, 255, 255, 0.06) 76%, rgba(255, 255, 255, 0.02) 100%),
-            linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04) 42%, rgba(255, 255, 255, 0.02) 100%);
-        transition:
-            border-color var(--dur-theme) var(--ease-standard),
-            opacity var(--dur-press) ease,
-            background-position var(--dur-release) var(--spring);
-    }
-
-    body[data-skin="white-noise"] #main-button::before {
-        content: '';
-        position: absolute;
-        inset: 5%;
-        border-radius: 50%;
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.08);
-        opacity: 0.76;
-        z-index: 2;
-        transition: opacity var(--dur-press) ease, transform var(--dur-press) ease;
-    }
-
-    body[data-skin="white-noise"] #main-button::after {
-        content: '';
-        position: absolute;
-        inset: 7% 13% 48% 13%;
-        border-radius: 50%;
-        background:
-            radial-gradient(ellipse at 50% 18%, rgba(255, 255, 255, 0.98) 0 24%, rgba(255, 255, 255, 0.54) 42%, transparent 74%);
-        filter: blur(2px);
-        opacity: 0.56;
-        animation: ambientLensGlint 9s ease-in-out infinite alternate;
-        z-index: 3;
-        transition: opacity var(--dur-press) ease, transform var(--dur-press) ease, filter var(--dur-press) ease;
-    }
-
-    body[data-skin="white-noise"] #main-button.is-pressed::before {
-        opacity: 0.52;
-        transform: scale(0.992);
-    }
-
-    body[data-skin="white-noise"] #main-button.is-pressed::after {
-        opacity: 0.2;
-        transform: translateY(1px) scale(0.985);
-        filter: blur(2.6px);
-    }
-
-    body[data-skin="white-noise"] #main-button.is-pressed .button-scene-layer {
-        opacity: 0.9;
-        transform: scale(calc(var(--button-scene-scale, 1.08) * 0.985));
-        filter: var(--button-scene-filter-pressed, saturate(1.01) brightness(0.98));
-    }
-
-    body[data-skin="white-noise"] #main-button .main-button-label {
-        opacity: 1;
-        color: rgba(248, 252, 255, 0.78);
-        text-shadow: 0 1px 10px rgba(103, 120, 145, 0.22);
-    }
-
-    body[data-skin="white-noise"] #main-button.is-pressed .main-button-label {
-        transform: translate(-50%, -50%) scale(0.985);
     }
 
     body[data-skin="white-noise"] #swipe-indicator {
@@ -1126,10 +1180,10 @@
         --button-shell-shadow-pressed:
             inset 12px 12px 24px rgba(10, 5, 22, 0.28),
             inset -12px -12px 24px rgba(255, 255, 255, 0.03);
-        --noise-backdrop-image: url('Pink-ring.jpeg');
-        --noise-backdrop-image-bottom: url('Pink-ring.jpeg');
-        --noise-button-scene-fill: url('Pink-ring.jpeg');
-        --button-scene-fill: var(--noise-button-scene-fill);
+        --noise-backdrop-image: none;
+        --noise-backdrop-image-bottom: none;
+        --noise-button-scene-fill: none;
+        --button-scene-fill: none;
         --button-scene-size: 172%;
         --button-scene-position: 50% 58%;
         --button-scene-opacity: 0.9;
@@ -1155,10 +1209,10 @@
         --button-shell-shadow-pressed:
             inset 12px 12px 24px rgba(48, 10, 0, 0.28),
             inset -12px -12px 24px rgba(255, 255, 255, 0.04);
-        --noise-backdrop-image: url('orange.jpeg');
-        --noise-backdrop-image-bottom: url('orange.jpeg');
-        --noise-button-scene-fill: url('orange.jpeg');
-        --button-scene-fill: var(--noise-button-scene-fill);
+        --noise-backdrop-image: none;
+        --noise-backdrop-image-bottom: none;
+        --noise-button-scene-fill: none;
+        --button-scene-fill: none;
         --button-scene-size: 182%;
         --button-scene-position: 50% 58%;
         --button-scene-opacity: 0.94;
@@ -1184,10 +1238,10 @@
         --button-shell-shadow-pressed:
             inset 12px 12px 24px rgba(10, 5, 22, 0.28),
             inset -12px -12px 24px rgba(255, 255, 255, 0.03);
-        --noise-backdrop-image: url('brown-illustration.jpeg');
-        --noise-backdrop-image-bottom: url('brown-illustration.jpeg');
-        --noise-button-scene-fill: url('brown-illustration.jpeg');
-        --button-scene-fill: var(--noise-button-scene-fill);
+        --noise-backdrop-image: none;
+        --noise-backdrop-image-bottom: none;
+        --noise-button-scene-fill: none;
+        --button-scene-fill: none;
         --button-scene-size: 210%;
         --button-scene-position: 50% 54%;
         --button-scene-opacity: 0.94;
@@ -1213,10 +1267,10 @@
         --button-shell-shadow-pressed:
             inset 14px 14px 26px rgba(28, 0, 4, 0.34),
             inset -12px -12px 24px rgba(255, 255, 255, 0.02);
-        --noise-backdrop-image: url('Infared.jpeg');
-        --noise-backdrop-image-bottom: url('Infared.jpeg');
-        --noise-button-scene-fill: url('Infared.jpeg');
-        --button-scene-fill: var(--noise-button-scene-fill);
+        --noise-backdrop-image: none;
+        --noise-backdrop-image-bottom: none;
+        --noise-button-scene-fill: none;
+        --button-scene-fill: none;
         --button-scene-size: 186%;
         --button-scene-position: 50% 56%;
         --button-scene-opacity: 0.96;
@@ -1242,10 +1296,10 @@
         --button-shell-shadow-pressed:
             inset 12px 12px 24px rgba(8, 28, 62, 0.3),
             inset -12px -12px 24px rgba(255, 255, 255, 0.03);
-        --noise-backdrop-image: url('rain-window.jpeg');
-        --noise-backdrop-image-bottom: url('rain-window.jpeg');
-        --noise-button-scene-fill: url('rain-window.jpeg');
-        --button-scene-fill: var(--noise-button-scene-fill);
+        --noise-backdrop-image: none;
+        --noise-backdrop-image-bottom: none;
+        --noise-button-scene-fill: none;
+        --button-scene-fill: none;
         --button-scene-size: 170%;
         --button-scene-position: 50% 58%;
         --button-scene-opacity: 0.92;
@@ -1268,7 +1322,7 @@
             linear-gradient(180deg, rgba(18, 2, 24, 0.14) 0%, rgba(23, 4, 32, 0.12) 38%, rgba(14, 1, 22, 0.34) 100%),
             radial-gradient(circle at 50% 40%, rgba(255, 48, 204, 0.14) 0 18%, rgba(255, 48, 204, 0.04) 32%, transparent 58%),
             radial-gradient(circle at 50% 82%, rgba(166, 129, 255, 0.16) 0 18%, transparent 44%),
-            var(--noise-backdrop-image, url('Pink-ring.jpeg')) center / cover no-repeat,
+            var(--noise-backdrop-image, none) center / cover no-repeat,
             linear-gradient(180deg, #140116 0%, #170118 100%);
     }
 
@@ -1277,7 +1331,7 @@
             linear-gradient(180deg, rgba(24, 6, 0, 0.1) 0%, rgba(48, 10, 0, 0.08) 40%, rgba(22, 4, 0, 0.26) 100%),
             radial-gradient(circle at 42% 24%, rgba(255, 147, 56, 0.22) 0 14%, rgba(255, 147, 56, 0.08) 28%, transparent 52%),
             radial-gradient(circle at 60% 78%, rgba(164, 0, 74, 0.22) 0 18%, transparent 44%),
-            var(--noise-backdrop-image, url('orange.jpeg')) center / cover no-repeat,
+            var(--noise-backdrop-image, none) center / cover no-repeat,
             linear-gradient(180deg, #180500 0%, #160104 100%);
     }
 
@@ -1285,7 +1339,7 @@
         background:
             linear-gradient(180deg, rgba(16, 0, 11, 0.16) 0%, rgba(28, 0, 18, 0.14) 38%, rgba(22, 0, 16, 0.38) 100%),
             radial-gradient(circle at 50% 44%, rgba(255, 176, 72, 0.18) 0 16%, rgba(255, 176, 72, 0.06) 28%, transparent 54%),
-            var(--noise-backdrop-image, url('brown-illustration.jpeg')) center / cover no-repeat,
+            var(--noise-backdrop-image, none) center / cover no-repeat,
             linear-gradient(180deg, #14020f 0%, #190414 100%);
     }
 
@@ -1293,7 +1347,7 @@
         background:
             linear-gradient(180deg, rgba(18, 0, 4, 0.24) 0%, rgba(36, 0, 10, 0.18) 38%, rgba(18, 0, 5, 0.48) 100%),
             radial-gradient(circle at 50% 42%, rgba(255, 118, 92, 0.18) 0 15%, rgba(255, 118, 92, 0.06) 30%, transparent 54%),
-            var(--noise-backdrop-image, url('Infared.jpeg')) center / cover no-repeat,
+            var(--noise-backdrop-image, none) center / cover no-repeat,
             linear-gradient(180deg, #160104 0%, #1f0206 100%);
     }
 
@@ -1301,7 +1355,7 @@
         background:
             linear-gradient(180deg, rgba(5, 19, 41, 0.18) 0%, rgba(7, 24, 54, 0.12) 38%, rgba(6, 14, 34, 0.34) 100%),
             radial-gradient(circle at 50% 78%, rgba(104, 188, 255, 0.14) 0 18%, transparent 44%),
-            var(--noise-backdrop-image, url('rain-window.jpeg')) center / cover no-repeat,
+            var(--noise-backdrop-image, none) center / cover no-repeat,
             linear-gradient(180deg, #071a36 0%, #081225 100%);
     }
 
@@ -1353,7 +1407,7 @@
         background:
             linear-gradient(180deg, rgba(10, 0, 14, 0) 0%, rgba(22, 0, 28, 0.04) 44%, rgba(30, 0, 36, 0.18) 62%, rgba(17, 0, 24, 0.5) 100%),
             radial-gradient(ellipse at 50% 88%, rgba(255, 39, 194, 0.14) 0 20%, rgba(255, 39, 194, 0.05) 34%, transparent 60%),
-            var(--noise-backdrop-image-bottom, url('Pink-ring.jpeg')) center bottom / cover no-repeat;
+            var(--noise-backdrop-image-bottom, none) center bottom / cover no-repeat;
         opacity: 0;
     }
 
@@ -1373,7 +1427,7 @@
         background:
             linear-gradient(180deg, rgba(18, 2, 0, 0) 0%, rgba(36, 8, 0, 0.05) 42%, rgba(60, 12, 0, 0.18) 62%, rgba(34, 4, 12, 0.48) 100%),
             radial-gradient(ellipse at 50% 88%, rgba(255, 142, 52, 0.18) 0 20%, rgba(255, 142, 52, 0.06) 34%, transparent 60%),
-            var(--noise-backdrop-image-bottom, url('orange.jpeg')) center bottom / cover no-repeat;
+            var(--noise-backdrop-image-bottom, none) center bottom / cover no-repeat;
         opacity: 0;
     }
 
@@ -1383,7 +1437,7 @@
         background:
             linear-gradient(180deg, rgba(12, 2, 10, 0) 0%, rgba(24, 6, 18, 0.05) 44%, rgba(36, 8, 18, 0.2) 62%, rgba(22, 4, 12, 0.58) 100%),
             radial-gradient(ellipse at 50% 88%, rgba(255, 164, 84, 0.16) 0 20%, rgba(255, 164, 84, 0.06) 34%, transparent 60%),
-            var(--noise-backdrop-image-bottom, url('brown-illustration.jpeg')) center bottom / cover no-repeat;
+            var(--noise-backdrop-image-bottom, none) center bottom / cover no-repeat;
         opacity: 0;
     }
 
@@ -1393,7 +1447,7 @@
         background:
             linear-gradient(180deg, rgba(16, 0, 2, 0) 0%, rgba(30, 2, 8, 0.06) 44%, rgba(48, 6, 10, 0.24) 62%, rgba(24, 2, 6, 0.62) 100%),
             radial-gradient(ellipse at 50% 88%, rgba(255, 104, 80, 0.18) 0 20%, rgba(255, 104, 80, 0.06) 34%, transparent 60%),
-            var(--noise-backdrop-image-bottom, url('Infared.jpeg')) center bottom / cover no-repeat;
+            var(--noise-backdrop-image-bottom, none) center bottom / cover no-repeat;
         opacity: 0;
     }
 
@@ -1403,129 +1457,8 @@
         background:
             linear-gradient(180deg, rgba(5, 12, 24, 0) 0%, rgba(8, 18, 32, 0.04) 44%, rgba(8, 16, 30, 0.18) 62%, rgba(4, 10, 22, 0.52) 100%),
             radial-gradient(ellipse at 50% 88%, rgba(109, 192, 255, 0.14) 0 20%, rgba(109, 192, 255, 0.05) 34%, transparent 60%),
-            var(--noise-backdrop-image-bottom, url('rain-window.jpeg')) center bottom / cover no-repeat;
+            var(--noise-backdrop-image-bottom, none) center bottom / cover no-repeat;
         opacity: 0;
-    }
-
-    body[data-skin="pink-noise"] #main-button,
-    body[data-skin="orange-noise"] #main-button,
-    body[data-skin="brown-noise"] #main-button,
-    body[data-skin="infrared-noise"] #main-button,
-    body[data-skin="rain"] #main-button {
-        width: var(--btn-size);
-        height: var(--btn-size);
-        margin-top: 0;
-        border: 1px solid var(--skin-button-rim);
-        background:
-            radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.34) 0 10%, rgba(255, 255, 255, 0.1) 24%, transparent 44%),
-            radial-gradient(circle at 50% 66%, var(--skin-button-haze) 0 30%, transparent 66%),
-            radial-gradient(circle at 50% 58%, var(--skin-button-core) 0 48%, rgba(255, 255, 255, 0.04) 76%, rgba(255, 255, 255, 0.01) 100%),
-            linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03) 42%, rgba(255, 255, 255, 0.01) 100%);
-        transition:
-            border-color var(--dur-theme) var(--ease-standard),
-            opacity var(--dur-press) ease,
-            background-position var(--dur-release) var(--spring);
-    }
-
-    body[data-skin="pink-noise"] #main-button::before,
-    body[data-skin="orange-noise"] #main-button::before,
-    body[data-skin="brown-noise"] #main-button::before,
-    body[data-skin="infrared-noise"] #main-button::before,
-    body[data-skin="rain"] #main-button::before {
-        content: '';
-        position: absolute;
-        inset: 5%;
-        border-radius: 50%;
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        background: transparent;
-        box-shadow:
-            inset 0 0 12px rgba(255, 255, 255, 0.04);
-        opacity: 0.72;
-        z-index: 2;
-        transition: opacity var(--dur-press) ease, transform var(--dur-press) ease;
-    }
-
-    body[data-skin="pink-noise"] #main-button::after,
-    body[data-skin="orange-noise"] #main-button::after,
-    body[data-skin="brown-noise"] #main-button::after,
-    body[data-skin="infrared-noise"] #main-button::after,
-    body[data-skin="rain"] #main-button::after {
-        content: '';
-        position: absolute;
-        inset: 7% 13% 48% 13%;
-        border-radius: 50%;
-        background:
-            radial-gradient(ellipse at 50% 18%, rgba(255, 255, 255, 0.96) 0 24%, rgba(255, 255, 255, 0.46) 42%, transparent 74%);
-        filter: blur(2px);
-        opacity: 0.5;
-        animation: ambientLensGlint 9s ease-in-out infinite alternate;
-        z-index: 3;
-        transition: opacity var(--dur-press) ease, transform var(--dur-press) ease, filter var(--dur-press) ease;
-    }
-
-    body[data-skin="pink-noise"] #main-button.is-pressed::before,
-    body[data-skin="orange-noise"] #main-button.is-pressed::before,
-    body[data-skin="brown-noise"] #main-button.is-pressed::before,
-    body[data-skin="infrared-noise"] #main-button.is-pressed::before,
-    body[data-skin="rain"] #main-button.is-pressed::before {
-        opacity: 0.5;
-        transform: scale(0.992);
-    }
-
-    body[data-skin="pink-noise"] #main-button.is-pressed::after,
-    body[data-skin="orange-noise"] #main-button.is-pressed::after,
-    body[data-skin="brown-noise"] #main-button.is-pressed::after,
-    body[data-skin="infrared-noise"] #main-button.is-pressed::after,
-    body[data-skin="rain"] #main-button.is-pressed::after {
-        opacity: 0.18;
-        transform: translateY(1px) scale(0.985);
-        filter: blur(2.6px);
-    }
-
-    body[data-skin="pink-noise"] #main-button.is-pressed .button-scene-layer,
-    body[data-skin="orange-noise"] #main-button.is-pressed .button-scene-layer,
-    body[data-skin="brown-noise"] #main-button.is-pressed .button-scene-layer,
-    body[data-skin="infrared-noise"] #main-button.is-pressed .button-scene-layer,
-    body[data-skin="rain"] #main-button.is-pressed .button-scene-layer {
-        opacity: 0.88;
-        transform: scale(calc(var(--button-scene-scale, 1.08) * 0.985));
-        filter: var(--button-scene-filter-pressed, saturate(1.01) brightness(0.98));
-    }
-
-    body[data-skin="pink-noise"] #main-button .main-button-label,
-    body[data-skin="orange-noise"] #main-button .main-button-label,
-    body[data-skin="brown-noise"] #main-button .main-button-label,
-    body[data-skin="infrared-noise"] #main-button .main-button-label,
-    body[data-skin="rain"] #main-button .main-button-label {
-        opacity: 1;
-    }
-
-    body[data-skin="pink-noise"] #main-button.is-pressed .main-button-label,
-    body[data-skin="orange-noise"] #main-button.is-pressed .main-button-label,
-    body[data-skin="brown-noise"] #main-button.is-pressed .main-button-label,
-    body[data-skin="infrared-noise"] #main-button.is-pressed .main-button-label,
-    body[data-skin="rain"] #main-button.is-pressed .main-button-label {
-        transform: translate(-50%, -50%) scale(0.985);
-    }
-
-    body[data-skin="pink-noise"] #main-button .main-button-label {
-        color: rgba(255, 238, 248, 0.74);
-    }
-
-    body[data-skin="orange-noise"] #main-button .main-button-label {
-        color: rgba(255, 242, 229, 0.76);
-    }
-
-    body[data-skin="brown-noise"] #main-button .main-button-label {
-        color: rgba(255, 240, 223, 0.72);
-    }
-
-    body[data-skin="infrared-noise"] #main-button .main-button-label {
-        color: rgba(255, 232, 224, 0.72);
-    }
-
-    body[data-skin="rain"] #main-button .main-button-label {
-        color: rgba(234, 246, 255, 0.76);
     }
 
     @keyframes ambientLensGlint {
@@ -1671,7 +1604,10 @@
     }
 
     .sleep-timer-panel {
-        right: 0;
+        position: fixed;
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%) translateY(-8px) scale(0.98);
     }
 
     .knowledge-panel {
@@ -1687,7 +1623,19 @@
         overflow: hidden;
         padding: 0 24px calc(20px + env(safe-area-inset-bottom, 0px));
         border-radius: 32px 32px 0 0;
-        background: var(--sheet-bg, var(--surface));
+        background:
+            radial-gradient(circle at 12% 8%, color-mix(in srgb, var(--accent) 18%, transparent) 0%, transparent 30%),
+            radial-gradient(circle at 82% 22%, color-mix(in srgb, var(--accent) 10%, transparent) 0%, transparent 36%),
+            radial-gradient(circle at 50% 112%, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 42%),
+            linear-gradient(
+                180deg,
+                color-mix(in srgb, var(--accent) 26%, var(--sheet-bg, var(--surface)) 74%) 0%,
+                color-mix(in srgb, var(--accent) 18%, var(--sheet-bg, var(--surface)) 82%) 14%,
+                color-mix(in srgb, var(--accent) 10%, var(--sheet-bg, var(--surface)) 90%) 34%,
+                color-mix(in srgb, var(--accent) 6%, var(--sheet-bg, var(--surface)) 94%) 58%,
+                color-mix(in srgb, var(--accent) 5%, var(--sheet-bg, var(--surface)) 95%) 78%,
+                color-mix(in srgb, var(--accent) 3%, var(--sheet-bg, var(--surface)) 97%) 100%
+            );
         border: 1px solid rgba(255,255,255,0.22);
         border-bottom: 0;
         box-shadow:
@@ -1699,7 +1647,7 @@
         color: var(--on-surface);
         transform: translateY(100%);
         transition: transform var(--dur-sheet) cubic-bezier(0.22, 1, 0.36, 1),
-                    background-color var(--dur-theme) var(--ease-standard),
+                    background var(--dur-theme) var(--ease-standard),
                     color var(--dur-theme) var(--ease-standard);
         z-index: 110;
     }
@@ -1721,6 +1669,10 @@
     .knowledge-panel.is-open {
         opacity: 1;
         pointer-events: auto;
+    }
+
+    .sleep-timer-panel.is-open {
+        transform: translateX(-50%) translateY(0) scale(1);
     }
 
     .knowledge-panel.is-open {
@@ -1794,6 +1746,11 @@
         color: var(--on-surface-var);
     }
 
+    .sleep-timer-status {
+        color: rgba(248, 250, 255, 0.82);
+        text-shadow: 0 1px 8px rgba(0, 0, 0, 0.28);
+    }
+
     .sleep-timer-custom {
         position: relative;
         display: grid;
@@ -1844,6 +1801,15 @@
             0 10px 24px rgba(0, 0, 0, 0.16);
     }
 
+    .sleep-timer-wheel.is-active {
+        border-color: color-mix(in srgb, var(--accent) 44%, rgba(255, 255, 255, 0.22));
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.16),
+            0 12px 28px rgba(0, 0, 0, 0.18),
+            0 0 0 1px color-mix(in srgb, var(--accent) 18%, transparent),
+            0 0 26px color-mix(in srgb, var(--accent) 16%, transparent);
+    }
+
     .sleep-timer-wheel::before,
     .sleep-timer-wheel::after {
         content: "";
@@ -1878,6 +1844,14 @@
         box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
         pointer-events: none;
         z-index: 1;
+    }
+
+    .sleep-timer-wheel.is-active .sleep-timer-wheel-window {
+        background: color-mix(in srgb, var(--accent) 20%, rgba(255, 255, 255, 0.12));
+        border-color: color-mix(in srgb, var(--accent) 30%, rgba(255, 255, 255, 0.18));
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.12),
+            0 0 0 1px color-mix(in srgb, var(--accent) 12%, transparent);
     }
 
     .sleep-timer-wheel-list {
@@ -2012,8 +1986,19 @@
     .knowledge-item {
         padding: 14px;
         border-radius: 16px;
-        background: color-mix(in srgb, var(--surface) 82%, transparent);
+        background:
+            radial-gradient(circle at 14% 0%, color-mix(in srgb, var(--accent) 14%, transparent) 0%, transparent 34%),
+            linear-gradient(
+                180deg,
+                color-mix(in srgb, var(--accent) 18%, var(--sheet-bg, var(--surface)) 82%) 0%,
+                color-mix(in srgb, var(--accent-container) 56%, var(--sheet-bg, var(--surface)) 44%) 28%,
+                color-mix(in srgb, var(--accent-container) 26%, var(--sheet-bg, var(--surface)) 74%) 62%,
+                color-mix(in srgb, var(--accent) 4%, var(--sheet-bg, var(--surface)) 96%) 100%
+            );
         border: 1px solid color-mix(in srgb, var(--outline) 70%, transparent);
+        box-shadow:
+            inset 0 1px 0 rgba(255,255,255,0.16),
+            0 14px 28px color-mix(in srgb, var(--accent) 8%, transparent);
     }
 
     .knowledge-item-title {
@@ -2069,33 +2054,36 @@
     }
 
     /* ════════════════════════════════════════════════════════════
-       6.25 HOME SKIN BUBBLES
+       6.25 HOME POSTER EXPERIENCE
        ════════════════════════════════════════════════════════════ */
     #home-screen {
         position: fixed;
         inset: 0;
         z-index: 40;
-        display: none;
         overflow: hidden;
-        padding: calc(104px + env(safe-area-inset-top, 0px)) 18px calc(164px + env(safe-area-inset-bottom, 0px));
         background:
-            radial-gradient(ellipse at 38% 12%, rgba(103,80,164,0.22) 0%, transparent 38%),
-            radial-gradient(ellipse at 72% 82%, rgba(80,120,200,0.18) 0%, transparent 36%),
-            radial-gradient(circle at 50% 18%, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.03) 18%, transparent 42%),
-            linear-gradient(180deg, #3a3a4a 0%, #1a1a28 50%, #0f0f18 100%);
+            radial-gradient(ellipse at 38% 12%, rgba(103,80,164,0.18) 0%, transparent 38%),
+            radial-gradient(ellipse at 72% 82%, rgba(80,120,200,0.14) 0%, transparent 36%),
+            radial-gradient(circle at 50% 18%, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.015) 18%, transparent 42%),
+            linear-gradient(180deg, #1f2030 0%, #161724 46%, #0f0f18 100%);
         color: rgba(255, 255, 255, 0.94);
         isolation: isolate;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translate3d(0, 12px, 0);
+        transition:
+            opacity 280ms var(--ease-standard),
+            transform 280ms var(--ease-standard),
+            visibility 0ms linear 280ms;
     }
 
     body.home-view-active #home-screen {
-        display: block;
-    }
-
-    .home-bubble-scene {
-        position: absolute;
-        inset: 0;
-        overflow: hidden;
-        padding: inherit;
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translate3d(0, 0, 0);
+        transition-delay: 0ms;
     }
 
     #home-screen::before,
@@ -2108,257 +2096,414 @@
 
     #home-screen::before {
         background-image:
-            radial-gradient(1.5px 1.5px at 18% 22%, rgba(255,255,255,0.56) 0%, transparent 100%),
-            radial-gradient(1px 1px at 64% 14%, rgba(255,255,255,0.44) 0%, transparent 100%),
-            radial-gradient(2px 2px at 82% 56%, rgba(180,160,255,0.44) 0%, transparent 100%),
-            radial-gradient(1.5px 1.5px at 34% 74%, rgba(255,255,255,0.36) 0%, transparent 100%),
-            radial-gradient(1px 1px at 55% 38%, rgba(255,255,255,0.52) 0%, transparent 100%),
-            radial-gradient(1px 1px at 92% 28%, rgba(160,180,255,0.38) 0%, transparent 100%),
-            radial-gradient(2px 2px at 12% 88%, rgba(255,255,255,0.28) 0%, transparent 100%),
-            radial-gradient(1.5px 1.5px at 76% 92%, rgba(180,160,255,0.32) 0%, transparent 100%),
-            radial-gradient(1px 1px at 46% 6%, rgba(255,255,255,0.48) 0%, transparent 100%);
-        animation: obStarFloat 12s ease-in-out infinite alternate;
+            radial-gradient(1px 1px at 18% 22%, rgba(255,255,255,0.44) 0%, transparent 100%),
+            radial-gradient(1px 1px at 64% 14%, rgba(255,255,255,0.34) 0%, transparent 100%),
+            radial-gradient(1.5px 1.5px at 82% 56%, rgba(180,160,255,0.30) 0%, transparent 100%),
+            radial-gradient(1px 1px at 34% 74%, rgba(255,255,255,0.24) 0%, transparent 100%),
+            radial-gradient(1px 1px at 55% 38%, rgba(255,255,255,0.32) 0%, transparent 100%),
+            radial-gradient(1px 1px at 92% 28%, rgba(160,180,255,0.22) 0%, transparent 100%);
+        animation: obStarFloat 14s ease-in-out infinite alternate;
         z-index: 0;
     }
 
     #home-screen::after {
-        left: -20%;
-        right: -20%;
-        top: -10%;
+        left: -16%;
+        right: -16%;
+        top: -6%;
         bottom: auto;
-        height: 55%;
-        background: radial-gradient(ellipse at 50% 0%, rgba(103,80,164,0.28) 0%, rgba(60,80,160,0.12) 42%, transparent 72%);
-        animation: obGlowPulse 8s ease-in-out infinite alternate;
+        height: 48%;
+        background: radial-gradient(ellipse at 50% 0%, rgba(103,80,164,0.24) 0%, rgba(60,80,160,0.10) 42%, transparent 72%);
+        animation: obGlowPulse 9s ease-in-out infinite alternate;
         z-index: 0;
     }
 
-    .home-bubble-scene::before {
-        content: "";
+    .home-poster-scene {
         position: absolute;
-        inset: -12%;
-        background:
-            radial-gradient(circle at 24% 30%, rgba(255,255,255,0.06), transparent 28%),
-            radial-gradient(circle at 72% 68%, rgba(180,160,255,0.12), transparent 30%),
-            linear-gradient(180deg, rgba(255,255,255,0.03), transparent 34%);
-        pointer-events: none;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        padding: calc(20px + env(safe-area-inset-top, 0px)) 16px env(safe-area-inset-bottom, 0px);
+        --home-featured-height: 96px;
+        --home-poster-text-gradient: linear-gradient(145deg, #fff 20%, rgba(200,185,255,0.92) 60%, rgba(150,170,255,0.88) 100%);
     }
 
-    .home-bubble-title {
+    .home-poster-header {
         position: relative;
-        z-index: 2;
-        max-width: 280px;
+        z-index: 4;
+        display: grid;
+        gap: 8px;
+        max-width: 330px;
+        flex: 0 0 auto;
+        margin: 0 0 6px;
+    }
+
+    .home-poster-brand {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 14px;
+        margin-bottom: 4px;
+    }
+
+    .home-poster-brand-meta {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 0;
+    }
+
+    .home-poster-brand-mark {
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        object-fit: cover;
+        flex: 0 0 auto;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.16);
+    }
+
+    .home-poster-brand-name {
         margin: 0;
-        font-size: clamp(30px, 8.5vw, 46px);
-        line-height: 1.04;
-        font-weight: 800;
-        letter-spacing: -1px;
-        background: linear-gradient(145deg, #fff 20%, rgba(200,185,255,0.92) 60%, rgba(150,170,255,0.88) 100%);
+        font-size: 10px;
+        line-height: 1.08;
+        font-weight: 600;
+        background: var(--home-poster-text-gradient);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
+        color: transparent;
+        letter-spacing: 0.01em;
     }
 
-    .home-bubble-subtitle {
-        position: relative;
-        z-index: 2;
-        max-width: 290px;
-        margin: 10px 0 0;
-        font-size: 16px;
-        line-height: 1.42;
-        color: rgba(255, 255, 255, 0.68);
-    }
-
-    .skin-bubble-field {
-        position: absolute;
-        inset: calc(196px + env(safe-area-inset-top, 0px)) 0 calc(176px + env(safe-area-inset-bottom, 0px));
-        z-index: 1;
-    }
-
-    .skin-bubble {
-        position: absolute;
-        left: var(--bubble-x);
-        top: var(--bubble-y);
-        width: var(--bubble-w);
-        height: var(--bubble-h);
+    .home-poster-settings {
+        width: 22px;
+        height: 22px;
         border: 0;
-        border-radius: var(--bubble-radius);
+        border-radius: 0;
+        background: transparent;
+        color: rgba(248, 249, 255, 0.82);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        cursor: pointer;
+    }
+
+    .home-poster-settings svg {
+        width: 15px;
+        height: 15px;
+        fill: currentColor;
+    }
+
+    .home-poster-kicker {
+        display: none;
+    }
+
+    .home-poster-title {
+        margin: 0;
+        max-width: 320px;
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: 40px;
+        line-height: 0.9;
+        font-weight: 300;
+        letter-spacing: 0;
+        background: var(--home-poster-text-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent;
+    }
+
+    .home-poster-subcopy {
+        margin: 0;
+        max-width: 262px;
+        font-size: 12px;
+        line-height: 1.26;
+        font-weight: 400;
+        background: var(--home-poster-text-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent;
+    }
+
+    .home-poster-viewport {
+        position: relative;
+        left: auto;
+        right: auto;
+        top: auto;
+        bottom: auto;
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding: 0 0 calc(var(--nav-bar-height) + 42px + env(safe-area-inset-bottom, 0px));
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-y: contain;
+        touch-action: pan-y;
+        z-index: 2;
+    }
+
+    .home-poster-viewport::-webkit-scrollbar {
+        display: none;
+    }
+
+    .home-poster-featured-wrap {
+        position: relative;
+        left: auto;
+        right: auto;
+        top: auto;
+        z-index: 7;
+        margin: 0;
+        padding: 0;
+        background: transparent;
+        flex: 0 0 auto;
+    }
+
+    .home-poster-rail {
         display: grid;
-        place-items: center;
-        padding: 12px 16px;
-        background:
-            linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.03) 44%, rgba(0,0,0,0.05) 100%),
-            color-mix(in srgb, var(--bubble-color) 76%, #565b66 24%);
-        color: rgba(255,255,255,0.9);
-        box-shadow:
-            inset 0 1px 0 rgba(255,255,255,0.14),
-            0 18px 28px rgba(0,0,0,0.18);
-        font: inherit;
-        font-size: var(--bubble-font, 15px);
-        font-weight: 720;
-        line-height: 1.08;
-        text-align: center;
-        cursor: grab;
-        outline: none;
-        appearance: none;
-        -webkit-appearance: none;
-        transform: translate3d(calc(-50% - 4px), calc(-50% + 4px), 0) rotate(var(--bubble-rotate)) scale(var(--bubble-scale, 1));
-        transform-origin: center;
-        animation: skinBubbleFloat var(--bubble-dur, 9s) ease-in-out infinite alternate;
-        animation-delay: var(--bubble-delay, 0ms);
-        will-change: transform;
-        backface-visibility: hidden;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 6px;
+    }
+
+    .home-poster-card {
+        position: relative;
+        width: 100%;
+        min-height: 92px;
+        border: 1px solid rgba(255,255,255,0.12);
+        border-radius: 20px;
         overflow: hidden;
+        display: flex;
+        align-items: stretch;
+        padding: 14px 18px;
+        background:
+            linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01) 30%, rgba(0,0,0,0.18) 100%),
+            color-mix(in srgb, var(--poster-tint, rgba(255,255,255,0.18)) 92%, transparent);
+        box-shadow:
+            0 14px 36px rgba(0,0,0,0.16),
+            inset 0 1px 0 rgba(255,255,255,0.12);
+        color: #fff;
+        text-align: left;
+        cursor: pointer;
         isolation: isolate;
-        transition:
-            background-color 180ms var(--ease-standard),
-            box-shadow 180ms var(--ease-standard),
-            opacity 180ms var(--ease-standard);
-    }
-
-    .skin-bubble:focus,
-    .skin-bubble:focus-visible {
         outline: none;
+        -webkit-appearance: none;
+        transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, opacity 180ms ease;
     }
 
-    .skin-bubble.is-dragging {
-        animation: none;
-        transition: none;
-        cursor: grabbing;
-        z-index: 12;
-        --bubble-scale: 1.08;
-    }
-
-    .skin-bubble::before {
+    .home-poster-card::before {
         content: "";
         position: absolute;
         inset: 0;
         background:
-            radial-gradient(circle at 50% 50%, rgba(8, 10, 18, 0.08) 0 26%, rgba(8, 10, 18, 0.22) 54%, rgba(8, 10, 18, 0.42) 100%),
-            linear-gradient(180deg, rgba(10,12,18,0.16), rgba(10,12,18,0.42)),
-            var(--bubble-image, none) center / cover no-repeat;
-        opacity: 0;
-        transition: opacity 220ms var(--ease-standard);
+            linear-gradient(90deg, rgba(8, 10, 16, 0.76) 0%, rgba(8, 10, 16, 0.58) 28%, rgba(8, 10, 16, 0.18) 56%, rgba(8, 10, 16, 0.02) 84%),
+            linear-gradient(180deg, rgba(255,255,255,0.05), transparent 42%, rgba(8, 10, 16, 0.18) 100%),
+            var(--poster-image, none) var(--poster-art-position, center) / var(--poster-art-size, cover) no-repeat;
         z-index: 0;
     }
 
-    .skin-bubble.has-artwork::before {
-        opacity: 0.58;
+    .home-poster-card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+            linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01) 44%, transparent),
+            radial-gradient(circle at 82% 22%, rgba(255,255,255,0.12), transparent 20%);
+        opacity: 0.7;
+        z-index: 1;
+        pointer-events: none;
     }
 
-    .skin-bubble.is-selected::before,
-    .skin-bubble.is-current::before {
+    .home-poster-card:focus,
+    .home-poster-card:focus-visible {
+        outline: none;
+    }
+
+    .home-poster-card:active {
+        transform: scale(0.985);
+    }
+
+    .home-poster-card.is-selected,
+    .home-poster-card.is-current {
+        box-shadow:
+            0 22px 50px rgba(0,0,0,0.22),
+            0 0 0 1px rgba(255,255,255,0.18),
+            inset 0 1px 0 rgba(255,255,255,0.22);
+    }
+
+    .home-poster-card.is-selected {
+        transform: translateY(-1px);
+    }
+
+    .home-poster-card--featured {
+        min-height: 92px;
+        height: 92px;
+        aspect-ratio: auto;
+        border-radius: 20px;
+        padding: 14px 18px;
+        background:
+            linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01) 30%, rgba(0,0,0,0.18) 100%),
+            color-mix(in srgb, var(--poster-tint, rgba(255,255,255,0.18)) 92%, transparent);
+    }
+
+    .home-poster-card--featured::before {
+        background:
+            linear-gradient(90deg, rgba(8, 10, 16, 0.76) 0%, rgba(8, 10, 16, 0.58) 28%, rgba(8, 10, 16, 0.18) 56%, rgba(8, 10, 16, 0.02) 84%),
+            linear-gradient(180deg, rgba(255,255,255,0.05), transparent 42%, rgba(8, 10, 16, 0.18) 100%),
+            var(--poster-image, none) var(--poster-art-position, center) / var(--poster-art-size, cover) no-repeat;
+    }
+
+    .home-poster-card--featured::after {
+        background:
+            linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01) 44%, transparent),
+            radial-gradient(circle at 82% 22%, rgba(255,255,255,0.12), transparent 20%);
         opacity: 0.7;
     }
 
-    .skin-bubble.is-selected,
-    .skin-bubble.is-current {
-        background: var(--bubble-color);
-        color: #fff;
-        box-shadow:
-            inset 0 1px 0 rgba(255,255,255,0.24),
-            0 0 0 1px rgba(255,255,255,0.16),
-            0 18px 36px color-mix(in srgb, var(--bubble-color) 32%, transparent),
-            0 24px 36px rgba(0,0,0,0.22);
+    .home-poster-card[data-poster="moon"] {
+        --poster-art-position: 58% 18%;
     }
 
-    .skin-bubble.is-selected {
-        z-index: 5;
-        --bubble-scale: 1.06;
+    @media (max-width: 420px) {
+        .home-poster-card[data-poster="moon"] {
+            --poster-art-position: 56% 16%;
+        }
     }
 
-    .skin-bubble.is-locked::after {
-        content: "";
-        position: absolute;
-        right: 12px;
-        top: 10px;
-        width: 7px;
-        height: 7px;
-        border-radius: 50%;
-        background: rgba(255,255,255,0.72);
+    @media (min-width: 421px) and (max-width: 768px) {
+        .home-poster-card[data-poster="moon"] {
+            --poster-art-position: 60% 20%;
+        }
     }
 
-    .skin-bubble-label {
+    .home-poster-card--compact {
+        min-height: 92px;
+        height: 92px;
+        aspect-ratio: auto;
+    }
+
+
+    .home-poster-card-body {
         position: relative;
-        z-index: 1;
+        z-index: 2;
+        width: 100%;
+        display: grid;
+        gap: 5px;
+        align-content: start;
+        max-width: 46%;
+    }
+
+    .home-poster-card--featured .home-poster-card-body {
+        max-width: 46%;
+        align-self: start;
+        gap: 5px;
+    }
+
+    .home-poster-chip {
         display: inline-flex;
         align-items: center;
-        justify-content: center;
-        max-width: 100%;
-        padding: 6px 10px;
-        border-radius: 999px;
-        background: rgba(22, 24, 34, 0.24);
-        box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
-        backdrop-filter: blur(10px) saturate(1.08);
-        -webkit-backdrop-filter: blur(10px) saturate(1.08);
-        transform: rotate(calc(var(--bubble-rotate) * -1));
-        text-shadow: 0 2px 12px rgba(0,0,0,0.48);
-    }
-
-    .skin-bubble:not(.has-artwork) .skin-bubble-label {
+        width: fit-content;
+        padding: 0;
+        border: 0;
         background: transparent;
         box-shadow: none;
-        backdrop-filter: none;
-        -webkit-backdrop-filter: none;
+        font-size: 12px;
+        line-height: 1;
+        font-weight: 600;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.82);
     }
 
-    .skin-bubble.is-selected .skin-bubble-label,
-    .skin-bubble.is-current .skin-bubble-label {
-        background: rgba(12, 14, 22, 0.3);
+    .home-poster-name {
+        margin: 0;
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: 24px;
+        line-height: 0.92;
+        font-weight: 500;
+        letter-spacing: 0;
+        background: var(--home-poster-text-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent;
     }
 
-    .home-skin-actions {
-        position: absolute;
-        left: 16px;
-        right: 16px;
-        bottom: calc(var(--nav-bar-height) + 24px + env(safe-area-inset-bottom, 0px));
-        z-index: 3;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-        padding: 0;
-        opacity: 0;
-        pointer-events: none;
-        transform: translateY(14px);
-        transition: opacity 180ms var(--ease-standard), transform 180ms var(--ease-standard);
+    .home-poster-card--featured .home-poster-name {
+        font-size: 24px;
     }
 
-    .home-skin-actions.is-visible {
-        opacity: 1;
-        pointer-events: auto;
-        transform: translateY(0);
+    .home-poster-copy {
+        margin: 0;
+        font-size: 12px;
+        line-height: 1.24;
+        font-weight: 300;
+        background: var(--home-poster-text-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent;
+        max-width: 100%;
     }
 
-    .home-skin-action {
-        min-height: 48px;
-        border: 0;
-        border-radius: 24px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        padding: 0 14px;
-        font: inherit;
-        font-size: 13px;
-        font-weight: 760;
-        color: rgba(255,255,255,0.88);
-        background: rgba(50, 54, 68, 0.82);
-        border: 1px solid rgba(255,255,255,0.12);
-        box-shadow: 0 12px 28px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.08);
-        backdrop-filter: blur(18px);
-        -webkit-backdrop-filter: blur(18px);
-        cursor: pointer;
-        white-space: nowrap;
+    .home-poster-card--featured .home-poster-copy {
+        max-width: 100%;
+        color: transparent;
     }
 
-    .home-skin-action.primary {
-        background: #fff;
-        color: #171719;
+    body[data-language="ja"] .home-poster-card--compact .home-poster-card-body {
+        max-width: 52%;
+        gap: 4px;
     }
 
-    .home-skin-action svg {
-        width: 18px;
-        height: 18px;
-        fill: currentColor;
+    body[data-language="ja"] .home-poster-card--compact .home-poster-name {
+        font-family: "Hiragino Sans", "Yu Gothic", "Noto Sans JP", sans-serif;
+        font-size: 18px;
+        line-height: 1.02;
+        font-weight: 500;
+        letter-spacing: -0.01em;
+    }
+
+    body[data-language="ja"] .home-poster-card--compact .home-poster-copy {
+        font-size: 11px;
+        line-height: 1.16;
+    }
+
+    body[data-language="de"] .home-poster-card--compact {
+        min-height: 98px;
+        height: 98px;
+    }
+
+    body[data-language="de"] .home-poster-card--compact .home-poster-card-body {
+        max-width: 50%;
+        gap: 4px;
+    }
+
+    body[data-language="de"] .home-poster-card--compact .home-poster-name {
+        font-size: 21px;
+        line-height: 0.94;
+    }
+
+    body[data-language="de"] .home-poster-card--compact .home-poster-copy {
+        font-size: 11.5px;
+        line-height: 1.18;
+    }
+
+    .home-poster-arrow {
+        display: none;
+    }
+
+    .home-poster-arrow svg {
+        width: 0;
+        height: 0;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 1.9;
+    }
+
+    body.home-view-active .dev-preview-button {
+        display: none !important;
     }
 
     @keyframes skinBubbleFloat {
@@ -2401,20 +2546,14 @@
         grid-template-columns: repeat(4, minmax(0, 1fr));
         align-items: center;
         gap: 6px;
-        min-height: 68px;
-        padding: 6px 8px 8px;
+        min-height: 58px;
+        padding: 4px 8px 6px;
         border-radius: 999px;
-        background:
-            linear-gradient(180deg, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0.05) 100%),
-            linear-gradient(155deg, rgba(28,30,40,0.82) 0%, rgba(17,18,24,0.90) 58%, rgba(13,14,20,0.94) 100%);
-        border: 1px solid rgba(255,255,255,0.14);
-        box-shadow:
-            0 22px 54px rgba(0,0,0,0.34),
-            0 6px 16px rgba(0,0,0,0.16),
-            inset 0 1px 0 rgba(255,255,255,0.16),
-            inset 0 -1px 0 rgba(255,255,255,0.04);
-        backdrop-filter: blur(36px) saturate(1.22);
-        -webkit-backdrop-filter: blur(36px) saturate(1.22);
+        background: var(--m3-nav-bg);
+        border: 1px solid var(--m3-nav-border);
+        box-shadow: var(--m3-nav-box-shadow);
+        backdrop-filter: blur(48px) saturate(1.64) contrast(1.03);
+        -webkit-backdrop-filter: blur(48px) saturate(1.64) contrast(1.03);
         z-index: 85;
         overflow: hidden;
         transition:
@@ -2431,9 +2570,13 @@
         left: 10%;
         right: 10%;
         height: 1px;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.20) 22%, rgba(255,255,255,0.34) 50%, rgba(255,255,255,0.20) 78%, transparent);
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.34) 22%, rgba(255,255,255,0.58) 50%, rgba(255,255,255,0.28) 78%, transparent);
         pointer-events: none;
         z-index: 2;
+    }
+
+    body.home-view-active #app-nav::after {
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.14) 22%, rgba(255,255,255,0.26) 50%, rgba(255,255,255,0.12) 78%, transparent);
     }
 
     #app-nav::before {
@@ -2441,10 +2584,8 @@
         position: absolute;
         inset: 1px;
         border-radius: 999px;
-        background:
-            radial-gradient(circle at 16% 0%, rgba(255,255,255,0.12), transparent 26%),
-            linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.03) 42%, rgba(255,255,255,0.015));
-        opacity: 0.82;
+        background: var(--m3-nav-veil);
+        opacity: var(--m3-nav-veil-opacity);
         pointer-events: none;
     }
 
@@ -2459,8 +2600,8 @@
         justify-items: center;
         gap: 2px;
         min-width: 0;
-        min-height: 48px;
-        padding: 2px 4px 0;
+        min-height: 44px;
+        padding: 1px 4px 0;
         border: 1px solid transparent;
         border-radius: 999px;
         background: transparent;
@@ -2477,7 +2618,7 @@
     .m3-nav-indicator {
         width: 62px;
         max-width: 100%;
-        height: 30px;
+        height: 26px;
         border-radius: 999px;
         display: grid;
         place-items: center;
@@ -2490,17 +2631,40 @@
     }
 
     .m3-nav-item.is-active .m3-nav-indicator {
-        background: linear-gradient(160deg, rgba(180,156,255,0.30) 0%, rgba(103,80,164,0.20) 100%);
+        background:
+            linear-gradient(160deg, rgba(255,255,255,0.38) 0%, rgba(220,202,255,0.20) 52%, rgba(120,92,154,0.10) 100%);
         box-shadow:
-            inset 0 1px 0 rgba(255,255,255,0.22),
-            0 8px 18px rgba(0,0,0,0.16),
-            0 0 0 1px rgba(255,255,255,0.06);
+            inset 0 1px 0 rgba(255,255,255,0.62),
+            inset 0 -1px 0 rgba(255,255,255,0.16),
+            0 8px 18px rgba(72,44,56,0.12),
+            0 0 0 1px rgba(255,255,255,0.24);
+    }
+
+    body:not(.home-view-active) .m3-nav-item.is-active .m3-nav-indicator {
+        background:
+            linear-gradient(160deg, rgba(255,255,255,0.42) 0%, rgba(255,255,255,0.2) 58%, rgba(196,178,255,0.12) 100%);
+        box-shadow:
+            inset 0 1px 0 rgba(255,255,255,0.72),
+            inset 0 -1px 0 rgba(255,255,255,0.18),
+            0 10px 20px rgba(0,0,0,0.18),
+            0 0 0 1px rgba(255,255,255,0.28);
+    }
+
+    body:not(.home-view-active):not([data-theme="night"]):not([data-theme="cosmos"]):not([data-theme="obsidian"]) .m3-nav-item.is-active .m3-nav-indicator {
+        background:
+            linear-gradient(160deg, rgba(255,255,255,0.54) 0%, rgba(240,243,248,0.78) 56%, rgba(194,201,214,0.44) 100%);
+        box-shadow:
+            inset 0 1px 0 rgba(255,255,255,0.78),
+            inset 0 -1px 0 rgba(255,255,255,0.24),
+            0 8px 18px rgba(70,78,92,0.16),
+            0 0 0 1px rgba(255,255,255,0.34);
     }
 
     .m3-nav-item svg {
         width: 20px;
         height: 20px;
         fill: currentColor;
+        filter: var(--m3-nav-icon-filter);
         transition: fill 200ms var(--ease-standard), opacity 200ms var(--ease-standard), transform 260ms var(--spring);
     }
 
@@ -2509,7 +2673,7 @@
     }
 
     .m3-nav-item.is-active svg {
-        filter: drop-shadow(0 0 5px rgba(200,180,255,0.34));
+        filter: var(--m3-nav-icon-filter);
     }
 
     .m3-nav-label {
@@ -2517,11 +2681,12 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        font-size: 9px;
-        line-height: 12px;
+        font-size: 8.5px;
+        line-height: 11px;
         font-weight: 650;
         letter-spacing: 0.01em;
         color: var(--m3-nav-label);
+        text-shadow: var(--m3-nav-label-shadow);
         transition: color 180ms var(--ease-standard);
     }
 
@@ -2599,15 +2764,25 @@
     #scrim {
         position: fixed;
         inset: 0;
-        background: rgba(0,0,0,0);
+        background: rgba(6, 8, 12, 0);
         z-index: 90;
+        opacity: 0;
         pointer-events: none;
-        transition: background 300ms var(--ease-standard);
+        backdrop-filter: blur(0px) saturate(1);
+        -webkit-backdrop-filter: blur(0px) saturate(1);
+        transition:
+            opacity var(--dur-scrim) var(--ease-standard),
+            background var(--dur-scrim) var(--ease-standard),
+            backdrop-filter var(--dur-scrim) var(--ease-standard),
+            -webkit-backdrop-filter var(--dur-scrim) var(--ease-standard);
     }
 
     #scrim.visible {
-        background: rgba(0,0,0,0.32);
+        background: rgba(10, 12, 18, 0.34);
+        opacity: 1;
         pointer-events: auto;
+        backdrop-filter: blur(6px) saturate(1.04);
+        -webkit-backdrop-filter: blur(6px) saturate(1.04);
     }
 
     /* ════════════════════════════════════════════════════════════
@@ -2620,38 +2795,68 @@
         left: 0;
         right: 0;
         max-height: 78vh;
-        background: var(--sheet-bg, var(--surface));
+        background:
+            radial-gradient(circle at 12% 8%, color-mix(in srgb, var(--accent) 18%, transparent) 0%, transparent 30%),
+            radial-gradient(circle at 82% 22%, color-mix(in srgb, var(--accent) 10%, transparent) 0%, transparent 36%),
+            radial-gradient(circle at 50% 112%, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 42%),
+            linear-gradient(
+                180deg,
+                color-mix(in srgb, var(--accent) 26%, var(--sheet-bg, var(--surface)) 74%) 0%,
+                color-mix(in srgb, var(--accent) 18%, var(--sheet-bg, var(--surface)) 82%) 14%,
+                color-mix(in srgb, var(--accent) 10%, var(--sheet-bg, var(--surface)) 90%) 34%,
+                color-mix(in srgb, var(--accent) 6%, var(--sheet-bg, var(--surface)) 94%) 58%,
+                color-mix(in srgb, var(--accent) 5%, var(--sheet-bg, var(--surface)) 95%) 78%,
+                color-mix(in srgb, var(--accent) 3%, var(--sheet-bg, var(--surface)) 97%) 100%
+            );
         border-radius: 32px 32px 0 0;
         box-shadow:
             0 -2px 0 rgba(255,255,255,0.12),
-            0 -8px 32px rgba(0,0,0,0.14),
-            0 -24px 64px rgba(0,0,0,0.08);
-        transform: translateY(100%);
-        transition: transform var(--dur-sheet) cubic-bezier(0.22, 1, 0.36, 1),
-                    background-color var(--dur-theme) var(--ease-standard);
+            0 -12px 38px rgba(0,0,0,0.14),
+            0 -28px 72px rgba(0,0,0,0.10);
+        transform: translateY(calc(100% + 18px)) scale(0.985);
+        transform-origin: center bottom;
+        opacity: 0.78;
+        transition:
+            transform var(--dur-sheet) var(--ease-emphasized),
+            opacity 300ms var(--ease-standard),
+            background var(--dur-theme) var(--ease-standard);
         z-index: 100;
         overflow: hidden;
-        will-change: transform;
+        will-change: transform, opacity;
         padding-bottom: env(safe-area-inset-bottom, 0px);
         border-top: 1px solid rgba(255,255,255,0.22);
         border-left: 1px solid rgba(255,255,255,0.10);
         border-right: 1px solid rgba(255,255,255,0.10);
+        backface-visibility: hidden;
+    }
+
+    #bottom-sheet::before {
+        content: "";
+        position: absolute;
+        inset: 0 0 auto;
+        height: 156px;
+        background:
+            radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--accent) 16%, transparent) 0%, transparent 74%),
+            linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02) 46%, transparent 100%);
+        pointer-events: none;
+        z-index: 0;
     }
 
     @media (min-width: 1024px) {
         #bottom-sheet {
             max-width: 430px;
             left: 50%;
-            transform: translateX(-50%) translateY(100%);
+            transform: translateX(-50%) translateY(calc(100% + 18px)) scale(0.985);
         }
 
         #bottom-sheet.is-open {
-            transform: translateX(-50%) translateY(0) !important;
+            transform: translateX(-50%) translateY(0) scale(1) !important;
         }
     }
 
     #bottom-sheet.is-open {
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
+        opacity: 1;
     }
 
     .sheet-content {
@@ -2662,6 +2867,8 @@
         min-height: calc(78vh - 20px);
         overflow: hidden;
         padding: 0 24px 20px;
+        position: relative;
+        z-index: 1;
     }
 
     /* Drag handle */
@@ -2813,6 +3020,30 @@
         flex: 0 0 auto;
         fill: currentColor;
         opacity: 0.9;
+    }
+
+    #sheet-settings {
+        background: color-mix(in srgb, var(--surface) 88%, var(--bg) 12%);
+        border-color: color-mix(in srgb, var(--outline) 72%, transparent);
+        box-shadow:
+            0 1px 0 rgba(255,255,255,0.12) inset,
+            0 8px 18px color-mix(in srgb, var(--shadow-d) 10%, transparent);
+    }
+
+    #sheet-settings:hover {
+        background: color-mix(in srgb, var(--surface) 90%, var(--bg) 10%);
+        border-color: color-mix(in srgb, var(--outline) 76%, transparent);
+        box-shadow:
+            0 1px 0 rgba(255,255,255,0.14) inset,
+            0 10px 22px color-mix(in srgb, var(--shadow-d) 12%, transparent);
+    }
+
+    #sheet-settings:active {
+        background: color-mix(in srgb, var(--surface-dim) 42%, var(--surface) 58%);
+        border-color: color-mix(in srgb, var(--outline) 76%, transparent);
+        box-shadow:
+            inset 0 1px 2px color-mix(in srgb, var(--shadow-d) 12%, transparent),
+            0 4px 10px color-mix(in srgb, var(--shadow-d) 8%, transparent);
     }
 
     /* ════════════════════════════════════════════════════════════
@@ -3055,7 +3286,18 @@
     }
 
     .sound-item.active {
-        background: var(--accent-container);
+        background:
+            radial-gradient(circle at 12% 0%, color-mix(in srgb, var(--accent) 18%, transparent) 0%, transparent 34%),
+            linear-gradient(
+                180deg,
+                color-mix(in srgb, var(--accent) 18%, var(--sheet-bg, var(--surface)) 82%) 0%,
+                color-mix(in srgb, var(--accent-container) 72%, var(--sheet-bg, var(--surface)) 28%) 34%,
+                color-mix(in srgb, var(--accent-container) 48%, var(--sheet-bg, var(--surface)) 52%) 100%
+            );
+        border: 1px solid color-mix(in srgb, var(--accent) 14%, transparent);
+        box-shadow:
+            inset 0 1px 0 rgba(255,255,255,0.14),
+            0 10px 24px color-mix(in srgb, var(--accent) 10%, transparent);
     }
 
     .sound-item.is-premium .sound-name {
@@ -3147,7 +3389,10 @@
         background: var(--accent-container);
         color: var(--accent);
         white-space: nowrap;
-        transition: all var(--dur-theme) var(--ease-standard);
+        transition:
+            background-color var(--dur-theme) var(--ease-standard),
+            color var(--dur-theme) var(--ease-standard),
+            border-color var(--dur-theme) var(--ease-standard);
     }
 
     .sound-lock {
@@ -3175,12 +3420,21 @@
         font-weight: 700;
         cursor: pointer;
         flex: 0 0 auto;
+        transition:
+            background-color 180ms var(--ease-standard),
+            border-color 180ms var(--ease-standard),
+            color 180ms var(--ease-standard),
+            transform 180ms var(--ease-standard);
     }
 
     .sound-select-btn svg {
         width: 14px;
         height: 14px;
         fill: currentColor;
+        transition:
+            fill 180ms var(--ease-standard),
+            color 180ms var(--ease-standard),
+            transform 180ms var(--ease-standard);
     }
 
     .sound-select-btn.active {
@@ -3213,7 +3467,11 @@
         color: var(--on-surface-var);
         cursor: pointer;
         flex: 0 0 auto;
-        transition: all 180ms ease;
+        transition:
+            background-color 180ms var(--ease-standard),
+            border-color 180ms var(--ease-standard),
+            color 180ms var(--ease-standard),
+            transform 180ms var(--ease-standard);
     }
 
     .sound-favorite-btn:hover,
@@ -3413,21 +3671,43 @@
         display: flex;
         align-items: flex-end;
         justify-content: center;
-        background: rgba(0,0,0,0);
+        background: rgba(6, 8, 12, 0);
+        opacity: 0;
         pointer-events: none;
-        transition: background 300ms var(--ease-standard);
+        backdrop-filter: blur(0px) saturate(1);
+        -webkit-backdrop-filter: blur(0px) saturate(1);
+        transition:
+            opacity var(--dur-scrim) var(--ease-standard),
+            background var(--dur-scrim) var(--ease-standard),
+            backdrop-filter var(--dur-scrim) var(--ease-standard),
+            -webkit-backdrop-filter var(--dur-scrim) var(--ease-standard);
     }
 
     #paywall.visible {
-        background: rgba(0,0,0,0.55);
+        background: rgba(10, 12, 18, 0.38);
+        opacity: 1;
         pointer-events: auto;
+        backdrop-filter: blur(7px) saturate(1.05);
+        -webkit-backdrop-filter: blur(7px) saturate(1.05);
     }
 
     .paywall-card {
         position: relative;
         width: 100%;
         max-width: 430px;
-        background: var(--sheet-bg, var(--surface));
+        background:
+            radial-gradient(circle at 12% 8%, color-mix(in srgb, var(--accent) 18%, transparent) 0%, transparent 30%),
+            radial-gradient(circle at 82% 20%, color-mix(in srgb, var(--accent) 10%, transparent) 0%, transparent 36%),
+            radial-gradient(circle at 50% 112%, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 42%),
+            linear-gradient(
+                180deg,
+                color-mix(in srgb, var(--accent) 26%, var(--sheet-bg, var(--surface)) 74%) 0%,
+                color-mix(in srgb, var(--accent) 18%, var(--sheet-bg, var(--surface)) 82%) 14%,
+                color-mix(in srgb, var(--accent) 10%, var(--sheet-bg, var(--surface)) 90%) 34%,
+                color-mix(in srgb, var(--accent) 6%, var(--sheet-bg, var(--surface)) 94%) 58%,
+                color-mix(in srgb, var(--accent) 5%, var(--sheet-bg, var(--surface)) 95%) 78%,
+                color-mix(in srgb, var(--accent) 3%, var(--sheet-bg, var(--surface)) 97%) 100%
+            );
         border-radius: 32px 32px 0 0;
         padding: 0;
         overflow: hidden;
@@ -3437,26 +3717,41 @@
             0 -2px 0 rgba(255,255,255,0.14),
             0 -12px 48px rgba(0,0,0,0.18),
             0 -32px 80px rgba(0,0,0,0.08);
-        transform: translateY(100%);
+        transform: translateY(calc(100% + 18px)) scale(0.985);
+        transform-origin: center bottom;
+        opacity: 0.8;
         border-top: 1px solid rgba(255,255,255,0.18);
-        transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1),
-                    background var(--dur-theme) var(--ease-standard);
+        transition:
+            transform var(--dur-sheet) var(--ease-emphasized),
+            opacity 320ms var(--ease-standard),
+            background var(--dur-theme) var(--ease-standard);
+        will-change: transform, opacity;
     }
 
     /* Gradient header area on paywall card */
     .paywall-card::before {
         content: "";
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 190px;
-        background: linear-gradient(
-            180deg,
-            color-mix(in srgb, var(--accent) 10%, var(--surface) 90%) 0%,
-            color-mix(in srgb, var(--accent) 4%, var(--surface) 96%) 58%,
-            transparent 100%
-        );
+        top: -28px;
+        left: -8%;
+        right: -8%;
+        height: 320px;
+        background:
+            radial-gradient(
+                ellipse at 50% 0%,
+                color-mix(in srgb, var(--accent) 16%, transparent) 0%,
+                color-mix(in srgb, var(--accent) 10%, transparent) 28%,
+                color-mix(in srgb, var(--accent) 4%, transparent) 52%,
+                transparent 82%
+            ),
+            linear-gradient(
+                180deg,
+                rgba(255,255,255,0.08) 0%,
+                rgba(255,255,255,0.03) 34%,
+                rgba(255,255,255,0.01) 62%,
+                transparent 100%
+            );
+        opacity: 0.72;
         z-index: 0;
         pointer-events: none;
     }
@@ -3468,7 +3763,6 @@
     }
 
     /* Wrapping all card content in a padded container */
-    .paywall-card > .paywall-close,
     .paywall-card > .paywall-icon,
     .paywall-card > .paywall-title,
     .paywall-card > .paywall-subtitle,
@@ -3481,63 +3775,29 @@
     }
 
     .paywall-card > .paywall-icon { margin-left: auto; margin-right: auto; }
-    .paywall-card > .paywall-close { position: absolute; }
     .paywall-card > .paywall-benefits { margin-bottom: 28px; }
 
     #paywall.visible .paywall-card {
-        transform: translateY(0);
-    }
-
-    .paywall-close {
-        position: absolute;
-        top: 16px;
-        right: 16px;
-        width: 34px;
-        height: 34px;
-        border: 1px solid var(--outline);
-        background: color-mix(in srgb, var(--surface-dim) 80%, var(--surface) 20%);
-        border-radius: 50%;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--on-surface-var);
-        font-size: 18px;
-        font-weight: 300;
-        font-family: inherit;
-        transition: background 200ms, transform 160ms ease;
-        z-index: 2;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-
-    .paywall-close:active {
-        background: var(--outline);
-        transform: scale(0.94);
+        transform: translateY(0) scale(1);
+        opacity: 1;
     }
 
     .paywall-icon {
-        width: 72px;
-        height: 72px;
-        border-radius: 50%;
-        background: linear-gradient(
-            145deg,
-            color-mix(in srgb, var(--accent) 22%, var(--surface) 78%) 0%,
-            color-mix(in srgb, var(--accent) 12%, var(--surface) 88%) 100%
-        );
-        border: 1px solid color-mix(in srgb, var(--accent) 24%, transparent);
+        width: 52px;
+        height: 52px;
+        background: transparent;
+        border: 0;
         display: flex;
         align-items: center;
         justify-content: center;
-        margin: 36px auto 20px;
-        box-shadow:
-            0 0 0 8px color-mix(in srgb, var(--accent) 8%, transparent),
-            0 8px 24px color-mix(in srgb, var(--accent) 20%, transparent);
+        margin: 40px auto 18px;
+        box-shadow: none;
         position: relative;
     }
 
     .paywall-icon svg {
-        width: 32px;
-        height: 32px;
+        width: 36px;
+        height: 36px;
         fill: var(--accent);
     }
 
@@ -3667,13 +3927,19 @@
             radial-gradient(circle at 12% 8%, color-mix(in srgb, var(--accent) 18%, transparent) 0%, transparent 30%),
             radial-gradient(circle at 82% 22%, color-mix(in srgb, var(--accent) 10%, transparent) 0%, transparent 36%);
         z-index: 200;
-        transform: translateX(-100%);
-        transition: transform var(--dur-sheet) cubic-bezier(0.22, 1, 0.36, 1),
-                    background var(--dur-theme) var(--ease-standard);
-        box-shadow: 6px 0 32px rgba(0,0,0,0.14), 1px 0 0 rgba(0,0,0,0.06);
+        transform: translateX(calc(-100% - 18px)) scale(0.985);
+        transform-origin: left center;
+        opacity: 0.78;
+        transition:
+            transform var(--dur-sheet) var(--ease-emphasized),
+            opacity 320ms var(--ease-standard),
+            background var(--dur-theme) var(--ease-standard),
+            box-shadow 320ms var(--ease-standard);
+        box-shadow: 10px 0 38px rgba(0,0,0,0.16), 1px 0 0 rgba(0,0,0,0.06);
         padding: 0;
         overflow-y: auto;
         overflow-x: hidden;
+        will-change: transform, opacity;
     }
 
     #settings-panel::before,
@@ -3683,23 +3949,34 @@
 
     #settings-panel.is-open,
     #account-panel.is-open {
-        transform: translateX(0);
+        transform: translateX(0) scale(1);
+        opacity: 1;
     }
 
     #settings-scrim,
     #account-scrim {
         position: fixed;
         inset: 0;
-        background: rgba(0,0,0,0);
+        background: rgba(6, 8, 12, 0);
         z-index: 190;
+        opacity: 0;
         pointer-events: none;
-        transition: background 300ms;
+        backdrop-filter: blur(0px) saturate(1);
+        -webkit-backdrop-filter: blur(0px) saturate(1);
+        transition:
+            opacity var(--dur-scrim) var(--ease-standard),
+            background var(--dur-scrim) var(--ease-standard),
+            backdrop-filter var(--dur-scrim) var(--ease-standard),
+            -webkit-backdrop-filter var(--dur-scrim) var(--ease-standard);
     }
 
     #settings-scrim.visible,
     #account-scrim.visible {
-        background: rgba(0,0,0,0.32);
+        background: rgba(10, 12, 18, 0.34);
+        opacity: 1;
         pointer-events: auto;
+        backdrop-filter: blur(6px) saturate(1.04);
+        -webkit-backdrop-filter: blur(6px) saturate(1.04);
     }
 
     .settings-title {
@@ -3741,6 +4018,31 @@
         transition: border-color var(--dur-theme) var(--ease-standard);
     }
 
+    .setting-row-main {
+        display: inline-grid;
+        grid-template-columns: 28px minmax(0, 1fr);
+        align-items: center;
+        gap: 10px;
+        min-width: 0;
+        flex: 1 1 auto;
+    }
+
+    .setting-row-icon {
+        width: 28px;
+        height: 28px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--on-surface-var);
+        flex: 0 0 auto;
+    }
+
+    .setting-row-icon svg {
+        width: 17px;
+        height: 17px;
+        fill: currentColor;
+    }
+
     .setting-label {
         font-size: 14px;
         font-weight: 500;
@@ -3759,17 +4061,6 @@
         align-items: flex-start;
     }
 
-    .account-version {
-        margin: auto 24px 0;
-        padding: 18px 0 6px;
-        color: var(--on-surface-var);
-        font-size: 13px;
-        font-weight: 600;
-        text-align: left;
-        border-top: 1px solid color-mix(in srgb, var(--outline) 76%, transparent);
-        opacity: 0.9;
-    }
-
     .setting-select {
         min-width: 132px;
         border: 1px solid color-mix(in srgb, var(--outline) 72%, transparent);
@@ -3785,7 +4076,8 @@
     }
 
     .setting-link {
-        width: 100%;
+        width: calc(100% - 48px);
+        box-sizing: border-box;
         border: 0;
         background: transparent;
         color: var(--on-surface);
@@ -3801,7 +4093,9 @@
 
     .setting-link::after {
         content: "↗";
-        float: right;
+        margin-left: auto;
+        flex: 0 0 20px;
+        text-align: right;
         color: var(--on-surface-var);
     }
 
@@ -3820,6 +4114,7 @@
     .setting-link-icon {
         width: 20px;
         height: 20px;
+        margin-left: auto;
         flex-shrink: 0;
         color: var(--on-surface-var);
         transition: color var(--dur-theme) var(--ease-standard);
@@ -3834,6 +4129,88 @@
 
     .setting-link--share::after {
         content: none;
+    }
+
+    #account-panel .setting-link {
+        display: grid;
+        grid-template-columns: 34px minmax(0, 1fr) 28px;
+        align-items: center;
+        gap: 10px;
+        min-height: 58px;
+        width: calc(100% - 48px);
+        padding: 15px 0;
+        border-radius: 0;
+        background: transparent;
+        border-bottom: 1px solid color-mix(in srgb, var(--outline) 76%, transparent);
+        box-shadow: none;
+        transition: color 180ms ease, border-color 180ms ease, transform 160ms ease;
+    }
+
+    #account-panel .setting-link:hover,
+    #account-panel .setting-link:focus-visible {
+        transform: none;
+        background: transparent;
+        border-color: color-mix(in srgb, var(--outline) 76%, transparent);
+        box-shadow: none;
+        outline: none;
+    }
+
+    #account-panel .setting-link:hover .account-row-action,
+    #account-panel .setting-link:focus-visible .account-row-action {
+        background: transparent;
+        border-color: transparent;
+        color: inherit;
+        transform: none;
+    }
+
+    #account-panel .setting-link:active {
+        transform: translateX(1px);
+        background: transparent;
+    }
+
+    #account-panel .setting-link::after {
+        content: none;
+    }
+
+    .account-row-icon,
+    .account-row-action {
+        width: 28px;
+        height: 28px;
+        border-radius: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        color: var(--on-surface-var);
+        flex: 0 0 auto;
+    }
+
+    .account-row-icon svg,
+    .account-row-action svg {
+        width: 17px;
+        height: 17px;
+        fill: currentColor;
+    }
+
+    .account-row-label {
+        min-width: 0;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1.35;
+        color: var(--on-surface);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .account-row-action {
+        justify-self: end;
+        margin-left: auto;
+        background: transparent;
+        border: 0;
+        font-size: 18px;
+        font-weight: 700;
+        transition: color 180ms ease, transform 180ms ease;
     }
 
     #rating-modal {
@@ -4140,17 +4517,6 @@
             box-shadow: 0 20px 80px rgba(0,0,0,0.15);
         }
 
-        .home-skin-actions {
-            left: 50%;
-            right: auto;
-            width: min(398px, calc(100vw - 32px));
-            transform: translateX(-50%) translateY(14px);
-        }
-
-        .home-skin-actions.is-visible {
-            transform: translateX(-50%) translateY(0);
-        }
-
         .paywall-card {
             border-radius: var(--radius-xl);
             margin-bottom: 20px;
@@ -4312,36 +4678,94 @@
 
         #app-nav {
             bottom: calc(10px + env(safe-area-inset-bottom, 0px));
-            min-height: 68px;
-            padding: 6px 7px 8px;
+            min-height: 58px;
+            padding: 4px 7px 6px;
         }
 
-        #home-screen {
-            padding-top: calc(70px + env(safe-area-inset-top, 0px));
-            padding-bottom: calc(146px + env(safe-area-inset-bottom, 0px));
+        .home-poster-scene {
+            padding-top: calc(14px + env(safe-area-inset-top, 0px));
+            padding-left: 16px;
+            padding-right: 16px;
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+            --home-featured-height: 94px;
+            gap: 8px;
         }
 
-        .home-bubble-title {
-            font-size: 30px;
-            max-width: 280px;
+        .home-poster-brand-mark {
+            width: 26px;
+            height: 26px;
         }
 
-        .home-bubble-subtitle {
-            display: none;
+        .home-poster-brand-name {
+            font-size: 10px;
         }
 
-        .skin-bubble-field {
-            inset: calc(96px + env(safe-area-inset-top, 0px)) 0 calc(132px + env(safe-area-inset-bottom, 0px));
+        .home-poster-settings {
+            width: 21px;
+            height: 21px;
         }
 
-        .skin-bubble {
-            width: calc(var(--bubble-w) * 0.82);
-            height: calc(var(--bubble-h) * 0.82);
+        .home-poster-settings svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .home-poster-kicker {
+            font-size: 11px;
+        }
+
+        .home-poster-title {
+            font-size: 40px;
+            max-width: 288px;
+        }
+
+        .home-poster-subcopy {
+            max-width: 248px;
             font-size: 12px;
         }
 
-        .home-skin-actions {
-            bottom: calc(var(--nav-bar-height) + 16px + env(safe-area-inset-bottom, 0px));
+        .home-poster-viewport {
+            margin-top: 0;
+            padding-bottom: calc(var(--nav-bar-height) + 34px + env(safe-area-inset-bottom, 0px));
+        }
+
+        .home-poster-featured-wrap {
+            margin-top: 0;
+        }
+
+        .home-poster-card {
+            min-height: 88px;
+            padding: 12px 16px;
+        }
+
+        .home-poster-card--featured {
+            min-height: 88px;
+            height: 88px;
+        }
+
+        .home-poster-card--compact {
+            min-height: 88px;
+            height: 88px;
+        }
+
+        .home-poster-card-body {
+            max-width: 48%;
+        }
+
+        .home-poster-card--featured .home-poster-card-body {
+            max-width: 48%;
+        }
+
+        .home-poster-name {
+            font-size: 23px;
+        }
+
+        .home-poster-card--featured .home-poster-name {
+            font-size: 23px;
+        }
+
+        .home-poster-copy {
+            font-size: 12px;
         }
 
         .m3-nav-item {
@@ -4475,18 +4899,20 @@
     </script>
 </head>
 
-<body>
+    <body>
     <script>
     (function () {
         try {
             const savedTheme = localStorage.getItem('rb_theme') || 'classic';
             const savedSkin = localStorage.getItem('rb_skin_id') || 'classic-button';
+            const savedLanguage = window.__BUTTON_BOOT__?.language || 'en';
             if (savedTheme === 'classic') {
                 document.body.removeAttribute('data-theme');
             } else {
                 document.body.dataset.theme = savedTheme;
             }
             document.body.dataset.skin = savedSkin;
+            document.body.dataset.language = savedLanguage;
         } catch (_) {}
     })();
     </script>
@@ -4563,21 +4989,20 @@
     </div>
 
     <div id="home-screen" aria-label="Choose interaction skin">
-        <section id="home-bubble-scene" class="home-bubble-scene" aria-label="Choose interaction skin">
-            <h1 class="home-bubble-title" data-i18n="home.title">Choose your feeling</h1>
-            <div id="skin-bubble-field" class="skin-bubble-field"></div>
-        </section>
+        <section id="home-poster-scene" class="home-poster-scene" aria-label="Choose interaction skin">
+            <header class="home-poster-header">
+                <p class="home-poster-kicker" data-i18n="home.kicker">A small tactile ritual</p>
+                <h1 class="home-poster-title" data-i18n="home.title">Press. Listen.<br>Reset.</h1>
+                <p class="home-poster-subcopy" data-i18n="home.subtitle">Tactile worlds and sound moods<br>to reset, relax and refocus.</p>
+            </header>
 
-        <div id="home-skin-actions" class="home-skin-actions" aria-live="polite">
-            <button id="home-use-skin" class="home-skin-action primary" type="button">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.9-3.9-1.4 1.4L9 19 20.3 7.7l-1.4-1.4L9 16.2z"/></svg>
-                <span data-i18n="home.use">Use</span>
-            </button>
-            <button id="home-open-noise-id" class="home-skin-action" type="button">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3.5A2.5 2.5 0 017.5 1h10A1.5 1.5 0 0119 2.5v17.75a.75.75 0 01-1.16.63L13 17.76l-4.84 3.12A.75.75 0 017 20.25V4.5H6.5a.5.5 0 00-.5.5v14H4V5.5A2 2 0 016 3.5h11V3h-9.5a.5.5 0 00-.5.5V18.9l6-3.87 4 2.58V5.5H7V3.5H5z"/></svg>
-                <span data-i18n="home.noiseId">Noise ID</span>
-            </button>
-        </div>
+            <div class="home-poster-featured-wrap">
+                <div id="home-featured-poster"></div>
+            </div>
+            <div id="home-poster-viewport" class="home-poster-viewport">
+                <div id="home-poster-rail" class="home-poster-rail"></div>
+            </div>
+        </section>
     </div>
 
     <!-- ════════════════════════════════════════════════════════
@@ -4744,8 +5169,6 @@
          ════════════════════════════════════════════════════════ -->
     <div id="paywall" onclick="Paywall.handleBackdrop(event)" onpointerdown="Paywall.handleBackdrop(event)" ontouchstart="Paywall.handleBackdrop(event)">
         <div class="paywall-card" onclick="event.stopPropagation()" onpointerdown="event.stopPropagation()" ontouchstart="event.stopPropagation()">
-            <button class="paywall-close" onclick="Paywall.close()" data-i18n-aria="nav.close" aria-label="Close">×</button>
-
             <div class="paywall-icon">
                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 2L9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2z"/>
@@ -4789,19 +5212,44 @@
     <div id="account-panel">
         <h2 class="settings-title" data-i18n="nav.account">Account</h2>
 
-        <button class="setting-link setting-link--share" onclick="AppActions.share()">
-            <span data-i18n="settings.share">Share App</span>
-            <span class="setting-link-icon" aria-hidden="true">
+        <button class="setting-link setting-link--share" type="button" onclick="AppActions.share()">
+            <span class="account-row-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M680-80q-50 0-85-35t-35-85q0-6 3-28L282-392q-16 15-37 23.5t-45 8.5q-50 0-85-35t-35-85q0-50 35-85t85-35q24 0 45 8.5t37 23.5l281-164q-2-7-2.5-13.5T560-760q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-24 0-45-8.5T598-672L317-508q2 7 2.5 13.5t.5 14.5q0 8-.5 14.5T317-452l281 164q16-15 37-23.5t45-8.5q50 0 85 35t35 85q0 50-35 85t-85 35Zm0-80q17 0 28.5-11.5T720-200q0-17-11.5-28.5T680-240q-17 0-28.5 11.5T640-200q0 17 11.5 28.5T680-160ZM200-440q17 0 28.5-11.5T240-480q0-17-11.5-28.5T200-520q-17 0-28.5 11.5T160-480q0 17 11.5 28.5T200-440Zm508.5-291.5Q720-743 720-760t-11.5-28.5Q697-800 680-800t-28.5 11.5Q640-777 640-760t11.5 28.5Q663-720 680-720t28.5-11.5ZM680-200ZM200-480Zm480-280Z"/></svg>
+            </span>
+            <span class="account-row-label" data-i18n="settings.share">Share App</span>
+            <span class="account-row-action" aria-hidden="true">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M680-80q-50 0-85-35t-35-85q0-6 3-28L282-392q-16 15-37 23.5t-45 8.5q-50 0-85-35t-35-85q0-50 35-85t85-35q24 0 45 8.5t37 23.5l281-164q-2-7-2.5-13.5T560-760q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-24 0-45-8.5T598-672L317-508q2 7 2.5 13.5t.5 14.5q0 8-.5 14.5T317-452l281 164q16-15 37-23.5t45-8.5q50 0 85 35t35 85q0 50-35 85t-85 35Zm0-80q17 0 28.5-11.5T720-200q0-17-11.5-28.5T680-240q-17 0-28.5 11.5T640-200q0 17 11.5 28.5T680-160ZM200-440q17 0 28.5-11.5T240-480q0-17-11.5-28.5T200-520q-17 0-28.5 11.5T160-480q0 17 11.5 28.5T200-440Zm508.5-291.5Q720-743 720-760t-11.5-28.5Q697-800 680-800t-28.5 11.5Q640-777 640-760t11.5 28.5Q663-720 680-720t28.5-11.5ZM680-200ZM200-480Zm480-280Z"/></svg>
             </span>
         </button>
-        <button class="setting-link setting-link--internal" data-i18n="settings.rate" onclick="RatePrompt.open()">Rate App</button>
-        <button class="setting-link" data-i18n="settings.privacy" onclick="Settings.openLegal('privacyUrl')">Privacy Policy</button>
-        <button class="setting-link" data-i18n="settings.terms" onclick="Settings.openLegal('termsUrl')">Terms of Use</button>
-        <button class="setting-link" data-i18n="settings.support" onclick="Settings.openLegal('supportUrl')">Support</button>
-        <button class="setting-link setting-link--action" data-i18n="settings.restore" onclick="Settings.restorePurchase()">Restore Purchase</button>
+        <button class="setting-link setting-link--internal" type="button" onclick="RatePrompt.open()">
+            <span class="account-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27Z"/></svg></span>
+            <span class="account-row-label" data-i18n="settings.rate">Rate App</span>
+            <span class="account-row-action" aria-hidden="true">›</span>
+        </button>
+        <button class="setting-link" type="button" onclick="Settings.openLegal('privacyUrl')">
+            <span class="account-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V5l-8-3Zm0 2.18 6 2.25V11c0 4.4-2.85 8.45-6 9.85C8.85 19.45 6 15.4 6 11V6.43l6-2.25Z"/></svg></span>
+            <span class="account-row-label" data-i18n="settings.privacy">Privacy Policy</span>
+            <span class="account-row-action" aria-hidden="true">↗</span>
+        </button>
+        <button class="setting-link" type="button" onclick="Settings.openLegal('termsUrl')">
+            <span class="account-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 2h9l5 5v15H6V2Zm8 1.5V8h4.5L14 3.5ZM8 11v2h8v-2H8Zm0 4v2h8v-2H8Z"/></svg></span>
+            <span class="account-row-label" data-i18n="settings.terms">Terms of Use</span>
+            <span class="account-row-action" aria-hidden="true">↗</span>
+        </button>
+        <button class="setting-link" type="button" onclick="Settings.openLegal('supportUrl')">
+            <span class="account-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a8 8 0 0 0-8 8v5a3 3 0 0 0 3 3h2v-8H6v-1a6 6 0 0 1 12 0v1h-3v8h2a3 3 0 0 0 3-3v-5a8 8 0 0 0-8-8Zm-5 10h1v4H7a1 1 0 0 1-1-1v-3h1Zm9 0h1v3a1 1 0 0 1-1 1h-1v-4h1Z"/></svg></span>
+            <span class="account-row-label" data-i18n="settings.support">Support</span>
+            <span class="account-row-action" aria-hidden="true">↗</span>
+        </button>
+        <button class="setting-link setting-link--action" type="button" onclick="Settings.restorePurchase()">
+            <span class="account-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 6V3L8 7l4 4V8a4 4 0 1 1-3.46 6H6.35A6 6 0 1 0 12 6Z"/></svg></span>
+            <span class="account-row-label" data-i18n="settings.restore">Restore Purchase</span>
+            <span class="account-row-action" aria-hidden="true">›</span>
+        </button>
 
-        <div class="account-version" data-i18n="settings.version">Digital Fidget: Mental ASMR v1.0</div>
+        <div class="setting-row" style="border-bottom: none;">
+            <span class="setting-label" data-i18n="settings.version" style="color: var(--on-surface-var); font-size: 12px;">Digital Fidget: Mental ASMR v1.0</span>
+        </div>
     </div>
 
     <!-- ════════════════════════════════════════════════════════
@@ -4812,7 +5260,10 @@
         <h2 class="settings-title" data-i18n="settings.title">Settings</h2>
 
         <div class="setting-row">
-            <span class="setting-label" data-i18n="settings.sound">Sound</span>
+            <div class="setting-row-main">
+                <span class="setting-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14 3.23v17.54c0 .72-.81 1.15-1.41.74L7.82 18H4a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h3.82l4.77-3.51A.9.9 0 0 1 14 3.23Zm3.54 3.05a1 1 0 0 1 1.41 0 8 8 0 0 1 0 11.31 1 1 0 1 1-1.41-1.42 6 6 0 0 0 0-8.47 1 1 0 0 1 0-1.42Zm-2.83 2.83a1 1 0 0 1 1.41 0 4 4 0 0 1 0 5.66 1 1 0 1 1-1.41-1.42 2 2 0 0 0 0-2.82 1 1 0 0 1 0-1.42Z"/></svg></span>
+                <span class="setting-label" data-i18n="settings.sound">Sound</span>
+            </div>
             <label class="toggle-switch">
                 <input type="checkbox" id="toggle-sound" checked onchange="Settings.toggleSound(this.checked)">
                 <div class="toggle-track"></div>
@@ -4821,7 +5272,10 @@
         </div>
 
         <div class="setting-row">
-            <span class="setting-label" data-i18n="settings.vibration">Vibration</span>
+            <div class="setting-row-main">
+                <span class="setting-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 4.5a2 2 0 1 1 4 0v10a2 2 0 1 1-4 0v-10Zm7.07 1.43a1 1 0 0 1 1.41 0 10 10 0 0 1 0 14.14 1 1 0 0 1-1.41-1.42 8 8 0 0 0 0-11.3 1 1 0 0 1 0-1.42Zm-10.14 0a1 1 0 0 1 0 1.42 8 8 0 0 0 0 11.3 1 1 0 1 1-1.41 1.42 10 10 0 0 1 0-14.14 1 1 0 0 1 1.41 0Zm7.32 2.82a1 1 0 0 1 1.41 0 6 6 0 0 1 0 8.5 1 1 0 0 1-1.41-1.42 4 4 0 0 0 0-5.66 1 1 0 0 1 0-1.42Zm-4.5 0a1 1 0 0 1 0 1.42 4 4 0 0 0 0 5.66 1 1 0 0 1-1.41 1.42 6 6 0 0 1 0-8.5 1 1 0 0 1 1.41 0Z"/></svg></span>
+                <span class="setting-label" data-i18n="settings.vibration">Vibration</span>
+            </div>
             <label class="toggle-switch">
                 <input type="checkbox" id="toggle-vibration" checked onchange="Settings.toggleVibration(this.checked)">
                 <div class="toggle-track"></div>
@@ -4830,7 +5284,10 @@
         </div>
 
         <div class="setting-row">
-            <span class="setting-label" data-i18n="settings.centered">Centered Button</span>
+            <div class="setting-row-main">
+                <span class="setting-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M11 2a1 1 0 0 1 2 0v3.07a7 7 0 0 1 5.93 5.93H22a1 1 0 1 1 0 2h-3.07A7 7 0 0 1 13 18.93V22a1 1 0 1 1-2 0v-3.07A7 7 0 0 1 5.07 13H2a1 1 0 1 1 0-2h3.07A7 7 0 0 1 11 5.07V2Zm1 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10Z"/></svg></span>
+                <span class="setting-label" data-i18n="settings.centered">Centered Button</span>
+            </div>
             <label class="toggle-switch">
                 <input type="checkbox" id="toggle-layout-centered" onchange="Settings.toggleLayout(this.checked)">
                 <div class="toggle-track"></div>
@@ -4839,7 +5296,10 @@
         </div>
 
         <div class="setting-row">
-            <span class="setting-label" data-i18n="settings.language">Language</span>
+            <div class="setting-row-main">
+                <span class="setting-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm6.93 9h-3.06a15.9 15.9 0 0 0-1.44-5.12A8.03 8.03 0 0 1 18.93 11ZM12 4.06c.87 1.04 1.94 3.26 2.36 6.94H9.64C10.06 7.32 11.13 5.1 12 4.06ZM4.26 13h3.06a15.9 15.9 0 0 0 1.44 5.12A8.03 8.03 0 0 1 4.26 13Zm3.06-2H4.26a8.03 8.03 0 0 1 4.5-5.12A15.9 15.9 0 0 0 7.32 11Zm1.98 2h5.4c-.42 3.68-1.49 5.9-2.7 6.94-1.21-1.04-2.28-3.26-2.7-6.94Zm0-2c.42-3.68 1.49-5.9 2.7-6.94 1.21 1.04 2.28 3.26 2.7 6.94Zm5.94 2h3.06a8.03 8.03 0 0 1-4.5 5.12A15.9 15.9 0 0 0 15.24 13Z"/></svg></span>
+                <span class="setting-label" data-i18n="settings.language">Language</span>
+            </div>
             <select id="language-select" class="setting-select" onchange="I18n.setLanguage(this.value)" aria-label="Language"></select>
         </div>
     </div>
@@ -4877,12 +5337,7 @@
         layout: localStorage.getItem('rb_layout') || 'bottom',
         soundEnabled: localStorage.getItem('rb_sound') !== 'false',
         vibrationEnabled: localStorage.getItem('rb_vibration') !== 'false',
-        language: (() => {
-            const lang = new URLSearchParams(window.location.search).get('lang');
-            return ['en', 'ja', 'fr', 'de', 'es', 'pt', 'uk'].includes(lang)
-                ? lang
-                : localStorage.getItem('rb_language') || 'en';
-        })(),
+        language: window.__BUTTON_BOOT__?.language || 'en',
         onboardingDone: localStorage.getItem('rb_onboarding') === 'true',
         currentSoundProfile: localStorage.getItem('rb_sound_profile_id')
             || localStorage.getItem('rb_sound_id')
@@ -4941,8 +5396,18 @@
                 swipeUp: 'Swipe up', close: 'Close', home: 'Home', library: 'Library', guide: 'Noise ID', account: 'Account'
             },
             home: {
-                title: 'Choose your feeling',
-                subtitle: 'Pick a tactile world, then use it or open its Noise ID.',
+                kicker: 'A small tactile ritual',
+                title: 'Press. Listen.<br>Reset.',
+                subtitle: 'Tactile worlds and sound moods<br>to reset, relax and refocus.',
+                posters: {
+                    click: ['Click', 'Clean, satisfying clicks'],
+                    moon: ['Moon', 'Soft ambience for night focus'],
+                    whiteNoise: ['White Noise', 'Steady. Simple. Soothing.'],
+                    brownNoise: ['Brown Noise', 'Deeper tones for grounding'],
+                    rain: ['Rain', 'Natural rain on leaves'],
+                    pinkNoise: ['Pink Noise', 'Balanced and gentle.'],
+                    infrared: ['Infrared', 'Warm. Deep. Inner quiet.']
+                },
                 use: 'Use',
                 noiseId: 'Noise ID'
             },
@@ -4978,7 +5443,7 @@
                 rainCopy: '<strong>Core feel:</strong> Natural, repeating, and familiar. Rain adds movement and texture without asking for attention.<br><br><strong>What it resembles:</strong> Rain on glass, a quiet storm outside, or a soft weather curtain between you and the rest of the room.<br><br><strong>Often used for:</strong> Settling racing thoughts, softening silence, reading, winding down, and making a space feel safer and more private.<br><br><strong>Listening feel:</strong> Gentle and atmospheric, especially when you want something soothing but less abstract than pure noise.'
             },
             timer: {
-                title: 'Sleep timer', off: 'Off', idle: 'Swipe hours or minutes, or use +/- 5 min.',
+                title: 'Sleep timer', off: 'Off', idle: 'Swipe or tap hours/minutes, then use +/- to adjust.',
                 active: value => `Noise will stop in ${value}.`,
                 hours: 'Hours', minutes: 'Minutes', hr: 'h', min: 'min',
                 set: 'Set sleep timer', clear: 'Clear timer',
@@ -5087,7 +5552,7 @@
         ...I18N.en,
         languageName: 'Українська',
         nav: { settings: 'Налаштування', premium: 'Преміум', themes: 'Теми', sounds: 'Звуки', skins: 'Скіни', swipeUp: 'Свайп вгору', close: 'Закрити', home: 'Головна', library: 'Бібліотека', guide: 'Noise ID', account: 'Акаунт' },
-        home: { title: 'Обери відчуття', subtitle: 'Вибери тактильний світ, потім застосуй його або відкрий Noise ID.', use: 'Використати', noiseId: 'Noise ID' },
+        home: { kicker: 'Маленький тактильний ритуал', title: 'Натисни. Послухай.<br>Видихни.', subtitle: 'Звукові настрої,<br>щоб перезавантажитись.', posters: { click: ['Клік', 'Чисті, приємні клацання.'], moon: ['Місяць', 'Загадочна атмосфера.'], whiteNoise: ['Білий шум', 'Рівно. Бадьоро.'], brownNoise: ['Коричневий шум', 'Швидкий релакс.'], rain: ['Дощ', 'Природні звуки.'], pinkNoise: ['Рожевий шум', 'Збалансовано і мʼяко.'], infrared: ['Інфрачервоний шум', 'Внутрішня тиша.'] }, use: 'Використати', noiseId: 'Noise ID' },
         onboarding: {
             ...I18N.en.onboarding,
             slide1Kicker: 'Маленький ритуал для<br>перевантажених моментів',
@@ -5115,7 +5580,7 @@
         },
         timer: {
             ...I18N.en.timer,
-            title: 'Таймер сну', off: 'Вимк.', idle: 'Крути години або хвилини, або +/- 5 хв.',
+            title: 'Таймер сну', off: 'Вимк.', idle: 'Крути або натисни години/хвилини, потім змінюй їх через +/-.',
             active: value => `Шум вимкнеться через ${value}.`,
             hours: 'Години', minutes: 'Хвилини', hr: 'год', min: 'хв',
             set: 'Запустити таймер', clear: 'Скинути таймер',
@@ -5190,9 +5655,10 @@
         ...I18N.en,
         languageName: '日本語',
         nav: { settings: '設定', premium: 'プレミアム', themes: 'テーマ', sounds: 'サウンド', skins: 'スキン', swipeUp: '上にスワイプ', close: '閉じる', home: 'ホーム', library: 'ライブラリ', guide: 'Noise ID', account: 'アカウント' },
+        home: { kicker: '小さな触覚の儀式', title: '押す。聴く。<br>整える。', subtitle: '触れる世界と音のムードで<br>整え、ゆるめ、集中を取り戻す。', posters: { click: ['クリック', '心地よい軽やかなクリック'], moon: ['月', '夜の集中にやさしい空気感'], whiteNoise: ['ホワイトノイズ', '一定で、シンプルで、落ち着く。'], brownNoise: ['ブラウンノイズ', '深めの音でしっかり落ち着く'], rain: ['雨', '葉に落ちる自然な雨音'], pinkNoise: ['ピンクノイズ', 'やわらかく、バランスがいい。'], infrared: ['赤外', 'あたたかく、深く、内側が静かに。'] }, use: '使う', noiseId: 'Noise ID' },
         onboarding: { ...I18N.en.onboarding, slide1Kicker: '刺激が多すぎる瞬間のための<br>小さな儀式', slide1Title: '意識を<br>切り替える', slide1Sub: 'ほんの少しだけ', slide2Kicker: 'オーディオシフト', slide2Title: '感覚のリセット', slide2Sub: '次へ進む前に、心を整える', headphones: 'ヘッドホン推奨', slide3Title: '押す。聴く。<br>整える。', demoHint: 'タップして、クリック音と触覚を感じる', next: '次へ ->', pressesLeft: count => `あと${count}回押してください` },
         settings: { ...I18N.en.settings, title: '設定', sound: 'サウンド', vibration: '振動', centered: '中央ボタン', language: '言語', share: 'アプリを共有', rate: 'アプリを評価', privacy: 'プライバシーポリシー', terms: '利用規約', support: 'サポート', restore: '購入を復元' },
-        timer: { ...I18N.en.timer, title: 'スリープタイマー', off: 'オフ', idle: '時間または分をスワイプ、または +/- 5分。', active: value => `${value}後に音が止まります。`, hours: '時間', minutes: '分', hr: '時間', min: '分', set: 'タイマーを設定', clear: 'タイマーを解除' },
+        timer: { ...I18N.en.timer, title: 'スリープタイマー', off: 'オフ', idle: '時間または分をスワイプまたはタップして、+/-で調整。', active: value => `${value}後に音が止まります。`, hours: '時間', minutes: '分', hr: '時間', min: '分', set: 'タイマーを設定', clear: 'タイマーを解除' },
         knowledge: { ...I18N.en.knowledge, title: 'サウンドガイド', subtitle: 'ノイズカラーの短い説明です。', whiteTitle: 'ホワイトノイズ', whiteCopy: '<strong>特徴:</strong> 全帯域に均一に広がる技術的なノイズです。明るく密度が高く、細かな外音を一気に覆いやすいのが特徴です。<br><br><strong>印象:</strong> テレビの砂嵐、周波数の合っていないラジオ、鋭い音の砂のように感じられます。<br><br><strong>向いている場面:</strong> 外音を強く遮りたい時、短時間の強い集中、耳鳴りの知覚を和らげたい時。<br><br><strong>聴き心地:</strong> 効果は強いですが疲れやすいため、長時間より短めの利用と中くらいの音量が向いています。', pinkTitle: 'ピンクノイズ', pinkCopy: '<strong>特徴:</strong> やわらかく均整の取れたノイズです。高音がなだらかに抑えられているため、ホワイトノイズより自然で、集中も保ちやすい音です。<br><br><strong>印象:</strong> 一定の雨音、木々を抜ける風、部屋を満たす穏やかな空気の流れのように聞こえます。<br><br><strong>向いている場面:</strong> 集中、勉強、読書、生活音のマスキング、落ち着いた作業空間づくり。<br><br><strong>聴き心地:</strong> 低音の圧が強すぎないので、長めの作業中にも流しやすい音です。', brownTitle: 'ブラウンノイズ', brownCopy: '<strong>特徴:</strong> 低く深く、包み込むようなノイズです。高音が大きく減り、低音が前に出るため、安心感や接地感が出やすい音です。<br><br><strong>印象:</strong> 遠い波音、壁越しの滝、深い雨音、やわらかな低い響きのように感じられます。<br><br><strong>向いている場面:</strong> 入眠、緊張を下げたい時、周囲の雑音を隠したい時、頭を静かに切り替えたい時。<br><br><strong>聴き心地:</strong> あたたかく密度のある音です。低音が重くなりすぎないよう、音量は小さめから中くらいが向いています。', rainTitle: '雨', rainCopy: '<strong>特徴:</strong> 自然で反復的、そして親しみやすい音です。動きはありますが、強く注意を引かないのが雨の良さです。<br><br><strong>印象:</strong> 窓に当たる雨、外で静かに降る通り雨、部屋との間にやさしい膜ができるような感覚です。<br><br><strong>向いている場面:</strong> 思考を落ち着かせたい時、静けさをやわらげたい時、読書、休息、空間を少しプライベートに感じたい時。<br><br><strong>聴き心地:</strong> 純粋なノイズより情景があり、やさしく落ち着ける雰囲気のある音です。' },
         paywall: { ...I18N.en.paywall, title: 'サウンド、スキン、テーマを解放', subtitle: 'リラックス体験を深める', buy: 'プレミアムを解放', restore: '購入を復元' },
         rating: { ...I18N.en.rating, title: 'Digital Fidgetを楽しんでいますか？', copy: '短い評価が、落ち着ける瞬間を探す人の助けになります。', choose: '評価を選択', rate: 'ストアで評価', later: '今はしない', star: count => `${count}つ星` }
@@ -5203,9 +5669,10 @@
         ...I18N.en,
         languageName: 'Français',
         nav: { settings: 'Réglages', premium: 'Premium', themes: 'Thèmes', sounds: 'Sons', skins: 'Skins', swipeUp: 'Balayer vers le haut', close: 'Fermer', home: 'Accueil', library: 'Bibliothèque', guide: 'Noise ID', account: 'Compte' },
+        home: { kicker: 'Un petit rituel tactile', title: 'Appuie. Écoute.<br>Respire.', subtitle: 'Des mondes tactiles et des ambiances sonores<br>pour te recentrer, relâcher et retrouver ton focus.', posters: { click: ['Clic', 'Des clics nets et satisfaisants'], moon: ['Lune', 'Une ambiance douce pour le focus nocturne'], whiteNoise: ['Bruit blanc', 'Stable. Simple. Apaisant.'], brownNoise: ['Bruit brun', 'Des tons plus profonds pour s’ancrer'], rain: ['Pluie', 'Pluie naturelle sur les feuilles'], pinkNoise: ['Bruit rose', 'Équilibré et doux.'], infrared: ['Infrarouge', 'Chaleur. Profondeur. Calme intérieur.'] }, use: 'Utiliser', noiseId: 'Noise ID' },
         onboarding: { ...I18N.en.onboarding, slide1Kicker: 'Un petit rituel pour<br>les moments saturés', slide1Title: 'Change<br>de focus', slide1Sub: 'Juste un instant', slide2Kicker: 'BASCULE AUDIO', slide2Title: 'Une remise à zéro sensorielle', slide2Sub: 'Libère ton esprit pour la suite', headphones: 'Casque recommandé', slide3Title: 'Appuie. Écoute.<br>Respire.', demoHint: 'Touche, entends le clic, sens le retour haptique', next: 'Suivant ->', pressesLeft: count => count === 1 ? 'Encore 1 pression' : `Encore ${count} pressions` },
         settings: { ...I18N.en.settings, title: 'Réglages', sound: 'Son', vibration: 'Vibration', centered: 'Bouton centré', language: 'Langue', share: 'Partager', rate: 'Noter l’app', privacy: 'Confidentialité', terms: 'Conditions d’utilisation', support: 'Assistance', restore: 'Restaurer l’achat' },
-        timer: { ...I18N.en.timer, title: 'Minuteur de sommeil', off: 'Off', idle: 'Fais glisser heures ou minutes, ou utilise +/- 5 min.', active: value => `Le son s’arrêtera dans ${value}.`, hours: 'Heures', minutes: 'Minutes', hr: 'h', min: 'min', set: 'Régler le minuteur', clear: 'Effacer' },
+        timer: { ...I18N.en.timer, title: 'Minuteur de sommeil', off: 'Off', idle: 'Fais glisser ou touche heures/minutes, puis ajuste avec +/-.', active: value => `Le son s’arrêtera dans ${value}.`, hours: 'Heures', minutes: 'Minutes', hr: 'h', min: 'min', set: 'Régler le minuteur', clear: 'Effacer' },
         knowledge: { ...I18N.en.knowledge, title: 'Guide des sons', subtitle: 'Quelques mots sur les couleurs de bruit.', whiteTitle: 'Bruit blanc', whiteCopy: '<strong>Sensation générale :</strong> Un signal uniforme et technique, réparti sur tout le spectre audible. Il paraît brillant, dense et très direct.<br><br><strong>À quoi ça ressemble :</strong> Une neige télévisée, une radio non réglée ou un sable acoustique très net qui recouvre instantanément les petits détails autour.<br><br><strong>Utile pour :</strong> Masquer fortement les sons extérieurs, tenir une courte session de focus intense et atténuer la perception des acouphènes.<br><br><strong>À l’écoute :</strong> Très efficace, mais plus fatigant que le bruit rose ou brun. Mieux en sessions courtes et à volume modéré.', pinkTitle: 'Bruit rose', pinkCopy: '<strong>Sensation générale :</strong> Doux et équilibré. Les aigus sont plus feutrés que dans le bruit blanc, ce qui le rend plus naturel tout en gardant de la clarté mentale.<br><br><strong>À quoi ça ressemble :</strong> Une pluie régulière, du vent dans les arbres ou un souffle calme qui remplit la pièce sans agresser l’oreille.<br><br><strong>Utile pour :</strong> Se concentrer, étudier, lire, masquer les conversations autour de soi et installer une bulle de travail apaisante.<br><br><strong>À l’écoute :</strong> Confortable sur des sessions longues, car il reste présent sans trop charger le bas du spectre.', brownTitle: 'Bruit brun', brownCopy: '<strong>Sensation générale :</strong> Plus grave, plus profond et plus dense. Le haut du spectre s’efface davantage, ce qui donne une impression de chaleur et d’ancrage.<br><br><strong>À quoi ça ressemble :</strong> Un ressac lointain, une cascade derrière un mur, une pluie épaisse ou un roulement grave et doux qui enveloppe les autres sons.<br><br><strong>Utile pour :</strong> S’endormir, relâcher le système nerveux, bloquer le chaos sonore ambiant et décompresser vite après une charge mentale intense.<br><br><strong>À l’écoute :</strong> Chaud et enveloppant. Mieux vaut le garder à volume faible ou moyen pour que les basses restent apaisantes.', rainTitle: 'Pluie', rainCopy: '<strong>Sensation générale :</strong> Une texture naturelle, répétitive et familière. La pluie apporte du mouvement sans demander d’attention.<br><br><strong>À quoi ça ressemble :</strong> Des gouttes sur une vitre, une averse calme dehors, comme un voile doux entre toi et le reste de la pièce.<br><br><strong>Utile pour :</strong> Calmer les pensées rapides, adoucir le silence, lire, ralentir et rendre l’espace plus intime.<br><br><strong>À l’écoute :</strong> Atmosphérique et douce, idéale si tu veux quelque chose de relaxant mais moins abstrait qu’un bruit pur.' },
         paywall: { ...I18N.en.paywall, title: 'Débloquer sons, skins et thèmes', subtitle: 'Rends ton moment de détente plus profond', buy: 'Débloquer Premium', restore: 'Restaurer l’achat' },
         rating: { ...I18N.en.rating, title: 'Tu aimes Digital Fidget ?', copy: 'Une note rapide aide d’autres personnes à trouver un moment plus calme.', choose: 'Choisir une note', rate: 'Noter dans le store', later: 'Pas maintenant', star: count => `${count} étoile${count > 1 ? 's' : ''}` }
@@ -5216,9 +5683,10 @@
         ...I18N.en,
         languageName: 'Deutsch',
         nav: { settings: 'Einstellungen', premium: 'Premium', themes: 'Themes', sounds: 'Sounds', skins: 'Skins', swipeUp: 'Nach oben wischen', close: 'Schließen', home: 'Start', library: 'Bibliothek', guide: 'Noise ID', account: 'Konto' },
+        home: { kicker: 'Ein kleines taktiles Ritual', title: 'Drücken. Hören.<br>Reset.', subtitle: 'Taktile Welten und Klangstimmungen,<br>um neu zu starten, loszulassen und den Fokus zu finden.', posters: { click: ['Klick', 'Saubere, angenehme Klicks'], moon: ['Mond', 'Sanfte Atmosphäre für nächtlichen Fokus'], whiteNoise: ['Weißes Rauschen', 'Konstant. Einfach. Beruhigend.'], brownNoise: ['Braunes Rauschen', 'Tiefere Töne zum Erden'], rain: ['Regen', 'Natürlicher Regen auf Blättern'], pinkNoise: ['Rosa Rauschen', 'Ausgewogen und sanft.'], infrared: ['Infrarot', 'Warm. Tief. Innere Ruhe.'] }, use: 'Benutzen', noiseId: 'Noise ID' },
         onboarding: { ...I18N.en.onboarding, slide1Kicker: 'Ein kleines Ritual für<br>überreizte Momente', slide1Title: 'Fokus<br>wechseln', slide1Sub: 'Nur für einen Moment', slide2Kicker: 'AUDIO-WECHSEL', slide2Title: 'Ein sensorischer Reset', slide2Sub: 'Mach den Kopf frei für das Nächste', headphones: 'Kopfhörer empfohlen', slide3Title: 'Drücken. Hören.<br>Reset.', demoHint: 'Tippe, höre den Klick, spüre das Haptik-Feedback', next: 'Weiter ->', pressesLeft: count => count === 1 ? 'Noch 1 Druck' : `Noch ${count} Drücke` },
         settings: { ...I18N.en.settings, title: 'Einstellungen', sound: 'Sound', vibration: 'Vibration', centered: 'Zentrierter Button', language: 'Sprache', share: 'App teilen', rate: 'App bewerten', privacy: 'Datenschutz', terms: 'Nutzungsbedingungen', support: 'Support', restore: 'Kauf wiederherstellen' },
-        timer: { ...I18N.en.timer, title: 'Sleep-Timer', off: 'Aus', idle: 'Stunden oder Minuten wischen, oder +/- 5 min.', active: value => `Der Sound stoppt in ${value}.`, hours: 'Stunden', minutes: 'Minuten', hr: 'h', min: 'min', set: 'Timer setzen', clear: 'Timer löschen' },
+        timer: { ...I18N.en.timer, title: 'Sleep-Timer', off: 'Aus', idle: 'Stunden/Minuten wischen oder antippen, dann mit +/- anpassen.', active: value => `Der Sound stoppt in ${value}.`, hours: 'Stunden', minutes: 'Minuten', hr: 'h', min: 'min', set: 'Timer setzen', clear: 'Timer löschen' },
         knowledge: { ...I18N.en.knowledge, title: 'Sound-Guide', subtitle: 'Kurz erklärt: die Farben des Rauschens.', whiteTitle: 'Weißes Rauschen', whiteCopy: '<strong>Grundgefühl:</strong> Ein gleichmäßig verteilter technischer Klang über das ganze hörbare Spektrum. Dadurch wirkt er hell, dicht und sehr direkt.<br><br><strong>Klingt wie:</strong> Fernsehrauschen, ein nicht eingestelltes Radio oder akustischer Sand, der kleine Details in der Umgebung sofort überdeckt.<br><br><strong>Hilft oft bei:</strong> Radikalem Abschirmen äußerer Geräusche, kurzen harten Fokus-Sessions und beim Dämpfen der Wahrnehmung von Tinnitus.<br><br><strong>Hörgefühl:</strong> Sehr wirksam, aber ermüdender als rosa oder braunes Rauschen. Besser in kürzeren Sessions und bei mittlerer Lautstärke.', pinkTitle: 'Rosa Rauschen', pinkCopy: '<strong>Grundgefühl:</strong> Weich und ausgewogen. Die Höhen sind sanfter als bei weißem Rauschen, dadurch wirkt es natürlicher und hält den Kopf trotzdem klar genug für Fokus.<br><br><strong>Klingt wie:</strong> Gleichmäßiger Regen, Wind in Bäumen oder ein ruhiger Luftteppich im Raum ohne scharfes Zischen.<br><br><strong>Hilft oft bei:</strong> Konzentration, Lernen, Lesen, dem Ausblenden von Gesprächen und dem Aufbau einer ruhigen Arbeitsblase.<br><br><strong>Hörgefühl:</strong> Gut für längere Sessions, weil es präsent bleibt, ohne mit zu viel Bass zu drücken.', brownTitle: 'Braunes Rauschen', brownCopy: '<strong>Grundgefühl:</strong> Tiefer, dunkler und dichter. Die hohen Frequenzen treten stark zurück, während der Bass mehr Wärme und ein geerdetes Gefühl gibt.<br><br><strong>Klingt wie:</strong> Ferne Brandung, ein Wasserfall hinter einer Wand, starker Regen oder ein weiches tiefes Grollen, das andere Geräusche umhüllt.<br><br><strong>Hilft oft bei:</strong> Einschlafen, Herunterregeln des Nervensystems, Abschirmen chaotischer Umgebung und schnellem sensorischem Reset.<br><br><strong>Hörgefühl:</strong> Warm und schwerer. Am besten leise bis mittel laut, damit die Tiefen beruhigen statt zu ermüden.', rainTitle: 'Regen', rainCopy: '<strong>Grundgefühl:</strong> Natürlich, wiederholend und vertraut. Regen bringt Bewegung in die Stille, ohne Aufmerksamkeit einzufordern.<br><br><strong>Klingt wie:</strong> Tropfen am Fenster, ein leiser Schauer draußen oder ein sanfter Vorhang zwischen dir und dem Rest des Raums.<br><br><strong>Hilft oft bei:</strong> Rasende Gedanken beruhigen, Stille weicher machen, Lesen, Abschalten und einem Raum mehr Geborgenheit geben.<br><br><strong>Hörgefühl:</strong> Sanft und atmosphärisch, besonders wenn du etwas Beruhigendes willst, das weniger abstrakt ist als reines Rauschen.' },
         paywall: { ...I18N.en.paywall, title: 'Sounds, Skins und Themes freischalten', subtitle: 'Mach deine Entspannung tiefer', buy: 'Premium freischalten', restore: 'Kauf wiederherstellen' },
         rating: { ...I18N.en.rating, title: 'Gefällt dir Digital Fidget?', copy: 'Eine kurze Bewertung hilft anderen, einen ruhigeren Moment zu finden.', choose: 'Bewertung auswählen', rate: 'Im Store bewerten', later: 'Nicht jetzt', star: count => `${count} Stern${count > 1 ? 'e' : ''}` }
@@ -5229,9 +5697,10 @@
         ...I18N.en,
         languageName: 'Español',
         nav: { settings: 'Ajustes', premium: 'Premium', themes: 'Temas', sounds: 'Sonidos', skins: 'Skins', swipeUp: 'Desliza hacia arriba', close: 'Cerrar', home: 'Inicio', library: 'Biblioteca', guide: 'Noise ID', account: 'Cuenta' },
+        home: { kicker: 'Un pequeño ritual táctil', title: 'Pulsa. Escucha.<br>Respira.', subtitle: 'Mundos táctiles y atmósferas sonoras<br>para reiniciarte, relajarte y volver al foco.', posters: { click: ['Click', 'Clics limpios y satisfactorios'], moon: ['Luna', 'Ambiente suave para el foco nocturno'], whiteNoise: ['Ruido blanco', 'Constante. Simple. Calmante.'], brownNoise: ['Ruido marrón', 'Tonos más profundos para aterrizar'], rain: ['Lluvia', 'Lluvia natural sobre hojas'], pinkNoise: ['Ruido rosa', 'Equilibrado y suave.'], infrared: ['Infrarrojo', 'Cálido. Profundo. Silencio interior.'] }, use: 'Usar', noiseId: 'Noise ID' },
         onboarding: { ...I18N.en.onboarding, slide1Kicker: 'Un pequeño ritual para<br>momentos saturados', slide1Title: 'Cambia<br>el foco', slide1Sub: 'Solo por un momento', slide2Kicker: 'CAMBIO DE AUDIO', slide2Title: 'Un reinicio sensorial', slide2Sub: 'Aclara tu mente para lo que sigue', headphones: 'Se recomiendan auriculares', slide3Title: 'Pulsa. Escucha.<br>Respira.', demoHint: 'Toca, oye el clic y siente la respuesta háptica', next: 'Siguiente ->', pressesLeft: count => count === 1 ? '1 pulsación más' : `${count} pulsaciones más` },
         settings: { ...I18N.en.settings, title: 'Ajustes', sound: 'Sonido', vibration: 'Vibración', centered: 'Botón centrado', language: 'Idioma', share: 'Compartir app', rate: 'Valorar app', privacy: 'Privacidad', terms: 'Condiciones de uso', support: 'Soporte', restore: 'Restaurar compra' },
-        timer: { ...I18N.en.timer, title: 'Temporizador', off: 'Off', idle: 'Desliza horas o minutos, o usa +/- 5 min.', active: value => `El sonido se detendrá en ${value}.`, hours: 'Horas', minutes: 'Minutos', hr: 'h', min: 'min', set: 'Activar temporizador', clear: 'Borrar' },
+        timer: { ...I18N.en.timer, title: 'Temporizador', off: 'Off', idle: 'Desliza o toca horas/minutos y luego ajusta con +/-.', active: value => `El sonido se detendrá en ${value}.`, hours: 'Horas', minutes: 'Minutos', hr: 'h', min: 'min', set: 'Activar temporizador', clear: 'Borrar' },
         knowledge: { ...I18N.en.knowledge, title: 'Guía de sonidos', subtitle: 'Una nota breve sobre los colores del ruido.', whiteTitle: 'Ruido blanco', whiteCopy: '<strong>Sensación general:</strong> Una señal técnica uniforme repartida por todo el espectro audible. Se siente brillante, densa y muy directa.<br><br><strong>A qué se parece:</strong> La estática del televisor, una radio sin sintonizar o arena acústica que tapa de inmediato los detalles pequeños del entorno.<br><br><strong>Suele servir para:</strong> Aislar con fuerza sonidos externos, sesiones cortas de enfoque intenso y reducir la percepción del tinnitus.<br><br><strong>Al escucharlo:</strong> Es muy eficaz, pero fatiga más rápido que el ruido rosa o marrón. Mejor en sesiones cortas y con volumen moderado.', pinkTitle: 'Ruido rosa', pinkCopy: '<strong>Sensación general:</strong> Suave y equilibrado. Los agudos están más contenidos que en el ruido blanco, así que se siente más natural sin perder claridad mental.<br><br><strong>A qué se parece:</strong> Lluvia constante, viento entre árboles o un fondo de aire sereno que llena el espacio sin sonar áspero.<br><br><strong>Suele servir para:</strong> Concentrarse, estudiar, leer, tapar conversaciones cercanas y crear una burbuja de trabajo tranquila.<br><br><strong>Al escucharlo:</strong> Resulta cómodo durante sesiones largas porque está presente sin empujar demasiado los graves.', brownTitle: 'Ruido marrón', brownCopy: '<strong>Sensación general:</strong> Más bajo, profundo y denso. Reduce mucho la parte aguda y se apoya en los graves, lo que da una sensación de refugio y aterrizaje.<br><br><strong>A qué se parece:</strong> Oleaje lejano, una cascada detrás de una pared, lluvia espesa o un rumor grave y suave que envuelve otros sonidos.<br><br><strong>Suele servir para:</strong> Dormir, bajar revoluciones, bloquear entornos caóticos y hacer una descompresión sensorial rápida.<br><br><strong>Al escucharlo:</strong> Cálido y pesado. Va mejor a volumen bajo o medio para que los graves relajen sin fatigar.', rainTitle: 'Lluvia', rainCopy: '<strong>Sensación general:</strong> Una textura natural, repetitiva y familiar. La lluvia aporta movimiento sin pedir atención.<br><br><strong>A qué se parece:</strong> Gotas en la ventana, una lluvia tranquila afuera o una cortina suave entre tú y el resto de la habitación.<br><br><strong>Suele servir para:</strong> Bajar pensamientos acelerados, suavizar el silencio, leer, descansar y hacer que el espacio se sienta más íntimo.<br><br><strong>Al escucharlo:</strong> Es suave y atmosférico, ideal si quieres algo calmante pero menos abstracto que un ruido puro.' },
         paywall: { ...I18N.en.paywall, title: 'Desbloquea sonidos, skins y temas', subtitle: 'Eleva tu momento de calma', buy: 'Desbloquear Premium', restore: 'Restaurar compra' },
         rating: { ...I18N.en.rating, title: '¿Te gusta Digital Fidget?', copy: 'Una valoración rápida ayuda a más personas a encontrar un momento de calma.', choose: 'Elige una valoración', rate: 'Valorar en la tienda', later: 'Ahora no', star: count => `${count} estrella${count > 1 ? 's' : ''}` }
@@ -5242,9 +5711,10 @@
         ...I18N.en,
         languageName: 'Português',
         nav: { settings: 'Definições', premium: 'Premium', themes: 'Temas', sounds: 'Sons', skins: 'Skins', swipeUp: 'Deslize para cima', close: 'Fechar', home: 'Início', library: 'Biblioteca', guide: 'Noise ID', account: 'Conta' },
+        home: { kicker: 'Um pequeno ritual tátil', title: 'Pressione. Ouça.<br>Respire.', subtitle: 'Mundos táteis e climas sonoros<br>para resetar, relaxar e recuperar o foco.', posters: { click: ['Clique', 'Cliques limpos e satisfatórios'], moon: ['Lua', 'Ambiente suave para o foco noturno'], whiteNoise: ['Ruído branco', 'Estável. Simples. Calmante.'], brownNoise: ['Ruído marrom', 'Tons mais profundos para aterramento'], rain: ['Chuva', 'Chuva natural sobre as folhas'], pinkNoise: ['Ruído rosa', 'Equilibrado e suave.'], infrared: ['Infravermelho', 'Quente. Profundo. Quietude interior.'] }, use: 'Usar', noiseId: 'Noise ID' },
         onboarding: { ...I18N.en.onboarding, slide1Kicker: 'Um pequeno ritual para<br>momentos sobrecarregados', slide1Title: 'Mude<br>o foco', slide1Sub: 'Só por um momento', slide2Kicker: 'MUDANÇA DE ÁUDIO', slide2Title: 'Um reset sensorial', slide2Sub: 'Limpe a mente para o que vem a seguir', headphones: 'Fones recomendados', slide3Title: 'Pressione. Ouça.<br>Respire.', demoHint: 'Toque, ouça o clique e sinta o háptico', next: 'Seguinte ->', pressesLeft: count => count === 1 ? 'Mais 1 toque' : `Mais ${count} toques` },
         settings: { ...I18N.en.settings, title: 'Definições', sound: 'Som', vibration: 'Vibração', centered: 'Botão centralizado', language: 'Idioma', share: 'Partilhar app', rate: 'Avaliar app', privacy: 'Política de privacidade', terms: 'Termos de uso', support: 'Suporte', restore: 'Restaurar compra' },
-        timer: { ...I18N.en.timer, title: 'Temporizador de sono', off: 'Off', idle: 'Deslize horas ou minutos, ou use +/- 5 min.', active: value => `O som vai parar em ${value}.`, hours: 'Horas', minutes: 'Minutos', hr: 'h', min: 'min', set: 'Definir temporizador', clear: 'Limpar' },
+        timer: { ...I18N.en.timer, title: 'Temporizador de sono', off: 'Off', idle: 'Deslize ou toque horas/minutos e ajuste com +/-.', active: value => `O som vai parar em ${value}.`, hours: 'Horas', minutes: 'Minutos', hr: 'h', min: 'min', set: 'Definir temporizador', clear: 'Limpar' },
         knowledge: { ...I18N.en.knowledge, title: 'Guia de sons', subtitle: 'Uma nota rápida sobre as cores do ruído.', whiteTitle: 'Ruído branco', whiteCopy: '<strong>Sensação geral:</strong> Um sinal técnico uniforme distribuído por todo o espectro audível. Ele soa brilhante, denso e muito direto.<br><br><strong>Lembra o quê:</strong> Estática de TV, rádio fora de sintonia ou areia acústica cobrindo imediatamente os pequenos detalhes do ambiente.<br><br><strong>Costuma ajudar em:</strong> Isolar agressivamente sons externos, sessões curtas de foco intenso e reduzir a percepção do zumbido.<br><br><strong>Ao ouvir:</strong> É muito eficaz, mas cansa mais rápido do que o ruído rosa ou marrom. Funciona melhor em sessões curtas e volume moderado.', pinkTitle: 'Ruído rosa', pinkCopy: '<strong>Sensação geral:</strong> Suave e equilibrado. Os agudos ficam mais contidos do que no ruído branco, então ele soa mais natural sem perder clareza para manter o foco.<br><br><strong>Lembra o quê:</strong> Chuva constante, vento nas árvores ou um fundo de ar calmo preenchendo o ambiente sem aspereza.<br><br><strong>Costuma ajudar em:</strong> Foco, estudo, leitura, mascarar conversas ao redor e criar uma bolha de trabalho tranquila.<br><br><strong>Ao ouvir:</strong> É confortável por períodos mais longos, porque permanece presente sem pressionar demais os graves.', brownTitle: 'Ruído marrom', brownCopy: '<strong>Sensação geral:</strong> Mais baixo, profundo e denso. A parte aguda quase desaparece e os graves trazem sensação de abrigo e aterramento.<br><br><strong>Lembra o quê:</strong> Ondas distantes, uma cachoeira atrás da parede, chuva pesada ou um ronco grave e macio cobrindo outros sons.<br><br><strong>Costuma ajudar em:</strong> Dormir, desacelerar o sistema nervoso, bloquear ambientes caóticos e fazer uma descompressão sensorial rápida.<br><br><strong>Ao ouvir:</strong> Quente e encorpado. Funciona melhor em volume baixo ou médio para que os graves acalmem sem cansar.', rainTitle: 'Chuva', rainCopy: '<strong>Sensação geral:</strong> Uma textura natural, repetitiva e familiar. A chuva traz movimento sem exigir sua atenção.<br><br><strong>Lembra o quê:</strong> Gotas na janela, uma chuva calma lá fora ou uma cortina suave entre você e o resto do ambiente.<br><br><strong>Costuma ajudar em:</strong> Acalmar pensamentos acelerados, suavizar o silêncio, ler, descansar e deixar o espaço mais acolhedor e privado.<br><br><strong>Ao ouvir:</strong> É gentil e atmosférico, ótimo quando você quer algo calmante, mas menos abstrato do que um ruído puro.' },
         paywall: { ...I18N.en.paywall, title: 'Desbloqueie sons, skins e temas', subtitle: 'Aprofunde seu momento de calma', buy: 'Desbloquear Premium', restore: 'Restaurar compra' },
         rating: { ...I18N.en.rating, title: 'Gostando do Digital Fidget?', copy: 'Uma avaliação rápida ajuda mais pessoas a encontrar um momento de calma.', choose: 'Escolha uma avaliação', rate: 'Avaliar na loja', later: 'Agora não', star: count => `${count} estrela${count > 1 ? 's' : ''}` }
@@ -5283,6 +5753,18 @@
             return this.t(`skins.${skin.id}.${index}`, skin[field] || '');
         },
 
+        poster(poster, field) {
+            const index = field === 'copy' ? 1 : 0;
+            const posterKey = ({
+                'white-noise': 'whiteNoise',
+                'brown-noise': 'brownNoise',
+                'pink-noise': 'pinkNoise'
+            })[poster.id] || poster.id;
+            const localized = this.dict()?.home?.posters?.[posterKey]?.[index];
+            const fallback = I18N.en?.home?.posters?.[posterKey]?.[index];
+            return localized ?? fallback ?? poster[field] ?? '';
+        },
+
         theme(theme) {
             return I18N.en.themes?.[theme.id] || theme.name;
         },
@@ -5305,8 +5787,11 @@
             select.dataset.ready = 'true';
         },
 
-        apply() {
+        applyStatic() {
             document.documentElement.lang = this.lang;
+            if (document.body) {
+                document.body.dataset.language = this.lang;
+            }
             document.title = this.t('metaTitle');
             this.populateLanguageSelect();
             const languageSelect = document.getElementById('language-select');
@@ -5322,11 +5807,18 @@
                 const rating = Number(star.dataset.rating || '0');
                 if (rating) star.setAttribute('aria-label', this.call('rating.star', rating));
             });
+        },
+
+        apply(options = {}) {
+            const { refreshDynamic = true } = options;
+            this.applyStatic();
 
             const demoCaption = document.getElementById('ob-demo-caption');
             if (demoCaption && window.Onboarding) {
                 demoCaption.textContent = Onboarding.getDemoCaption();
             }
+
+            if (!refreshDynamic) return;
 
             ThemeManager?.buildCarousel?.();
             SoundManager?.buildList?.();
@@ -5337,6 +5829,7 @@
         }
     };
     window.I18n = I18n;
+    I18n.apply({ refreshDynamic: false });
 
     const FORCE_WALKTHROUGH = window.location.hash.includes('walkthrough');
     const FORCE_ONBOARDING_PREVIEW = window.location.hash.includes('onboarding-preview');
@@ -5471,9 +5964,9 @@
        ════════════════════════════════════════════════════════════ */
     const THEMES = [
         { id: 'classic', name: 'Classic', free: true,
-          bg: '#E0E0E0', shadowL: '#ffffff', shadowD: '#bebebe', accent: '#6750A4' },
+          bg: '#D8DADF', shadowL: '#F7F8FB', shadowD: '#B8BDC6', accent: '#6F7683' },
         { id: 'night', name: 'Night', free: true,
-          bg: '#121212', shadowL: '#1e1e1e', shadowD: '#080808', accent: '#D0BCFF' },
+          bg: '#17181B', shadowL: '#31333A', shadowD: '#0D0E11', accent: '#9AA1AD' },
         { id: 'arctic', name: 'Arctic', free: false,
           bg: '#E3EDF7', shadowL: '#ffffff', shadowD: '#b8cadf', accent: '#4A6FA5' },
         { id: 'sage', name: 'Sage', free: false,
@@ -5483,7 +5976,7 @@
         { id: 'blush', name: 'Blush', free: false,
           bg: '#f0d0d8', shadowL: '#fff0f4', shadowD: '#d0b0b8', accent: '#B05070' },
         { id: 'obsidian', name: 'Obsidian', free: false,
-          bg: '#0d0d0d', shadowL: '#1a1a1a', shadowD: '#000000', accent: '#00E87B' }
+          bg: '#0B0C0D', shadowL: '#17191A', shadowD: '#000000', accent: '#35C67C' }
     ];
 
     /* ════════════════════════════════════════════════════════════
@@ -6850,6 +7343,7 @@
        ════════════════════════════════════════════════════════════ */
     const ThemeManager = {
         pendingFrame: 0,
+        cleanupTimer: 0,
 
         apply(themeId) {
             const theme = THEMES.find(t => t.id === themeId);
@@ -6869,11 +7363,7 @@
 
             this.pendingFrame = requestAnimationFrame(() => {
                 this.pendingFrame = 0;
-                const cover = document.createElement('div');
-                cover.className = 'theme-transition-cover';
-                cover.style.background = getComputedStyle(document.getElementById('app')).backgroundColor || theme.bg;
-                document.body.appendChild(cover);
-                document.body.classList.add('theme-switching');
+                document.body.classList.add('theme-blending');
 
                 if (themeId === 'classic') {
                     document.body.removeAttribute('data-theme');
@@ -6886,13 +7376,10 @@
 
                 this.updateCarouselUI(themeId);
                 AppState.save('theme', themeId);
-                requestAnimationFrame(() => {
-                    requestAnimationFrame(() => {
-                        document.body.classList.remove('theme-switching');
-                        cover.style.opacity = '0';
-                        setTimeout(() => cover.remove(), 320);
-                    });
-                });
+                clearTimeout(this.cleanupTimer);
+                this.cleanupTimer = window.setTimeout(() => {
+                    document.body.classList.remove('theme-blending');
+                }, 260);
             });
         },
 
@@ -7433,7 +7920,8 @@
         open() {
             this.isOpen = true;
             SoundManager.resetPreviewHistory();
-            this.el.style.transform = '';
+            this.el.style.removeProperty('transform');
+            this.el.style.removeProperty('transition');
             this.el.classList.add('is-open');
             this.scrim.classList.add('visible');
             localStorage.setItem('rb_customize_hint_seen', 'true');
@@ -7448,7 +7936,8 @@
             this.isOpen = false;
             this.el.classList.remove('is-open');
             this.scrim.classList.remove('visible');
-            this.el.style.transform = '';
+            this.el.style.removeProperty('transform');
+            this.el.style.removeProperty('transition');
             AppNav.sync();
         },
 
@@ -7686,17 +8175,64 @@
        ════════════════════════════════════════════════════════════ */
     const Paywall = {
         el: null,
+        card: null,
         pendingUnlockId: null,
         pendingType: null,
+        isDragging: false,
+        dragStartY: 0,
+        dragLastY: 0,
+        dragLastAt: 0,
 
         init() {
             this.el = document.getElementById('paywall');
+            this.card = this.el?.querySelector('.paywall-card') || null;
 
             this.updateBillingState(window.BillingBridge?.getState());
             window.addEventListener('billing:updated', event => {
                 EntitlementManager.applyBillingState(event.detail);
                 this.updateBillingState(event.detail);
             });
+
+            this.card?.addEventListener('touchstart', event => {
+                if (!this.el?.classList.contains('visible')) return;
+                const touch = event.touches[0];
+                this.isDragging = true;
+                this.dragStartY = touch.clientY;
+                this.dragLastY = touch.clientY;
+                this.dragLastAt = Date.now();
+                this.card.style.transition = 'none';
+            }, { passive: true });
+
+            this.card?.addEventListener('touchmove', event => {
+                if (!this.isDragging) return;
+                const touch = event.touches[0];
+                const dy = Math.max(0, touch.clientY - this.dragStartY);
+                this.dragLastY = touch.clientY;
+                this.dragLastAt = Date.now();
+                this.card.style.transform = `translateY(${dy}px)`;
+            }, { passive: true });
+
+            this.card?.addEventListener('touchend', event => {
+                if (!this.isDragging) return;
+                this.isDragging = false;
+                this.card.style.transition = '';
+                const touch = event.changedTouches[0];
+                const dy = touch.clientY - this.dragStartY;
+                const dt = Math.max(Date.now() - this.dragLastAt, 1);
+                const velocity = (touch.clientY - this.dragLastY) / dt;
+                if (dy > 72 || velocity > 0.24) {
+                    this.close();
+                    return;
+                }
+                this.card.style.transform = '';
+            }, { passive: true });
+
+            this.card?.addEventListener('touchcancel', () => {
+                if (!this.isDragging) return;
+                this.isDragging = false;
+                this.card.style.transition = '';
+                this.card.style.transform = '';
+            }, { passive: true });
         },
 
         handleBackdrop(event) {
@@ -7709,12 +8245,21 @@
             this.pendingUnlockId = pendingId;
             this.pendingType = type;
             this.updateBillingState(window.BillingBridge?.getState());
+            if (this.card) {
+                this.card.style.removeProperty('transform');
+                this.card.style.removeProperty('transition');
+            }
             this.el.classList.add('visible');
             HapticsEngine.light();
         },
 
         close() {
             this.el.classList.remove('visible');
+            this.isDragging = false;
+            if (this.card) {
+                this.card.style.removeProperty('transform');
+                this.card.style.removeProperty('transition');
+            }
             this.pendingUnlockId = null;
             this.pendingType = null;
         },
@@ -7912,6 +8457,7 @@
         maxTotalMinutes: 480,
         selectedHours: 0,
         selectedMinutes: 15,
+        activeUnit: 'minutes',
         wheelItemHeight: 42,
         wheelSyncFrame: 0,
         isSyncingWheelScroll: false,
@@ -7942,8 +8488,8 @@
                 this.close();
             });
 
-            this.decreaseButton?.addEventListener('click', () => this.adjust(-5));
-            this.increaseButton?.addEventListener('click', () => this.adjust(5));
+            this.decreaseButton?.addEventListener('click', () => this.adjustActiveUnit(-1));
+            this.increaseButton?.addEventListener('click', () => this.adjustActiveUnit(1));
             this.startButton?.addEventListener('click', () => this.start(this.getInputTotalMinutes()));
             this.buildWheelList(this.hoursList, 'hours');
             this.buildWheelList(this.minutesList, 'minutes');
@@ -7951,6 +8497,7 @@
             this.setupWheel(this.minutesList, 'minutes');
             this.clearButton?.addEventListener('click', () => this.clear());
             this.setInputTotalMinutes(15);
+            this.setActiveUnit('minutes', { silent: true });
             this.updateUI();
             this.dismissSwipe = createHorizontalDismissGesture({
                 panel: this.panel,
@@ -7969,6 +8516,7 @@
 
         open() {
             this.setInputTotalMinutes(this.getInputTotalMinutes());
+            this.setActiveUnit(this.activeUnit || 'minutes', { silent: true });
             this.panel?.classList.add('is-open');
             this.panel?.style.removeProperty('transform');
             this.panel?.style.removeProperty('transition');
@@ -8020,9 +8568,24 @@
             return safeMinutes;
         },
 
-        adjust(delta) {
-            this.setInputTotalMinutes(this.getInputTotalMinutes() + delta);
+        adjustActiveUnit(direction) {
+            this.setActiveUnit(this.activeUnit || 'minutes', { silent: true });
+            if (this.activeUnit === 'hours') {
+                this.selectedHours = Math.max(0, Math.min(8, this.selectedHours + direction));
+            } else {
+                this.selectedMinutes = Math.max(0, Math.min(55, this.selectedMinutes + (direction * 5)));
+            }
+            this.setInputTotalMinutes(this.selectedHours * 60 + this.selectedMinutes);
             HapticsEngine.light();
+        },
+
+        setActiveUnit(unit, options = {}) {
+            const nextUnit = unit === 'hours' ? 'hours' : 'minutes';
+            this.activeUnit = nextUnit;
+            this.hoursList?.closest('.sleep-timer-wheel')?.classList.toggle('is-active', nextUnit === 'hours');
+            this.minutesList?.closest('.sleep-timer-wheel')?.classList.toggle('is-active', nextUnit === 'minutes');
+            this.panel?.setAttribute('data-active-unit', nextUnit);
+            if (!options.silent) HapticsEngine.light();
         },
 
         buildWheelList(element, unit) {
@@ -8041,7 +8604,11 @@
 
         setupWheel(element, unit) {
             if (!element) return;
+            element.closest('.sleep-timer-wheel')?.addEventListener('click', () => {
+                this.setActiveUnit(unit, { silent: true });
+            });
             element.addEventListener('scroll', () => {
+                this.setActiveUnit(unit, { silent: true });
                 if (this.isSyncingWheelScroll) return;
                 if (this.wheelSyncFrame) cancelAnimationFrame(this.wheelSyncFrame);
                 this.wheelSyncFrame = requestAnimationFrame(() => this.syncWheelSelection(unit));
@@ -8049,6 +8616,7 @@
             element.addEventListener('click', event => {
                 const item = event.target.closest('.sleep-timer-wheel-item');
                 if (!item) return;
+                this.setActiveUnit(unit, { silent: true });
                 const value = Number.parseInt(item.dataset.value || '0', 10);
                 this.setWheelValue(unit, value);
             });
@@ -8238,7 +8806,7 @@
             });
             document.addEventListener('click', event => {
                 if (!this.panel?.classList.contains('is-open')) return;
-                if (event.target.closest('#knowledge-panel, #home-open-noise-id, .m3-nav-item[data-nav-target="guide"]')) return;
+                if (event.target.closest('#knowledge-panel, .m3-nav-item[data-nav-target="guide"]')) return;
                 this.close();
             });
             this.panel?.addEventListener('touchstart', (e) => {
@@ -8301,7 +8869,7 @@
 
         getContextSkinId() {
             if (document.body.classList.contains('home-view-active')) {
-                return HomeSkinScene?.selectedSkinId || AppState.currentSkin;
+                return HomeSkinScene?.getPosterById?.(HomeSkinScene?.selectedPosterId)?.skinId || AppState.currentSkin;
             }
             return AppState.currentSkin;
         },
@@ -8597,6 +9165,8 @@
 
         open() {
             AccountPanel.close();
+            this.panel.style.removeProperty('transform');
+            this.panel.style.removeProperty('transition');
             this.panel.classList.add('is-open');
             this.scrim.classList.add('visible');
             HapticsEngine.light();
@@ -8637,14 +9207,7 @@
             const url = legal[key];
             if (!url) return;
 
-            const isLocalPreview = ['localhost', '127.0.0.1', '::1'].includes(window.location.hostname)
-                || window.location.protocol === 'file:';
-            const localPaths = {
-                privacyUrl: 'site/privacy/',
-                termsUrl: 'site/terms/',
-                supportUrl: 'site/support/'
-            };
-            const target = isLocalPreview ? localPaths[key] || url : url;
+            const target = url;
             const separator = target.includes('?') ? '&' : '?';
             if (SUPPORTED_LANGUAGES.includes(I18n.lang)) {
                 window.location.assign(`${target}${separator}lang=${encodeURIComponent(I18n.lang)}`);
@@ -8677,6 +9240,8 @@
 
         open() {
             Settings.close();
+            this.panel?.style.removeProperty('transform');
+            this.panel?.style.removeProperty('transition');
             this.panel?.classList.add('is-open');
             this.scrim?.classList.add('visible');
             HapticsEngine.light();
@@ -8695,65 +9260,33 @@
     const HomeSkinScene = {
         app: null,
         home: null,
-        field: null,
-        actions: null,
-        selectedSkinId: '',
-        hasUserSelection: false,
-        artworkCacheKey: 'rb_skin_bubble_artwork_v1',
-        layoutCacheKey: 'rb_skin_bubble_layout_v1',
+        featured: null,
+        rail: null,
+        selectedPosterId: '',
+        artworkCacheKey: 'rb_skin_poster_artwork_v1',
         artworkUrls: {},
-        customLayouts: {},
         artworkRequests: new Map(),
-        activeDrag: null,
-        curatedPixabayArtwork: {
-            'white-noise': 'https://cdn.pixabay.com/photo/2022/12/10/11/05/snow-7646952_1280.jpg',
-            'pink-noise': 'https://cdn.pixabay.com/photo/2023/04/04/11/59/lake-biwa-7899206_1280.jpg',
-            'orange-noise': 'https://cdn.pixabay.com/photo/2010/11/26/canyon-203_640.jpg',
-            'brown-noise': 'https://cdn.pixabay.com/photo/2016/11/19/18/57/godafoss-1840758_640.jpg',
-            'infrared-noise': 'https://cdn.pixabay.com/photo/2010/12/23/12/43/sandstone-4025_640.jpg',
-            rain: 'https://cdn.pixabay.com/photo/2022/10/26/03/30/fog-7547298_640.jpg'
-        },
-        fallbackArtwork: {
-            'classic-button': 'circus.jpeg',
-            moon: 'moon-button.jpg',
-            'white-noise': 'snow.jpeg',
-            'pink-noise': 'Pink-ring.jpeg',
-            'orange-noise': 'orange.jpeg',
-            'brown-noise': 'brown-illustration.jpeg',
-            'infrared-noise': 'Infared.jpeg',
-            rain: 'rain-window.jpeg'
-        },
-        artworkQueries: {
-            moon: { q: 'purple moon cosmic abstract', colors: 'lilac' },
-            'white-noise': { q: 'snow mist abstract', colors: 'white' },
-            'pink-noise': { q: 'pink aurora abstract', colors: 'pink' },
-            'orange-noise': { q: 'amber river abstract', colors: 'orange' },
-            'brown-noise': { q: 'waterfall mist abstract', colors: 'brown' },
-            'infrared-noise': { q: 'deep red infrared abstract', colors: 'red' },
-            rain: { q: 'rainy window night', colors: 'blue' }
-        },
-        layouts: {
-            'classic-button': { x: '21%', y: '21%', w: '122px', h: '78px', r: '46% 54% 44% 56% / 54% 45% 55% 46%', color: '#DDA7B8', rotate: '-8deg', dur: '8.5s', delay: '-1.2s' },
-            moon: { x: '62%', y: '18%', w: '122px', h: '76px', r: '41% 59% 50% 50% / 47% 53% 44% 56%', color: '#AF65F5', rotate: '6deg', dur: '9.4s', delay: '-3.4s' },
-            'white-noise': { x: '82%', y: '29%', w: '112px', h: '74px', r: '44% 56% 38% 62% / 54% 42% 58% 46%', color: '#C9DBF7', rotate: '-4deg', dur: '7.8s', delay: '-2.5s' },
-            'pink-noise': { x: '33%', y: '42%', w: '116px', h: '96px', r: '34% 66% 42% 58% / 60% 38% 62% 40%', color: '#EF42B8', rotate: '-10deg', dur: '8.8s', delay: '-4.1s' },
-            'orange-noise': { x: '69%', y: '48%', w: '150px', h: '82px', r: '42% 58% 46% 54% / 50% 45% 55% 50%', color: '#F2A158', rotate: '-6deg', dur: '9.8s', delay: '-1.8s' },
-            'brown-noise': { x: '27%', y: '63%', w: '136px', h: '74px', r: '48% 52% 44% 56% / 42% 58% 43% 57%', color: '#A48B74', rotate: '-3deg', dur: '8.1s', delay: '-3s' },
-            'infrared-noise': { x: '63%', y: '70%', w: '148px', h: '86px', r: '37% 63% 49% 51% / 48% 52% 40% 60%', color: '#C85C5C', rotate: '-7deg', dur: '10.4s', delay: '-5.2s' },
-            rain: { x: '86%', y: '82%', w: '122px', h: '76px', r: '44% 56% 40% 60% / 56% 44% 54% 46%', color: '#5C875C', rotate: '8deg', dur: '8.9s', delay: '-2.2s' }
-        },
+        featuredPosterId: 'click',
+        posterDefinitions: [
+            { id: 'click', skinId: 'classic-button', chip: '', title: 'Click', copy: 'Clean, satisfying clicks', classes: 'home-poster-card--featured', tint: 'rgba(232, 198, 210, 0.24)', image: 'assets/home-posters/pink-ball.png', artPosition: '70% 54%', artSize: 'cover' },
+            { id: 'moon', skinId: 'moon', chip: '', title: 'Moon', copy: 'Soft ambience for night focus', classes: 'home-poster-card--compact', tint: 'rgba(108, 118, 170, 0.28)', image: 'assets/home-posters/moon-hero.jpeg', artPosition: '58% 18%', artSize: 'cover' },
+            { id: 'white-noise', skinId: 'white-noise', chip: '', title: 'White Noise', copy: 'Steady. Simple. Soothing.', classes: 'home-poster-card--compact', tint: 'rgba(214, 226, 242, 0.26)', image: 'assets/home-posters/white-noise.png', artPosition: '72% 52%', artSize: 'cover' },
+            { id: 'brown-noise', skinId: 'brown-noise', soundProfileId: 'brown-waterfall', chip: '', title: 'Brown Noise', copy: 'Deeper tones for grounding', classes: 'home-poster-card--compact', tint: 'rgba(132, 112, 86, 0.30)', image: 'assets/home-posters/brown-noise.png', artPosition: '74% 54%', artSize: 'cover' },
+            { id: 'rain', skinId: 'rain', chip: '', title: 'Rain', copy: 'Natural rain on leaves', classes: 'home-poster-card--compact', tint: 'rgba(78, 104, 84, 0.28)', image: 'assets/home-posters/rain.png', artPosition: '72% 54%', artSize: 'cover' },
+            { id: 'pink-noise', skinId: 'pink-noise', soundProfileId: 'pink-soft-noise', chip: '', title: 'Pink Noise', copy: 'Balanced and gentle.', classes: 'home-poster-card--compact', tint: 'rgba(184, 114, 152, 0.28)', image: 'assets/home-posters/pink-noise.png', artPosition: '72% 52%', artSize: 'cover' },
+            { id: 'infrared', skinId: 'infrared-noise', soundProfileId: 'infrared-noise-core', chip: '', title: 'Infrared', copy: 'Warm. Deep. Inner quiet.', classes: 'home-poster-card--compact', tint: 'rgba(146, 62, 56, 0.28)', image: 'assets/home-posters/infrared.png', artPosition: '74% 52%', artSize: 'cover' }
+        ],
+        curatedPixabayArtwork: {},
+        fallbackArtwork: {},
+        artworkQueries: {},
 
         init() {
             this.app = document.getElementById('app');
             this.home = document.getElementById('home-screen');
-            this.field = document.getElementById('skin-bubble-field');
-            this.actions = document.getElementById('home-skin-actions');
-            this.selectedSkinId = AppState.currentSkin;
+            this.featured = document.getElementById('home-featured-poster');
+            this.rail = document.getElementById('home-poster-rail');
+            this.selectedPosterId = this.getCurrentPosterId();
             this.restoreArtworkCache();
-            this.restoreLayoutCache();
-            document.getElementById('home-use-skin')?.addEventListener('click', () => this.useSelectedSkin());
-            document.getElementById('home-open-noise-id')?.addEventListener('click', () => this.openNoiseId());
-            this.home?.addEventListener('click', (event) => this.handleHomeBackgroundClick(event));
             this.build();
             this.syncCurrentSkin();
             this.enterHome(true);
@@ -8781,65 +9314,63 @@
             } catch (_) {}
         },
 
-        restoreLayoutCache() {
-            try {
-                const saved = JSON.parse(localStorage.getItem(this.layoutCacheKey) || '{}');
-                if (saved && typeof saved === 'object') {
-                    this.customLayouts = saved;
-                }
-            } catch (_) {
-                this.customLayouts = {};
-            }
+        getPosterById(posterId) {
+            return this.posterDefinitions.find(poster => poster.id === posterId) || null;
         },
 
-        persistLayoutCache() {
-            try {
-                localStorage.setItem(this.layoutCacheKey, JSON.stringify(this.customLayouts));
-            } catch (_) {}
+        getCurrentPosterId() {
+            const exactMatch = this.posterDefinitions.find((poster) =>
+                poster.skinId === AppState.currentSkin
+                && (!poster.soundProfileId || poster.soundProfileId === AppState.currentSoundProfile)
+            );
+            if (exactMatch) return exactMatch.id;
+            return this.posterDefinitions.find(poster => poster.skinId === AppState.currentSkin)?.id || this.featuredPosterId;
         },
 
-        layoutForSkin(skinId) {
-            const base = this.layouts[skinId];
-            const custom = this.customLayouts[skinId];
-            if (!base) return null;
-            if (!custom || typeof custom !== 'object') return { ...base };
-            return {
-                ...base,
-                x: custom.x || base.x,
-                y: custom.y || base.y
-            };
-        },
-
-        artworkUrlForSkin(skinId) {
-            return this.artworkUrls[skinId]
-                || this.curatedPixabayArtwork[skinId]
-                || this.fallbackArtwork[skinId]
+        artworkUrlForPoster(posterId) {
+            const poster = this.getPosterById(posterId);
+            return poster?.image
+                || this.artworkUrls[posterId]
+                || this.curatedPixabayArtwork[posterId]
+                || this.fallbackArtwork[posterId]
                 || '';
         },
 
-        applyArtworkToButton(button, skinId) {
-            const imageUrl = this.artworkUrlForSkin(skinId);
+        applyArtworkToCard(card, posterId) {
+            const poster = this.getPosterById(posterId);
+            const imageUrl = this.artworkUrlForPoster(posterId);
+            if (!card) return;
             if (!imageUrl) {
-                button.classList.remove('has-artwork');
-                button.style.removeProperty('--bubble-image');
+                card.style.removeProperty('--poster-image');
+                card.style.removeProperty('--poster-art-position');
+                card.style.removeProperty('--poster-art-size');
                 return;
             }
-            button.classList.add('has-artwork');
-            button.style.setProperty('--bubble-image', `url('${imageUrl.replace(/'/g, '%27')}')`);
+            card.style.setProperty('--poster-image', `url('${imageUrl.replace(/'/g, '%27')}')`);
+            if (poster?.artPosition) {
+                card.style.setProperty('--poster-art-position', poster.artPosition);
+            } else {
+                card.style.removeProperty('--poster-art-position');
+            }
+            if (poster?.artSize) {
+                card.style.setProperty('--poster-art-size', poster.artSize);
+            } else {
+                card.style.removeProperty('--poster-art-size');
+            }
         },
 
-        applyArtworkToExistingButtons(skinId = '') {
-            document.querySelectorAll('.skin-bubble').forEach((button) => {
-                if (skinId && button.dataset.skin !== skinId) return;
-                this.applyArtworkToButton(button, button.dataset.skin);
+        applyArtworkToExistingCards(posterId = '') {
+            document.querySelectorAll('.home-poster-card').forEach((card) => {
+                if (posterId && card.dataset.poster !== posterId) return;
+                this.applyArtworkToCard(card, card.dataset.poster);
             });
         },
 
-        async ensureRemoteArtwork(skinId) {
-            if (this.artworkUrls[skinId] || this.artworkRequests.has(skinId)) return;
+        async ensureRemoteArtwork(posterId) {
+            if (this.artworkUrls[posterId] || this.artworkRequests.has(posterId)) return;
 
             const proxyUrl = this.getPixabayProxyUrl();
-            const query = this.artworkQueries[skinId];
+            const query = this.artworkQueries[posterId];
             if (!proxyUrl || !query) return;
 
             const url = new URL(proxyUrl, window.location.href);
@@ -8856,189 +9387,109 @@
                     const hits = Array.isArray(payload?.hits) ? payload.hits : [];
                     const image = hits[0]?.webformatURL || hits[0]?.largeImageURL || hits[0]?.previewURL || '';
                     if (!image) return;
-                    this.artworkUrls[skinId] = image;
+                    this.artworkUrls[posterId] = image;
                     this.persistArtworkCache();
-                    this.applyArtworkToExistingButtons(skinId);
+                    this.applyArtworkToExistingCards(posterId);
                 })
                 .catch(() => {})
                 .finally(() => {
-                    this.artworkRequests.delete(skinId);
+                    this.artworkRequests.delete(posterId);
                 });
 
-            this.artworkRequests.set(skinId, request);
+            this.artworkRequests.set(posterId, request);
             await request;
         },
 
+        buildPosterCard(poster, options = {}) {
+            const isLocked = !AccessManager.canUseSkin(poster.skinId);
+            const isFeatured = options.featured === true;
+            const localizedTitle = I18n.poster(poster, 'title');
+            const localizedCopy = I18n.poster(poster, 'copy');
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = `home-poster-card ${poster.classes}`
+                + (poster.id === this.getCurrentPosterId() ? ' is-current' : '')
+                + (poster.id === this.selectedPosterId ? ' is-selected' : '')
+                + (isLocked ? ' is-locked' : '');
+            button.dataset.poster = poster.id;
+            button.setAttribute('aria-label', localizedTitle);
+            button.setAttribute('aria-pressed', String(poster.id === this.selectedPosterId));
+            button.style.setProperty('--poster-tint', poster.tint);
+            button.innerHTML = `
+                <div class="home-poster-card-body">
+                    ${poster.chip ? `<span class="home-poster-chip">${poster.chip}</span>` : ''}
+                    <h2 class="home-poster-name">${localizedTitle}</h2>
+                    <p class="home-poster-copy">${localizedCopy}</p>
+                </div>
+            `;
+            this.applyArtworkToCard(button, poster.id);
+            button.addEventListener('click', () => this.openPoster(poster.id));
+            if (!isFeatured) this.ensureRemoteArtwork(poster.id);
+            return button;
+        },
+
         build() {
-            if (!this.field) return;
-            this.field.innerHTML = '';
-            SKINS
-                .filter(skin => this.layouts[skin.id] && !skin.comingSoon)
-                .forEach(skin => {
-                    const layout = this.layoutForSkin(skin.id);
-                    const isLocked = !AccessManager.canUseSkin(skin.id);
-                    const button = document.createElement('button');
-                    button.type = 'button';
-                    button.className = 'skin-bubble'
-                        + (skin.id === AppState.currentSkin ? ' is-current' : '')
-                        + (skin.id === this.selectedSkinId ? ' is-selected' : '')
-                        + (isLocked ? ' is-locked' : '');
-                    button.dataset.skin = skin.id;
-                    button.style.setProperty('--bubble-x', layout.x);
-                    button.style.setProperty('--bubble-y', layout.y);
-                    button.style.setProperty('--bubble-w', layout.w);
-                    button.style.setProperty('--bubble-h', layout.h);
-                    button.style.setProperty('--bubble-radius', layout.r);
-                    button.style.setProperty('--bubble-color', layout.color);
-                    button.style.setProperty('--bubble-rotate', layout.rotate);
-                    button.style.setProperty('--bubble-dur', layout.dur);
-                    button.style.setProperty('--bubble-delay', layout.delay);
-                    button.style.setProperty('--bubble-font', skin.id === 'infrared-noise' || skin.id === 'orange-noise' ? '13px' : '15px');
-                    button.setAttribute('aria-pressed', skin.id === this.selectedSkinId ? 'true' : 'false');
-                    button.innerHTML = `<span class="skin-bubble-label">${I18n.skin(skin, 'name')}</span>`;
-                    this.applyArtworkToButton(button, skin.id);
-                    button.addEventListener('click', (event) => this.handleBubbleClick(event, skin.id));
-                    button.addEventListener('pointerdown', (event) => this.startBubbleDrag(event, button, skin.id));
-                    this.field.appendChild(button);
-                    this.ensureRemoteArtwork(skin.id);
+            if (!this.featured || !this.rail) return;
+            this.featured.innerHTML = '';
+            this.rail.innerHTML = '';
+
+            const featuredPoster = this.getPosterById(this.featuredPosterId);
+            if (featuredPoster) {
+                this.featured.appendChild(this.buildPosterCard(featuredPoster, { featured: true }));
+            }
+
+            this.posterDefinitions
+                .filter(poster => poster.id !== this.featuredPosterId)
+                .forEach((poster) => {
+                    this.rail.appendChild(this.buildPosterCard(poster));
                 });
         },
 
-        handleBubbleClick(event, skinId) {
-            if (event.currentTarget?.dataset?.dragJustEnded === 'true') {
-                event.currentTarget.dataset.dragJustEnded = 'false';
-                event.preventDefault();
+        openPoster(posterId) {
+            const poster = this.getPosterById(posterId);
+            if (!poster) return;
+            const skin = SkinRegistry.getSkin(poster.skinId);
+            if (!skin || skin.comingSoon) return;
+
+            if (!AccessManager.canUseSkin(skin.id)) {
+                Paywall.open(skin.id, 'skin');
                 return;
             }
-            this.selectCandidate(skinId);
-        },
 
-        selectCandidate(skinId) {
-            const skin = SkinRegistry.getSkin(skinId);
-            if (!skin || skin.comingSoon) return;
-            this.selectedSkinId = skin.id;
-            this.hasUserSelection = true;
+            this.selectedPosterId = poster.id;
             this.updateSelectionUI();
             HapticsEngine.light(skin.hapticProfile);
-        },
-
-        startBubbleDrag(event, button, skinId) {
-            if (!this.field || !button || event.button != null && event.button !== 0) return;
-            if (!document.body.classList.contains('home-view-active')) return;
-
-            const fieldRect = this.field.getBoundingClientRect();
-            const bubbleRect = button.getBoundingClientRect();
-            const currentX = Number.parseFloat(button.style.getPropertyValue('--bubble-x')) || Number.parseFloat(this.layoutForSkin(skinId)?.x) || 50;
-            const currentY = Number.parseFloat(button.style.getPropertyValue('--bubble-y')) || Number.parseFloat(this.layoutForSkin(skinId)?.y) || 50;
-
-            this.activeDrag = {
-                button,
-                skinId,
-                pointerId: event.pointerId,
-                startClientX: event.clientX,
-                startClientY: event.clientY,
-                startX: currentX,
-                startY: currentY,
-                fieldRect,
-                bubbleWidth: bubbleRect.width,
-                bubbleHeight: bubbleRect.height,
-                moved: false
-            };
-
-            button.classList.add('is-dragging');
-            button.dataset.dragJustEnded = 'false';
-            if (button.setPointerCapture) {
-                try { button.setPointerCapture(event.pointerId); } catch (_) {}
+            SkinManager.select(skin.id);
+            if (poster.soundProfileId && isSoundProfileAvailableForSkin(poster.soundProfileId, skin.id)) {
+                AppState.save('currentSoundProfile', poster.soundProfileId);
+                AppState.save('soundMode', 'custom');
+                SoundManager.buildList();
+                SoundManager.updateUI();
+                NoisePlayerUI?.updateUI?.();
             }
-            button.addEventListener('pointermove', this.handleBubbleDragMove);
-            button.addEventListener('pointerup', this.handleBubbleDragEnd);
-            button.addEventListener('pointercancel', this.handleBubbleDragEnd);
-        },
-
-        handleBubbleDragMove: (event) => {
-            const scene = HomeSkinScene;
-            const drag = scene.activeDrag;
-            if (!drag || event.pointerId !== drag.pointerId) return;
-
-            const dx = event.clientX - drag.startClientX;
-            const dy = event.clientY - drag.startClientY;
-            if (!drag.moved && Math.hypot(dx, dy) > 6) {
-                drag.moved = true;
-            }
-
-            const width = drag.fieldRect.width || 1;
-            const height = drag.fieldRect.height || 1;
-            const minX = (drag.bubbleWidth / 2 / width) * 100;
-            const maxX = 100 - minX;
-            const minY = (drag.bubbleHeight / 2 / height) * 100;
-            const maxY = 100 - minY;
-            const nextX = Math.min(maxX, Math.max(minX, drag.startX + (dx / width) * 100));
-            const nextY = Math.min(maxY, Math.max(minY, drag.startY + (dy / height) * 100));
-
-            drag.button.style.setProperty('--bubble-x', `${nextX}%`);
-            drag.button.style.setProperty('--bubble-y', `${nextY}%`);
-        },
-
-        handleBubbleDragEnd: (event) => {
-            const scene = HomeSkinScene;
-            const drag = scene.activeDrag;
-            if (!drag || event.pointerId !== drag.pointerId) return;
-
-            drag.button.classList.remove('is-dragging');
-            drag.button.removeEventListener('pointermove', scene.handleBubbleDragMove);
-            drag.button.removeEventListener('pointerup', scene.handleBubbleDragEnd);
-            drag.button.removeEventListener('pointercancel', scene.handleBubbleDragEnd);
-            if (drag.button.releasePointerCapture) {
-                try { drag.button.releasePointerCapture(event.pointerId); } catch (_) {}
-            }
-
-            if (drag.moved) {
-                drag.button.dataset.dragJustEnded = 'true';
-                scene.customLayouts[drag.skinId] = {
-                    x: drag.button.style.getPropertyValue('--bubble-x'),
-                    y: drag.button.style.getPropertyValue('--bubble-y')
-                };
-                scene.persistLayoutCache();
-            }
-
-            scene.activeDrag = null;
-        },
-
-        handleHomeBackgroundClick(event) {
-            if (!document.body.classList.contains('home-view-active')) return;
-            const target = event.target;
-            if (!(target instanceof Element)) return;
-            if (target.closest('.skin-bubble') || target.closest('.home-skin-actions')) return;
-            this.hideSelectionActions();
-        },
-
-        hideSelectionActions() {
-            this.hasUserSelection = false;
-            this.updateSelectionUI();
+            this.syncCurrentSkin();
+            this.enterSkinExperience();
+            AppNav.sync();
         },
 
         updateSelectionUI() {
-            document.querySelectorAll('.skin-bubble').forEach(button => {
-                const isSelected = button.dataset.skin === this.selectedSkinId;
-                const isCurrent = button.dataset.skin === AppState.currentSkin;
-                button.classList.toggle('is-selected', isSelected);
-                button.classList.toggle('is-current', isCurrent);
-                button.setAttribute('aria-pressed', String(isSelected));
+            document.querySelectorAll('.home-poster-card').forEach(card => {
+                const isSelected = card.dataset.poster === this.selectedPosterId;
+                const isCurrent = card.dataset.poster === this.getCurrentPosterId();
+                card.classList.toggle('is-selected', isSelected);
+                card.classList.toggle('is-current', isCurrent);
+                card.setAttribute('aria-pressed', String(isSelected));
             });
-            this.actions?.classList.toggle('is-visible', this.hasUserSelection && !!this.selectedSkinId);
         },
 
         syncCurrentSkin() {
-            if (!this.hasUserSelection || !this.selectedSkinId) {
-                this.selectedSkinId = AppState.currentSkin;
-            }
+            this.selectedPosterId = this.getCurrentPosterId();
             this.updateSelectionUI();
         },
 
-        enterHome(resetActions = false) {
-            if (resetActions) {
-                this.selectedSkinId = AppState.currentSkin;
-                this.hasUserSelection = true;
+        enterHome(resetSelection = false) {
+            if (resetSelection) {
+                this.selectedPosterId = this.getCurrentPosterId();
             }
             document.documentElement.classList.remove('boot-home-view');
             document.body.classList.add('home-view-active');
@@ -9048,26 +9499,7 @@
         enterSkinExperience() {
             document.documentElement.classList.remove('boot-home-view');
             document.body.classList.remove('home-view-active');
-            this.actions?.classList.remove('is-visible');
-            this.hasUserSelection = false;
-            this.selectedSkinId = AppState.currentSkin;
-        },
-
-        useSelectedSkin() {
-            if (!this.selectedSkinId) return;
-            SkinManager.select(this.selectedSkinId);
-            this.syncCurrentSkin();
-            this.enterSkinExperience();
-            AppNav.sync('home');
-        },
-
-        openNoiseId() {
-            if (!this.selectedSkinId) return;
-            BottomSheet.close();
-            SleepTimerManager.close();
-            Settings.close();
-            AccountPanel.close();
-            KnowledgeManager.open({ skinId: this.selectedSkinId });
+            this.selectedPosterId = this.getCurrentPosterId();
         }
     };
 
@@ -9076,6 +9508,8 @@
         artworkCacheKey: 'rb_noise_backdrop_artwork_v1',
         artworkUrls: {},
         artworkRequests: new Map(),
+        appliedArtworkKey: '',
+        appliedImageUrl: '',
         curatedPixabayArtwork: {
             'white-noise': 'https://cdn.pixabay.com/photo/2022/12/10/11/05/snow-7646952_1280.jpg',
             'white-noise-radio': 'https://cdn.pixabay.com/photo/2022/12/10/11/05/snow-7646952_1280.jpg',
@@ -9099,26 +9533,26 @@
             'rain-skin': 'https://cdn.pixabay.com/photo/2022/10/26/03/30/fog-7547298_640.jpg'
         },
         fallbackArtwork: {
-            'white-noise': 'snow.jpeg',
-            'white-noise-radio': 'snow.jpeg',
-            'pink-soft-noise': 'Pink-ring.jpeg',
-            'orange-noise': 'orange.jpeg',
-            'brown-ideal-ocean-waves': 'brown-illustration.jpeg',
-            'brown-light-rain-outside': 'rain-window.jpeg',
-            'brown-rainy-town-birds': 'rain-window.jpeg',
-            'brown-thunder-rain': 'rain-window.jpeg',
-            'brown-spring-birds': 'brown-illustration.jpeg',
-            'brown-waterfall': 'brown-illustration.jpeg',
-            'infrared-ocean-waves': 'Infared.jpeg',
-            'infrared-arctic-winds': 'Infared.jpeg',
-            'infrared-noise-core': 'Infared.jpeg',
-            'infrared-deep-noise': 'Infared.jpeg',
-            'white-noise-skin': 'snow.jpeg',
-            'pink-noise-skin': 'Pink-ring.jpeg',
-            'orange-noise-skin': 'orange.jpeg',
-            'brown-noise-skin': 'brown-illustration.jpeg',
-            'infrared-noise-skin': 'Infared.jpeg',
-            'rain-skin': 'rain-window.jpeg'
+            'white-noise': 'assets/home-posters/white-noise.png',
+            'white-noise-radio': 'assets/home-posters/white-noise.png',
+            'pink-soft-noise': 'assets/home-posters/pink-noise.png',
+            'orange-noise': 'assets/home-posters/orange-noise.png',
+            'brown-ideal-ocean-waves': 'assets/home-posters/ocean.png',
+            'brown-light-rain-outside': 'assets/home-posters/rain.png',
+            'brown-rainy-town-birds': 'assets/home-posters/rain.png',
+            'brown-thunder-rain': 'assets/home-posters/rain.png',
+            'brown-spring-birds': 'assets/home-posters/surf.jpg',
+            'brown-waterfall': 'assets/home-posters/ocean.png',
+            'infrared-ocean-waves': 'assets/home-posters/ocean.png',
+            'infrared-arctic-winds': 'assets/home-posters/white-noise.png',
+            'infrared-noise-core': 'assets/home-posters/infrared.png',
+            'infrared-deep-noise': 'assets/home-posters/infrared.png',
+            'white-noise-skin': 'assets/home-posters/white-noise.png',
+            'pink-noise-skin': 'assets/home-posters/pink-noise.png',
+            'orange-noise-skin': 'assets/home-posters/orange-noise.png',
+            'brown-noise-skin': 'assets/home-posters/brown-noise.png',
+            'infrared-noise-skin': 'assets/home-posters/infrared.png',
+            'rain-skin': 'assets/home-posters/rain.png'
         },
         artworkQueries: {
             'white-noise': { q: 'snow mountain mist', colors: 'white' },
@@ -9181,6 +9615,35 @@
             return AppState.currentSoundProfile || skin.recommendedSoundProfileId || this.getSkinFallbackKey(skin.id);
         },
 
+        preloadImage(imageUrl = '') {
+            return new Promise(resolve => {
+                if (!imageUrl) {
+                    resolve(false);
+                    return;
+                }
+                const image = new Image();
+                image.onload = () => resolve(true);
+                image.onerror = () => resolve(false);
+                image.src = imageUrl;
+            });
+        },
+
+        fallbackArtworkUrlForKey(artworkKey = '') {
+            const skinFallbackKey = this.getSkinFallbackKey();
+            return this.fallbackArtwork[artworkKey]
+                || this.fallbackArtwork[skinFallbackKey]
+                || '';
+        },
+
+        remoteArtworkUrlForKey(artworkKey = '') {
+            const skinFallbackKey = this.getSkinFallbackKey();
+            return this.artworkUrls[artworkKey]
+                || this.curatedPixabayArtwork[artworkKey]
+                || this.artworkUrls[skinFallbackKey]
+                || this.curatedPixabayArtwork[skinFallbackKey]
+                || '';
+        },
+
         artworkUrlForKey(artworkKey = '') {
             const skinFallbackKey = this.getSkinFallbackKey();
             return this.artworkUrls[artworkKey]
@@ -9195,12 +9658,14 @@
         applyBackdropImage(imageUrl = '') {
             if (!document.body) return;
             if (!imageUrl) {
+                this.appliedImageUrl = '';
                 document.body.style.removeProperty('--noise-backdrop-image');
                 document.body.style.removeProperty('--noise-backdrop-image-bottom');
                 document.body.style.removeProperty('--noise-button-scene-fill');
                 return;
             }
 
+            this.appliedImageUrl = imageUrl;
             const cssUrl = `url('${imageUrl.replace(/'/g, '%27')}')`;
             document.body.style.setProperty('--noise-backdrop-image', cssUrl);
             document.body.style.setProperty('--noise-backdrop-image-bottom', cssUrl);
@@ -9224,10 +9689,12 @@
 
             const request = fetch(url.toString())
                 .then(response => response.ok ? response.json() : null)
-                .then((payload) => {
+                .then(async (payload) => {
                     const hits = Array.isArray(payload?.hits) ? payload.hits : [];
                     const image = hits[0]?.largeImageURL || hits[0]?.webformatURL || hits[0]?.previewURL || '';
                     if (!image) return;
+                    const didLoad = await this.preloadImage(image);
+                    if (!didLoad) return;
                     this.artworkUrls[artworkKey] = image;
                     this.persistArtworkCache();
                     if (this.getActiveArtworkKey() === artworkKey) {
@@ -9246,11 +9713,31 @@
         sync() {
             const artworkKey = this.getActiveArtworkKey();
             if (!artworkKey) {
+                this.appliedArtworkKey = '';
                 this.applyBackdropImage('');
                 return;
             }
 
-            this.applyBackdropImage(this.artworkUrlForKey(artworkKey));
+            const nextImage = this.artworkUrlForKey(artworkKey);
+            const hasMatchingAppliedImage = this.appliedArtworkKey === artworkKey
+                && !!nextImage
+                && this.appliedImageUrl === nextImage;
+
+            this.appliedArtworkKey = artworkKey;
+
+            if (!nextImage) {
+                const fallbackImage = this.fallbackArtworkUrlForKey(artworkKey);
+                if (fallbackImage && this.appliedImageUrl !== fallbackImage) {
+                    this.applyBackdropImage(fallbackImage);
+                }
+            } else if (!hasMatchingAppliedImage) {
+                this.preloadImage(nextImage).then((didLoad) => {
+                    if (didLoad && this.getActiveArtworkKey() === artworkKey) {
+                        this.applyBackdropImage(nextImage);
+                    }
+                });
+            }
+
             this.ensureRemoteArtwork(artworkKey);
 
             const skinFallbackKey = this.getSkinFallbackKey();
@@ -9337,7 +9824,7 @@
             if (document.getElementById('knowledge-panel')?.classList.contains('is-open')) return 'guide';
             if (document.getElementById('bottom-sheet')?.classList.contains('is-open')) return 'library';
             if (document.body.classList.contains('home-view-active')) return 'home';
-            return 'home';
+            return null;
         }
     };
 
@@ -9346,6 +9833,7 @@
        ════════════════════════════════════════════════════════════ */
     async function initApp() {
         AccessManager.init();
+        I18n.apply({ refreshDynamic: false });
 
         // Init audio engine
         await AudioEngine.init();
