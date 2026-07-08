@@ -15,11 +15,14 @@ If server-side receipt validation is enabled, disclose Purchases under App Funct
 
 ## Google Play Data Safety
 
+Current Play Console draft state for the pre-validator build: no data collected and no data shared. Update this before production if server-side receipt validation is enabled.
+
 - Data encrypted in transit: Yes
 - User can request deletion: Not applicable to an account because the app has no account creation. Direct privacy requests are supported by email.
 - Data collected by the app for analytics or advertising: No
 - Financial information: Payment information is handled by Google Play and is not collected by Digital Fidget: Mental ASMR.
 - Purchase history / transaction identifiers: May be processed transiently for purchase verification and fraud prevention when server-side validation is enabled.
+- Remote artwork and fonts: The release app bundle should use local artwork and system fonts by default. Optional remote artwork must go through the Firebase proxy and be reflected in this document before release.
 
 ## Permissions
 

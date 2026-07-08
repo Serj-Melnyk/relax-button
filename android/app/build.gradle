@@ -1,5 +1,27 @@
 apply plugin: 'com.android.application'
 
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
+def releaseStoreFile = keystoreProperties["storeFile"] ?: System.getenv("ANDROID_KEYSTORE_FILE")
+def releaseStorePassword = keystoreProperties["storePassword"] ?: System.getenv("ANDROID_KEYSTORE_PASSWORD")
+def releaseKeyAlias = keystoreProperties["keyAlias"] ?: System.getenv("ANDROID_KEY_ALIAS")
+def releaseKeyPassword = keystoreProperties["keyPassword"] ?: System.getenv("ANDROID_KEY_PASSWORD")
+def hasReleaseSigning = releaseStoreFile && releaseStorePassword && releaseKeyAlias && releaseKeyPassword
+def allowUnsignedReleaseBuild = (System.getenv("ANDROID_ALLOW_UNSIGNED_RELEASE_BUILD") ?: "false").toBoolean()
+
+gradle.taskGraph.whenReady { graph ->
+    def buildsReleaseArtifact = graph.allTasks.any { task ->
+        task.path == ":app:bundleRelease" || task.path == ":app:assembleRelease"
+    }
+    if (buildsReleaseArtifact && !hasReleaseSigning && !allowUnsignedReleaseBuild) {
+        throw new GradleException("Release signing is not configured. Add android/keystore.properties or ANDROID_KEYSTORE_* secrets, or set ANDROID_ALLOW_UNSIGNED_RELEASE_BUILD=true for a local unsigned smoke build.")
+    }
+}
+
 android {
     namespace = "com.antistress.relaxbutton"
     compileSdk = rootProject.ext.compileSdkVersion
@@ -16,8 +38,21 @@ android {
             ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
+    signingConfigs {
+        if (hasReleaseSigning) {
+            release {
+                storeFile file(releaseStoreFile)
+                storePassword releaseStorePassword
+                keyAlias releaseKeyAlias
+                keyPassword releaseKeyPassword
+            }
+        }
+    }
     buildTypes {
         release {
+            if (hasReleaseSigning) {
+                signingConfig signingConfigs.release
+            }
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'

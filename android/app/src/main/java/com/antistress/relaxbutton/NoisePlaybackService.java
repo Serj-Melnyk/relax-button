@@ -48,7 +48,6 @@ public class NoisePlaybackService extends Service {
     private static final String PREF_LOOP_END_TRIM_MS = "loop_end_trim_ms";
     private static final long WATCHDOG_INTERVAL_MS = 15000L;
     private static final long EXO_LOOP_CROSSFADE_MS = 780L;
-    private static final long EXO_LOOP_PREPARE_LEAD_MS = 2500L;
     private static final int EXO_LOOP_FADE_STEPS = 24;
 
     private static volatile boolean serviceRunning = false;
@@ -299,22 +298,16 @@ public class NoisePlaybackService extends Service {
             long loopStartMs = Math.max(0L, Math.min(currentLoopStartMs, Math.max(durationMs - 1000L, 0L)));
             long loopEndMs = Math.max(loopStartMs + 1000L, durationMs - currentLoopEndTrimMs);
             long crossfadeDelayMs = Math.max(250L, loopEndMs - EXO_LOOP_CROSSFADE_MS);
-            long prepareDelayMs = Math.max(250L, crossfadeDelayMs - EXO_LOOP_PREPARE_LEAD_MS);
-            long startDelayAfterPrepareMs = Math.max(0L, crossfadeDelayMs - prepareDelayMs);
 
             Log.d(
                 TAG,
                 "scheduleExoLoopRollover file=" + file
                     + " durationMs=" + durationMs
                     + " loopEndMs=" + loopEndMs
-                    + " prepareDelayMs=" + prepareDelayMs
-                    + " startDelayAfterPrepareMs=" + startDelayAfterPrepareMs
+                    + " startDelayAfterPrepareMs=" + crossfadeDelayMs
             );
 
-            watchdogHandler.postDelayed(
-                () -> prepareNextExoForRollover(scheduledPlayer, file, generation, startDelayAfterPrepareMs),
-                prepareDelayMs
-            );
+            prepareNextExoForRollover(scheduledPlayer, file, generation, crossfadeDelayMs);
         } catch (Exception error) {
             scheduledExoRolloverGeneration = -1;
             Log.w(TAG, "Unable to schedule ExoPlayer rollover; using repeat mode", error);

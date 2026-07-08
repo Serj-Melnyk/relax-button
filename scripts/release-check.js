@@ -46,14 +46,20 @@ check(themeFlags.filter((theme) => theme.free).map((theme) => theme.id).join(","
   "Classic and Night must remain the free themes.");
 check(!webIndex.includes("PreviewMode"), "Production web bundle must not contain Premium preview bypasses.");
 check(webIndex.includes("window.BillingBridge"), "UI must use the shared BillingBridge.");
+check(!webIndex.includes("fonts.googleapis.com") && !webIndex.includes("fonts.gstatic.com"),
+  "Production app bundle must not load Google Fonts from WebView.");
+check(!webIndex.includes("|| this.curatedPixabayArtwork[artworkKey]")
+  && !webIndex.includes("|| this.curatedPixabayArtwork[skinFallbackKey]"),
+  "Production app bundle must not use Pixabay CDN artwork without the Firebase proxy.");
 check(webIndex.includes("const PreviewAccess =") && webIndex.includes("127.0.0.1")
   && webIndex.includes("window.location.protocol === 'file:'"),
   "Local preview should allow temporary Premium inspection without changing production entitlement logic.");
 check(!webIndex.includes('id="btn-settings"') && !webIndex.includes('id="btn-premium"'),
   "Main screen must not restore hard-to-reach top-corner controls.");
-check(webIndex.includes('id="swipe-indicator"') && webIndex.includes('id="sheet-settings"')
-  && webIndex.includes('id="sheet-premium"'),
-  "Thumb-friendly customization, Settings, and Premium controls are required.");
+check(webIndex.includes('id="swipe-indicator"')
+  && webIndex.includes('id="sheet-premium"')
+  && webIndex.includes('onclick="Settings.open()"'),
+  "Thumb-friendly customization, Premium, and Account Settings controls are required.");
 
 check(digest("www/index.html") === digest("android/app/src/main/assets/public/index.html"),
   "Android web assets are stale. Run npm run sync.");
@@ -92,8 +98,31 @@ check(playShot.width === 1080 && playShot.height === 1920,
   "Google Play screenshots must remain 1080x1920.");
 
 const manifest = read("android/app/src/main/AndroidManifest.xml");
+const rootGitignore = read(".gitignore");
+const androidGitignore = read("android/.gitignore");
+const androidBuildGradle = read("android/app/build.gradle");
+const packageJson = JSON.parse(read("package.json"));
 check(manifest.includes('android:allowBackup="false"'), "Android backups must remain disabled.");
 check(manifest.includes('android:usesCleartextTraffic="false"'), "Android cleartext traffic must remain disabled.");
+check(rootGitignore.includes("*.jks") && rootGitignore.includes("*.keystore")
+  && rootGitignore.includes("android/keystore.properties"),
+  "Signing keys and keystore.properties must be ignored at the repository root.");
+check(androidGitignore.includes("*.jks") && androidGitignore.includes("*.keystore")
+  && androidGitignore.includes("keystore.properties"),
+  "Android keystore files must be ignored in android/.gitignore.");
+check(androidBuildGradle.includes("ANDROID_KEYSTORE_FILE")
+  && androidBuildGradle.includes("signingConfigs")
+  && androidBuildGradle.includes("hasReleaseSigning"),
+  "Android release signing must support local keystore.properties or CI secrets.");
+check(androidBuildGradle.includes("ANDROID_ALLOW_UNSIGNED_RELEASE_BUILD")
+  && androidBuildGradle.includes("Release signing is not configured"),
+  "Android release builds must fail clearly when upload signing is missing.");
+check(packageJson.scripts && packageJson.scripts["build:android"]
+  && packageJson.scripts["build:android"].includes("JAVA_HOME='/Applications/Android Studio.app/Contents/jbr/Contents/Home'"),
+  "Android release build script must pin the Android Studio JBR.");
+check(packageJson.scripts && packageJson.scripts["build:android:unsigned"]
+  && packageJson.scripts["build:android:unsigned"].includes("ANDROID_ALLOW_UNSIGNED_RELEASE_BUILD=true"),
+  "Android unsigned smoke-build script must be explicit.");
 
 if (failures.length) {
   console.error("Release check failed:");

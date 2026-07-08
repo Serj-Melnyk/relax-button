@@ -1,5 +1,7 @@
 # Store Submission Checklist
 
+Detailed Google Play release plan: `release/GOOGLE-PLAY-RELEASE-PLAN.md`
+
 ## Repository Ready
 
 - Run `npm install`
@@ -14,9 +16,19 @@
 ## Android
 
 - Create a private upload keystore outside the repository
-- Configure release signing using local Gradle properties or CI secrets
+- Configure release signing using `android/keystore.properties` or CI secrets
+  (`ANDROID_KEYSTORE_FILE`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS`,
+  `ANDROID_KEY_PASSWORD`)
+  Example local file:
+  ```properties
+  storeFile=/absolute/path/to/upload-key.jks
+  storePassword=...
+  keyAlias=upload
+  keyPassword=...
+  ```
 - Use JDK 21
-- Build with `npm run build:android`
+- Build the signed release with `npm run build:android`
+- For local compile-only smoke checks before signing exists, use `npm run build:android:unsigned`
 - Test the AAB through Play internal testing
 - Enable Play App Signing
 - Complete App Content, Data Safety, target audience, content rating, ads, and app-access forms

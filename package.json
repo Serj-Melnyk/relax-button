@@ -4,7 +4,8 @@
   "description": "A tactile anti-stress app for iOS and Android.",
   "scripts": {
     "sync": "npx cap sync",
-    "build:android": "cd android && ./gradlew bundleRelease",
+    "build:android": "cd android && JAVA_HOME='/Applications/Android Studio.app/Contents/jbr/Contents/Home' ./gradlew bundleRelease",
+    "build:android:unsigned": "cd android && ANDROID_ALLOW_UNSIGNED_RELEASE_BUILD=true JAVA_HOME='/Applications/Android Studio.app/Contents/jbr/Contents/Home' ./gradlew bundleRelease",
     "check": "node scripts/release-check.js",
     "assets:release": "node scripts/capture-release-assets.js"
   },

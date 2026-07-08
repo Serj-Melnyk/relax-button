@@ -45,6 +45,16 @@ The user does **not** like the current Rotary Dial experience and wants it remov
 
 Do not continue polishing the current rotary UI as the final direction.
 
+## Additional UI decision — 2026-07-06
+
+The current background images in the noise-player screens for `White Noise` and `Radio Noise` are approved as-is.
+
+Leave these background images unchanged for now.
+
+Do not start a new polish pass on those specific background images unless there is a functional bug or a new explicit design request.
+
+`Waterfall` should use the fixed background image `assets/home-posters/waterfall.jpg` / `www/assets/home-posters/waterfall.jpg`.
+
 ## Architecture direction requested by user
 
 We need to redesign the app data model so `sound` and `skin` are separate concepts.

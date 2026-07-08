@@ -10,9 +10,13 @@ public class NativeHapticPlugin: CAPPlugin {
     private let audioEngine = AVAudioEngine()
     private let playerNode = AVAudioPlayerNode()
     private var loopBuffer: AVAudioPCMBuffer?
+    private var loopBufferCache: [String: AVAudioPCMBuffer] = [:]
+    private var loopBufferCacheOrder: [String] = []
+    private var currentLoopKey: String?
     private var currentFile: String?
     private var currentVolume: Float = 0.72
     private var sleepTimer: Timer?
+    private let maxLoopBufferCacheEntries = 4
 
     public override func load() {
         super.load()
@@ -166,6 +170,19 @@ public class NativeHapticPlugin: CAPPlugin {
         try session.setCategory(.playback, mode: .default, options: [.mixWithOthers])
         try session.setActive(true)
 
+        let loopKey = makeLoopCacheKey(file: file, loopStartMs: loopStartMs, loopEndTrimMs: loopEndTrimMs)
+        currentVolume = max(0, min(1, gain))
+        if currentLoopKey == loopKey, loopBuffer != nil {
+            playerNode.volume = currentVolume
+            if audioEngine.isRunning == false {
+                try audioEngine.start()
+            }
+            if playerNode.isPlaying == false {
+                playerNode.play()
+            }
+            return
+        }
+
         let buffer = try makeLoopBuffer(file: file, loopStartMs: loopStartMs, loopEndTrimMs: loopEndTrimMs)
         if audioEngine.isRunning == false {
             try audioEngine.start()
@@ -174,8 +191,8 @@ public class NativeHapticPlugin: CAPPlugin {
         playerNode.stop()
         playerNode.reset()
         loopBuffer = buffer
+        currentLoopKey = loopKey
         currentFile = file
-        currentVolume = max(0, min(1, gain))
         playerNode.volume = currentVolume
         playerNode.scheduleBuffer(buffer, at: nil, options: [.loops], completionHandler: nil)
         playerNode.play()
@@ -187,6 +204,7 @@ public class NativeHapticPlugin: CAPPlugin {
         playerNode.stop()
         playerNode.reset()
         loopBuffer = nil
+        currentLoopKey = nil
         currentFile = nil
         do {
             try AVAudioSession.sharedInstance().setActive(false, options: [.notifyOthersOnDeactivation])
@@ -195,6 +213,11 @@ public class NativeHapticPlugin: CAPPlugin {
     }
 
     private func makeLoopBuffer(file: String, loopStartMs: Int, loopEndTrimMs: Int) throws -> AVAudioPCMBuffer {
+        let loopKey = makeLoopCacheKey(file: file, loopStartMs: loopStartMs, loopEndTrimMs: loopEndTrimMs)
+        if let cachedBuffer = loopBufferCache[loopKey] {
+            return cachedBuffer
+        }
+
         guard let baseURL = Bundle.main.resourceURL else {
             throw NSError(domain: "NativeHapticPlugin", code: 1, userInfo: [NSLocalizedDescriptionKey: "Bundle URL unavailable"])
         }
@@ -222,7 +245,25 @@ public class NativeHapticPlugin: CAPPlugin {
 
         clippedBuffer.frameLength = framesToCopy
         try copyFrames(from: sourceBuffer, to: clippedBuffer, startFrame: Int(startFrame), frameCount: Int(framesToCopy))
+        cacheLoopBuffer(clippedBuffer, key: loopKey)
         return clippedBuffer
+    }
+
+    private func makeLoopCacheKey(file: String, loopStartMs: Int, loopEndTrimMs: Int) -> String {
+        return "\(file)#\(loopStartMs)#\(loopEndTrimMs)"
+    }
+
+    private func cacheLoopBuffer(_ buffer: AVAudioPCMBuffer, key: String) {
+        loopBufferCache[key] = buffer
+        loopBufferCacheOrder.removeAll { $0 == key }
+        loopBufferCacheOrder.append(key)
+
+        while loopBufferCacheOrder.count > maxLoopBufferCacheEntries {
+            let evictedKey = loopBufferCacheOrder.removeFirst()
+            if evictedKey != currentLoopKey {
+                loopBufferCache.removeValue(forKey: evictedKey)
+            }
+        }
     }
 
     private func copyFrames(from source: AVAudioPCMBuffer, to destination: AVAudioPCMBuffer, startFrame: Int, frameCount: Int) throws {
