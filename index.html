@@ -678,6 +678,13 @@
         opacity: 1;
     }
 
+    /* The noise artwork and its grading are revealed as one composed frame. */
+    body.noise-player-mode #app-cinematic-veil,
+    body.noise-player-mode #app::before,
+    body.noise-player-mode #app::after {
+        transition: none !important;
+    }
+
     @media (min-width: 1024px) {
         #app {
             max-width: 430px;
@@ -1161,13 +1168,13 @@
     body[data-skin="moon"] #app {
         background:
             linear-gradient(rgba(0, 6, 10, 0.08), rgba(0, 0, 0, 0.3)),
-            url('moon-space-bg.jpg') center / cover no-repeat;
+            url('moon-space-bg.webp') center / cover no-repeat;
     }
 
     body[data-skin="moon"] #main-button {
         width: clamp(208px, 58vw, 250px);
         height: clamp(208px, 58vw, 250px);
-        background: url('moon-button.jpg') center / cover no-repeat;
+        background: url('moon-button.webp') center / cover no-repeat;
         border: 0;
         box-shadow:
             0 0 24px rgba(197, 226, 235, 0.12),
@@ -1757,7 +1764,7 @@
     body[data-skin="classic-button"] .noise-icon-button {
         width: 48px;
         height: 48px;
-        border: 1px solid var(--m3-nav-border);
+        border: 0;
         background: var(--m3-nav-bg);
         color: var(--m3-nav-icon);
         backdrop-filter: blur(42px) saturate(1.5) contrast(1.03);
@@ -1781,7 +1788,6 @@
     body[data-skin="classic-button"] .noise-icon-button.active {
         color: var(--m3-nav-icon);
         background: var(--m3-nav-bg);
-        border-color: var(--m3-nav-border);
         box-shadow: var(--m3-nav-box-shadow);
     }
 
@@ -1820,38 +1826,6 @@
     .noise-timer-label {
         position: relative;
         z-index: 1;
-    }
-
-    .dev-preview-button {
-        position: fixed;
-        right: 16px;
-        bottom: calc(var(--nav-bar-height) + 118px + env(safe-area-inset-bottom, 0px));
-        z-index: 140;
-        display: none;
-        align-items: center;
-        justify-content: center;
-        min-height: 40px;
-        padding: 0 14px;
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        border-radius: 999px;
-        background: rgba(8, 11, 21, 0.72);
-        color: rgba(248, 250, 255, 0.92);
-        backdrop-filter: blur(18px);
-        -webkit-backdrop-filter: blur(18px);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.24);
-        font: inherit;
-        font-size: 12px;
-        font-weight: 700;
-        letter-spacing: 0.01em;
-        cursor: pointer;
-    }
-
-    .dev-preview-button.is-visible {
-        display: inline-flex;
-    }
-
-    .dev-preview-button:active {
-        transform: scale(0.97);
     }
 
     .sleep-timer-wrap,
@@ -2879,10 +2853,6 @@
         stroke-width: 1.9;
     }
 
-    body.home-view-active .dev-preview-button {
-        display: none !important;
-    }
-
     @keyframes skinBubbleFloat {
         0% {
             transform: translate3d(calc(-50% - 4px), calc(-50% + 4px), 0) rotate(var(--bubble-rotate)) scale(var(--bubble-scale, 1));
@@ -3552,6 +3522,10 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        border: 0;
+        background: transparent;
+        color: inherit;
+        font: inherit;
         gap: 8px;
         width: 58px;
         flex-shrink: 0;
@@ -4542,6 +4516,26 @@
         align-items: flex-start;
     }
 
+    .setting-theme-section {
+        margin: 0 24px;
+        padding: 15px 0 13px;
+        border-bottom: 1px solid color-mix(in srgb, var(--outline) 76%, transparent);
+        transition: border-color var(--dur-theme) var(--ease-standard);
+    }
+
+    .setting-theme-section-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+
+    .setting-theme-carousel {
+        margin: 0 -8px;
+        padding: 4px 8px 2px;
+        scroll-padding-inline: 8px;
+    }
+
     .setting-select {
         min-width: 132px;
         border: 1px solid color-mix(in srgb, var(--outline) 72%, transparent);
@@ -5063,14 +5057,6 @@
         .noise-icon-button svg {
             width: 18px;
             height: 18px;
-        }
-
-        .dev-preview-button {
-            right: 12px;
-            bottom: calc(var(--nav-bar-height) + 16px + env(safe-area-inset-bottom, 0px));
-            min-height: 36px;
-            padding: 0 12px;
-            font-size: 11px;
         }
 
         #bottom-sheet {
@@ -5842,6 +5828,16 @@
             </label>
         </div>
 
+        <section class="setting-theme-section" aria-labelledby="setting-themes-title">
+            <div class="setting-theme-section-header">
+                <span class="setting-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm0 2a8 8 0 0 1 7.94 7H12V4Zm0 16a8 8 0 0 1-7.94-7H12v7Zm2-7h5.94A8 8 0 0 1 14 19.75V13Z"/></svg></span>
+                <span id="setting-themes-title" class="setting-label" data-i18n="nav.themes">Themes</span>
+            </div>
+            <div class="theme-carousel setting-theme-carousel" id="settings-theme-carousel" aria-label="Themes">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+
         <div id="setting-layout-row" class="setting-row">
             <div class="setting-row-main">
                 <span class="setting-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M11 2a1 1 0 0 1 2 0v3.07a7 7 0 0 1 5.93 5.93H22a1 1 0 1 1 0 2h-3.07A7 7 0 0 1 13 18.93V22a1 1 0 1 1-2 0v-3.07A7 7 0 0 1 5.07 13H2a1 1 0 1 1 0-2h3.07A7 7 0 0 1 11 5.07V2Zm1 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10Z"/></svg></span>
@@ -5854,7 +5850,7 @@
             </label>
         </div>
 
-        <div class="setting-row">
+        <div id="setting-language-row" class="setting-row">
             <div class="setting-row-main">
                 <span class="setting-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm6.93 9h-3.06a15.9 15.9 0 0 0-1.44-5.12A8.03 8.03 0 0 1 18.93 11ZM12 4.06c.87 1.04 1.94 3.26 2.36 6.94H9.64C10.06 7.32 11.13 5.1 12 4.06ZM4.26 13h3.06a15.9 15.9 0 0 0 1.44 5.12A8.03 8.03 0 0 1 4.26 13Zm3.06-2H4.26a8.03 8.03 0 0 1 4.5-5.12A15.9 15.9 0 0 0 7.32 11Zm1.98 2h5.4c-.42 3.68-1.49 5.9-2.7 6.94-1.21-1.04-2.28-3.26-2.7-6.94Zm0-2c.42-3.68 1.49-5.9 2.7-6.94 1.21 1.04 2.28 3.26 2.7 6.94Zm5.94 2h3.06a8.03 8.03 0 0 1-4.5 5.12A15.9 15.9 0 0 0 15.24 13Z"/></svg></span>
                 <span class="setting-label" data-i18n="settings.language">Language</span>
@@ -5862,10 +5858,6 @@
             <select id="language-select" class="setting-select" onchange="I18n.setLanguage(this.value)" aria-label="Language"></select>
         </div>
     </div>
-
-    <button id="dev-preview-onboarding" class="dev-preview-button" type="button" aria-label="Preview onboarding">
-        Preview onboarding
-    </button>
 
     <div id="rating-modal" onclick="RatePrompt.handleBackdrop(event)">
         <div class="rating-card" onclick="event.stopPropagation()">
@@ -8058,34 +8050,43 @@
         },
 
         updateCarouselUI(themeId = AppState.theme) {
-            const current = document.querySelector('.theme-item.active');
-            if (current && current.dataset.theme !== themeId) {
-                current.classList.remove('active');
-            }
-            const next = document.querySelector(`.theme-item[data-theme="${themeId}"]`);
-            next?.classList.add('active');
+            document.querySelectorAll('.theme-carousel').forEach(container => {
+                const current = container.querySelector('.theme-item.active');
+                if (current && current.dataset.theme !== themeId) {
+                    current.classList.remove('active');
+                }
+                const next = container.querySelector(`.theme-item[data-theme="${themeId}"]`);
+                next?.classList.add('active');
+                container.querySelectorAll('.theme-item').forEach(item => {
+                    item.setAttribute('aria-pressed', String(item.dataset.theme === themeId));
+                });
+            });
         },
 
         buildCarousel() {
-            const container = document.getElementById('theme-carousel');
-            container.innerHTML = '';
-            THEMES.forEach(theme => {
-                const isLocked = !AccessManager.canUseTheme(theme.id);
-                const item = document.createElement('div');
-                item.className = 'theme-item'
-                    + (theme.id === AppState.theme ? ' active' : '')
-                    + (isLocked ? ' is-premium' : '');
-                item.dataset.theme = theme.id;
-                item.onclick = () => this.apply(theme.id);
+            document.querySelectorAll('.theme-carousel').forEach(container => {
+                container.innerHTML = '';
+                THEMES.forEach(theme => {
+                    const isLocked = !AccessManager.canUseTheme(theme.id);
+                    const item = document.createElement('button');
+                    item.type = 'button';
+                    item.className = 'theme-item'
+                        + (theme.id === AppState.theme ? ' active' : '')
+                        + (isLocked ? ' is-premium' : '');
+                    item.dataset.theme = theme.id;
+                    item.setAttribute('aria-label', I18n.theme(theme));
+                    item.setAttribute('aria-pressed', String(theme.id === AppState.theme));
+                    item.onclick = () => this.apply(theme.id);
 
-                item.innerHTML = `
-                    <div class="theme-circle" style="--theme-bg: ${theme.bg}; --theme-light: ${theme.shadowL}; --theme-dark: ${theme.shadowD}; --theme-accent: ${theme.accent};">
-                        <div class="theme-circle-inner"></div>
-                    </div>
-                    <span class="theme-name">${I18n.theme(theme)}</span>
-                `;
+                    item.innerHTML = `
+                        <div class="theme-circle" style="--theme-bg: ${theme.bg}; --theme-light: ${theme.shadowL}; --theme-dark: ${theme.shadowD}; --theme-accent: ${theme.accent};">
+                            <div class="theme-circle-inner"></div>
+                        </div>
+                        <span class="theme-name">${I18n.theme(theme)}</span>
+                    `;
 
-                container.appendChild(item);
+                    container.appendChild(item);
+                });
             });
         }
     };
@@ -10016,25 +10017,6 @@
         }
     };
 
-    const DevPreviewManager = {
-        button: null,
-
-        init() {
-            this.button = document.getElementById('dev-preview-onboarding');
-            if (!this.button || !PreviewAccess.allowsPremiumPreview()) return;
-            this.button.classList.add('is-visible');
-            this.button.addEventListener('click', () => this.openOnboardingPreview());
-        },
-
-        openOnboardingPreview() {
-            const url = new URL(window.location.href);
-            url.searchParams.set('lang', I18n.lang);
-            url.searchParams.set('slide', '1');
-            url.hash = 'onboarding-preview';
-            window.location.assign(url.toString());
-        }
-    };
-
     /* ════════════════════════════════════════════════════════════
        14. SETTINGS CONTROLLER
        ════════════════════════════════════════════════════════════ */
@@ -10042,6 +10024,8 @@
         panel: null,
         scrim: null,
         layoutRow: null,
+        themeSection: null,
+        languageRow: null,
         dismissSwipe: null,
         dismissScrimSwipe: null,
 
@@ -10049,6 +10033,8 @@
             this.panel = document.getElementById('settings-panel');
             this.scrim = document.getElementById('settings-scrim');
             this.layoutRow = document.getElementById('setting-layout-row');
+            this.themeSection = this.panel?.querySelector('.setting-theme-section');
+            this.languageRow = document.getElementById('setting-language-row');
 
             document.getElementById('sheet-settings')?.addEventListener('click', () => {
                 BottomSheet.close();
@@ -10121,6 +10107,12 @@
             const supportsCentered = this.supportsCenteredLayout();
             this.layoutRow.hidden = !supportsCentered;
             this.layoutRow.setAttribute('aria-hidden', String(!supportsCentered));
+            if (this.themeSection) {
+                const themeAnchor = AppState.currentSkin === 'classic-button'
+                    ? this.languageRow
+                    : this.layoutRow;
+                themeAnchor?.before(this.themeSection);
+            }
             if (!supportsCentered && AppState.layout === 'center') {
                 LayoutManager.set('bottom', { haptic: false });
             }
@@ -10201,14 +10193,14 @@
         artworkRequests: new Map(),
         featuredPosterId: 'click',
         posterDefinitions: [
-            { id: 'click', skinId: 'classic-button', chip: '', title: 'Click', copy: 'Clean, satisfying clicks', classes: 'home-poster-card--featured', tint: 'rgba(232, 198, 210, 0.24)', image: 'assets/home-posters/pink-ball.png', artPosition: '70% 54%', artSize: 'cover' },
-            { id: 'moon', skinId: 'moon', chip: '', title: 'Moon', copy: 'Soft ambience for night focus', classes: 'home-poster-card--compact', tint: 'rgba(108, 118, 170, 0.28)', image: 'assets/home-posters/moon-hero.jpeg', artPosition: '58% 18%', artSize: 'cover' },
-            { id: 'white-noise', skinId: 'white-noise', chip: '', title: 'White Noise', copy: 'Steady. Simple. Soothing.', classes: 'home-poster-card--compact', tint: 'rgba(214, 226, 242, 0.26)', image: 'assets/home-posters/white-clouds.jpg', artPosition: '50% 48%', artSize: 'cover' },
-            { id: 'brown-noise', skinId: 'brown-noise', soundProfileId: 'brown-waterfall', chip: '', title: 'Brown Noise', copy: 'Deeper tones for grounding', classes: 'home-poster-card--compact', tint: 'rgba(132, 112, 86, 0.30)', image: 'assets/home-posters/brown-poster.jpeg', artPosition: '50% 50%', artSize: 'cover' },
-            { id: 'rain', skinId: 'rain', chip: '', title: 'Rain', copy: 'Natural rain on leaves', classes: 'home-poster-card--compact', tint: 'rgba(78, 104, 84, 0.28)', image: 'assets/home-posters/rain.png', artPosition: '72% 54%', artSize: 'cover' },
-            { id: 'pink-noise', skinId: 'pink-noise', soundProfileId: 'pink-soft-noise', chip: '', title: 'Pink Noise', copy: 'Balanced and gentle.', classes: 'home-poster-card--compact', tint: 'rgba(184, 114, 152, 0.28)', image: 'assets/home-posters/pink-poster.jpeg', artPosition: '50% 50%', artSize: 'cover' },
+            { id: 'click', skinId: 'classic-button', chip: '', title: 'Click', copy: 'Clean, satisfying clicks', classes: 'home-poster-card--featured', tint: 'rgba(232, 198, 210, 0.24)', image: 'assets/home-posters/pink-ball.webp', artPosition: '70% 54%', artSize: 'cover' },
+            { id: 'moon', skinId: 'moon', chip: '', title: 'Moon', copy: 'Soft ambience for night focus', classes: 'home-poster-card--compact', tint: 'rgba(108, 118, 170, 0.28)', image: 'assets/home-posters/moon-hero.webp', artPosition: '58% 18%', artSize: 'cover' },
+            { id: 'white-noise', skinId: 'white-noise', chip: '', title: 'White Noise', copy: 'Steady. Simple. Soothing.', classes: 'home-poster-card--compact', tint: 'rgba(214, 226, 242, 0.26)', image: 'assets/home-posters/white-clouds.webp', artPosition: '50% 48%', artSize: 'cover' },
+            { id: 'brown-noise', skinId: 'brown-noise', soundProfileId: 'brown-waterfall', chip: '', title: 'Brown Noise', copy: 'Deeper tones for grounding', classes: 'home-poster-card--compact', tint: 'rgba(132, 112, 86, 0.30)', image: 'assets/home-posters/brown-poster.webp', artPosition: '50% 50%', artSize: 'cover' },
+            { id: 'rain', skinId: 'rain', chip: '', title: 'Rain', copy: 'Natural rain on leaves', classes: 'home-poster-card--compact', tint: 'rgba(78, 104, 84, 0.28)', image: 'assets/home-posters/rain.webp', artPosition: '72% 54%', artSize: 'cover' },
+            { id: 'pink-noise', skinId: 'pink-noise', soundProfileId: 'pink-soft-noise', chip: '', title: 'Pink Noise', copy: 'Balanced and gentle.', classes: 'home-poster-card--compact', tint: 'rgba(184, 114, 152, 0.28)', image: 'assets/home-posters/pink-poster.webp', artPosition: '50% 50%', artSize: 'cover' },
             { id: 'orange-noise', skinId: 'orange-noise', soundProfileId: 'orange-noise', chip: '', title: 'Orange Noise', copy: 'Warm focus spectrum', classes: 'home-poster-card--compact', tint: 'rgba(211, 126, 58, 0.30)', image: 'assets/home-posters/orange-poster.webp', artPosition: '50% 50%', artSize: 'cover' },
-            { id: 'infrared', skinId: 'infrared-noise', soundProfileId: 'infrared-noise-core', chip: '', title: 'Infrared', copy: 'Warm. Deep. Inner quiet.', classes: 'home-poster-card--compact', tint: 'rgba(146, 62, 56, 0.28)', image: 'assets/home-posters/infrared.png', artPosition: '74% 52%', artSize: 'cover' }
+            { id: 'infrared', skinId: 'infrared-noise', soundProfileId: 'infrared-noise-core', chip: '', title: 'Infrared', copy: 'Warm. Deep. Inner quiet.', classes: 'home-poster-card--compact', tint: 'rgba(146, 62, 56, 0.28)', image: 'assets/home-posters/infrared.webp', artPosition: '74% 52%', artSize: 'cover' }
         ],
         fallbackArtwork: {},
         artworkQueries: {},
@@ -10382,9 +10374,12 @@
             this.enterSkinExperience();
             AppNav.sync();
             requestAnimationFrame(() => {
+                // Resolve the artwork while the transition guard still hides the
+                // player layers, so the image and its cinematic treatment appear
+                // together when the guard is lifted.
+                NoiseBackdropScene?.sync?.();
                 requestAnimationFrame(() => {
                     document.body.classList.remove('skin-transitioning');
-                    NoiseBackdropScene?.sync?.();
                     schedulePostInteraction(() => this.syncCurrentSkin(), 120);
                 });
             });
@@ -10437,26 +10432,26 @@
         backdropRequestId: 0,
         preloadedImages: new Set(),
         fallbackArtwork: {
-            'white-noise': 'assets/home-posters/white-noise-winter-river.jpg',
-            'white-noise-radio': 'assets/home-posters/white-clouds.jpg',
-            'pink-soft-noise': 'assets/home-posters/pink-fog.jpeg',
+            'white-noise': 'assets/home-posters/white-noise-winter-river.webp',
+            'white-noise-radio': 'assets/home-posters/white-clouds.webp',
+            'pink-soft-noise': 'assets/home-posters/pink-fog.webp',
             'orange-noise': 'assets/home-posters/orange-poster.webp',
-            'brown-ideal-ocean-waves': 'assets/home-posters/ocean-waves.jpg',
-            'brown-light-rain-outside': 'assets/home-posters/wooden-heavy-rainfall.jpeg',
-            'brown-rainy-town-birds': 'assets/home-posters/rainy-day-town.jpg',
-            'brown-thunder-rain': 'assets/home-posters/thunder-rain.jpg',
-            'brown-spring-birds': 'assets/home-posters/spring-birds.jpeg',
-            'brown-waterfall': 'assets/home-posters/waterfall.jpg',
-            'infrared-ocean-waves': 'assets/home-posters/infrared-ocean-waves.jpg',
-            'infrared-arctic-winds': 'assets/home-posters/arctic-wind.jpeg',
-            'infrared-noise-core': 'assets/home-posters/infrared-noise-core.jpeg',
-            'infrared-deep-noise': 'assets/home-posters/red-sands.jpg',
-            'white-noise-skin': 'assets/home-posters/white-noise.png',
-            'pink-noise-skin': 'assets/home-posters/pink-noise.png',
-            'orange-noise-skin': 'assets/home-posters/orange-noise.png',
-            'brown-noise-skin': 'assets/home-posters/brown-noise.png',
-            'infrared-noise-skin': 'assets/home-posters/infrared.png',
-            'rain-skin': 'assets/home-posters/rain.png'
+            'brown-ideal-ocean-waves': 'assets/home-posters/ocean-waves.webp',
+            'brown-light-rain-outside': 'assets/home-posters/wooden-heavy-rainfall.webp',
+            'brown-rainy-town-birds': 'assets/home-posters/rainy-day-town.webp',
+            'brown-thunder-rain': 'assets/home-posters/thunder-rain.webp',
+            'brown-spring-birds': 'assets/home-posters/spring-birds.webp',
+            'brown-waterfall': 'assets/home-posters/waterfall.webp',
+            'infrared-ocean-waves': 'assets/home-posters/infrared-ocean-waves.webp',
+            'infrared-arctic-winds': 'assets/home-posters/arctic-wind.webp',
+            'infrared-noise-core': 'assets/home-posters/infrared-noise-core.webp',
+            'infrared-deep-noise': 'assets/home-posters/red-sands.webp',
+            'white-noise-skin': 'assets/home-posters/white-noise.webp',
+            'pink-noise-skin': 'assets/home-posters/pink-poster.webp',
+            'orange-noise-skin': 'assets/home-posters/orange-poster.webp',
+            'brown-noise-skin': 'assets/home-posters/brown-poster.webp',
+            'infrared-noise-skin': 'assets/home-posters/infrared.webp',
+            'rain-skin': 'assets/home-posters/rain.webp'
         },
         artworkQueries: {},
 
@@ -10798,7 +10793,6 @@
         KnowledgeManager.init();
         HomeSkinScene.init();
         NoiseBackdropScene.init();
-        DevPreviewManager.init();
         RatePrompt.init();
 
         await EntitlementManager.refresh();
