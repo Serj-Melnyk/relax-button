@@ -23,6 +23,18 @@ function digest(relativePath) {
     .digest("hex");
 }
 
+function fileSize(relativePath) {
+  return fs.statSync(path.join(root, relativePath)).size;
+}
+
+function walkFiles(relativePath) {
+  const absolutePath = path.join(root, relativePath);
+  return fs.readdirSync(absolutePath, { withFileTypes: true }).flatMap((entry) => {
+    const child = path.join(relativePath, entry.name);
+    return entry.isDirectory() ? walkFiles(child) : [child];
+  });
+}
+
 function pngSize(relativePath) {
   const buffer = fs.readFileSync(path.join(root, relativePath));
   check(buffer.toString("ascii", 1, 4) === "PNG", `${relativePath} must be a PNG file.`);
@@ -60,6 +72,24 @@ check(webIndex.includes('id="swipe-indicator"')
   && webIndex.includes('id="sheet-premium"')
   && webIndex.includes('onclick="Settings.open()"'),
   "Thumb-friendly customization, Premium, and Account Settings controls are required.");
+
+const webPayload = walkFiles("www");
+const webPayloadBytes = webPayload.reduce((total, file) => total + fileSize(file), 0);
+const oversizedImages = webPayload.filter((file) => /\.(?:avif|jpe?g|png|webp)$/i.test(file)
+  && fileSize(file) > 1_000_000);
+const staleHomeMedia = webPayload.filter((file) => /assets\/home-(?:backgrounds|ui)\//.test(file)
+  && !webIndex.includes(file.replace(/^www\//, "")));
+const hiddenRuntimeJunk = webPayload.filter((file) => /(?:^|\/)(?:\.DS_Store|Thumbs\.db)$/i.test(file));
+check(webPayloadBytes < 65_000_000,
+  `Web payload is ${(webPayloadBytes / 1_000_000).toFixed(1)} MB; expected less than 65 MB.`);
+check(oversizedImages.length === 0,
+  `Oversized runtime images: ${oversizedImages.join(", ")}`);
+check(staleHomeMedia.length === 0,
+  `Unused legacy home media remains in www: ${staleHomeMedia.join(", ")}`);
+check(hiddenRuntimeJunk.length === 0,
+  `Hidden operating-system files remain in www: ${hiddenRuntimeJunk.join(", ")}`);
+check(!exists("www/site"),
+  "The public legal website must not be duplicated inside the mobile runtime bundle.");
 
 check(digest("www/index.html") === digest("android/app/src/main/assets/public/index.html"),
   "Android web assets are stale. Run npm run sync.");

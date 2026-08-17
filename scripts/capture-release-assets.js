@@ -3,6 +3,7 @@ const path = require('path');
 const puppeteer = require('puppeteer');
 
 const baseUrl = 'http://127.0.0.1:4173/';
+const releaseLanguage = 'en';
 
 async function pause(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -12,8 +13,9 @@ async function captureSet(browser, targetDir, viewport) {
   await fs.mkdir(targetDir, { recursive: true });
   const page = await browser.newPage();
   await page.setViewport(viewport);
-  await page.goto(baseUrl, { waitUntil: 'networkidle0' });
+  await page.goto(`${baseUrl}?lang=${releaseLanguage}`, { waitUntil: 'networkidle0' });
   await page.evaluate(() => localStorage.clear());
+  await page.evaluate((lang) => localStorage.setItem('rb_language', lang), releaseLanguage);
   await page.reload({ waitUntil: 'networkidle0' });
 
   await page.screenshot({ path: path.join(targetDir, '01-onboarding.png') });
@@ -30,13 +32,37 @@ async function captureSet(browser, targetDir, viewport) {
   await page.waitForNavigation({ waitUntil: 'networkidle0' });
   await page.screenshot({ path: path.join(targetDir, '03-main.png') });
 
-  await page.evaluate(() => BottomSheet.open());
+  await page.evaluate(() => {
+    SkinManager.select('infrared-noise', {
+      soundProfileId: 'infrared-ocean-waves',
+      soundMode: 'custom',
+    });
+    HomeSkinScene.enterSkinExperience();
+    NoisePlayerUI.updateUI();
+    AppNav.sync();
+  });
+  await pause(500);
+  await page.screenshot({ path: path.join(targetDir, '06-ocean-waves.png') });
+
+  await page.evaluate(() => {
+    ThemeManager.apply('blush');
+    AppState.theme = 'blush';
+    document.body.setAttribute('data-theme', 'blush');
+    BottomSheet.open();
+    ThemeManager.updateCarouselUI('blush');
+    document.querySelector('.theme-item[data-theme="blush"]')
+      ?.scrollIntoView({ block: 'nearest', inline: 'center' });
+  });
   await pause(350);
   await page.screenshot({ path: path.join(targetDir, '04-customize.png') });
 
   await page.evaluate(() => {
     BottomSheet.close();
+    ThemeManager.apply('cosmos');
+    AppState.theme = 'cosmos';
+    document.body.setAttribute('data-theme', 'cosmos');
     Paywall.open();
+    Paywall.updateBillingState({ ready: true, available: true, price: '$2.99' });
   });
   await pause(350);
   await page.screenshot({ path: path.join(targetDir, '05-premium.png') });
@@ -46,7 +72,8 @@ async function captureSet(browser, targetDir, viewport) {
 async function main() {
   const browser = await puppeteer.launch({
     headless: 'new',
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    protocolTimeout: 120000,
+    args: ['--no-sandbox', '--disable-setuid-sandbox', '--lang=en-US'],
   });
 
   await captureSet(

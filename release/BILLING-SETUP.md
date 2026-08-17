@@ -8,7 +8,7 @@ Digital Fidget: Mental ASMR uses one non-consumable product on both stores.
 - Type: Non-consumable / one-time product
 - Display name: Digital Fidget Premium
 - Description: Unlock all Premium themes and sound packs with lifetime access.
-- Suggested first price tier: USD 0.99 or the closest store-managed tier
+- Suggested first price tier: USD 9.99 or the closest store-managed tier
 
 The app never hardcodes the displayed price. It reads the localized price from Apple App Store or Google Play.
 

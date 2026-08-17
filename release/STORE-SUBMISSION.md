@@ -7,7 +7,7 @@ Detailed Google Play release plan: `release/GOOGLE-PLAY-RELEASE-PLAN.md`
 - Run `npm install`
 - Run `npm run sync`
 - Run `npm run check`
-- Confirm only Classic is available without Premium
+- Confirm Classic and Night are available without Premium
 - Confirm Premium unlocks every other theme and all additional sounds
 - Confirm Purchase and Restore use the localized store product
 - Confirm Privacy, Terms, and Support pages are deployed over HTTPS
@@ -52,10 +52,10 @@ Digital Fidget: Mental ASMR does not require an account.
 
 To review the in-app purchase:
 
-1. Complete the three onboarding screens.
-2. Open the bottom sheet using the Customize control or a swipe up gesture.
-3. The `premium_lifetime` non-consumable unlocks every theme except Classic and Night, every sound except Classic Click, and all Premium skins.
-4. Restore Purchase is available below the purchase button.
+1. Open Account, then Settings, to review the current theme and language controls.
+2. Select any locked theme or Premium sound to open the paywall.
+3. The `premium_lifetime` non-consumable unlocks every theme except Classic and Night, every sound except the free starter set, and all Premium skins.
+4. Restore Purchase is available from Account and from the paywall.
 
 The app contains no ads and does not use behavioral analytics.
 

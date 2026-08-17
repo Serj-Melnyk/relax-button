@@ -9,25 +9,27 @@
 
 ## Short Description
 
-ASMR button with tactile clicks, gentle haptics, and calming themes.
+ASMR fidget button with calming sounds, haptics, and noise loops.
 
 ## Full Description
 
 Press. Listen. Reset.
 
-Digital Fidget: Mental ASMR is a tactile wellness button for overstimulated moments. Press once to hear a satisfying click, feel gentle native haptic feedback, and take a short break before returning to what matters.
+Digital Fidget: Mental ASMR turns your phone into a tactile fidget button for quick calm, focus breaks, and satisfying ASMR clicks. Tap the button to hear crisp click sounds, feel gentle native haptic feedback, and take a short reset before returning to what matters.
 
-Classic and Night themes are always free. A one-time Premium purchase unlocks every additional visual theme, sound pack, and skin. There are no subscriptions and no ads.
+Use it as a pocket fidget toy, white noise player, pink noise focus tool, or simple calming soundboard. Classic and Night themes are always free. A one-time Premium purchase unlocks extra visual themes, button skins, sound packs, and ambient noise loops. There are no subscriptions, no ads, and no account required.
 
-Sound modes:
+The noise labels are not just names. Each noise loop is analyzed by averaging many FFT frames with Welch's method, fitting the spectrum with linear regression in logarithmic coordinates, and checking the measured slope alpha and R2 fit quality.
 
-• Transient clicks: short button, pen, and mechanical-keyboard style sounds with a fast attack and quick fade. They create immediate audio feedback for a completed action, help anchor attention in the present moment, and make the on-screen button feel more physical and tactile.
-• White noise: a bright full-spectrum layer for strong sound masking and short focus breaks.
+Sounds and noise:
+
+• ASMR clicks: short button, pen, switch, and mechanical-style sounds with fast feedback.
+• White noise: a bright full-spectrum layer for sound masking and short focus breaks.
 • Pink noise: a softer balanced spectrum for reading, studying, writing, and calm focus.
-• Orange noise: a warm, spacious focus wash with less heavy low-end pressure, designed for longer deep-work sessions.
-• Brown noise: a deeper low-frequency sound for a heavier, more sheltered listening feel.
-• Infrared noise: an extreme low-end texture intended for short, low-volume sessions when you want a dense physical hum.
-• Rain: familiar natural rain textures for quiet reading, winding down, or softening silence.
+• Orange noise: a warm, spacious sound with less heavy low-end pressure.
+• Brown noise: a deeper low-frequency loop for a sheltered listening feel.
+• Infrared noise: an extreme low-end texture for short, low-volume sessions.
+• Rain and nature loops: familiar textures for quiet reading, winding down, or softening silence.
 
 Features:
 
@@ -35,9 +37,11 @@ Features:
 • Native haptic feedback
 • Optional sound and vibration
 • Multiple calming visual themes
-• Premium sound packs
+• Ambient white, pink, orange, brown, infrared, and rain noise
+• Premium sounds, skins, and themes
 • Center or bottom button position
 • No account required
+• No ads or subscriptions
 • No behavioral analytics
 • Restore Purchase support
 

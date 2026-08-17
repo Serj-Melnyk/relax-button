@@ -75,7 +75,6 @@ For responsive web exports, treat these as a modern breakpoint system for one ad
 
 ## Assets and supporting files
 - `mpxyl40u-Metal-Button-Icon-by-Microvector-on-_creativemarket.jpeg`
-- `mpxzowa6-button-click.mp3`
 
 ## Coding checklist for AI tools
 1. Inspect `anti-stress-neomorph-app-final.html` and `DESIGN-MANIFEST.json` first and identify reusable components before coding.

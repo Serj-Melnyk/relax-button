@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="description" content="Digital Fidget: Mental ASMR — a tactile wellness button with satisfying clicks, gentle haptics, and calming themes.">
-    <meta name="theme-color" content="#D8DADF">
+    <meta name="theme-color" content="#F7F2FF">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Digital Fidget: Mental ASMR — Wellness Button</title>
@@ -724,31 +724,26 @@
     }
 
     body.home-view-active {
-        --m3-nav-icon: rgba(255, 252, 255, 0.9);
-        --m3-nav-label: rgba(255, 252, 255, 0.92);
-        --m3-nav-indicator-icon: rgba(255, 255, 255, 0.98);
-        --m3-nav-icon-filter:
-            drop-shadow(0 1px 2px rgba(0,0,0,0.66))
-            drop-shadow(0 0 5px rgba(0,0,0,0.26));
-        --m3-nav-label-shadow:
-            0 1px 2px rgba(0,0,0,0.72),
-            0 0 5px rgba(0,0,0,0.28);
+        --m3-nav-icon: rgba(70, 52, 82, 0.72);
+        --m3-nav-label: rgba(70, 52, 82, 0.78);
+        --m3-nav-indicator-icon: rgba(64, 39, 77, 0.96);
+        --m3-nav-icon-filter: drop-shadow(0 1px 1px rgba(255,255,255,0.64));
+        --m3-nav-label-shadow: 0 1px 1px rgba(255,255,255,0.6);
         --m3-nav-bg:
-            radial-gradient(circle at 20% 0%, rgba(255,255,255,0.10), transparent 32%),
-            radial-gradient(circle at 82% 100%, rgba(255,255,255,0.04), transparent 40%),
-            linear-gradient(155deg, rgba(73,78,103,0.26) 0%, rgba(31,34,52,0.44) 46%, rgba(14,16,28,0.62) 100%);
-        --m3-nav-border: rgba(255,255,255,0.18);
+            radial-gradient(circle at 20% 0%, rgba(255,255,255,0.72), transparent 34%),
+            radial-gradient(circle at 82% 100%, rgba(210,190,238,0.34), transparent 42%),
+            linear-gradient(155deg, rgba(255,255,255,0.74) 0%, rgba(247,241,255,0.66) 48%, rgba(233,221,247,0.58) 100%);
+        --m3-nav-border: rgba(255,255,255,0.72);
         --m3-nav-box-shadow:
-            0 24px 52px rgba(6,8,18,0.42),
-            0 8px 18px rgba(0,0,0,0.22),
-            inset 0 1px 0 rgba(255,255,255,0.22),
-            inset 0 -1px 0 rgba(255,255,255,0.04),
-            inset 0 -18px 28px rgba(4,6,16,0.20);
+            0 18px 38px rgba(79,54,105,0.13),
+            0 6px 14px rgba(79,54,105,0.07),
+            inset 0 1px 0 rgba(255,255,255,0.72),
+            inset 0 -1px 0 rgba(255,255,255,0.20);
         --m3-nav-veil:
-            radial-gradient(circle at 18% 0%, rgba(255,255,255,0.10), transparent 28%),
-            radial-gradient(circle at 76% 96%, rgba(255,255,255,0.03), transparent 34%),
-            linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01) 44%, rgba(255,255,255,0.004));
-        --m3-nav-veil-opacity: 0.34;
+            radial-gradient(circle at 18% 0%, rgba(255,255,255,0.54), transparent 30%),
+            radial-gradient(circle at 76% 96%, rgba(220,202,245,0.22), transparent 36%),
+            linear-gradient(180deg, rgba(255,255,255,0.28), rgba(255,255,255,0.08) 46%, rgba(255,255,255,0.03));
+        --m3-nav-veil-opacity: 0.64;
     }
 
     body:not(.home-view-active) {
@@ -2367,492 +2362,6 @@
         will-change: transform, opacity, filter;
     }
 
-    /* ════════════════════════════════════════════════════════════
-       6.25 HOME POSTER EXPERIENCE
-       ════════════════════════════════════════════════════════════ */
-    #home-screen {
-        position: fixed;
-        inset: 0;
-        z-index: 40;
-        overflow: hidden;
-        background:
-            radial-gradient(ellipse at 38% 12%, rgba(103,80,164,0.18) 0%, transparent 38%),
-            radial-gradient(ellipse at 72% 82%, rgba(80,120,200,0.14) 0%, transparent 36%),
-            radial-gradient(circle at 50% 18%, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.015) 18%, transparent 42%),
-            linear-gradient(180deg, #1f2030 0%, #161724 46%, #0f0f18 100%);
-        color: rgba(255, 255, 255, 0.94);
-        isolation: isolate;
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-        backface-visibility: hidden;
-        will-change: opacity, transform;
-        transform: translate3d(0, 12px, 0);
-        transition:
-            opacity var(--dur-view-transition) var(--ease-emphasized),
-            transform var(--dur-view-transition) var(--ease-emphasized),
-            visibility 0ms linear var(--dur-view-transition);
-    }
-
-    body.home-view-active #home-screen {
-        opacity: 1;
-        visibility: visible;
-        pointer-events: auto;
-        transform: translate3d(0, 0, 0);
-        transition-delay: 0ms;
-    }
-
-    #home-screen::before,
-    #home-screen::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        pointer-events: none;
-    }
-
-    #home-screen::before {
-        background-image:
-            radial-gradient(1px 1px at 18% 22%, rgba(255,255,255,0.44) 0%, transparent 100%),
-            radial-gradient(1px 1px at 64% 14%, rgba(255,255,255,0.34) 0%, transparent 100%),
-            radial-gradient(1.5px 1.5px at 82% 56%, rgba(180,160,255,0.30) 0%, transparent 100%),
-            radial-gradient(1px 1px at 34% 74%, rgba(255,255,255,0.24) 0%, transparent 100%),
-            radial-gradient(1px 1px at 55% 38%, rgba(255,255,255,0.32) 0%, transparent 100%),
-            radial-gradient(1px 1px at 92% 28%, rgba(160,180,255,0.22) 0%, transparent 100%);
-        animation: obStarFloat 14s ease-in-out infinite alternate;
-        z-index: 0;
-    }
-
-    #home-screen::after {
-        left: -16%;
-        right: -16%;
-        top: -6%;
-        bottom: auto;
-        height: 48%;
-        background: radial-gradient(ellipse at 50% 0%, rgba(103,80,164,0.24) 0%, rgba(60,80,160,0.10) 42%, transparent 72%);
-        animation: obGlowPulse 9s ease-in-out infinite alternate;
-        z-index: 0;
-    }
-
-    .home-poster-scene {
-        position: absolute;
-        inset: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-        padding: calc(20px + env(safe-area-inset-top, 0px)) 16px env(safe-area-inset-bottom, 0px);
-        --home-featured-height: 96px;
-        --home-poster-text-gradient: linear-gradient(145deg, #fff 20%, rgba(200,185,255,0.92) 60%, rgba(150,170,255,0.88) 100%);
-    }
-
-    .home-poster-header {
-        position: relative;
-        z-index: 4;
-        display: grid;
-        gap: 8px;
-        max-width: 330px;
-        flex: 0 0 auto;
-        margin: 0 0 6px;
-    }
-
-    .home-poster-brand {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        gap: 14px;
-        margin-bottom: 4px;
-    }
-
-    .home-poster-brand-meta {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        min-width: 0;
-    }
-
-    .home-poster-brand-mark {
-        width: 26px;
-        height: 26px;
-        border-radius: 50%;
-        object-fit: cover;
-        flex: 0 0 auto;
-        box-shadow: 0 8px 16px rgba(0,0,0,0.16);
-    }
-
-    .home-poster-brand-name {
-        margin: 0;
-        font-size: 10px;
-        line-height: 1.08;
-        font-weight: 600;
-        background: var(--home-poster-text-gradient);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        color: transparent;
-        letter-spacing: 0.01em;
-    }
-
-    .home-poster-settings {
-        width: 22px;
-        height: 22px;
-        border: 0;
-        border-radius: 0;
-        background: transparent;
-        color: rgba(248, 249, 255, 0.82);
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0;
-        cursor: pointer;
-    }
-
-    .home-poster-settings svg {
-        width: 15px;
-        height: 15px;
-        fill: currentColor;
-    }
-
-    .home-poster-kicker {
-        display: none;
-    }
-
-    .home-poster-title {
-        margin: 0;
-        max-width: 320px;
-        font-family: 'Cormorant Garamond', Georgia, serif;
-        font-size: 40px;
-        line-height: 0.9;
-        font-weight: 300;
-        letter-spacing: 0;
-        background: var(--home-poster-text-gradient);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        color: transparent;
-    }
-
-    .home-poster-subcopy {
-        margin: 0;
-        max-width: 262px;
-        font-size: 12px;
-        line-height: 1.26;
-        font-weight: 400;
-        background: var(--home-poster-text-gradient);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        color: transparent;
-    }
-
-    .home-poster-viewport {
-        position: relative;
-        left: auto;
-        right: auto;
-        top: auto;
-        bottom: auto;
-        flex: 1 1 auto;
-        min-height: 0;
-        overflow-y: auto;
-        overflow-x: hidden;
-        padding: 0 0 calc(var(--nav-bar-height) + 42px + env(safe-area-inset-bottom, 0px));
-        scrollbar-width: none;
-        -webkit-overflow-scrolling: touch;
-        overscroll-behavior-y: contain;
-        touch-action: pan-y;
-        z-index: 2;
-    }
-
-    .home-poster-viewport::-webkit-scrollbar {
-        display: none;
-    }
-
-    .home-poster-featured-wrap {
-        position: relative;
-        left: auto;
-        right: auto;
-        top: auto;
-        z-index: 7;
-        margin: 0;
-        padding: 0;
-        background: transparent;
-        flex: 0 0 auto;
-    }
-
-    .home-poster-rail {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr);
-        gap: 6px;
-    }
-
-    .home-poster-card {
-        position: relative;
-        width: 100%;
-        min-height: 92px;
-        border: 1px solid rgba(255,255,255,0.12);
-        border-radius: 20px;
-        overflow: hidden;
-        display: flex;
-        align-items: stretch;
-        padding: 14px 18px;
-        background:
-            linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01) 30%, rgba(0,0,0,0.18) 100%),
-            color-mix(in srgb, var(--poster-tint, rgba(255,255,255,0.18)) 92%, transparent);
-        box-shadow:
-            0 14px 36px rgba(0,0,0,0.16),
-            inset 0 1px 0 rgba(255,255,255,0.12);
-        color: #fff;
-        text-align: left;
-        cursor: pointer;
-        isolation: isolate;
-        outline: none;
-        -webkit-appearance: none;
-        transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, opacity 180ms ease;
-    }
-
-    .home-poster-card::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background:
-            linear-gradient(90deg, rgba(8, 10, 16, 0.76) 0%, rgba(8, 10, 16, 0.58) 28%, rgba(8, 10, 16, 0.18) 56%, rgba(8, 10, 16, 0.02) 84%),
-            linear-gradient(180deg, rgba(255,255,255,0.05), transparent 42%, rgba(8, 10, 16, 0.18) 100%),
-            var(--poster-image, none) var(--poster-art-position, center) / var(--poster-art-size, cover) no-repeat;
-        z-index: 0;
-    }
-
-    .home-poster-card::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background:
-            linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01) 44%, transparent),
-            radial-gradient(circle at 82% 22%, rgba(255,255,255,0.12), transparent 20%);
-        opacity: 0.7;
-        z-index: 1;
-        pointer-events: none;
-    }
-
-    .home-poster-card:focus,
-    .home-poster-card:focus-visible {
-        outline: none;
-    }
-
-    .home-poster-card:active {
-        transform: scale(0.985);
-    }
-
-    .home-poster-card.is-selected,
-    .home-poster-card.is-current {
-        box-shadow:
-            0 22px 50px rgba(0,0,0,0.22),
-            0 0 0 1px rgba(255,255,255,0.18),
-            inset 0 1px 0 rgba(255,255,255,0.22);
-    }
-
-    .home-poster-card.is-selected {
-        transform: translateY(-1px);
-    }
-
-    .home-poster-card--featured {
-        min-height: 92px;
-        height: 92px;
-        aspect-ratio: auto;
-        border-radius: 20px;
-        padding: 14px 18px;
-        background:
-            linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01) 30%, rgba(0,0,0,0.18) 100%),
-            color-mix(in srgb, var(--poster-tint, rgba(255,255,255,0.18)) 92%, transparent);
-    }
-
-    .home-poster-card--featured::before {
-        background:
-            linear-gradient(90deg, rgba(8, 10, 16, 0.76) 0%, rgba(8, 10, 16, 0.58) 28%, rgba(8, 10, 16, 0.18) 56%, rgba(8, 10, 16, 0.02) 84%),
-            linear-gradient(180deg, rgba(255,255,255,0.05), transparent 42%, rgba(8, 10, 16, 0.18) 100%),
-            var(--poster-image, none) var(--poster-art-position, center) / var(--poster-art-size, cover) no-repeat;
-    }
-
-    .home-poster-card--featured::after {
-        background:
-            linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01) 44%, transparent),
-            radial-gradient(circle at 82% 22%, rgba(255,255,255,0.12), transparent 20%);
-        opacity: 0.7;
-    }
-
-    .home-poster-card[data-poster="moon"] {
-        --poster-art-position: 58% 18%;
-    }
-
-    @media (max-width: 420px) {
-        .home-poster-card[data-poster="moon"] {
-            --poster-art-position: 56% 16%;
-        }
-    }
-
-    @media (min-width: 421px) and (max-width: 768px) {
-        .home-poster-card[data-poster="moon"] {
-            --poster-art-position: 60% 20%;
-        }
-    }
-
-    .home-poster-card--compact {
-        min-height: 92px;
-        height: 92px;
-        aspect-ratio: auto;
-    }
-
-
-    .home-poster-card-body {
-        position: relative;
-        z-index: 2;
-        width: 100%;
-        display: grid;
-        gap: 5px;
-        align-content: start;
-        max-width: 46%;
-        pointer-events: none;
-    }
-
-    .home-poster-card--featured .home-poster-card-body {
-        max-width: 46%;
-        align-self: start;
-        gap: 5px;
-    }
-
-    .home-poster-chip {
-        display: inline-flex;
-        align-items: center;
-        width: fit-content;
-        padding: 0;
-        border: 0;
-        background: transparent;
-        box-shadow: none;
-        font-size: 12px;
-        line-height: 1;
-        font-weight: 600;
-        letter-spacing: 0.16em;
-        text-transform: uppercase;
-        color: rgba(255,255,255,0.82);
-    }
-
-    .home-poster-name {
-        margin: 0;
-        font-family: 'Cormorant Garamond', Georgia, serif;
-        font-size: 24px;
-        line-height: 0.92;
-        font-weight: 500;
-        letter-spacing: 0;
-        background: var(--home-poster-text-gradient);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        color: transparent;
-        pointer-events: none;
-    }
-
-    .home-poster-card--featured .home-poster-name {
-        font-size: 24px;
-    }
-
-    .home-poster-copy {
-        margin: 0;
-        font-size: 12px;
-        line-height: 1.24;
-        font-weight: 300;
-        background: var(--home-poster-text-gradient);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        color: transparent;
-        max-width: 100%;
-        pointer-events: none;
-    }
-
-    .home-poster-card--featured .home-poster-copy {
-        max-width: 100%;
-        color: transparent;
-    }
-
-    .home-poster-playing-indicator {
-        position: absolute;
-        top: 13px;
-        right: 13px;
-        z-index: 3;
-        width: 30px;
-        height: 30px;
-        border-radius: 999px;
-        display: grid;
-        place-items: center;
-        color: #fff;
-        background: rgba(7, 9, 15, 0.72);
-        border: 1px solid rgba(255,255,255,0.18);
-        box-shadow: 0 10px 26px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.1);
-        opacity: 0;
-        transform: scale(0.88);
-        transition: opacity 160ms ease, transform 160ms ease;
-        pointer-events: none;
-    }
-
-    .home-poster-playing-indicator svg {
-        width: 14px;
-        height: 14px;
-        fill: currentColor;
-        margin-left: 2px;
-    }
-
-    .home-poster-card.is-playing .home-poster-playing-indicator {
-        opacity: 1;
-        transform: scale(1);
-    }
-
-    body[data-language="ja"] .home-poster-card--compact .home-poster-card-body {
-        max-width: 52%;
-        gap: 4px;
-    }
-
-    body[data-language="ja"] .home-poster-card--compact .home-poster-name {
-        font-family: "Hiragino Sans", "Yu Gothic", "Noto Sans JP", sans-serif;
-        font-size: 18px;
-        line-height: 1.02;
-        font-weight: 500;
-        letter-spacing: -0.01em;
-    }
-
-    body[data-language="ja"] .home-poster-card--compact .home-poster-copy {
-        font-size: 11px;
-        line-height: 1.16;
-    }
-
-    body[data-language="de"] .home-poster-card--compact {
-        min-height: 98px;
-        height: 98px;
-    }
-
-    body[data-language="de"] .home-poster-card--compact .home-poster-card-body {
-        max-width: 50%;
-        gap: 4px;
-    }
-
-    body[data-language="de"] .home-poster-card--compact .home-poster-name {
-        font-size: 21px;
-        line-height: 0.94;
-    }
-
-    body[data-language="de"] .home-poster-card--compact .home-poster-copy {
-        font-size: 11.5px;
-        line-height: 1.18;
-    }
-
-    .home-poster-arrow {
-        display: none;
-    }
-
-    .home-poster-arrow svg {
-        width: 0;
-        height: 0;
-        stroke: currentColor;
-        fill: none;
-        stroke-width: 1.9;
-    }
-
     @keyframes skinBubbleFloat {
         0% {
             transform: translate3d(calc(-50% - 4px), calc(-50% + 4px), 0) rotate(var(--bubble-rotate)) scale(var(--bubble-scale, 1));
@@ -4323,8 +3832,12 @@
         width: 60%;
         height: 100%;
         background: linear-gradient(90deg, transparent, rgba(255,255,255,0.28), transparent);
-        animation: buyBtnShimmer 3.2s ease-in-out infinite;
+        animation: none;
         pointer-events: none;
+    }
+
+    #paywall.visible .paywall-buy-btn::after {
+        animation: buyBtnShimmer 3.2s ease-in-out infinite;
     }
 
     @keyframes buyBtnShimmer {
@@ -4490,6 +4003,16 @@
         justify-content: center;
         color: var(--on-surface-var);
         flex: 0 0 auto;
+        transition: color var(--dur-theme) var(--ease-standard);
+    }
+
+    /* Match Account: emphasize only the icon on hover/focus, while the
+       settings row itself stays visually still and transparent. */
+    #settings-panel .setting-row:hover .setting-row-icon,
+    #settings-panel .setting-row:focus-within .setting-row-icon,
+    #settings-panel .setting-theme-section:hover .setting-row-icon,
+    #settings-panel .setting-theme-section:focus-within .setting-row-icon {
+        color: var(--on-surface);
     }
 
     .setting-row-icon svg {
@@ -4688,98 +4211,131 @@
         transition: color 180ms ease, transform 180ms ease;
     }
 
-    /* Account: tactile cards matching the new calm-product direction. */
+    /* Account follows the same theme-driven sheet system as Settings. */
     #account-panel {
-        width: min(390px, 92vw);
-        padding: 0 16px calc(28px + env(safe-area-inset-bottom, 0px));
+        width: min(320px, 85vw);
+        padding: 0 0 calc(24px + env(safe-area-inset-bottom, 0px));
         box-sizing: border-box;
-        border: 1px solid rgba(255, 255, 255, 0.74);
-        border-left: 0;
-        border-radius: 0 30px 30px 0;
+        border: 0;
+        border-radius: 0;
         background:
-            radial-gradient(circle at 16% 0%, rgba(255, 255, 255, 0.94) 0 12%, transparent 42%),
-            linear-gradient(145deg, #fdf7f8 0%, #f5eef5 48%, #f9f4f1 100%);
-        box-shadow: 16px 0 46px rgba(48, 30, 49, 0.16), inset -1px 0 rgba(255, 255, 255, 0.66);
+            linear-gradient(
+                180deg,
+                color-mix(in srgb, var(--accent) 26%, var(--sheet-bg, var(--surface)) 74%) 0%,
+                color-mix(in srgb, var(--accent) 18%, var(--sheet-bg, var(--surface)) 82%) 14%,
+                color-mix(in srgb, var(--accent) 10%, var(--sheet-bg, var(--surface)) 90%) 34%,
+                color-mix(in srgb, var(--accent) 6%, var(--sheet-bg, var(--surface)) 94%) 58%,
+                color-mix(in srgb, var(--accent) 3%, var(--sheet-bg, var(--surface)) 97%) 78%,
+                var(--sheet-bg, var(--surface)) 100%
+            ),
+            radial-gradient(circle at 12% 8%, color-mix(in srgb, var(--accent) 18%, transparent) 0%, transparent 30%),
+            radial-gradient(circle at 82% 22%, color-mix(in srgb, var(--accent) 10%, transparent) 0%, transparent 36%);
+        box-shadow: 10px 0 38px rgba(0, 0, 0, 0.16), 1px 0 0 rgba(0, 0, 0, 0.06);
     }
 
     #account-panel .settings-title {
-        padding: calc(34px + env(safe-area-inset-top, 0px)) 14px 22px;
-        background: transparent;
-        color: #3f243d;
-        font-family: Georgia, "Times New Roman", serif;
-        font-size: 38px;
-        font-weight: 500;
-        letter-spacing: -1.2px;
-        line-height: 1;
-        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.72);
+        padding: calc(28px + env(safe-area-inset-top, 0px)) 24px 20px;
+        color: var(--on-surface);
+        font-family: inherit;
+        font-size: 20px;
+        font-weight: 800;
+        letter-spacing: -0.3px;
+        line-height: normal;
+        text-shadow: none;
     }
 
     #account-panel .account-group {
-        margin: 0 0 14px;
-        padding: 4px;
-        border: 1px solid rgba(255, 255, 255, 0.88);
-        border-radius: 22px;
-        background: rgba(255, 252, 253, 0.64);
-        box-shadow:
-            8px 10px 22px rgba(105, 80, 104, 0.11),
-            -3px -3px 10px rgba(255, 255, 255, 0.92),
-            inset 0 1px 0 rgba(255, 255, 255, 0.88);
+        margin: 0 24px;
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        box-shadow: none;
     }
 
     #account-panel .account-group--restore {
-        margin-top: 20px;
+        margin-top: 14px;
     }
 
     #account-panel .setting-link {
-        grid-template-columns: 38px minmax(0, 1fr) 34px;
-        gap: 12px;
+        grid-template-columns: 34px minmax(0, 1fr) 28px;
+        gap: 10px;
         width: 100%;
-        min-height: 62px;
+        min-height: 58px;
         margin: 0;
-        padding: 12px 10px;
+        padding: 15px 0;
         border: 0;
-        border-radius: 17px;
+        border-bottom: 1px solid color-mix(in srgb, var(--outline) 76%, transparent);
+        border-radius: 0;
         background: transparent;
-        color: #4a3047;
+        color: var(--on-surface);
+        transition:
+            color var(--dur-theme) var(--ease-standard),
+            border-color var(--dur-theme) var(--ease-standard),
+            background var(--dur-theme) var(--ease-standard),
+            transform 160ms ease;
     }
 
     #account-panel .setting-link + .setting-link {
-        border-top: 1px solid rgba(111, 81, 108, 0.11);
+        border-top: 0;
     }
 
     #account-panel .setting-link:hover,
     #account-panel .setting-link:focus-visible {
-        background: rgba(255, 255, 255, 0.54);
-        box-shadow: inset 1px 1px 3px rgba(151, 116, 144, 0.09), inset -1px -1px 3px rgba(255, 255, 255, 0.8);
+        color: var(--on-surface);
+        background: transparent;
+        border-color: color-mix(in srgb, var(--outline) 76%, transparent);
+        box-shadow: none;
+        outline: none;
+    }
+
+    #account-panel .setting-link:hover .account-row-icon,
+    #account-panel .setting-link:hover .account-row-label,
+    #account-panel .setting-link:hover .account-row-action,
+    #account-panel .setting-link:focus-visible .account-row-icon,
+    #account-panel .setting-link:focus-visible .account-row-label,
+    #account-panel .setting-link:focus-visible .account-row-action {
+        color: inherit;
+        background: transparent;
+        transform: none;
+    }
+
+    #account-panel .setting-link--action:hover .account-row-icon,
+    #account-panel .setting-link--action:hover .account-row-action,
+    #account-panel .setting-link--action:focus-visible .account-row-icon,
+    #account-panel .setting-link--action:focus-visible .account-row-action {
+        color: var(--accent);
     }
 
     #account-panel .setting-link:active {
-        transform: scale(0.985);
-        background: rgba(236, 219, 231, 0.5);
+        transform: translateX(1px);
+        background: color-mix(in srgb, var(--accent-container) 64%, transparent);
     }
 
     #account-panel .account-row-icon,
     #account-panel .account-row-action {
-        width: 36px;
-        height: 36px;
-        border: 1px solid rgba(255, 255, 255, 0.86);
-        border-radius: 50%;
-        background: linear-gradient(145deg, rgba(255, 255, 255, 0.88), rgba(235, 224, 233, 0.68));
-        color: #80587d;
-        box-shadow: 3px 4px 8px rgba(104, 70, 100, 0.12), -2px -2px 5px rgba(255, 255, 255, 0.9);
+        width: 28px;
+        height: 28px;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        color: var(--on-surface-var);
+        box-shadow: none;
+        transition: color var(--dur-theme) var(--ease-standard);
     }
 
     #account-panel .account-row-icon svg,
     #account-panel .account-row-action svg {
-        width: 18px;
-        height: 18px;
+        width: 17px;
+        height: 17px;
     }
 
     #account-panel .account-row-label {
-        color: #4a3047;
-        font-size: 15px;
-        font-weight: 600;
-        letter-spacing: -0.16px;
+        color: var(--on-surface);
+        font-size: 14px;
+        font-weight: 500;
+        letter-spacing: 0;
+        transition: color var(--dur-theme) var(--ease-standard);
     }
 
     #account-panel .account-row-action {
@@ -4790,7 +4346,7 @@
 
     #account-panel .setting-link--action .account-row-icon,
     #account-panel .setting-link--action .account-row-action {
-        color: #6f547a;
+        color: var(--accent);
     }
 
     #account-panel .account-version {
@@ -4800,7 +4356,7 @@
     }
 
     #account-panel .account-version .setting-label {
-        color: #806d7c !important;
+        color: var(--on-surface-var) !important;
         font-size: 11px !important;
         font-weight: 600;
     }
@@ -5290,129 +4846,6 @@
             padding: 4px 7px 6px;
         }
 
-        .home-poster-scene {
-            display: grid;
-            grid-template-columns: minmax(176px, 0.48fr) minmax(0, 1fr);
-            grid-template-rows: auto minmax(0, 1fr);
-            align-items: start;
-            column-gap: 14px;
-            row-gap: 8px;
-            min-height: 0;
-            height: 100%;
-            overflow: hidden;
-            padding-top: calc(14px + env(safe-area-inset-top, 0px));
-            padding-left: 16px;
-            padding-right: 16px;
-            padding-bottom: env(safe-area-inset-bottom, 0px);
-            --home-featured-height: 78px;
-        }
-
-        .home-poster-header {
-            grid-column: 1;
-            grid-row: 1 / span 2;
-            align-self: start;
-            max-width: none;
-            margin: 0;
-            padding-top: 2px;
-            gap: 10px;
-        }
-
-        .home-poster-brand-mark {
-            width: 24px;
-            height: 24px;
-        }
-
-        .home-poster-brand-name {
-            font-size: 10px;
-        }
-
-        .home-poster-settings {
-            width: 21px;
-            height: 21px;
-        }
-
-        .home-poster-settings svg {
-            width: 14px;
-            height: 14px;
-        }
-
-        .home-poster-kicker {
-            font-size: 11px;
-        }
-
-        .home-poster-title {
-            font-size: clamp(28px, 5.8vw, 42px);
-            line-height: 0.9;
-            max-width: none;
-        }
-
-        .home-poster-subcopy {
-            max-width: 180px;
-            font-size: 11px;
-            line-height: 1.18;
-        }
-
-        .home-poster-viewport {
-            grid-column: 2;
-            grid-row: 2;
-            align-self: stretch;
-            margin-top: 0;
-            min-height: 0;
-            height: 100%;
-            max-height: 100%;
-            padding-bottom: calc(var(--nav-bar-height) + 22px + env(safe-area-inset-bottom, 0px));
-        }
-
-        .home-poster-featured-wrap {
-            grid-column: 2;
-            grid-row: 1;
-            margin-top: 0;
-            min-width: 0;
-        }
-
-        .home-poster-card {
-            min-height: 76px;
-            padding: 10px 14px;
-            border-radius: 18px;
-        }
-
-        .home-poster-card--featured {
-            min-height: 78px;
-            height: 78px;
-        }
-
-        .home-poster-card--compact {
-            min-height: 72px;
-            height: 72px;
-        }
-
-        .home-poster-card-body {
-            max-width: 34%;
-            gap: 4px;
-        }
-
-        .home-poster-card--featured .home-poster-card-body {
-            max-width: 30%;
-        }
-
-        .home-poster-name {
-            font-size: 19px;
-            line-height: 0.9;
-        }
-
-        .home-poster-card--featured .home-poster-name {
-            font-size: 19px;
-        }
-
-        .home-poster-copy {
-            font-size: 11px;
-            line-height: 1.14;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
         .m3-nav-item {
             min-height: 48px;
             gap: 2px;
@@ -5421,22 +4854,6 @@
         .m3-nav-label {
             font-size: 9px;
             line-height: 12px;
-        }
-
-        body[data-language="ja"] .home-poster-card--compact .home-poster-card-body,
-        body[data-language="de"] .home-poster-card--compact .home-poster-card-body {
-            max-width: 42%;
-        }
-
-        body[data-language="ja"] .home-poster-card--compact .home-poster-name,
-        body[data-language="de"] .home-poster-card--compact .home-poster-name {
-            font-size: 17px;
-        }
-
-        body[data-language="ja"] .home-poster-card--compact .home-poster-copy,
-        body[data-language="de"] .home-poster-card--compact .home-poster-copy {
-            font-size: 10px;
-            line-height: 1.12;
         }
 
         .theme-item {
@@ -5546,398 +4963,1923 @@
             background: var(--surface-dim);
         }
     }
-    /* ── Home: tactile calm direction ── */
+    /* Home reset — one clean dashboard composition based on the selected layout. */
     #home-screen {
-        overflow-y: auto;
-        background:
-            radial-gradient(circle at 12% 2%, rgba(255,255,255,0.92) 0 8%, transparent 28%),
-            radial-gradient(circle at 90% 42%, rgba(231, 217, 239, 0.62) 0, transparent 34%),
-            linear-gradient(145deg, #fff9f8 0%, #f8eef3 51%, #f6f0ee 100%);
-        color: #442c43;
+        position: fixed;
+        inset: 0;
+        z-index: 40;
+        overflow: hidden;
+        color: #26322d;
+        background: #f7f6f2;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translateY(8px);
+        transition: opacity 180ms ease, transform 180ms ease, visibility 0ms linear 180ms;
     }
 
     #home-screen::before,
-    #home-screen::after {
-        display: none;
+    #home-screen::after { display: none; }
+
+    body.home-view-active #home-screen {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: none;
+        transition-delay: 0ms;
     }
 
-    .home-poster-scene {
-        position: relative;
-        min-height: 100%;
-        height: auto;
-        display: block;
-        padding: calc(30px + env(safe-area-inset-top, 0px)) 0 calc(112px + env(safe-area-inset-bottom, 0px));
-        --home-poster-text-gradient: none;
+    html.boot-home-view #home-screen {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: none;
     }
 
-    .home-poster-header {
-        display: block;
-        max-width: none;
-        margin: 0;
-        padding: 0 30px 26px;
-    }
-
-    .home-poster-settings {
+    .home-dashboard {
+        --home-dashboard-gutter: var(--home-space-md);
         position: absolute;
-        top: calc(26px + env(safe-area-inset-top, 0px));
-        right: 24px;
-        width: 54px;
-        height: 54px;
-        border: 1px solid rgba(255,255,255,0.88);
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        padding: calc(22px + env(safe-area-inset-top, 0px)) 18px calc(86px + env(safe-area-inset-bottom, 0px));
+        overflow: hidden;
+        font-family: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+    }
+
+    .home-dashboard button { font: inherit; }
+
+    .home-dashboard-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 54px;
+        flex: 0 0 auto;
+    }
+
+    .home-dashboard-header h1 {
+        margin: 0;
+        color: #26322d;
+        font-size: 20px;
+        line-height: 1.18;
+        font-weight: 750;
+        letter-spacing: -0.025em;
+    }
+
+    .home-dashboard-header p {
+        margin: 3px 0 0;
+        color: #69736e;
+        font-size: 13px;
+        line-height: 1.25;
+        font-weight: 450;
+    }
+
+    .home-dashboard-settings {
+        width: 44px;
+        height: 44px;
+        flex: 0 0 44px;
+        display: grid;
+        place-items: center;
+        padding: 0;
+        border: 1px solid #e2e2dc;
         border-radius: 50%;
-        background: linear-gradient(145deg, rgba(255,255,255,0.96), rgba(239, 227, 235, 0.78));
-        color: #775b75;
-        box-shadow: 7px 9px 18px rgba(103, 77, 100, 0.14), -3px -3px 8px rgba(255,255,255,0.92);
+        color: #46534c;
+        background: #fff;
+        box-shadow: 0 6px 18px rgba(50, 62, 55, 0.08);
     }
 
-    .home-poster-settings svg {
-        width: 23px;
-        height: 23px;
+    .home-dashboard-settings svg { width: 20px; height: 20px; fill: currentColor; }
+
+    .home-insight {
+        position: relative;
+        width: 100%;
+        min-height: 114px;
+        flex: 0 0 114px;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 34% 18px;
+        align-items: center;
+        gap: 10px;
+        padding: 16px 16px 16px 18px;
+        border: 1px solid #e8e5dc;
+        border-radius: 24px;
+        color: #334038;
+        text-align: left;
+        background: #fffdf8;
+        box-shadow: 0 8px 24px rgba(57, 68, 61, 0.08);
     }
 
-    .home-poster-title {
-        max-width: 300px;
-        font-family: Georgia, "Times New Roman", serif;
-        font-size: clamp(43px, 13vw, 61px);
-        line-height: 0.92;
-        font-weight: 500;
-        letter-spacing: -1.8px;
-        color: #43263f;
-        background: none;
-        -webkit-text-fill-color: currentColor;
-        text-shadow: 0 1px 0 rgba(255,255,255,0.78);
+    .home-insight-copy { display: grid; gap: 12px; }
+    .home-insight-copy strong { font-size: 14px; line-height: 1.1; font-weight: 720; }
+    .home-insight-copy span { color: #59645e; font-size: 15px; line-height: 1.35; font-weight: 520; }
+    .home-insight-space { align-self: stretch; border-radius: 18px; background: #f1f0e9; }
+    .home-insight-arrow { color: #78827c; font-size: 28px; line-height: 1; }
+
+    .home-feature {
+        width: 100%;
+        min-height: 94px;
+        flex: 0 0 94px;
+        display: grid;
+        grid-template-columns: 58px minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 14px;
+        padding: 15px 14px;
+        border: 1px solid #9bad9f;
+        border-radius: 24px;
+        color: #fff;
+        background: #789381;
+        box-shadow: 0 12px 26px rgba(67, 91, 75, 0.19);
     }
 
-    .home-poster-subcopy {
-        max-width: 286px;
-        margin-top: 16px;
+    .home-feature-mark {
+        width: 56px;
+        height: 56px;
+        display: grid;
+        place-items: center;
+        border: 1px solid rgba(255,255,255,0.42);
+        border-radius: 50%;
+        color: #fff;
+        background: rgba(255,255,255,0.14);
+        font-family: "Cormorant Garamond", Georgia, serif;
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .home-feature-copy { min-width: 0; }
+    .home-feature-copy h2 { margin: 0; font-size: 18px; line-height: 1.2; font-weight: 730; }
+    .home-feature-copy p { margin: 5px 0 0; color: rgba(255,255,255,0.8); font-size: 11px; line-height: 1.25; }
+
+    .home-feature-start {
+        min-width: 74px;
+        min-height: 44px;
+        padding: 0 17px;
+        border: 1px solid rgba(255,255,255,0.72);
+        border-radius: 999px;
+        color: #304139;
+        background: #fff;
+        box-shadow: 0 5px 14px rgba(32, 52, 40, 0.16);
+        font-size: 13px;
+        font-weight: 720;
+    }
+
+    .home-explore-heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex: 0 0 auto;
+        margin-top: 2px;
+    }
+
+    .home-explore-heading h2 {
+        margin: 0;
+        color: #2d3932;
         font-size: 16px;
-        line-height: 1.34;
-        font-weight: 500;
-        color: #7d6d7b;
-        background: none;
-        -webkit-text-fill-color: currentColor;
+        line-height: 1.2;
+        font-weight: 720;
     }
 
-    .home-poster-featured-wrap {
+    .home-explore-heading button {
+        min-height: 36px;
+        padding: 0 4px;
+        border: 0;
+        color: #5e7567;
+        background: transparent;
+        font-size: 12px;
+        font-weight: 650;
+    }
+
+    body.home-view-active .home-session-viewport {
+        position: relative;
+        inset: auto;
+        width: calc(100% + 18px);
+        height: 162px;
+        min-height: 0;
+        flex: 1 1 auto;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding: 0 18px 4px 0;
+        scrollbar-width: none;
+        touch-action: pan-x;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .home-session-viewport::-webkit-scrollbar { display: none; }
+
+    .home-poster-pagination {
+        min-height: 0.75rem;
+        display: flex;
+        flex: 0 0 auto;
+        justify-content: center;
+        align-items: center;
+        gap: 0.375rem;
+        margin-top: calc(var(--home-space-xs) * -1);
+    }
+
+    .home-poster-pagination button {
+        width: 0.375rem;
+        height: 0.375rem;
+        display: block;
+        padding: 0;
+        border: 0;
+        border-radius: 999px;
+        background: var(--home-color-rule);
+        transition: width var(--home-dur-short) var(--home-ease-out), background-color var(--home-dur-short) var(--home-ease-out);
+    }
+
+    .home-poster-pagination button[aria-current="true"] {
+        width: 1.25rem;
+        background: var(--home-color-accent);
+    }
+
+    body.home-view-active .home-session-rail {
+        position: relative;
+        display: flex;
+        width: max-content !important;
+        min-width: 100%;
+        height: 100%;
+        gap: 10px;
+        overflow: visible;
+    }
+
+    body.home-view-active .home-session-rail .home-poster-card,
+    body.home-view-active .home-session-rail .home-poster-card--featured,
+    body.home-view-active .home-session-rail .home-poster-card--compact {
+        position: relative;
+        inset: auto !important;
+        width: 112px;
+        min-width: 112px;
+        height: 154px;
+        min-height: 154px;
+        display: flex;
+        align-items: flex-end;
+        margin: 0;
+        padding: 14px 12px;
+        border: 1px solid #d9ddd7;
+        border-radius: 22px;
+        overflow: hidden;
+        color: #fff;
+        background: #6f8476;
+        box-shadow: 0 8px 18px rgba(48, 62, 53, 0.12);
+        transform: none !important;
+        opacity: 1 !important;
+        filter: none !important;
+    }
+
+    body.home-view-active .home-session-rail .home-poster-card:nth-child(2) { background: #71828c; }
+    body.home-view-active .home-session-rail .home-poster-card:nth-child(3) { background: #6f7390; }
+    body.home-view-active .home-session-rail .home-poster-card:nth-child(4) { background: #928376; }
+    body.home-view-active .home-session-rail .home-poster-card:nth-child(5) { background: #817587; }
+
+    body.home-view-active .home-session-rail .home-poster-card::before,
+    body.home-view-active .home-session-rail .home-poster-card::after,
+    body.home-view-active .home-session-rail .home-poster-favorite,
+    body.home-view-active .home-session-rail .home-poster-playing-indicator { display: none; }
+
+    body.home-view-active .home-session-rail .home-poster-card-body {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-width: 100%;
+        display: grid;
+        gap: 5px;
+        align-content: end;
+    }
+
+    body.home-view-active .home-session-rail .home-poster-name {
+        margin: 0;
+        color: #fff;
+        background: none;
+        -webkit-text-fill-color: currentColor;
+        font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: 15px;
+        line-height: 1.05;
+        font-weight: 720;
+    }
+
+    body.home-view-active .home-session-rail .home-poster-copy {
+        display: block;
+        margin: 0;
+        overflow: hidden;
+        color: rgba(255,255,255,0.78);
+        background: none;
+        -webkit-text-fill-color: currentColor;
+        font-size: 10px;
+        line-height: 1.2;
+        font-weight: 500;
+        max-height: 24px;
+    }
+
+    body.home-view-active #home-featured-poster,
+    body.home-view-active #home-rhythm { display: none !important; }
+
+    body.home-view-active #app-nav {
+        left: 18px;
+        right: 18px;
+        bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+        min-height: 62px;
+        padding: 4px 7px 6px;
+        border: 1px solid #e0e1dc;
+        border-radius: 22px;
+        color: #66726b;
+        background: rgba(255,255,255,0.96);
+        box-shadow: 0 8px 24px rgba(50, 62, 55, 0.12);
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+
+    body.home-view-active #app-nav::before,
+    body.home-view-active #app-nav::after { display: none; }
+
+    body.home-view-active .m3-nav-item.is-active .m3-nav-indicator {
+        color: #55705e;
+        background: #e4ece5;
+        box-shadow: none;
+    }
+
+    @media (max-height: 740px) {
+        .home-dashboard { gap: 10px; padding-top: calc(14px + env(safe-area-inset-top, 0px)); }
+        .home-dashboard-header { min-height: 44px; }
+        .home-insight { min-height: 88px; flex-basis: 88px; padding-top: 11px; padding-bottom: 11px; }
+        .home-insight-copy { gap: 7px; }
+        .home-feature { min-height: 78px; flex-basis: 78px; padding-top: 10px; padding-bottom: 10px; }
+        .home-feature-mark { width: 50px; height: 50px; }
+        body.home-view-active .home-session-viewport { height: 136px; }
+        body.home-view-active .home-session-rail .home-poster-card,
+        body.home-view-active .home-session-rail .home-poster-card--compact { height: 128px; min-height: 128px; }
+    }
+
+    /* Compact phones: 320–359px. */
+    @media (max-width: 359px) {
+        .home-dashboard {
+            gap: 9px;
+            padding-left: 13px;
+            padding-right: 13px;
+        }
+
+        .home-dashboard-header h1 { font-size: 18px; }
+        .home-dashboard-header p { font-size: 12px; }
+        .home-dashboard-settings { width: 40px; height: 40px; flex-basis: 40px; }
+        .home-insight { grid-template-columns: minmax(0, 1fr) 26% 15px; padding-left: 14px; padding-right: 12px; }
+        .home-insight-copy span { font-size: 13px; }
+        .home-feature { grid-template-columns: 48px minmax(0, 1fr) auto; gap: 9px; padding-left: 10px; padding-right: 10px; }
+        .home-feature-mark { width: 46px; height: 46px; font-size: 17px; }
+        .home-feature-copy h2 { font-size: 16px; }
+        .home-feature-copy p { font-size: 10px; }
+        .home-feature-start { min-width: 64px; padding: 0 12px; }
+        body.home-view-active .home-session-viewport { width: calc(100% + 13px); padding-right: 13px; }
+        body.home-view-active .home-session-rail .home-poster-card,
+        body.home-view-active .home-session-rail .home-poster-card--compact { width: 100px; min-width: 100px; }
+        body.home-view-active #app-nav { left: 12px; right: 12px; }
+        body.home-view-active .m3-nav-label { font-size: 7.5px; }
+    }
+
+    /* Large phones and small tablets: 430–767px. */
+    @media (min-width: 430px) and (max-width: 767px) {
+        .home-dashboard {
+            max-width: 560px;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            gap: 16px;
+            padding-left: 24px;
+            padding-right: 24px;
+        }
+
+        .home-insight { min-height: 124px; flex-basis: 124px; }
+        .home-feature { min-height: 102px; flex-basis: 102px; }
+        body.home-view-active .home-session-viewport { width: calc(100% + 24px); padding-right: 24px; }
+        body.home-view-active .home-session-rail .home-poster-card,
+        body.home-view-active .home-session-rail .home-poster-card--compact {
+            width: 128px;
+            min-width: 128px;
+            height: 164px;
+            min-height: 164px;
+        }
+
+        body.home-view-active #app-nav {
+            left: 50%;
+            right: auto;
+            width: min(524px, calc(100% - 36px));
+            transform: translateX(-50%);
+        }
+    }
+
+    /* Tablets: 768–1023px. */
+    @media (min-width: 768px) and (max-width: 1023px) {
+        .home-dashboard {
+            position: absolute;
+            left: 0;
+            right: 0;
+            width: min(100%, 900px);
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+            grid-template-rows: auto 132px auto minmax(170px, 1fr);
+            column-gap: 18px;
+            row-gap: 16px;
+            padding: calc(28px + env(safe-area-inset-top, 0px)) 30px calc(94px + env(safe-area-inset-bottom, 0px));
+        }
+
+        .home-dashboard-header { grid-column: 1 / -1; }
+        .home-dashboard-header h1 { font-size: 24px; }
+        .home-dashboard-header p { font-size: 14px; }
+        .home-insight { grid-column: 1; min-height: 132px; height: 132px; }
+        .home-feature { grid-column: 2; min-height: 132px; height: 132px; grid-template-columns: 68px minmax(0, 1fr) auto; padding: 20px; }
+        .home-feature-mark { width: 66px; height: 66px; }
+        .home-feature-copy h2 { font-size: 22px; }
+        .home-feature-copy p { font-size: 12px; }
+        .home-explore-heading { grid-column: 1 / -1; }
+        body.home-view-active .home-session-viewport {
+            grid-column: 1 / -1;
+            width: calc(100% + 30px);
+            height: auto;
+            min-height: 170px;
+            padding-right: 30px;
+        }
+        body.home-view-active .home-session-rail .home-poster-card,
+        body.home-view-active .home-session-rail .home-poster-card--compact {
+            width: 150px;
+            min-width: 150px;
+            height: 176px;
+            min-height: 176px;
+        }
+
+        body.home-view-active #app-nav {
+            left: 50%;
+            right: auto;
+            width: min(820px, calc(100% - 48px));
+            transform: translateX(-50%);
+        }
+    }
+
+    /* Desktop preview keeps the tablet composition centred. */
+    @media (min-width: 1024px) {
+        body.home-view-active #home-screen,
+        html.boot-home-view #home-screen {
+            left: 50%;
+            right: auto;
+            width: min(920px, calc(100vw - 48px));
+            height: min(900px, 100dvh);
+            transform: translateX(-50%);
+            border-radius: 28px;
+        }
+
+        .home-dashboard {
+            display: grid;
+            grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+            grid-template-rows: auto 138px auto minmax(180px, 1fr);
+            column-gap: 20px;
+            row-gap: 18px;
+            padding: calc(30px + env(safe-area-inset-top, 0px)) 34px calc(98px + env(safe-area-inset-bottom, 0px));
+        }
+
+        .home-dashboard-header,
+        .home-explore-heading,
+        body.home-view-active .home-session-viewport { grid-column: 1 / -1; }
+        .home-insight { grid-column: 1; height: 138px; min-height: 138px; }
+        .home-feature { grid-column: 2; height: 138px; min-height: 138px; }
+        body.home-view-active .home-session-viewport { width: calc(100% + 34px); height: auto; min-height: 180px; padding-right: 34px; }
+        body.home-view-active .home-session-rail .home-poster-card,
+        body.home-view-active .home-session-rail .home-poster-card--compact { width: 158px; min-width: 158px; height: 184px; min-height: 184px; }
+        body.home-view-active #app-nav { left: 50%; right: auto; width: min(840px, calc(100% - 64px)); transform: translateX(-50%); }
+    }
+
+    /* Landscape phones and tablets use the same two-column hierarchy. */
+    @media (orientation: landscape) and (min-width: 640px) and (max-height: 700px) {
+        .home-dashboard {
+            display: grid;
+            grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+            grid-template-rows: auto 88px auto minmax(116px, 1fr);
+            column-gap: 14px;
+            row-gap: 9px;
+            padding: calc(10px + env(safe-area-inset-top, 0px)) 22px calc(78px + env(safe-area-inset-bottom, 0px));
+        }
+        .home-dashboard-header,
+        .home-explore-heading,
+        body.home-view-active .home-session-viewport { grid-column: 1 / -1; }
+        .home-insight { grid-column: 1; min-height: 88px; height: 88px; padding-top: 10px; padding-bottom: 10px; }
+        .home-insight-copy { gap: 5px; }
+        .home-feature { grid-column: 2; min-height: 88px; height: 88px; padding-top: 10px; padding-bottom: 10px; }
+        body.home-view-active .home-session-viewport { width: calc(100% + 22px); height: auto; min-height: 116px; padding-right: 22px; }
+        body.home-view-active .home-session-rail .home-poster-card,
+        body.home-view-active .home-session-rail .home-poster-card--compact { width: 126px; min-width: 126px; height: 116px; min-height: 116px; }
+    }
+
+    /* Hallmark · genre: modern-minimal · macrostructure: Workbench · theme: Coral · tone: soft · anchor hue: coral 28 · enrichment: none · nav: N5 bottom-app adaptation · footer: none · contrast: pass (40–41) · slop: pass (42–45) · honest: pass (46) · chrome: pass (47) · tokens: pass (48) · responsive: pass (34, 49–57) · icons: pass (30) */
+    /* Hallmark · pre-emit critique: P5 H5 E4 S5 R5 V5 */
+    :root {
+        --home-color-paper: oklch(97.5% 0.018 310);
+        --home-color-paper-2: oklch(95% 0.028 310);
+        --home-color-paper-3: oklch(91% 0.04 307);
+        --home-color-surface: oklch(99% 0.012 310);
+        --home-color-ink: oklch(26% 0.045 315);
+        --home-color-ink-soft: oklch(37% 0.048 315);
+        --home-color-muted: oklch(49% 0.04 305);
+        --home-color-rule: oklch(87% 0.035 307);
+        --home-color-accent: oklch(55% 0.105 305);
+        --home-color-accent-deep: oklch(41% 0.09 305);
+        --home-color-accent-soft: oklch(92% 0.065 307);
+        --home-color-accent-ink: oklch(99% 0.01 310);
+        --home-color-focus: oklch(43% 0.11 302);
+        --home-color-success: oklch(48% 0.10 150);
+        --home-color-error: oklch(52% 0.15 25);
+        --home-color-shadow: oklch(31% 0.055 305 / 0.07);
+        --home-font-display: "Cormorant Garamond", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+        --home-font-body: "Avenir Next", "Helvetica Neue", "SF Pro Text", -apple-system, BlinkMacSystemFont, sans-serif;
+        --home-space-3xs: 0.125rem;
+        --home-space-2xs: 0.25rem;
+        --home-space-xs: 0.5rem;
+        --home-space-sm: 0.75rem;
+        --home-space-md: 1rem;
+        --home-space-lg: 1.5rem;
+        --home-space-xl: 2.5rem;
+        --home-text-xs: 0.75rem;
+        --home-text-sm: 0.875rem;
+        --home-text-base: 1rem;
+        --home-text-md: 1.25rem;
+        --home-text-lg: 1.5625rem;
+        --home-radius-control: 0.75rem;
+        --home-radius-card: 1rem;
+        --home-radius-action: 1.375rem;
+        --home-radius-nav: 1.625rem;
+        --home-rule: 1px;
+        --home-dur-micro: 120ms;
+        --home-dur-short: 220ms;
+        --home-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+        --home-ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+        --home-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+        --home-nav-height: 4.25rem;
+        --home-shell: 52.5rem;
+        --home-poster-width: 7.75rem;
+        --home-poster-height: 23.75rem;
+        --home-z-base: 1;
+        --home-z-sticky: 200;
+    }
+
+    html,
+    body {
+        overflow-x: clip;
+    }
+
+    #home-screen {
+        isolation: isolate;
+        overflow: hidden;
+        color: var(--home-color-ink);
+        background: transparent;
+        transform: translateY(var(--home-space-xs));
+        transition:
+            opacity var(--home-dur-short) var(--home-ease-out),
+            transform var(--home-dur-short) var(--home-ease-out);
+    }
+
+    .home-background-video,
+    .home-background-image {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        opacity: 1;
+        pointer-events: none;
+    }
+
+    .home-dashboard {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        width: min(100%, var(--home-shell));
+        margin-inline: auto;
+        display: flex;
+        flex-direction: column;
+        gap: var(--home-space-md);
+        padding:
+            calc(var(--home-space-lg) + env(safe-area-inset-top, 0px))
+            var(--home-dashboard-gutter)
+            calc(var(--home-nav-height) + var(--home-space-xl) + env(safe-area-inset-bottom, 0px));
+        overflow-x: clip;
+        overflow-y: auto;
+        overscroll-behavior-y: contain;
+        scrollbar-width: none;
+        font-family: var(--home-font-body);
+    }
+
+    .home-dashboard::-webkit-scrollbar,
+    .home-session-viewport::-webkit-scrollbar {
         display: none;
     }
 
-    .home-poster-viewport {
-        overflow: visible;
-        padding: 0;
-        min-height: auto;
-        height: auto;
-        touch-action: pan-x;
+    .home-dashboard button {
+        font-family: var(--home-font-body);
+        white-space: nowrap;
     }
 
-    .home-poster-rail {
+    .home-dashboard-header {
+        min-height: 3.25rem;
         display: flex;
-        gap: 10px;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--home-space-md);
+        flex: 0 0 auto;
+    }
+
+    .home-dashboard-header > div {
+        min-width: 0;
+    }
+
+    .home-dashboard-header h1 {
+        min-width: 0;
+        margin: 0;
+        overflow-wrap: anywhere;
+        color: #eceaf0;
+        font-family: var(--home-font-display);
+        font-size: clamp(1.75rem, 7.77vw, 2.25rem);
+        line-height: 1.08;
+        font-style: normal;
+        font-weight: 500;
+        letter-spacing: -0.03em;
+    }
+
+    .home-dashboard-header p {
+        margin: var(--home-space-2xs) 0 0;
+        color: var(--home-color-muted);
+        font-size: var(--home-text-sm);
+        line-height: 1.45;
+        font-weight: 400;
+    }
+
+    .home-dashboard-settings {
+        width: 2.75rem;
+        height: 2.75rem;
+        min-width: 2.75rem;
+        min-height: 2.75rem;
+        flex: 0 0 2.75rem;
+        display: grid;
+        place-items: center;
+        padding: 0;
+        border: 1px solid var(--m3-nav-border);
+        border-radius: var(--home-radius-control);
+        color: var(--home-color-ink-soft);
+        background: var(--home-color-surface);
+        box-shadow: 0 1px 2px var(--home-color-shadow);
+        transition:
+            transform var(--home-dur-micro) var(--home-ease-out),
+            background-color var(--home-dur-short) var(--home-ease-out);
+    }
+
+    .home-dashboard-settings svg {
+        width: 1.125rem;
+        height: 1.125rem;
+        fill: currentColor;
+    }
+
+    .home-insight {
+        width: auto;
+        min-height: 3.75rem;
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
+        padding: var(--home-space-sm) 0;
+        border-block: var(--home-rule) solid var(--home-color-rule);
+        border-inline: 0;
+        border-radius: 0;
+        color: var(--home-color-ink-soft);
+        text-align: start;
+        background: transparent;
+        box-shadow: none;
+    }
+
+    .home-insight p {
+        max-width: 45ch;
+        margin: 0;
+        font-size: var(--home-text-sm);
+        line-height: 1.5;
+        font-weight: 500;
+    }
+
+    .home-feature {
+        width: calc(100% + (var(--home-dashboard-gutter) * 2));
+        margin-inline: calc(var(--home-dashboard-gutter) * -1);
+        min-height: clamp(10rem, 58vw, 15.625rem);
+        flex: 0 0 auto;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        align-items: end;
+        text-align: start;
+        cursor: pointer;
+        gap: var(--home-space-md);
+        padding: var(--home-space-lg);
+        border: var(--home-rule) solid rgba(255, 255, 255, 0.62);
+        border-radius: 0;
+        color: var(--home-color-ink);
+        isolation: isolate;
+        overflow: hidden;
+        /* Keep the inactive/transition state identical to the current Click
+           card. The legacy poster here used to flash for one frame while the
+           Home route restored its active body class. */
+        background: transparent;
+        box-shadow: 0 10px 26px rgba(77, 54, 101, 0.09);
+    }
+
+    .home-feature-copy {
+        min-width: 0;
+    }
+
+    .home-feature-copy h2 {
+        min-width: 0;
+        margin: 0;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35em;
+        overflow-wrap: anywhere;
+        color: inherit;
+        font-family: var(--home-font-display);
+        font-size: clamp(var(--home-text-md), 6vw, 1.75rem);
+        line-height: 1.08;
+        font-style: normal;
+        font-weight: 700;
+        letter-spacing: -0.035em;
+    }
+
+    .home-feature-play-icon {
+        width: 0.82em;
+        height: 0.82em;
+        flex: 0 0 auto;
+        fill: currentColor;
+    }
+
+    .home-feature-copy p {
+        margin: var(--home-space-xs) 0 0;
+        color: var(--home-color-ink-soft);
+        font-size: var(--home-text-sm);
+        line-height: 1.45;
+        font-weight: 400;
+    }
+
+    .home-feature-start {
+        min-width: 5.5rem;
+        min-height: 3rem;
+        padding-inline: var(--home-space-md);
+        border: var(--home-rule) solid var(--home-color-accent);
+        border-radius: 999px;
+        color: var(--home-color-accent-ink);
+        background: var(--home-color-accent);
+        font-size: var(--home-text-sm);
+        font-weight: 700;
+        transition:
+            transform var(--home-dur-micro) var(--home-ease-out),
+            background-color var(--home-dur-short) var(--home-ease-out);
+    }
+
+    .home-explore-heading {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: var(--home-space-md);
+        margin-top: var(--home-space-2xs);
+    }
+
+    .home-explore-heading > div {
+        min-width: 0;
+    }
+
+    .home-explore-heading h2 {
+        min-width: 0;
+        margin: 0;
+        overflow-wrap: anywhere;
+        color: var(--home-color-ink);
+        font-family: var(--home-font-display);
+        font-size: var(--home-text-md);
+        line-height: 1.15;
+        font-style: normal;
+        font-weight: 700;
+        letter-spacing: -0.025em;
+    }
+
+    .home-explore-heading p {
+        margin: var(--home-space-2xs) 0 0;
+        color: var(--home-color-muted);
+        font-size: var(--home-text-sm);
+        line-height: 1.4;
+    }
+
+    .home-explore-heading button {
+        min-width: 2.75rem;
+        min-height: 2.75rem;
+        padding-inline: var(--home-space-sm);
+        border: var(--home-rule) solid var(--home-color-rule);
+        border-radius: 999px;
+        color: var(--home-color-ink-soft);
+        background: var(--home-color-surface);
+        font-size: var(--home-text-sm);
+        font-weight: 700;
+        transition:
+            transform var(--home-dur-micro) var(--home-ease-out),
+            background-color var(--home-dur-short) var(--home-ease-out);
+    }
+
+    body.home-view-active .home-session-viewport {
+        position: relative;
+        inset: auto;
+        width: auto;
+        min-width: 0;
+        height: auto;
+        min-height: var(--home-poster-height);
+        /* Keep the rail exactly as tall as its cards; do not consume the
+           remaining screen space before the pagination markers. */
+        flex: 0 0 var(--home-poster-height);
+        margin-inline-end: calc(var(--home-space-md) * -1);
+        padding: 0 var(--home-space-md) var(--home-space-2xs) 0;
         overflow-x: auto;
-        padding: 0 0 8px;
-        scroll-snap-type: x mandatory;
+        overflow-y: hidden;
+        scroll-snap-type: x proximity;
+        scroll-padding-inline: var(--home-space-md);
+        touch-action: pan-x;
         scrollbar-width: none;
         -webkit-overflow-scrolling: touch;
     }
 
-    .home-poster-viewport {
-        padding: 0 24px;
-        overflow: hidden;
-        box-sizing: border-box;
-    }
-
-    .home-poster-rail::-webkit-scrollbar {
-        display: none;
-    }
-
-    .home-poster-card,
-    .home-poster-card--featured,
-    .home-poster-card--compact {
-        flex: 0 0 90px;
-        width: 90px;
-        min-height: 250px;
-        height: 250px;
-        padding: 12px 8px;
-        border: 1px solid rgba(255,255,255,0.9);
-        border-radius: 22px;
-        scroll-snap-align: start;
-        background: rgba(255,255,255,0.2);
-        box-shadow: 8px 12px 26px rgba(107, 80, 104, 0.16), -3px -3px 8px rgba(255,255,255,0.72);
-    }
-
-    .home-poster-card::before,
-    .home-poster-card--featured::before {
-        background:
-            linear-gradient(180deg, rgba(28, 20, 35, 0.02) 0%, rgba(31, 20, 38, 0.02) 42%, rgba(35, 23, 42, 0.58) 100%),
-            var(--poster-image, none) var(--poster-art-position, center) / var(--poster-art-size, cover) no-repeat;
-    }
-
-    .home-poster-card::after,
-    .home-poster-card--featured::after {
-        background: linear-gradient(180deg, rgba(255,255,255,0.18), transparent 28%, rgba(255,255,255,0.02));
-        opacity: 1;
-    }
-
-    .home-poster-card-body,
-    .home-poster-card--featured .home-poster-card-body {
-        align-self: end;
-        max-width: 100%;
-        gap: 4px;
-        padding-bottom: 12px;
-    }
-
-    .home-poster-name,
-    .home-poster-card--featured .home-poster-name {
-        font-family: Georgia, "Times New Roman", serif;
-        font-size: 17px;
-        line-height: 0.9;
-        font-weight: 500;
-        color: #fffafc;
-        background: none;
-        -webkit-text-fill-color: currentColor;
-        text-shadow: 0 2px 12px rgba(42, 28, 44, 0.35);
-    }
-
-    .home-poster-copy,
-    .home-poster-card--featured .home-poster-copy {
-        color: rgba(255, 249, 252, 0.9);
-        font-size: 9px;
-        line-height: 1.1;
-        font-weight: 500;
-        background: none;
-        -webkit-text-fill-color: currentColor;
-        text-shadow: 0 1px 8px rgba(42, 28, 44, 0.26);
-    }
-
-    .home-poster-card.is-selected,
-    .home-poster-card.is-current {
-        transform: translateY(-3px);
-        border-color: rgba(255,255,255,0.98);
-        box-shadow: 10px 16px 28px rgba(90, 65, 86, 0.2), -3px -3px 8px rgba(255,255,255,0.9);
-    }
-
-    .home-poster-playing-indicator {
-        top: auto;
-        right: 8px;
-        bottom: 8px;
-        width: 28px;
-        height: 28px;
-        color: #6e5272;
-        background: rgba(255, 249, 253, 0.84);
-        border-color: rgba(255,255,255,0.94);
-        box-shadow: 4px 5px 10px rgba(51, 31, 49, 0.2), -2px -2px 4px rgba(255,255,255,0.78);
-    }
-
-    .home-rhythm {
-        margin: 28px 24px 0;
-    }
-
-    .home-rhythm[hidden] {
-        display: none;
-    }
-
-    .home-rhythm-title {
-        margin: 0 0 14px 6px;
-        color: #4a2c47;
-        font-family: Georgia, "Times New Roman", serif;
-        font-size: 28px;
-        font-weight: 500;
-        letter-spacing: -0.8px;
-    }
-
-    .home-continue {
-        display: grid;
-        grid-template-columns: 74px minmax(0, 1fr) 58px;
-        align-items: center;
-        gap: 14px;
-        width: 100%;
-        min-height: 98px;
-        padding: 10px;
-        border: 1px solid rgba(255,255,255,0.94);
-        border-radius: 22px;
-        background: rgba(255, 251, 252, 0.7);
-        color: #4a3047;
-        text-align: left;
-        box-shadow: 10px 13px 26px rgba(114, 83, 109, 0.13), -4px -4px 10px rgba(255,255,255,0.86), inset 0 1px 0 rgba(255,255,255,0.9);
-        font: inherit;
-    }
-
-    .home-continue:active {
-        transform: scale(0.985);
-    }
-
-    .home-continue-art {
-        width: 64px;
-        height: 78px;
-        border-radius: 15px;
-        background: var(--continue-image, none) center / cover no-repeat, #e8dbe7;
-        box-shadow: inset 0 1px 0 rgba(255,255,255,0.4);
-    }
-
-    .home-continue-copy {
-        display: grid;
-        gap: 5px;
-        min-width: 0;
-    }
-
-    .home-continue-label {
-        font-family: Georgia, "Times New Roman", serif;
-        font-size: 21px;
-        line-height: 1;
-    }
-
-    .home-continue-detail {
-        color: #887886;
-        font-size: 14px;
-        font-weight: 500;
-    }
-
-    .home-continue-play {
-        display: grid;
-        place-items: center;
-        width: 48px;
-        height: 48px;
-        border: 1px solid rgba(255,255,255,0.9);
-        border-radius: 50%;
-        background: linear-gradient(145deg, #fff, #f0e5ee);
-        color: #603d5d;
-        box-shadow: 5px 6px 12px rgba(99, 66, 94, 0.15), -2px -2px 5px rgba(255,255,255,0.8);
-        font-size: 15px;
-    }
-
-    .home-carousel-pagination {
+    body.home-view-active .home-session-rail {
+        position: relative;
         display: flex;
-        justify-content: center;
-        gap: 8px;
-        padding: 8px 0 0;
+        width: max-content !important;
+        min-width: 100%;
+        height: 100%;
+        gap: var(--home-space-sm);
+        overflow: visible;
     }
 
-    .home-carousel-pagination span {
-        width: 8px;
-        height: 8px;
-        border-radius: 999px;
-        background: rgba(107, 79, 103, 0.22);
+    body.home-view-active .home-session-rail .home-poster-card,
+    body.home-view-active .home-session-rail .home-poster-card--featured,
+    body.home-view-active .home-session-rail .home-poster-card--compact {
+        position: relative;
+        inset: auto !important;
+        width: var(--home-poster-width);
+        min-width: var(--home-poster-width);
+        height: var(--home-poster-height);
+        min-height: var(--home-poster-height);
+        display: flex;
+        align-items: flex-end;
+        margin: 0;
+        padding: var(--home-space-md);
+        border: var(--home-rule) solid var(--home-color-rule);
+        border-radius: var(--home-radius-card);
+        overflow: hidden;
+        scroll-snap-align: start;
+        color: var(--home-color-ink);
+        background: var(--home-color-surface);
+        box-shadow: 0 7px 18px var(--home-color-shadow);
+        transform: none !important;
+        opacity: 1 !important;
+        filter: none !important;
+        text-align: start;
+        transition:
+            transform var(--home-dur-micro) var(--home-ease-out),
+            background-color var(--home-dur-short) var(--home-ease-out),
+            border-color var(--home-dur-short) var(--home-ease-out);
     }
 
-    .home-carousel-pagination span.is-active {
-        width: 18px;
-        background: rgba(87, 54, 81, 0.72);
+    body.home-view-active .home-session-rail .home-poster-card:nth-child(n) {
+        background: var(--home-color-surface);
     }
 
-    .home-quick-actions {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 10px;
-        margin-top: 14px;
+    body.home-view-active .home-session-rail .home-poster-card::before,
+    body.home-view-active .home-session-rail .home-poster-favorite,
+    body.home-view-active .home-session-rail .home-poster-playing-indicator {
+        display: none;
     }
 
-    .home-quick-action {
-        display: grid;
-        justify-items: center;
-        gap: 5px;
-        min-height: 126px;
-        padding: 12px 6px;
-        border: 1px solid rgba(255,255,255,0.9);
-        border-radius: 22px;
-        background: rgba(255, 251, 252, 0.68);
-        color: #533650;
-        font: inherit;
-        box-shadow: 7px 9px 18px rgba(111, 79, 106, 0.12), -3px -3px 7px rgba(255,255,255,0.86), inset 0 1px 0 rgba(255,255,255,0.8);
+    body.home-view-active .home-session-rail .home-poster-card.has-artwork {
+        color: #fff;
+        background: var(--home-color-ink);
     }
 
-    .home-quick-action:active {
-        transform: scale(0.98);
+    body.home-view-active .home-poster-media {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+        object-position: center;
+        transform: scale(1.01);
     }
 
-    .home-quick-action-icon {
+    body.home-view-active .home-session-rail .home-poster-card.has-artwork::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        display: block;
+        background: linear-gradient(180deg, rgba(8, 12, 18, 0.10) 0%, rgba(8, 12, 18, 0.28) 48%, rgba(8, 12, 18, 0.88) 100%);
+        pointer-events: none;
+    }
+
+    body.home-view-active .home-session-rail .home-poster-card::after {
+        content: none;
+    }
+
+    body.home-view-active .home-session-rail .home-poster-card.is-playing::after {
+        content: "Ⅱ";
+        position: absolute;
+        inset: var(--home-space-sm) var(--home-space-sm) auto auto;
+        width: 2rem;
+        height: 2rem;
         display: grid;
         place-items: center;
-        width: 70px;
-        height: 57px;
-        margin: 1px 0 4px;
-        border-radius: 52% 48% 47% 53% / 48% 52% 49% 51%;
-        background: radial-gradient(circle at 34% 24%, rgba(255,255,255,0.86) 0 3%, transparent 24%), linear-gradient(145deg, #f4d9d6 0%, #e5bfc0 100%);
-        color: #84606b;
-        box-shadow: 7px 9px 13px rgba(126, 85, 98, 0.22), -4px -4px 8px rgba(255,255,255,0.88), inset 1px 2px 3px rgba(255,255,255,0.72), inset -3px -4px 6px rgba(166, 105, 118, 0.16);
-        transform: rotate(-7deg);
+        border-radius: 999px;
+        padding-left: 0;
+        border: 1px solid rgba(255, 255, 255, 0.30);
+        color: rgba(255, 255, 255, 0.96);
+        background: rgba(10, 14, 20, 0.58);
+        box-shadow: 0 2px 8px rgba(8, 12, 18, 0.24);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        font-family: system-ui, sans-serif;
+        font-size: 0.8rem;
+        font-weight: 700;
     }
 
-    .home-quick-action:nth-child(2) .home-quick-action-icon {
-        width: 76px;
-        height: 54px;
-        border-radius: 54% 46% 52% 48% / 48% 53% 47% 52%;
-        background: radial-gradient(circle at 35% 23%, rgba(255,255,255,0.8) 0 3%, transparent 24%), linear-gradient(145deg, #d9d6ed 0%, #afaacd 100%);
-        color: #6f698f;
-        box-shadow: 7px 9px 13px rgba(85, 82, 125, 0.22), -4px -4px 8px rgba(255,255,255,0.9), inset 1px 2px 3px rgba(255,255,255,0.75), inset -3px -4px 6px rgba(87, 80, 135, 0.14);
-        transform: rotate(6deg);
+    body.home-view-active .home-session-rail .home-poster-card.is-current,
+    body.home-view-active .home-session-rail .home-poster-card.is-selected {
+        border-color: var(--home-color-accent-deep);
+        background: var(--home-color-accent-soft);
     }
 
-    .home-quick-action:nth-child(3) .home-quick-action-icon {
-        width: 72px;
-        height: 57px;
-        border-radius: 48% 52% 45% 55% / 53% 48% 52% 47%;
-        background: radial-gradient(circle at 34% 25%, rgba(255,255,255,0.86) 0 3%, transparent 24%), linear-gradient(145deg, #d9d8ed 0%, #a9a9cf 100%);
-        color: #686487;
-        box-shadow: 7px 9px 13px rgba(80, 77, 124, 0.22), -4px -4px 8px rgba(255,255,255,0.9), inset 1px 2px 3px rgba(255,255,255,0.75), inset -3px -4px 6px rgba(82, 79, 129, 0.15);
-        transform: rotate(-5deg);
+    body.home-view-active .home-session-rail .home-poster-card-body {
+        position: relative;
+        z-index: var(--home-z-base);
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        display: grid;
+        gap: var(--home-space-xs);
+        align-content: end;
     }
 
-    .home-quick-action-icon svg {
-        width: 23px;
-        height: 23px;
-        fill: currentColor;
-        filter: drop-shadow(0 1px 0 rgba(255,255,255,0.5));
+    body.home-view-active .home-session-rail .home-poster-name {
+        min-width: 0;
+        margin: 0;
+        overflow-wrap: anywhere;
+        color: var(--home-color-ink);
+        background: none;
+        -webkit-text-fill-color: currentColor;
+        font-family: var(--home-font-display);
+        font-size: var(--home-text-base);
+        line-height: 1.15;
+        font-style: normal;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        white-space: normal;
     }
 
-    .home-quick-action-title {
-        font-family: Georgia, "Times New Roman", serif;
-        font-size: 17px;
-        line-height: 1;
+    body.home-view-active .home-session-rail .home-poster-copy {
+        display: block;
+        margin: 0;
+        overflow: hidden;
+        color: var(--home-color-muted);
+        background: none;
+        -webkit-text-fill-color: currentColor;
+        font-size: var(--home-text-sm);
+        line-height: 1.35;
+        font-weight: 400;
+        max-height: 2.7em;
+        white-space: normal;
     }
 
-    .home-quick-action-copy {
-        color: #8e7c8a;
-        font-size: 11px;
-        font-weight: 600;
+    body.home-view-active .home-session-rail .home-poster-card.has-artwork .home-poster-name,
+    body.home-view-active .home-session-rail .home-poster-card.has-artwork .home-poster-copy {
+        color: #fff;
+        -webkit-text-fill-color: #fff;
+        text-shadow: 0 1px 2px rgba(13, 17, 28, 0.54);
     }
 
-    body.home-view-active {
-        --m3-nav-icon: #7a6878;
-        --m3-nav-label: #7a6878;
-        --m3-nav-indicator-icon: #54304f;
-        --m3-nav-icon-filter: none;
-        --m3-nav-label-shadow: none;
+    body.home-view-active #home-featured-poster,
+    body.home-view-active #home-rhythm {
+        display: none !important;
     }
 
     body.home-view-active #app-nav {
-        border: 1px solid rgba(255,255,255,0.88);
-        background: rgba(255, 250, 252, 0.76);
-        box-shadow: 8px 10px 22px rgba(105, 76, 102, 0.14), -3px -3px 8px rgba(255,255,255,0.88);
-        backdrop-filter: blur(16px) saturate(1.05);
-        -webkit-backdrop-filter: blur(16px) saturate(1.05);
+        left: 50%;
+        right: auto;
+        bottom: calc(var(--home-space-sm) + env(safe-area-inset-bottom, 0px));
+        width: min(32.5rem, calc(100% - (var(--home-space-md) * 2)));
+        min-height: var(--home-nav-height);
+        align-items: center;
+        gap: var(--home-space-2xs);
+        padding: var(--home-space-2xs) var(--home-space-xs);
+        border: var(--home-rule) solid var(--home-color-rule);
+        border-radius: var(--home-radius-nav);
+        color: var(--m3-nav-icon);
+        background: var(--m3-nav-bg);
+        box-shadow: var(--m3-nav-box-shadow);
+        backdrop-filter: blur(48px) saturate(1.5);
+        -webkit-backdrop-filter: blur(48px) saturate(1.5);
+        transform: translateX(-50%);
+        z-index: var(--home-z-sticky);
+        will-change: auto;
+        transition: none;
     }
 
     body.home-view-active #app-nav::before,
     body.home-view-active #app-nav::after {
-        display: none;
+        display: block;
+    }
+
+    body.home-view-active .m3-nav-item {
+        min-height: 3.25rem;
+        gap: var(--home-space-3xs);
+        padding: var(--home-space-2xs);
+        color: var(--m3-nav-icon);
+        transition:
+            transform var(--home-dur-micro) var(--home-ease-out),
+            color var(--home-dur-short) var(--home-ease-out),
+            background-color var(--home-dur-short) var(--home-ease-out);
+    }
+
+    body.home-view-active .m3-nav-indicator {
+        width: 3.875rem;
+        height: 1.625rem;
+        color: inherit;
+        background: transparent;
+        box-shadow: none;
+        transition:
+            transform var(--home-dur-micro) var(--home-ease-out),
+            background-color var(--home-dur-short) var(--home-ease-out);
+    }
+
+    body.home-view-active .m3-nav-item svg {
+        width: 1.25rem;
+        height: 1.25rem;
+        filter: var(--m3-nav-icon-filter);
+        transition: opacity var(--home-dur-short) var(--home-ease-out);
+    }
+
+    body.home-view-active .m3-nav-label {
+        color: var(--m3-nav-label);
+        text-shadow: var(--m3-nav-label-shadow);
+        font-family: var(--home-font-body);
+        font-size: 0.53125rem;
+        line-height: 0.6875rem;
+        font-weight: 650;
+        letter-spacing: 0.01em;
+    }
+
+    body.home-view-active .m3-nav-item.is-active {
+        color: var(--m3-nav-indicator-icon);
+        background: transparent;
     }
 
     body.home-view-active .m3-nav-item.is-active .m3-nav-indicator {
-        background: linear-gradient(145deg, #fff, #f0e4ed);
-        box-shadow: 4px 5px 10px rgba(110, 78, 105, 0.14), -2px -2px 5px rgba(255,255,255,0.82);
+        color: inherit;
+        background: linear-gradient(160deg, rgba(255,255,255,0.62) 0%, rgba(230,214,248,0.54) 52%, rgba(151,115,179,0.20) 100%);
+        box-shadow:
+            inset 0 1px 0 rgba(255,255,255,0.76),
+            inset 0 -1px 0 rgba(255,255,255,0.22),
+            0 8px 18px rgba(79,54,105,0.14),
+            0 0 0 1px rgba(255,255,255,0.38);
     }
 
-    @media (min-width: 768px) {
-        .home-poster-scene {
-            display: block;
-            padding-top: calc(30px + env(safe-area-inset-top, 0px));
+    .home-dashboard button:focus-visible,
+    body.home-view-active .m3-nav-item:focus-visible {
+        outline: 3px solid var(--home-color-focus);
+        outline-offset: 2px;
+    }
+
+    .home-feature-start:focus-visible {
+        outline-color: var(--home-color-accent-ink);
+        outline-offset: 3px;
+    }
+
+    .home-dashboard button:active,
+    body.home-view-active .m3-nav-item:active {
+        transform: translateY(1px);
+    }
+
+    .home-dashboard button:disabled,
+    .home-dashboard button[aria-disabled="true"],
+    body.home-view-active .m3-nav-item:disabled,
+    body.home-view-active .m3-nav-item[aria-disabled="true"] {
+        cursor: not-allowed;
+        opacity: 0.5 !important;
+        transform: none !important;
+    }
+
+    .home-dashboard button[data-state="loading"],
+    body.home-view-active .m3-nav-item[data-state="loading"] {
+        cursor: progress;
+        opacity: 0.72;
+    }
+
+    .home-dashboard button[data-state="error"],
+    body.home-view-active .m3-nav-item[data-state="error"] {
+        border-color: var(--home-color-error);
+        outline: 2px solid var(--home-color-error);
+        outline-offset: 1px;
+    }
+
+    .home-dashboard button[data-state="success"],
+    body.home-view-active .m3-nav-item[data-state="success"] {
+        border-color: var(--home-color-success);
+        outline: 2px solid var(--home-color-success);
+        outline-offset: 1px;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+        .home-dashboard-settings:hover,
+        .home-explore-heading button:hover,
+        body.home-view-active .home-session-rail .home-poster-card:hover,
+        body.home-view-active .m3-nav-item:hover {
+            background: var(--home-color-paper-2);
+            transform: translateY(-1px);
         }
 
-        .home-poster-header,
-        .home-poster-rail {
-            grid-column: auto;
-            grid-row: auto;
+        .home-feature-start:hover {
+            background: var(--home-color-accent-deep);
+            transform: translateY(-1px);
+        }
+    }
+
+    @media (max-width: 22.4375rem) {
+        .home-dashboard {
+            --home-dashboard-gutter: var(--home-space-sm);
+            gap: var(--home-space-sm);
+            padding-inline: var(--home-space-sm);
+        }
+
+        .home-feature {
+            min-height: 7rem;
+            padding: var(--home-space-md);
+        }
+
+        .home-feature-start {
+            min-width: 4.75rem;
+            padding-inline: var(--home-space-sm);
+        }
+
+        body.home-view-active .home-session-viewport {
+            margin-inline-end: calc(var(--home-space-sm) * -1);
+            padding-inline-end: var(--home-space-sm);
+        }
+
+        body.home-view-active .home-session-rail .home-poster-card,
+        body.home-view-active .home-session-rail .home-poster-card--compact {
+            width: var(--home-poster-width);
+            min-width: var(--home-poster-width);
+        }
+
+        body.home-view-active #app-nav {
+            width: calc(100% - (var(--home-space-sm) * 2));
+        }
+
+        body.home-view-active .m3-nav-label {
+            font-size: 0.6875rem;
+        }
+    }
+
+    @media (min-width: 48rem) {
+        .home-dashboard {
+            width: min(100%, var(--home-shell));
+            display: grid;
+            grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+            grid-template-areas:
+                "header header"
+                "insight action"
+                "explore explore"
+                "rail rail";
+            grid-template-rows: auto minmax(8.75rem, auto) auto minmax(11.5rem, 1fr);
+            column-gap: var(--home-space-lg);
+            row-gap: var(--home-space-lg);
+            padding:
+                calc(var(--home-space-xl) + env(safe-area-inset-top, 0px))
+                var(--home-space-xl)
+                calc(var(--home-nav-height) + var(--home-space-xl) + env(safe-area-inset-bottom, 0px));
+        }
+
+        .home-dashboard-header {
+            grid-area: header;
+        }
+
+        .home-insight {
+            grid-area: insight;
+            align-self: stretch;
+            padding-inline-end: var(--home-space-lg);
+        }
+
+        .home-feature {
+            grid-area: action;
+            min-height: 8.75rem;
+        }
+
+        .home-explore-heading {
+            grid-area: explore;
+        }
+
+        body.home-view-active .home-session-viewport {
+            grid-area: rail;
+            min-height: 11.5rem;
+            margin-inline-end: calc(var(--home-space-xl) * -1);
+            padding-inline-end: var(--home-space-xl);
+        }
+
+        body.home-view-active .home-session-rail .home-poster-card,
+        body.home-view-active .home-session-rail .home-poster-card--compact {
+            width: 10rem;
+            min-width: 10rem;
+            height: 11.5rem;
+            min-height: 11.5rem;
+        }
+    }
+
+    @media (max-height: 40rem) {
+        .home-dashboard {
+            gap: var(--home-space-sm);
+            padding-top: calc(var(--home-space-sm) + env(safe-area-inset-top, 0px));
+        }
+
+        .home-dashboard-header {
+            min-height: 2.75rem;
+        }
+
+        .home-insight {
+            min-height: 3rem;
+            padding-block: var(--home-space-xs);
+        }
+
+        .home-feature {
+            min-height: 6.5rem;
+            padding: var(--home-space-md);
+        }
+
+        body.home-view-active .home-session-viewport {
+            min-height: var(--home-poster-height);
+            flex-basis: var(--home-poster-height);
+        }
+
+        body.home-view-active .home-session-rail .home-poster-card,
+        body.home-view-active .home-session-rail .home-poster-card--compact {
+            height: var(--home-poster-height);
+            min-height: var(--home-poster-height);
+        }
+    }
+
+    @media (orientation: landscape) and (max-height: 43.75rem) {
+        .home-dashboard {
+            gap: var(--home-space-sm);
+            padding-top: calc(var(--home-space-sm) + env(safe-area-inset-top, 0px));
+        }
+
+        .home-insight {
+            min-height: 3rem;
+            padding-block: var(--home-space-xs);
+        }
+
+        .home-feature {
+            min-height: 6.5rem;
+            padding: var(--home-space-md);
+        }
+
+        body.home-view-active .home-session-viewport {
+            min-height: 8.5rem;
+            flex-basis: 8.5rem;
+        }
+
+        body.home-view-active .home-session-rail .home-poster-card,
+        body.home-view-active .home-session-rail .home-poster-card--compact {
+            height: 8.5rem;
+            min-height: 8.5rem;
+        }
+    }
+
+    /* The insight panel was removed, so the home screen uses one fluid column.
+       Poster cards scale with the viewport while preserving the horizontal rail. */
+    :root {
+        --home-poster-width: clamp(7rem, 29vw, 11rem);
+        /* The carousel must fit above the fixed navigation on every device.
+           Limit its height by both width and available viewport height. */
+        --home-poster-height: clamp(11rem, min(58vw, calc(100dvh - 31rem)), 20rem);
+    }
+
+    body.home-view-active .home-session-rail .home-poster-card,
+    body.home-view-active .home-session-rail .home-poster-card--featured,
+    body.home-view-active .home-session-rail .home-poster-card--compact {
+        width: var(--home-poster-width);
+        min-width: var(--home-poster-width);
+        height: var(--home-poster-height);
+        min-height: var(--home-poster-height);
+        flex: 0 0 var(--home-poster-width);
+    }
+
+    @media (max-height: 40rem) {
+        :root { --home-poster-height: 8.5rem; }
+    }
+
+    @media (min-width: 48rem) {
+        .home-dashboard {
+            grid-template-columns: minmax(0, 1fr);
+            grid-template-areas:
+                "header"
+                "action"
+                "explore"
+                "rail"
+                "pagination";
+            grid-template-rows: auto minmax(8.75rem, auto) auto auto auto;
+            align-content: start;
+        }
+
+        .home-feature {
+            grid-area: action;
+            width: calc(100% + (var(--home-dashboard-gutter) * 2));
+            margin-inline: calc(var(--home-dashboard-gutter) * -1);
+        }
+
+        body.home-view-active .home-session-viewport {
+            grid-area: rail;
+            min-height: var(--home-poster-height);
+            flex-basis: var(--home-poster-height);
+        }
+
+        .home-poster-pagination { grid-area: pagination; }
+    }
+
+    /* Home uses the exact shared navigation component: no home-only sizing,
+       positioning, or motion overrides that can make the bar jump. */
+    /* Keep the same dark glass palette after returning from a skin. The
+       Home route previously replaced these values with a light variant. */
+    body.home-view-active {
+        --m3-nav-icon: rgba(255, 252, 255, 0.74);
+        --m3-nav-label: rgba(255, 252, 255, 0.8);
+        --m3-nav-indicator-icon: rgba(255, 255, 255, 0.99);
+        --m3-nav-icon-filter:
+            drop-shadow(0 1px 2px rgba(0,0,0,0.82))
+            drop-shadow(0 0 7px rgba(0,0,0,0.34));
+        --m3-nav-label-shadow:
+            0 1px 2px rgba(0,0,0,0.82),
+            0 0 6px rgba(0,0,0,0.32);
+        --m3-nav-bg:
+            radial-gradient(circle at 20% 0%, rgba(255,255,255,0.10), transparent 32%),
+            radial-gradient(circle at 82% 100%, rgba(255,255,255,0.04), transparent 40%),
+            linear-gradient(155deg, rgba(73,78,103,0.26) 0%, rgba(31,34,52,0.44) 46%, rgba(14,16,28,0.62) 100%);
+        --m3-nav-border: rgba(255,255,255,0.18);
+        --m3-nav-box-shadow:
+            0 24px 52px rgba(6,8,18,0.42),
+            0 8px 18px rgba(0,0,0,0.22),
+            inset 0 1px 0 rgba(255,255,255,0.22);
+    }
+
+    body.home-view-active #app-nav {
+        left: 16px;
+        right: 16px;
+        bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+        width: auto;
+        min-height: 58px;
+        padding: 4px 8px 6px;
+        gap: 6px;
+        border: 1px solid var(--m3-nav-border);
+        border-radius: 999px;
+        color: inherit;
+        background: var(--m3-nav-bg);
+        box-shadow: var(--m3-nav-box-shadow);
+        backdrop-filter: blur(48px) saturate(1.64) contrast(1.03);
+        -webkit-backdrop-filter: blur(48px) saturate(1.64) contrast(1.03);
+        transform: none;
+        z-index: 85;
+        overflow: hidden;
+        backface-visibility: hidden;
+        will-change: transform, opacity;
+        transition:
+            background-color var(--dur-theme) var(--ease-standard),
+            border-color var(--dur-theme) var(--ease-standard),
+            box-shadow 220ms var(--ease-standard);
+    }
+
+    body.home-view-active #app-nav::before,
+    body.home-view-active #app-nav::after { display: block; }
+
+    /* A skin can leave its navigation transition mid-frame. Home always
+       enters with the shared bar in its settled state. */
+    #app-nav.nav-state-reset,
+    #app-nav.nav-state-reset * {
+        transition: none !important;
+        animation: none !important;
+    }
+
+    body.home-view-active .m3-nav-item {
+        min-height: 44px;
+        gap: 2px;
+        padding: 1px 4px 0;
+        color: var(--m3-nav-icon);
+        transition: color 180ms var(--ease-standard), transform 160ms ease, border-color 180ms var(--ease-standard), background-color 180ms var(--ease-standard);
+    }
+
+    body.home-view-active .m3-nav-indicator {
+        width: 62px;
+        height: 26px;
+        color: inherit;
+        background: transparent;
+        box-shadow: none;
+        transition:
+            background-color 220ms var(--ease-standard),
+            transform 260ms var(--spring),
+            box-shadow 220ms var(--ease-standard);
+    }
+
+    body.home-view-active .m3-nav-item.is-active .m3-nav-indicator {
+        background:
+            linear-gradient(160deg, rgba(255,255,255,0.38) 0%, rgba(220,202,255,0.20) 52%, rgba(120,92,154,0.10) 100%);
+        box-shadow:
+            inset 0 1px 0 rgba(255,255,255,0.62),
+            inset 0 -1px 0 rgba(255,255,255,0.16),
+            0 8px 18px rgba(72,44,56,0.12),
+            0 0 0 1px rgba(255,255,255,0.24);
+    }
+
+    body.home-view-active .m3-nav-item svg {
+        width: 20px;
+        height: 20px;
+        filter: var(--m3-nav-icon-filter);
+        transition: fill 200ms var(--ease-standard), opacity 200ms var(--ease-standard), transform 260ms var(--spring);
+    }
+
+    body.home-view-active .m3-nav-label {
+        color: var(--m3-nav-label);
+        text-shadow: var(--m3-nav-label-shadow);
+        font-family: inherit;
+        font-size: 8.5px;
+        line-height: 11px;
+        font-weight: 650;
+        letter-spacing: 0.01em;
+    }
+
+    body.home-view-active .m3-nav-item.is-active { color: var(--m3-nav-indicator-icon); }
+    body.home-view-active .m3-nav-item:active { transform: scale(0.98); }
+
+    @media (hover: hover) and (pointer: fine) {
+        body.home-view-active .m3-nav-item:hover {
+            background: transparent;
+            transform: none;
+        }
+    }
+
+    /* Responsive home layout: phone fills the viewport, tablet expands the
+       content rhythm, and desktop keeps a focused mobile-app canvas. */
+    @media (min-width: 48rem) and (max-width: 63.9375rem) {
+        body.home-view-active #home-screen,
+        html.boot-home-view #home-screen {
+            left: 50%;
+            right: auto;
+            width: min(100%, var(--home-shell));
+            transform: translateX(-50%) translateY(var(--home-space-xs));
+        }
+
+        .home-dashboard {
+            --home-poster-width: clamp(10rem, 27vw, 13rem);
+            --home-poster-height: clamp(14rem, 42vw, 19rem);
+            --home-dashboard-gutter: var(--home-space-xl);
+        }
+
+        .home-feature {
+            min-height: clamp(12rem, 31vw, 17rem);
+        }
+    }
+
+    @media (min-width: 64rem) {
+        body.home-view-active #home-screen,
+        html.boot-home-view #home-screen {
+            left: 50%;
+            right: auto;
+            width: min(32.5rem, 100vw);
+            height: min(100dvh, 58.25rem);
+            max-height: 58.25rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 1.25rem 5rem rgba(39, 24, 55, 0.2);
+            transform: translateX(-50%) translateY(var(--home-space-xs));
+        }
+
+        .home-dashboard {
+            --home-poster-width: clamp(8rem, 18vw, 10rem);
+            --home-poster-height: clamp(12rem, 34vw, 15rem);
+            --home-dashboard-gutter: var(--home-space-lg);
+        }
+
+        .home-feature {
+            min-height: clamp(11rem, 28vw, 14rem);
+        }
+    }
+
+    /* Landscape is an in-app canvas, not a centred portrait preview.
+       Keep all content in the viewport and let the dashboard scroll locally
+       when a short device cannot fit the whole rail at once. */
+    @media (orientation: landscape) and (max-height: 48rem) {
+        body.home-view-active {
+            overflow: hidden;
+            overscroll-behavior: none;
+        }
+
+        body.home-view-active #home-screen,
+        html.boot-home-view #home-screen {
+            left: 0;
+            right: 0;
+            width: 100vw;
+            height: 100dvh;
+            max-height: none;
+            border-radius: 0;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .home-dashboard {
+            --home-dashboard-gutter: clamp(1rem, 3vw, 2rem);
+            --home-poster-width: clamp(7.5rem, 15vw, 10rem);
+            --home-poster-height: clamp(7rem, 28vh, 10rem);
+            gap: clamp(0.5rem, 1.3vw, 0.875rem);
+            padding:
+                calc(0.75rem + env(safe-area-inset-top, 0px))
+                var(--home-dashboard-gutter)
+                calc(4.75rem + env(safe-area-inset-bottom, 0px));
+            grid-template-columns: minmax(0, 1fr);
+            grid-template-areas:
+                "header"
+                "action"
+                "explore"
+                "rail"
+                "pagination";
+            grid-template-rows: auto clamp(5.5rem, 20vh, 8rem) auto minmax(0, 28vh) auto;
+            overflow: hidden;
+            overscroll-behavior: none;
+            touch-action: pan-x;
+        }
+
+        .home-dashboard-header h1 {
+            font-size: clamp(1.5rem, 3.2vw, 2rem);
+        }
+
+        .home-feature {
+            min-height: 0;
+            height: clamp(5.5rem, 20vh, 8rem);
+        }
+
+        body.home-view-active .home-session-viewport {
+            min-height: 0;
+            height: var(--home-poster-height);
+            overflow-x: auto;
+            overflow-y: hidden;
+            overscroll-behavior: none;
+            touch-action: pan-x;
+        }
+
+        body.home-view-active .home-session-rail .home-poster-card,
+        body.home-view-active .home-session-rail .home-poster-card--featured,
+        body.home-view-active .home-session-rail .home-poster-card--compact {
+            height: var(--home-poster-height);
+            min-height: var(--home-poster-height);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .home-background-video {
+            display: none;
+        }
+
+        #home-screen,
+        .home-dashboard button,
+        body.home-view-active .home-poster-card,
+        body.home-view-active .m3-nav-item,
+        body.home-view-active .m3-nav-indicator,
+        body.home-view-active .m3-nav-item svg {
+            transition-duration: 150ms !important;
+            transform: none !important;
+        }
+    }
+
+    /* Home: tactile calm — the reference composition translated to the
+       existing app controls and artwork. */
+    body.home-view-active #home-screen {
+        inset: 0;
+        width: 100%;
+        height: 100dvh;
+        max-height: none;
+        border-radius: 0;
+        box-shadow: none;
+        transform: none;
+    }
+
+    body.home-view-active .home-dashboard {
+        --home-dashboard-gutter: clamp(1.25rem, 5vw, 1.75rem);
+        position: absolute;
+        inset: 0;
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas:
+            "header"
+            "action"
+            "explore"
+            "rail"
+            "pagination";
+        grid-template-rows: auto minmax(11rem, 1fr) auto minmax(8.75rem, 0.82fr) auto;
+        align-content: stretch;
+        gap: clamp(0.625rem, 1.7vh, 1rem);
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding:
+            calc(1.5rem + env(safe-area-inset-top, 0px))
+            var(--home-dashboard-gutter)
+            calc(5.35rem + env(safe-area-inset-bottom, 0px));
+        overflow: hidden;
+        overscroll-behavior: none;
+        background: transparent;
+    }
+
+    body.home-view-active .home-dashboard-header {
+        grid-area: header;
+        min-height: 0;
+        align-items: start;
+    }
+
+    body.home-view-active .home-dashboard-header h1 {
+        max-width: 10ch;
+        color: #402e20;
+        font-size: clamp(2rem, 9.1vw, 3.25rem);
+        line-height: 0.98;
+        font-weight: 500;
+        letter-spacing: -0.045em;
+        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.52);
+    }
+
+    body.home-view-active .home-feature {
+        --home-click-surface: #eadcc7;
+        grid-area: action;
+        position: relative;
+        width: 100%;
+        min-height: 0;
+        height: 100%;
+        margin: 0;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding: clamp(1.25rem, 5vw, 1.75rem);
+        border: 1px solid rgba(126, 91, 61, 0.34);
+        border-radius: clamp(1.5rem, 7vw, 2rem);
+        color: #3f2b1f;
+        background: transparent;
+        box-shadow:
+            0 1.15rem 2.25rem rgba(78, 52, 31, 0.2),
+            0 0.28rem 0.65rem rgba(78, 52, 31, 0.1),
+            inset 0 2px 0 rgba(255, 255, 255, 0.82),
+            inset 0 -2px 0 rgba(112, 77, 44, 0.13),
+            inset 0 0 0 1px rgba(255, 255, 255, 0.42);
+    }
+
+    /* Keep the tactile control in its final coordinates even while Home is
+       inactive. This prevents the unstyled inline span from flashing in from
+       the lower-left while the home-view-active class is being restored. */
+    .home-feature-tactile-button {
+        position: absolute;
+        left: 50%;
+        top: 56%;
+        transform: translate(-50%, -50%);
+        visibility: hidden;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    /* One physical control, matching the surface of the Click card. */
+    body.home-view-active .home-feature-tactile-button {
+        position: absolute;
+        z-index: 1;
+        left: 50%;
+        top: 62%;
+        width: clamp(7.4rem, 36vw, 10.5rem);
+        aspect-ratio: 1;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        background:
+            radial-gradient(circle at 50% 45%, transparent 0 60%, rgba(103, 74, 46, 0.16) 61% 64%, transparent 65%),
+            var(--home-click-surface);
+        box-shadow:
+            0 0.8rem 1.25rem rgba(72, 51, 32, 0.28),
+            inset 0 0.16rem 0.18rem rgba(255,255,255,0.78),
+            inset 0 -0.24rem 0.42rem rgba(112, 77, 44, 0.2);
+        transform: translate(-50%, -50%);
+        visibility: visible;
+        opacity: 1;
+        transition: box-shadow 180ms ease;
+    }
+
+    body.home-view-active .home-feature-tactile-button::before {
+        content: "";
+        position: absolute;
+        inset: 9%;
+        border-radius: inherit;
+        background: rgba(55, 34, 19, 0.8);
+        box-shadow:
+            0 0.12rem 0.3rem rgba(46, 28, 14, 0.54),
+            inset 0 0.12rem 0.22rem rgba(255, 223, 175, 0.22);
+    }
+
+    body.home-view-active .home-feature-tactile-button > span {
+        position: relative;
+        z-index: 1;
+        width: 76%;
+        aspect-ratio: 1;
+        border-radius: inherit;
+        background:
+            repeating-linear-gradient(158deg, rgba(79, 43, 18, 0.11) 0 1px, transparent 1px 7px),
+            linear-gradient(145deg, #e8bb7e 0%, #d79d60 50%, #b87638 100%);
+        box-shadow:
+            inset 0 0.13rem 0.2rem rgba(255, 234, 198, 0.72),
+            inset 0 -0.2rem 0.32rem rgba(90, 48, 20, 0.25);
+    }
+
+    body.home-view-active .home-feature:active .home-feature-tactile-button {
+        box-shadow:
+            0 0.42rem 0.82rem rgba(72, 51, 32, 0.22),
+            inset 0 0.22rem 0.42rem rgba(112, 77, 44, 0.22);
+        transform: translate(-50%, calc(-50% + 0.24rem)) scale(0.97);
+    }
+
+    body.home-view-active .home-feature-copy h2 {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        text-align: center;
+        font-size: clamp(1.75rem, 8vw, 2.5rem);
+        line-height: 1;
+        font-weight: 600;
+        letter-spacing: -0.04em;
+        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.36);
+    }
+
+    body.home-view-active .home-feature-play-icon {
+        width: 0.7em;
+        height: 0.7em;
+        opacity: 0.86;
+    }
+
+    body.home-view-active .home-feature-copy p,
+    body.home-view-active .home-explore-heading p,
+    body.home-view-active .home-explore-heading button {
+        display: none;
+    }
+
+    body.home-view-active .home-explore-heading {
+        grid-area: explore;
+        margin: 0;
+        align-items: center;
+    }
+
+    body.home-view-active .home-explore-heading h2 {
+        color: #402e20;
+        font-size: clamp(1.35rem, 6.2vw, 1.9rem);
+        line-height: 1.05;
+        font-weight: 600;
+        letter-spacing: -0.035em;
+    }
+
+    body.home-view-active .home-session-viewport {
+        grid-area: rail;
+        width: calc(100% + var(--home-dashboard-gutter));
+        min-width: 0;
+        min-height: 0;
+        height: 100%;
+        margin: 0 calc(var(--home-dashboard-gutter) * -1) 0 0;
+        padding: 0 var(--home-dashboard-gutter) 0 0;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        scroll-padding-inline: 0;
+        touch-action: pan-x;
+    }
+
+    body.home-view-active .home-session-rail {
+        align-items: stretch;
+        gap: clamp(0.625rem, 3vw, 0.9rem);
+        height: 100%;
+    }
+
+    body.home-view-active .home-session-rail .home-poster-card,
+    body.home-view-active .home-session-rail .home-poster-card--featured,
+    body.home-view-active .home-session-rail .home-poster-card--compact {
+        width: clamp(5.75rem, 27vw, 7.25rem);
+        min-width: clamp(5.75rem, 27vw, 7.25rem);
+        height: 100%;
+        min-height: 0;
+        flex: 0 0 clamp(5.75rem, 27vw, 7.25rem);
+        padding: clamp(0.65rem, 3.5vw, 0.9rem);
+        border: 1px solid rgba(255, 255, 255, 0.74);
+        border-radius: clamp(1.1rem, 5vw, 1.45rem);
+        box-shadow: 0 0.65rem 1.4rem rgba(70, 47, 34, 0.16);
+    }
+
+    body.home-view-active .home-session-rail .home-poster-card-body {
+        gap: 0.25rem;
+    }
+
+    body.home-view-active .home-session-rail .home-poster-name {
+        font-size: clamp(0.92rem, 4vw, 1.15rem);
+        line-height: 1.04;
+        font-weight: 650;
+        letter-spacing: -0.025em;
+    }
+
+    body.home-view-active .home-session-rail .home-poster-copy {
+        font-size: clamp(0.69rem, 3.1vw, 0.84rem);
+        line-height: 1.24;
+        max-height: 2.48em;
+    }
+
+    body.home-view-active .home-poster-pagination {
+        grid-area: pagination;
+        min-height: 0;
+        margin: 0;
+        align-self: center;
+    }
+
+    body.home-view-active .home-poster-pagination button {
+        background: rgba(86, 55, 39, 0.23);
+    }
+
+    body.home-view-active .home-poster-pagination button[aria-current="true"] {
+        background: #a76443;
+    }
+
+    @media (min-width: 48rem) {
+        body.home-view-active .home-dashboard {
+            --home-dashboard-gutter: clamp(2rem, 5vw, 4rem);
+            grid-template-columns: minmax(18rem, 0.78fr) minmax(20rem, 1.22fr);
+            grid-template-areas:
+                "header header"
+                "action explore"
+                "action rail"
+                "action pagination";
+            grid-template-rows: auto auto minmax(11rem, 1fr) auto;
+            column-gap: clamp(1.5rem, 4vw, 3.5rem);
+            row-gap: clamp(0.75rem, 2vh, 1.25rem);
+        }
+
+        body.home-view-active .home-dashboard-header h1 { max-width: 14ch; }
+        body.home-view-active .home-feature { min-height: 17rem; }
+        body.home-view-active .home-session-rail .home-poster-card,
+        body.home-view-active .home-session-rail .home-poster-card--featured,
+        body.home-view-active .home-session-rail .home-poster-card--compact {
+            width: clamp(7rem, 13vw, 9rem);
+            min-width: clamp(7rem, 13vw, 9rem);
+            flex-basis: clamp(7rem, 13vw, 9rem);
+        }
+    }
+
+    @media (orientation: portrait) and (max-height: 43.75rem) {
+        body.home-view-active .home-dashboard {
+            grid-template-rows: auto minmax(8.5rem, 1fr) auto minmax(7.25rem, 0.8fr) auto;
+            gap: 0.55rem;
+            padding-top: calc(1rem + env(safe-area-inset-top, 0px));
+            padding-bottom: calc(4.9rem + env(safe-area-inset-bottom, 0px));
+        }
+
+        body.home-view-active .home-dashboard-header h1 {
+            font-size: clamp(1.72rem, 8.4vw, 2.1rem);
+        }
+
+        body.home-view-active .home-feature {
+            padding: 1rem;
+        }
+    }
+
+    @media (orientation: landscape) and (max-height: 48rem) {
+        body.home-view-active .home-dashboard {
+            --home-dashboard-gutter: clamp(1rem, 3vw, 2.5rem);
+            grid-template-columns: minmax(15rem, 0.78fr) minmax(0, 1.22fr);
+            grid-template-areas:
+                "header header"
+                "action explore"
+                "action rail"
+                "action pagination";
+            grid-template-rows: auto auto minmax(0, 1fr) auto;
+            column-gap: clamp(1rem, 3vw, 2rem);
+            row-gap: clamp(0.4rem, 1.2vh, 0.75rem);
+            padding-top: calc(0.85rem + env(safe-area-inset-top, 0px));
+            padding-bottom: calc(4.65rem + env(safe-area-inset-bottom, 0px));
+        }
+
+        body.home-view-active .home-dashboard-header h1 {
+            font-size: clamp(1.6rem, 3.1vw, 2.25rem);
+        }
+
+        body.home-view-active .home-feature { min-height: 0; }
+        body.home-view-active .home-feature-tactile-button {
+            top: 58%;
+            width: clamp(4.5rem, 13vh, 6.5rem);
+        }
+        body.home-view-active .home-session-rail .home-poster-card,
+        body.home-view-active .home-session-rail .home-poster-card--featured,
+        body.home-view-active .home-session-rail .home-poster-card--compact {
+            width: clamp(5.5rem, 12vw, 7.5rem);
+            min-width: clamp(5.5rem, 12vw, 7.5rem);
+            flex-basis: clamp(5.5rem, 12vw, 7.5rem);
         }
     }
 
@@ -6044,54 +6986,34 @@
         </div>
     </div>
 
-    <div id="home-screen" aria-label="Choose interaction skin">
-        <section id="home-poster-scene" class="home-poster-scene" aria-label="Choose interaction skin">
-            <header class="home-poster-header">
-                <button id="home-poster-settings" class="home-poster-settings" type="button" onclick="Settings.open()" aria-label="Open settings">
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 00.12-.61l-1.92-3.32a.49.49 0 00-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 00-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96a.49.49 0 00-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.07.62-.07.94s.02.64.07.94l-2.03 1.58a.49.49 0 00-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6A3.6 3.6 0 1112 8.4a3.6 3.6 0 010 7.2z"/></svg>
-                </button>
-                <p class="home-poster-kicker" data-i18n="home.kicker">A small tactile ritual</p>
-                <h1 class="home-poster-title" data-i18n="home.title">Press. Listen.<br>Reset.</h1>
-                <p class="home-poster-subcopy" data-i18n="home.subtitle">Tactile worlds and sound moods<br>to reset, relax and refocus.</p>
+    <div id="home-screen" aria-label="Home">
+        <img class="home-background-image" src="assets/home-backgrounds/linen-sunlight-background.webp" alt="" aria-hidden="true">
+        <section id="home-poster-scene" class="home-dashboard" aria-label="Relaxation dashboard">
+            <header class="home-dashboard-header">
+                <div>
+                    <h1 data-i18n="home.title">Натисни. Послухай.<br>Видихни.</h1>
+                </div>
             </header>
 
-            <div class="home-poster-featured-wrap">
-                <div id="home-featured-poster"></div>
-            </div>
-            <div id="home-poster-viewport" class="home-poster-viewport">
-                <div id="home-poster-rail" class="home-poster-rail"></div>
-            </div>
-            <div class="home-carousel-pagination" aria-hidden="true">
-                <span class="is-active"></span><span></span><span></span><span></span>
-            </div>
-            <section id="home-rhythm" class="home-rhythm" aria-labelledby="home-rhythm-title" hidden>
-                <h2 id="home-rhythm-title" class="home-rhythm-title">Your rhythm</h2>
-                <button id="home-continue" class="home-continue" type="button">
-                    <span id="home-continue-art" class="home-continue-art" aria-hidden="true"></span>
-                    <span class="home-continue-copy">
-                        <span class="home-continue-label">Continue</span>
-                        <span id="home-continue-detail" class="home-continue-detail"></span>
-                    </span>
-                    <span class="home-continue-play" aria-hidden="true">▶</span>
-                </button>
-                <div class="home-quick-actions" aria-label="Quick rituals">
-                    <button class="home-quick-action" type="button" data-home-action="reset">
-                        <span class="home-quick-action-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5a7 7 0 1 1-6.65 9.2 1 1 0 1 1 1.9-.62A5 5 0 1 0 12 7h-1.6l1.3 1.3a1 1 0 0 1-1.42 1.4L7.3 6.7a1 1 0 0 1 0-1.4l2.98-3a1 1 0 0 1 1.42 1.4L10.4 5H12Z"/></svg></span>
-                        <span class="home-quick-action-title">Reset</span>
-                        <span class="home-quick-action-copy">2 min</span>
-                    </button>
-                    <button class="home-quick-action" type="button" data-home-action="focus">
-                        <span class="home-quick-action-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7.7 17.7a1 1 0 0 1-1.4 0 4.5 4.5 0 0 1 0-6.4l6.4-6.4a4.5 4.5 0 0 1 6.4 6.4l-1.7 1.7a1 1 0 0 1-1.4-1.4l1.7-1.7a2.5 2.5 0 0 0-3.6-3.6l-6.4 6.4a2.5 2.5 0 0 0 0 3.6 1 1 0 0 1 0 1.4Zm8-1a4.5 4.5 0 0 1-6.4 0 1 1 0 0 1 1.4-1.4 2.5 2.5 0 0 0 3.6 0l6.4-6.4a2.5 2.5 0 0 0 0-3.6 1 1 0 1 1 1.4-1.4 4.5 4.5 0 0 1 0 6.4l-6.4 6.4Z"/></svg></span>
-                        <span class="home-quick-action-title">Focus</span>
-                        <span class="home-quick-action-copy">∞</span>
-                    </button>
-                    <button class="home-quick-action" type="button" data-home-action="sleep">
-                        <span class="home-quick-action-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20.6 14.8A8.4 8.4 0 0 1 9.2 3.4 8.5 8.5 0 1 0 20.6 14.8Z"/></svg></span>
-                        <span class="home-quick-action-title">Sleep</span>
-                        <span class="home-quick-action-copy">timer</span>
-                    </button>
+            <button class="home-feature" type="button" onclick="HomeSkinScene.openPoster('click')" aria-label="Відкрити Click">
+                <div class="home-feature-copy">
+                    <h2><span data-i18n="home.clickTitle">Click</span><svg class="home-feature-play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.14v13.72L19.2 12 8 5.14Z"/></svg></h2>
                 </div>
-            </section>
+                <span class="home-feature-tactile-button" aria-hidden="true"><span></span></span>
+            </button>
+
+            <div class="home-explore-heading">
+                <div>
+                    <h2 data-i18n="home.explore">Спробуй інші</h2>
+                </div>
+            </div>
+
+            <div id="home-poster-viewport" class="home-session-viewport">
+                <div id="home-poster-rail" class="home-session-rail"></div>
+            </div>
+            <div id="home-poster-pagination" class="home-poster-pagination" aria-label="Навігація каруселлю"></div>
+            <div id="home-featured-poster" hidden></div>
+            <section id="home-rhythm" hidden></section>
         </section>
     </div>
 
@@ -6500,6 +7422,14 @@
                 swipeUp: 'Swipe up', close: 'Close', home: 'Home', library: 'Library', guide: 'Noise ID', account: 'Account'
             },
             home: {
+                greeting: 'Welcome back',
+                prompt: 'What would help right now?',
+                insight: 'A clear click gives your attention one simple place to land.',
+                clickTitle: 'Click',
+                clickCopy: 'A short tactile pause',
+                explore: 'Explore',
+                exploreCopy: 'Noise for focus, rest, and sleep',
+                allSounds: 'All',
                 kicker: 'A small tactile ritual',
                 title: 'Press. Listen.<br>Reset.',
                 subtitle: 'Tactile worlds and sound moods<br>to reset, relax and refocus.',
@@ -6514,6 +7444,17 @@
                     infrared: ['Infrared', 'Warm. Deep. Inner quiet.']
                 },
                 use: 'Use',
+                start: 'Start',
+                continue: 'Continue',
+                otherSounds: 'Other sounds',
+                viewAll: 'View all',
+                configure: 'Configure',
+                rhythm: 'Your rhythm',
+                reset: 'Reset',
+                focus: 'Focus',
+                sleep: 'Sleep',
+                minutes: '2 min',
+                timer: 'timer',
                 noiseId: 'Noise ID'
             },
             onboarding: {
@@ -6594,7 +7535,6 @@
             },
             sounds: {
                 'classic-click': ['Classic Click', 'Soft tactile click'],
-                'classic-click-original': ['Click', 'Original tactile click'],
                 'foot-switch-click': ['Foot Switch', 'Chunky foot switch press'],
                 'light-switch-flip-click': ['Light Switch Flip', 'Light wall switch flip'],
                 'light-switch-on-click': ['Light Switch On', 'Sharp light switch engage'],
@@ -6657,7 +7597,7 @@
         ...I18N.en,
         languageName: 'Українська',
         nav: { settings: 'Налаштування', premium: 'Преміум', themes: 'Теми', sounds: 'Звуки', skins: 'Скіни', swipeUp: 'Свайп вгору', close: 'Закрити', home: 'Головна', library: 'Бібліотека', guide: 'Noise ID', account: 'Акаунт' },
-        home: { kicker: 'Маленький тактильний ритуал', title: 'Натисни. Послухай.<br>Видихни.', subtitle: 'Звукові настрої,<br>щоб перезавантажитись.', posters: { click: ['Клік', 'Чисті, приємні клацання.'], moon: ['Місяць', 'Загадочна атмосфера.'], whiteNoise: ['Білий шум', 'Рівно. Бадьоро.'], brownNoise: ['Коричневий шум', 'Швидкий релакс.'], rain: ['Дощ', 'Природні звуки.'], pinkNoise: ['Рожевий шум', 'Збалансовано і мʼяко.'], orangeNoise: ['Помаранчевий шум', 'Теплий фокусний спектр.'], infrared: ['Інфрачервоний шум', 'Внутрішня тиша.'] }, use: 'Використати', noiseId: 'Noise ID' },
+        home: { greeting: 'Вітаємо знову', prompt: 'Що допоможе зараз?', insight: 'Один чіткий клік дає увазі просту точку опори.', clickTitle: 'Click', clickCopy: 'Коротка тактильна пауза', explore: 'Спробуй інші', exploreCopy: 'Шуми для фокусу, відпочинку та сну', allSounds: 'Усі', kicker: 'Маленький тактильний ритуал', title: 'Натисни. Послухай.<br>Видихни.', subtitle: 'Звукові настрої,<br>щоб перезавантажитись.', posters: { click: ['Клік', 'Чіткий. Присутній. Справжній.'], moon: ['Місяць', 'Загадкова атмосфера.'], whiteNoise: ['Білий шум', 'Рівно. Бадьоро.'], brownNoise: ['Коричневий шум', 'Швидко заснути.'], rain: ['Дощ', 'Очищає. Релаксує.'], pinkNoise: ['Рожевий шум', 'Збалансовано і мʼяко.'], orangeNoise: ['Помаранчевий шум', 'Теплий фокусний спектр.'], infrared: ['Інфрачервоний шум', 'Внутрішня тиша.'] }, use: 'Запустити', start: 'Почати', continue: 'Продовжити', otherSounds: 'Інші звуки', viewAll: 'Переглянути всі', configure: 'Налаштувати', rhythm: 'Твій ритм', reset: 'Ресет', focus: 'Фокус', sleep: 'Сон', minutes: '2 хв', timer: 'таймер', noiseId: 'Noise ID' },
         onboarding: {
             ...I18N.en.onboarding,
             slide1Kicker: 'Маленький ритуал для<br>перевантажених моментів',
@@ -6726,7 +7666,6 @@
         sounds: {
             ...I18N.en.sounds,
             'classic-click': ['Класичний клік', 'М’який тактильний клік'],
-            'classic-click-original': ['Клік', 'Оригінальний тактильний клік'],
             'mouse-click-deep': ['Клік класичної кнопки', 'Глибший чіткий клік'],
             'white-noise': ['Білий шум', 'Яскраве повноспектральне шипіння'],
             'white-noise-radio': ['Радіошум', 'Білий шум із м’якою радіотекстурою'],
@@ -6826,6 +7765,127 @@
         ,fallback: { singleSound: 'Som de clique tátil', continuousSound: 'Som relaxante em loop' }
     };
 
+    /* Complete the compact locale declarations above.  Previously any home
+       key omitted by a locale silently fell back to English, which left mixed
+       language screens (for example Japanese + “Click” + “Explore”). */
+    const HOME_LOCALE_COMPLETIONS = {
+        uk: {
+            greeting: 'Вітаємо знову', prompt: 'Що допоможе зараз?',
+            insight: 'Один чіткий клік дає увазі просту точку опори.',
+            clickTitle: 'Клік', clickCopy: 'Коротка тактильна пауза',
+            explore: 'Спробуй інші', exploreCopy: 'Шуми для фокусу, відпочинку та сну', allSounds: 'Усі',
+            start: 'Почати', continue: 'Продовжити', otherSounds: 'Інші звуки', viewAll: 'Переглянути всі',
+            configure: 'Налаштувати', rhythm: 'Твій ритм', reset: 'Ресет', focus: 'Фокус', sleep: 'Сон',
+            minutes: '2 хв', timer: 'таймер', use: 'Запустити'
+        },
+        ja: {
+            greeting: 'おかえりなさい', prompt: '今、何が必要ですか？',
+            insight: '一つの明確なクリックが、意識を今に戻す支点になります。',
+            clickTitle: 'クリック', clickCopy: '短い触覚の休息',
+            explore: 'ほかの音を試す', exploreCopy: '集中・休息・睡眠のための音', allSounds: 'すべて',
+            start: '始める', continue: '続ける', otherSounds: 'ほかの音', viewAll: 'すべて見る',
+            configure: '設定する', rhythm: 'あなたのリズム', reset: 'リセット', focus: '集中', sleep: '睡眠',
+            minutes: '2分', timer: 'タイマー', use: '再生'
+        },
+        fr: {
+            greeting: 'Bon retour', prompt: 'De quoi as-tu besoin maintenant ?',
+            insight: 'Un clic net offre à ton attention un point d’ancrage simple.',
+            clickTitle: 'Clic', clickCopy: 'Une courte pause tactile',
+            explore: 'Essaie les autres', exploreCopy: 'Des sons pour le focus, le repos et le sommeil', allSounds: 'Tous',
+            start: 'Commencer', continue: 'Continuer', otherSounds: 'Autres sons', viewAll: 'Tout voir',
+            configure: 'Configurer', rhythm: 'Ton rythme', reset: 'Réinitialiser', focus: 'Focus', sleep: 'Sommeil',
+            minutes: '2 min', timer: 'minuteur', use: 'Lancer'
+        },
+        de: {
+            greeting: 'Willkommen zurück', prompt: 'Was hilft dir gerade?',
+            insight: 'Ein klarer Klick gibt deiner Aufmerksamkeit einen einfachen Anker.',
+            clickTitle: 'Klick', clickCopy: 'Eine kurze taktile Pause',
+            explore: 'Andere ausprobieren', exploreCopy: 'Klänge für Fokus, Ruhe und Schlaf', allSounds: 'Alle',
+            start: 'Starten', continue: 'Fortsetzen', otherSounds: 'Andere Klänge', viewAll: 'Alle ansehen',
+            configure: 'Einstellen', rhythm: 'Dein Rhythmus', reset: 'Zurücksetzen', focus: 'Fokus', sleep: 'Schlaf',
+            minutes: '2 Min.', timer: 'Timer', use: 'Abspielen'
+        },
+        es: {
+            greeting: 'Bienvenido de nuevo', prompt: '¿Qué te ayudaría ahora?',
+            insight: 'Un clic claro le da a tu atención un punto de apoyo sencillo.',
+            clickTitle: 'Clic', clickCopy: 'Una breve pausa táctil',
+            explore: 'Prueba otros', exploreCopy: 'Sonidos para concentrarte, descansar y dormir', allSounds: 'Todos',
+            start: 'Empezar', continue: 'Continuar', otherSounds: 'Otros sonidos', viewAll: 'Ver todos',
+            configure: 'Configurar', rhythm: 'Tu ritmo', reset: 'Reiniciar', focus: 'Concentración', sleep: 'Sueño',
+            minutes: '2 min', timer: 'temporizador', use: 'Reproducir'
+        },
+        pt: {
+            greeting: 'Bem-vindo de volta', prompt: 'O que ajudaria agora?',
+            insight: 'Um clique nítido dá à atenção um ponto de apoio simples.',
+            clickTitle: 'Clique', clickCopy: 'Uma breve pausa tátil',
+            explore: 'Experimente outros', exploreCopy: 'Sons para foco, descanso e sono', allSounds: 'Todos',
+            start: 'Começar', continue: 'Continuar', otherSounds: 'Outros sons', viewAll: 'Ver todos',
+            configure: 'Configurar', rhythm: 'O seu ritmo', reset: 'Reiniciar', focus: 'Foco', sleep: 'Sono',
+            minutes: '2 min', timer: 'temporizador', use: 'Reproduzir'
+        }
+    };
+
+    const THEME_LOCALE_COMPLETIONS = {
+        uk: { classic: 'Класична', night: 'Ніч', arctic: 'Арктика', sage: 'Шавлія', cosmos: 'Космос', blush: 'Рум’янець', obsidian: 'Обсидіан' },
+        ja: { classic: 'クラシック', night: 'ナイト', arctic: '北極', sage: 'セージ', cosmos: 'コスモス', blush: 'ブラッシュ', obsidian: '黒曜石' },
+        fr: { classic: 'Classique', night: 'Nuit', arctic: 'Arctique', sage: 'Sauge', cosmos: 'Cosmos', blush: 'Rosé', obsidian: 'Obsidienne' },
+        de: { classic: 'Klassisch', night: 'Nacht', arctic: 'Arktis', sage: 'Salbei', cosmos: 'Kosmos', blush: 'Rosé', obsidian: 'Obsidian' },
+        es: { classic: 'Clásico', night: 'Noche', arctic: 'Ártico', sage: 'Salvia', cosmos: 'Cosmos', blush: 'Rubor', obsidian: 'Obsidiana' },
+        pt: { classic: 'Clássico', night: 'Noite', arctic: 'Ártico', sage: 'Sálvia', cosmos: 'Cosmos', blush: 'Rosado', obsidian: 'Obsidiana' }
+    };
+
+    const INTERFACE_LOCALE_COMPLETIONS = {
+        ja: {
+            nav: { themes: 'テーマ', sounds: 'サウンド', skins: 'スキン' },
+            actions: { active: '再生中', select: '選択', stop: '停止', preview: name => `${name}を試聴`, addFavorite: name => `${name}をお気に入りに追加`, removeFavorite: name => `${name}をお気に入りから削除`, copied: 'アプリのリンクをコピーしました。', sharePrompt: 'このアプリのリンクを共有：', shareTitle: 'Digital Fidget: Mental ASMR', shareText: '落ち着きを取り戻す触覚リセットを試してみてください。' },
+            timer: { open: 'スリープタイマーを開く', decrease: '時間を減らす', increase: '時間を増やす' },
+            paywall: { feature1: 'プレミアム触覚スキン', feature2: 'プレミアムサウンドライブラリ', feature3: 'プレミアムビジュアルテーマ', feature4: '広告は一切ありません', lifetime: '永久アクセス' }
+        },
+        fr: {
+            nav: { themes: 'Thèmes', sounds: 'Sons', skins: 'Styles' },
+            actions: { active: 'Actif', select: 'Sélectionner', stop: 'Arrêter', preview: name => `Écouter ${name}`, addFavorite: name => `Ajouter ${name} aux favoris`, removeFavorite: name => `Retirer ${name} des favoris`, copied: 'Lien de l’application copié.', sharePrompt: 'Partager ce lien :', shareTitle: 'Digital Fidget: Mental ASMR', shareText: 'Essaie ce rituel tactile pour retrouver le calme.' },
+            timer: { open: 'Ouvrir le minuteur', decrease: 'Réduire la durée', increase: 'Augmenter la durée' },
+            paywall: { feature1: 'Styles tactiles Premium', feature2: 'Bibliothèque sonore Premium', feature3: 'Thèmes visuels Premium', feature4: 'Aucune publicité', lifetime: 'Accès à vie' }
+        },
+        de: {
+            nav: { themes: 'Themen', sounds: 'Klänge', skins: 'Stile' },
+            actions: { active: 'Aktiv', select: 'Auswählen', stop: 'Stoppen', preview: name => `${name} anhören`, addFavorite: name => `${name} zu Favoriten hinzufügen`, removeFavorite: name => `${name} aus Favoriten entfernen`, copied: 'App-Link kopiert.', sharePrompt: 'Diesen App-Link teilen:', shareTitle: 'Digital Fidget: Mental ASMR', shareText: 'Probiere dieses taktile Ritual für ruhigere Momente.' },
+            timer: { open: 'Schlaf-Timer öffnen', decrease: 'Zeit verringern', increase: 'Zeit erhöhen' },
+            paywall: { feature1: 'Premium-Interaktionsstile', feature2: 'Premium-Klangbibliothek', feature3: 'Premium-Designs', feature4: 'Keine Werbung', lifetime: 'Lebenslanger Zugriff' }
+        },
+        es: {
+            nav: { themes: 'Temas', sounds: 'Sonidos', skins: 'Estilos' },
+            actions: { active: 'Activo', select: 'Seleccionar', stop: 'Detener', preview: name => `Escuchar ${name}`, addFavorite: name => `Añadir ${name} a favoritos`, removeFavorite: name => `Quitar ${name} de favoritos`, copied: 'Enlace de la app copiado.', sharePrompt: 'Compartir este enlace:', shareTitle: 'Digital Fidget: Mental ASMR', shareText: 'Prueba este ritual táctil para recuperar la calma.' },
+            timer: { open: 'Abrir temporizador', decrease: 'Reducir el tiempo', increase: 'Aumentar el tiempo' },
+            paywall: { feature1: 'Estilos táctiles Premium', feature2: 'Biblioteca de sonidos Premium', feature3: 'Temas visuales Premium', feature4: 'Sin anuncios', lifetime: 'Acceso de por vida' }
+        },
+        pt: {
+            nav: { themes: 'Temas', sounds: 'Sons', skins: 'Estilos' },
+            actions: { active: 'Ativo', select: 'Selecionar', stop: 'Parar', preview: name => `Ouvir ${name}`, addFavorite: name => `Adicionar ${name} aos favoritos`, removeFavorite: name => `Remover ${name} dos favoritos`, copied: 'Ligação da app copiada.', sharePrompt: 'Partilhar esta ligação:', shareTitle: 'Digital Fidget: Mental ASMR', shareText: 'Experimente este ritual tátil para recuperar a calma.' },
+            timer: { open: 'Abrir temporizador', decrease: 'Diminuir o tempo', increase: 'Aumentar o tempo' },
+            paywall: { feature1: 'Estilos táteis Premium', feature2: 'Biblioteca de sons Premium', feature3: 'Temas visuais Premium', feature4: 'Sem anúncios', lifetime: 'Acesso vitalício' }
+        }
+    };
+
+    Object.entries(HOME_LOCALE_COMPLETIONS).forEach(([lang, home]) => {
+        I18N[lang].home = { ...I18N.en.home, ...I18N[lang].home, ...home };
+        I18N[lang].home.posters = { ...I18N.en.home.posters, ...I18N[lang].home.posters };
+    });
+    Object.assign(I18N.ja.home.posters, { orangeNoise: ['オレンジノイズ', 'あたたかな集中のための音域'] });
+    Object.assign(I18N.fr.home.posters, { orangeNoise: ['Bruit orange', 'Un spectre chaleureux pour le focus'] });
+    Object.assign(I18N.de.home.posters, { orangeNoise: ['Oranges Rauschen', 'Warmes Spektrum für den Fokus'] });
+    Object.assign(I18N.es.home.posters, { orangeNoise: ['Ruido naranja', 'Un espectro cálido para concentrarte'] });
+    Object.assign(I18N.pt.home.posters, { orangeNoise: ['Ruído laranja', 'Um espectro quente para o foco'] });
+    Object.entries(THEME_LOCALE_COMPLETIONS).forEach(([lang, themes]) => {
+        I18N[lang].themes = themes;
+    });
+    Object.entries(INTERFACE_LOCALE_COMPLETIONS).forEach(([lang, completion]) => {
+        I18N[lang].nav = { ...I18N.en.nav, ...I18N[lang].nav, ...completion.nav };
+        I18N[lang].actions = { ...I18N.en.actions, ...I18N[lang].actions, ...completion.actions };
+        I18N[lang].timer = { ...I18N.en.timer, ...I18N[lang].timer, ...completion.timer };
+        I18N[lang].paywall = { ...I18N.en.paywall, ...I18N[lang].paywall, ...completion.paywall };
+    });
+
     const SUPPORTED_LANGUAGES = ['en', 'ja', 'fr', 'de', 'es', 'pt', 'uk'];
 
     const I18n = {
@@ -6850,12 +7910,23 @@
 
         sound(profile, field) {
             const index = field === 'desc' ? 1 : 0;
-            return I18N.en.sounds?.[profile.id]?.[index] || profile[field] || '';
+            return I18N.en.sounds?.[profile.id]?.[index] ?? profile[field] ?? '';
         },
 
         skin(skin, field) {
             const index = field === 'desc' ? 1 : 0;
-            return this.t(`skins.${skin.id}.${index}`, skin[field] || '');
+            const localized = this.dict()?.skins?.[skin.id]?.[index];
+            if (localized) return localized;
+            if (this.lang !== 'en') {
+                const posterKey = ({
+                    moon: 'moon', 'white-noise': 'whiteNoise', 'pink-noise': 'pinkNoise',
+                    'orange-noise': 'orangeNoise', 'brown-noise': 'brownNoise',
+                    'infrared-noise': 'infrared', rain: 'rain'
+                })[skin.id] || 'click';
+                if (field === 'name') return this.dict()?.home?.posters?.[posterKey]?.[0] || this.t('home.clickTitle');
+                return this.dict()?.home?.posters?.[posterKey]?.[1] || this.t('fallback.singleSound');
+            }
+            return I18N.en.skins?.[skin.id]?.[index] ?? skin[field] ?? '';
         },
 
         poster(poster, field) {
@@ -6872,7 +7943,8 @@
         },
 
         theme(theme) {
-            return I18N.en.themes?.[theme.id] || theme.name;
+            return I18N.en.themes?.[theme.id]
+                ?? theme.name;
         },
 
         setLanguage(lang) {
@@ -7092,9 +8164,6 @@
         { id: 'classic-click', name: 'Classic Click', desc: 'Soft tactile click',
           free: true, gain: 0.92, iconPath: 'M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z',
           mode: 'single', variations: ['sound-click.mp3'], pitchJitter: 0.008, hapticOffsetMs: -30 },
-        { id: 'classic-click-original', name: 'Click', desc: 'Original tactile click',
-          free: true, gain: 0.92, iconPath: 'M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z',
-          mode: 'single', variations: ['mpxzowa6-button-click.mp3'], pitchJitter: 0.008 },
         { id: 'foot-switch-click', name: 'Foot Switch', desc: 'Chunky foot switch press',
           free: false, gain: 0.94, iconPath: 'M17 7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h10c2.76 0 5-2.24 5-5s-2.24-5-5-5zM7 15c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z',
           mode: 'single', variations: ['foot-switch.mp3'], pitchJitter: 0 },
@@ -7265,7 +8334,6 @@
     ]);
 
     const CLASSIC_BUTTON_SOUND_PROFILE_IDS = new Set([
-        'classic-click-original',
         'foot-switch-click',
         'light-switch-flip-click',
         'light-switch-on-click',
@@ -7424,7 +8492,7 @@
         assetRequestToken: Date.now().toString(36),
 
         async init() {
-            this.fallbackAudio = new Audio('mpxzowa6-button-click.mp3');
+            this.fallbackAudio = new Audio('sound-click.mp3');
             this.fallbackAudio.preload = 'auto';
             this.fallbackAudio.load();
 
@@ -10602,10 +11670,12 @@
             });
 
             this.scrim.addEventListener('click', () => this.close());
-            this.dismissSwipe = createHorizontalDismissGesture({
-                panel: this.panel,
-                onDismiss: () => this.close()
-            });
+            // Do not attach a second full-panel horizontal gesture here.
+            // On touch devices it competes with the themes carousel and calls
+            // preventDefault(), so the carousel cannot follow the finger.
+            // Back navigation is already provided by the native/system edge
+            // gesture (and the Android back handler) via NavigationBack.
+            this.dismissSwipe = null;
             this.dismissScrimSwipe = createScrimDismissGesture({
                 scrim: this.scrim,
                 onDismiss: () => this.close()
@@ -10741,64 +11811,38 @@
         home: null,
         featured: null,
         rail: null,
+        viewport: null,
+        pagination: null,
         selectedPosterId: '',
-        artworkCacheKey: 'rb_skin_poster_artwork_v1',
-        lastSceneKey: 'rb_last_home_scene_v1',
-        artworkUrls: {},
-        artworkRequests: new Map(),
         featuredPosterId: 'click',
         rhythm: null,
-        continueButton: null,
-        continueArtwork: null,
-        continueDetail: null,
         posterDefinitions: [
-            { id: 'click', skinId: 'classic-button', chip: '', title: 'Click', copy: 'Clean, satisfying clicks', classes: 'home-poster-card--featured', tint: 'rgba(232, 198, 210, 0.24)', image: 'assets/home-posters/click-refined.webp', artPosition: 'center', artSize: 'cover' },
-            { id: 'moon', skinId: 'moon', chip: '', title: 'Moon', copy: 'Soft ambience for night focus', classes: 'home-poster-card--compact', tint: 'rgba(108, 118, 170, 0.28)', image: 'assets/home-posters/moon-refined.webp', artPosition: 'center', artSize: 'cover' },
-            { id: 'white-noise', skinId: 'white-noise', chip: '', title: 'White Noise', copy: 'Steady. Simple. Soothing.', classes: 'home-poster-card--compact', tint: 'rgba(214, 226, 242, 0.26)', image: 'assets/home-posters/white-refined.webp', artPosition: 'center', artSize: 'cover' },
-            { id: 'brown-noise', skinId: 'brown-noise', soundProfileId: 'brown-waterfall', chip: '', title: 'Brown Noise', copy: 'Deeper tones for grounding', classes: 'home-poster-card--compact', tint: 'rgba(132, 112, 86, 0.30)', image: 'assets/home-posters/brown-refined.webp', artPosition: 'center', artSize: 'cover' },
-            { id: 'rain', skinId: 'rain', chip: '', title: 'Rain', copy: 'Natural rain on leaves', classes: 'home-poster-card--compact', tint: 'rgba(78, 104, 84, 0.28)', image: 'assets/home-posters/rain-refined.webp', artPosition: 'center', artSize: 'cover' },
-            { id: 'pink-noise', skinId: 'pink-noise', soundProfileId: 'pink-soft-noise', chip: '', title: 'Pink Noise', copy: 'Balanced and gentle.', classes: 'home-poster-card--compact', tint: 'rgba(184, 114, 152, 0.28)', image: 'assets/home-posters/pink-refined.webp', artPosition: 'center', artSize: 'cover' },
-            { id: 'orange-noise', skinId: 'orange-noise', soundProfileId: 'orange-noise', chip: '', title: 'Orange Noise', copy: 'Warm focus spectrum', classes: 'home-poster-card--compact', tint: 'rgba(211, 126, 58, 0.30)', image: 'assets/home-posters/orange-refined.webp', artPosition: 'center', artSize: 'cover' },
-            { id: 'infrared', skinId: 'infrared-noise', soundProfileId: 'infrared-noise-core', chip: '', title: 'Infrared', copy: 'Warm. Deep. Inner quiet.', classes: 'home-poster-card--compact', tint: 'rgba(146, 62, 56, 0.28)', image: 'assets/home-posters/infrared-refined.webp', artPosition: 'center', artSize: 'cover' }
+            { id: 'click', skinId: 'classic-button', chip: '', title: 'Click', copy: 'Clean, satisfying clicks', image: 'assets/home-posters/click-card.webp', classes: 'home-poster-card--featured', tint: 'rgba(232, 198, 210, 0.24)' },
+            { id: 'moon', skinId: 'moon', chip: '', title: 'Moon', copy: 'Soft ambience for night focus', image: 'assets/home-posters/moon-card.webp', classes: 'home-poster-card--compact', tint: 'rgba(108, 118, 170, 0.28)' },
+            { id: 'white-noise', skinId: 'white-noise', chip: '', title: 'White Noise', copy: 'Steady. Simple. Soothing.', image: 'assets/home-posters/white-noise-card.webp', classes: 'home-poster-card--compact', tint: 'rgba(214, 226, 242, 0.26)' },
+            { id: 'brown-noise', skinId: 'brown-noise', soundProfileId: 'brown-waterfall', chip: '', title: 'Brown Noise', copy: 'Deeper tones for grounding', image: 'assets/home-posters/brown-noise-card.webp', classes: 'home-poster-card--compact', tint: 'rgba(132, 112, 86, 0.30)' },
+            { id: 'rain', skinId: 'rain', chip: '', title: 'Rain', copy: 'Natural rain on leaves', image: 'assets/home-posters/rain-card.webp', classes: 'home-poster-card--compact', tint: 'rgba(78, 104, 84, 0.28)' },
+            { id: 'pink-noise', skinId: 'pink-noise', soundProfileId: 'pink-soft-noise', chip: '', title: 'Pink Noise', copy: 'Balanced and gentle.', image: 'assets/home-posters/pink-noise-card.webp', classes: 'home-poster-card--compact', tint: 'rgba(184, 114, 152, 0.28)' },
+            { id: 'orange-noise', skinId: 'orange-noise', soundProfileId: 'orange-noise', chip: '', title: 'Orange Noise', copy: 'Warm focus spectrum', image: 'assets/home-posters/orange-noise-card.webp', classes: 'home-poster-card--compact', tint: 'rgba(211, 126, 58, 0.30)' },
+            { id: 'infrared', skinId: 'infrared-noise', soundProfileId: 'infrared-noise-core', chip: '', title: 'Infrared', copy: 'Warm. Deep. Inner quiet.', image: 'assets/home-posters/infrared-card.webp', classes: 'home-poster-card--compact', tint: 'rgba(146, 62, 56, 0.28)' }
         ],
-        fallbackArtwork: {},
-        artworkQueries: {},
 
         init() {
             this.app = document.getElementById('app');
             this.home = document.getElementById('home-screen');
             this.featured = document.getElementById('home-featured-poster');
             this.rail = document.getElementById('home-poster-rail');
+            this.viewport = document.getElementById('home-poster-viewport');
+            this.pagination = document.getElementById('home-poster-pagination');
             this.rhythm = document.getElementById('home-rhythm');
-            this.continueButton = document.getElementById('home-continue');
-            this.continueArtwork = document.getElementById('home-continue-art');
-            this.continueDetail = document.getElementById('home-continue-detail');
+            this.viewport?.addEventListener('scroll', () => this.syncPosterPagination(), { passive: true });
             this.rhythm?.querySelector('[data-home-action="reset"]')?.addEventListener('click', () => this.openPoster('click'));
             this.rhythm?.querySelector('[data-home-action="focus"]')?.addEventListener('click', () => this.openPoster('white-noise'));
             this.rhythm?.querySelector('[data-home-action="sleep"]')?.addEventListener('click', () => SleepTimerManager.open());
             this.selectedPosterId = this.getCurrentPosterId();
-            this.restoreArtworkCache();
             this.build();
             this.syncCurrentSkin();
-            this.syncContinue();
             this.enterHome(true);
-        },
-
-        restoreArtworkCache() {
-            try {
-                const saved = JSON.parse(localStorage.getItem(this.artworkCacheKey) || '{}');
-                if (saved && typeof saved === 'object') {
-                    this.artworkUrls = saved;
-                }
-            } catch (_) {
-                this.artworkUrls = {};
-            }
-        },
-
-        persistArtworkCache() {
-            try {
-                localStorage.setItem(this.artworkCacheKey, JSON.stringify(this.artworkUrls));
-            } catch (_) {}
         },
 
         getPosterById(posterId) {
@@ -10814,89 +11858,20 @@
             return this.posterDefinitions.find(poster => poster.skinId === AppState.currentSkin)?.id || this.featuredPosterId;
         },
 
-        getLastScene() {
-            try {
-                const saved = JSON.parse(localStorage.getItem(this.lastSceneKey) || 'null');
-                return saved && this.getPosterById(saved.posterId) ? saved : null;
-            } catch (_) {
-                return null;
-            }
-        },
-
-        rememberLastScene(posterId) {
-            try {
-                localStorage.setItem(this.lastSceneKey, JSON.stringify({ posterId, updatedAt: Date.now() }));
-            } catch (_) {}
-        },
-
-        syncContinue() {
-            const lastScene = this.getLastScene();
-            const poster = lastScene ? this.getPosterById(lastScene.posterId) : null;
-            if (!this.rhythm || !this.continueButton || !poster) {
-                this.rhythm?.setAttribute('hidden', '');
-                return;
-            }
-
-            this.rhythm.removeAttribute('hidden');
-            const artwork = this.artworkUrlForPoster(poster.id);
-            if (artwork && this.continueArtwork) {
-                this.continueArtwork.style.setProperty('--continue-image', `url('${artwork.replace(/'/g, '%27')}')`);
-            }
-            if (this.continueDetail) {
-                this.continueDetail.textContent = I18n.poster(poster, 'title');
-            }
-            this.continueButton.onclick = () => this.openPoster(poster.id);
-        },
-
-        artworkUrlForPoster(posterId) {
-            const poster = this.getPosterById(posterId);
-            return poster?.image || '';
-        },
-
-        applyArtworkToCard(card, posterId) {
-            const poster = this.getPosterById(posterId);
-            const imageUrl = this.artworkUrlForPoster(posterId);
-            if (!card) return;
-            if (!imageUrl) {
-                card.style.removeProperty('--poster-image');
-                card.style.removeProperty('--poster-art-position');
-                card.style.removeProperty('--poster-art-size');
-                return;
-            }
-            card.style.setProperty('--poster-image', `url('${imageUrl.replace(/'/g, '%27')}')`);
-            if (poster?.artPosition) {
-                card.style.setProperty('--poster-art-position', poster.artPosition);
-            } else {
-                card.style.removeProperty('--poster-art-position');
-            }
-            if (poster?.artSize) {
-                card.style.setProperty('--poster-art-size', poster.artSize);
-            } else {
-                card.style.removeProperty('--poster-art-size');
-            }
-        },
-
-        applyArtworkToExistingCards(posterId = '') {
-            document.querySelectorAll('.home-poster-card').forEach((card) => {
-                if (posterId && card.dataset.poster !== posterId) return;
-                this.applyArtworkToCard(card, card.dataset.poster);
-            });
-        },
-
         isPosterPlaying(poster) {
-            return document.body.classList.contains('noise-playing')
-                && !!AudioEngine.activeLoopProfileId
-                && AudioEngine.getActiveLoopSkinId() === poster.skinId;
+            if (!poster || !document.body.classList.contains('noise-playing')) return false;
+            if (AudioEngine.getActiveLoopSkinId?.() !== poster.skinId) return false;
+            return !poster.soundProfileId || AudioEngine.activeLoopProfileId === poster.soundProfileId;
         },
 
-        buildPosterCard(poster, options = {}) {
+        buildPosterCard(poster) {
             const isLocked = !AccessManager.canUseSkin(poster.skinId);
-            const isFeatured = options.featured === true;
             const localizedTitle = I18n.poster(poster, 'title');
             const localizedCopy = I18n.poster(poster, 'copy');
             const button = document.createElement('button');
             button.type = 'button';
             button.className = `home-poster-card ${poster.classes}`
+                + (poster.image ? ' has-artwork' : '')
                 + (poster.id === this.getCurrentPosterId() ? ' is-current' : '')
                 + (poster.id === this.selectedPosterId ? ' is-selected' : '')
                 + (this.isPosterPlaying(poster) ? ' is-playing' : '')
@@ -10906,16 +11881,13 @@
             button.setAttribute('aria-pressed', String(poster.id === this.selectedPosterId));
             button.style.setProperty('--poster-tint', poster.tint);
             button.innerHTML = `
+                ${poster.image ? `<img class="home-poster-media" src="${poster.image}" alt="" loading="lazy" decoding="async">` : ''}
                 <div class="home-poster-card-body">
                     ${poster.chip ? `<span class="home-poster-chip">${poster.chip}</span>` : ''}
                     <h2 class="home-poster-name">${localizedTitle}</h2>
                     <p class="home-poster-copy">${localizedCopy}</p>
                 </div>
-                <span class="home-poster-playing-indicator" aria-hidden="true">
-                    <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7L8 5Z"/></svg>
-                </span>
             `;
-            this.applyArtworkToCard(button, poster.id);
             const warmPosterBackdrop = () => {
                 const profileId = poster.soundProfileId
                     || SkinRegistry.getSkin(poster.skinId)?.recommendedSoundProfileId
@@ -10936,9 +11908,41 @@
             this.featured.innerHTML = '';
             this.rail.innerHTML = '';
 
-            this.posterDefinitions.forEach((poster) => {
-                this.rail.appendChild(this.buildPosterCard(poster));
+            this.posterDefinitions.filter(poster => poster.id !== this.featuredPosterId).forEach((poster) => {
+                const card = this.buildPosterCard(poster);
+                this.rail.appendChild(card);
             });
+            this.buildPosterPagination();
+            requestAnimationFrame(() => this.syncPosterPagination());
+        },
+
+        buildPosterPagination() {
+            if (!this.pagination || !this.viewport) return;
+            this.pagination.innerHTML = '';
+            [...this.rail.children].forEach((card, index) => {
+                const dot = document.createElement('button');
+                dot.type = 'button';
+                dot.setAttribute('aria-label', card.getAttribute('aria-label') || `Картка ${index + 1}`);
+                dot.setAttribute('aria-current', String(index === 0));
+                dot.addEventListener('click', () => this.viewport.scrollTo({ left: card.offsetLeft, behavior: 'smooth' }));
+                this.pagination.appendChild(dot);
+            });
+        },
+
+        syncPosterPagination() {
+            if (!this.pagination || !this.viewport || !this.rail) return;
+            const cards = [...this.rail.children];
+            if (!cards.length) return;
+            let activeIndex = 0;
+            let closestDistance = Infinity;
+            cards.forEach((card, index) => {
+                const distance = Math.abs(card.offsetLeft - this.viewport.scrollLeft);
+                if (distance < closestDistance) {
+                    closestDistance = distance;
+                    activeIndex = index;
+                }
+            });
+            [...this.pagination.children].forEach((dot, index) => dot.setAttribute('aria-current', String(index === activeIndex)));
         },
 
         openPoster(posterId) {
@@ -10953,12 +11957,10 @@
             }
 
             const profileId = poster.soundProfileId || skin.recommendedSoundProfileId || '';
-            if (profileId) {
-                NoiseBackdropScene?.preloadArtworkForKey?.(profileId, 'high');
-            }
+            const backdropReady = profileId
+                ? NoiseBackdropScene?.preloadArtworkForKey?.(profileId, 'high')
+                : Promise.resolve(true);
             this.selectedPosterId = poster.id;
-            this.rememberLastScene(poster.id);
-            this.syncContinue();
             document.body.classList.add('skin-transitioning');
             SkinManager.select(skin.id, {
                 soundProfileId: poster.soundProfileId || '',
@@ -10967,15 +11969,15 @@
                 deferBackdrop: true,
                 deferHomeSync: true
             });
-            this.enterSkinExperience();
-            AppNav.sync();
-            requestAnimationFrame(() => {
-                // Resolve the artwork while the transition guard still hides the
-                // player layers, so the image and its cinematic treatment appear
-                // together when the guard is lifted.
+
+            // Keep the Home screen above the player until its backdrop is ready.
+            // Otherwise the sound picker beneath the player can flash for a frame.
+            Promise.resolve(backdropReady).finally(() => {
                 NoiseBackdropScene?.sync?.();
                 requestAnimationFrame(() => {
                     document.body.classList.remove('skin-transitioning');
+                    this.enterSkinExperience();
+                    AppNav.sync();
                     schedulePostInteraction(() => this.syncCurrentSkin(), 120);
                 });
             });
@@ -10988,7 +11990,7 @@
                 const poster = this.getPosterById(card.dataset.poster);
                 card.classList.toggle('is-selected', isSelected);
                 card.classList.toggle('is-current', isCurrent);
-                card.classList.toggle('is-playing', !!poster && this.isPosterPlaying(poster));
+                card.classList.toggle('is-playing', this.isPosterPlaying(poster));
                 card.setAttribute('aria-pressed', String(isSelected));
             });
         },
@@ -10996,7 +11998,6 @@
         syncCurrentSkin() {
             this.selectedPosterId = this.getCurrentPosterId();
             this.updateSelectionUI();
-            this.syncContinue();
         },
 
         enterHome(resetSelection = false) {
@@ -11004,10 +12005,12 @@
                 this.selectedPosterId = this.getCurrentPosterId();
             }
             document.documentElement.classList.remove('boot-home-view');
+            document.body.classList.remove('skin-transitioning');
             document.body.classList.add('home-view-active');
-            if (this.rail) this.rail.scrollLeft = 0;
+            if (this.rail?.parentElement) this.rail.parentElement.scrollLeft = 0;
             this.updateSelectionUI();
-            this.syncContinue();
+            this.syncPosterPagination();
+            AppNav.sync('home');
         },
 
         enterSkinExperience() {
@@ -11320,6 +12323,7 @@
                     Settings.close();
                     AccountPanel.close();
                     Paywall.close();
+                    HomeSkinScene.enterSkinExperience();
                     KnowledgeManager.open();
                     break;
                 case 'account':
@@ -11328,6 +12332,7 @@
                     KnowledgeManager.close();
                     Settings.close();
                     Paywall.close();
+                    HomeSkinScene.enterSkinExperience();
                     AccountPanel.open();
                     break;
                 case 'home':
@@ -11346,6 +12351,10 @@
 
         sync(explicitTarget = null) {
             const nextTarget = explicitTarget || this.resolveCurrentTarget();
+            if (!nextTarget) return;
+            const activeItem = this.items.find(item => item.classList.contains('is-active'));
+            if (this.activeTarget === nextTarget
+                && activeItem?.dataset.navTarget === nextTarget) return;
             this.activeTarget = nextTarget;
             this.items.forEach(item => {
                 const isActive = item.dataset.navTarget === nextTarget;
@@ -11412,7 +12421,8 @@
             AppState.save('currentSoundProfile', getPreferredSoundProfileIdForSkin());
         }
 
-        if (!isSoundProfileAvailableForSkin(AppState.currentSoundProfile, AppState.currentSkin)) {
+        if (!SkinRegistry.getSoundProfile(AppState.currentSoundProfile)
+            || !isSoundProfileAvailableForSkin(AppState.currentSoundProfile, AppState.currentSkin)) {
             AppState.save('currentSoundProfile', getPreferredSoundProfileIdForSkin());
             AppState.save('soundMode', 'matched');
         }
