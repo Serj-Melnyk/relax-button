@@ -8,7 +8,7 @@ Digital Fidget: Mental ASMR uses one non-consumable product on both stores.
 - Type: Non-consumable / one-time product
 - Display name: Digital Fidget Premium
 - Description: Unlock all Premium themes and sound packs with lifetime access.
-- Suggested first price tier: USD 9.99 or the closest store-managed tier
+- Agreed launch price: USD 2.99, with store-managed localized prices in other regions.
 
 The app never hardcodes the displayed price. It reads the localized price from Apple App Store or Google Play.
 
@@ -23,10 +23,12 @@ The app never hardcodes the displayed price. It reads the localized price from A
 
 ## Google Play Console
 
+Current status (2026-08-28): the signed version 1.0 (versionCode 1) AAB is published to the internal testing track for the selected one-user tester list. Play Console requires a merchant account before this app can be monetized. The owner must complete the payment-profile setup; do not invent identity, tax, or banking details. Internal-test access alone is not license-tester access and must not be treated as free purchase testing.
+
 1. Create the app with package name `com.antistress.relaxbutton`.
 2. Upload an internal-testing AAB before creating or activating the product.
 3. Create a one-time product with product ID `premium_lifetime`.
-4. Add the purchase option, regional availability, and price.
+4. Add the purchase option, regional availability, and USD 2.99 price. Confirm the actual localized price in a Play-installed build; the screenshot-preview price does not configure Google Play Billing.
 5. Add license-test accounts and publish the product.
 
 ## Receipt Validation

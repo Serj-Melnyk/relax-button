@@ -6414,13 +6414,23 @@
     }
 
     body.home-view-active .m3-nav-item.is-active { color: var(--m3-nav-indicator-icon); }
-    body.home-view-active .m3-nav-item:active { transform: scale(0.98); }
 
     @media (hover: hover) and (pointer: fine) {
         body.home-view-active .m3-nav-item:hover {
             background: transparent;
             transform: none;
         }
+    }
+
+    /* Navigation is a direct route selector: only Home shows a selected state.
+       The other routes do not gain visual hover, focus, or pressed treatments. */
+    #app-nav .m3-nav-item:hover,
+    #app-nav .m3-nav-item:focus,
+    #app-nav .m3-nav-item:focus-visible,
+    #app-nav .m3-nav-item:active {
+        background: transparent;
+        outline: none;
+        transform: none;
     }
 
     /* Responsive home layout: phone fills the viewport, tablet expands the
@@ -6706,6 +6716,7 @@
         position: relative;
         z-index: 2;
         width: 100%;
+        color: #402e20;
         text-align: center;
         font-size: clamp(1.75rem, 8vw, 2.5rem);
         line-height: 1;
@@ -6804,7 +6815,7 @@
     }
 
     body.home-view-active .home-poster-pagination button[aria-current="true"] {
-        background: #a76443;
+        background: #402e20;
     }
 
     @media (min-width: 48rem) {
@@ -7419,7 +7430,7 @@
             metaTitle: 'Digital Fidget: Mental ASMR - Wellness Button',
             nav: {
                 settings: 'Settings', premium: 'Premium', themes: 'Themes', sounds: 'Sounds', skins: 'Skins',
-                swipeUp: 'Swipe up', close: 'Close', home: 'Home', library: 'Library', guide: 'Noise ID', account: 'Account'
+                swipeUp: 'Swipe up', close: 'Close', home: 'Home', recent: 'Recent', library: 'Library', guide: 'Noise ID', account: 'Account'
             },
             home: {
                 greeting: 'Welcome back',
@@ -7431,7 +7442,7 @@
                 exploreCopy: 'Noise for focus, rest, and sleep',
                 allSounds: 'All',
                 kicker: 'A small tactile ritual',
-                title: 'Press. Listen.<br>Reset.',
+                title: 'Press.<br>Listen.<br>Reset.',
                 subtitle: 'Tactile worlds and sound moods<br>to reset, relax and refocus.',
                 posters: {
                     click: ['Click', 'Clean, satisfying clicks'],
@@ -7596,7 +7607,7 @@
     I18N.uk = {
         ...I18N.en,
         languageName: 'Українська',
-        nav: { settings: 'Налаштування', premium: 'Преміум', themes: 'Теми', sounds: 'Звуки', skins: 'Скіни', swipeUp: 'Свайп вгору', close: 'Закрити', home: 'Головна', library: 'Бібліотека', guide: 'Noise ID', account: 'Акаунт' },
+        nav: { settings: 'Налаштування', premium: 'Преміум', themes: 'Теми', sounds: 'Звуки', skins: 'Скіни', swipeUp: 'Свайп вгору', close: 'Закрити', home: 'Головна', recent: 'Останнє', library: 'Бібліотека', guide: 'Noise ID', account: 'Акаунт' },
         home: { greeting: 'Вітаємо знову', prompt: 'Що допоможе зараз?', insight: 'Один чіткий клік дає увазі просту точку опори.', clickTitle: 'Click', clickCopy: 'Коротка тактильна пауза', explore: 'Спробуй інші', exploreCopy: 'Шуми для фокусу, відпочинку та сну', allSounds: 'Усі', kicker: 'Маленький тактильний ритуал', title: 'Натисни. Послухай.<br>Видихни.', subtitle: 'Звукові настрої,<br>щоб перезавантажитись.', posters: { click: ['Клік', 'Чіткий. Присутній. Справжній.'], moon: ['Місяць', 'Загадкова атмосфера.'], whiteNoise: ['Білий шум', 'Рівно. Бадьоро.'], brownNoise: ['Коричневий шум', 'Швидко заснути.'], rain: ['Дощ', 'Очищає. Релаксує.'], pinkNoise: ['Рожевий шум', 'Збалансовано і мʼяко.'], orangeNoise: ['Помаранчевий шум', 'Теплий фокусний спектр.'], infrared: ['Інфрачервоний шум', 'Внутрішня тиша.'] }, use: 'Запустити', start: 'Почати', continue: 'Продовжити', otherSounds: 'Інші звуки', viewAll: 'Переглянути всі', configure: 'Налаштувати', rhythm: 'Твій ритм', reset: 'Ресет', focus: 'Фокус', sleep: 'Сон', minutes: '2 хв', timer: 'таймер', noiseId: 'Noise ID' },
         onboarding: {
             ...I18N.en.onboarding,
@@ -7698,7 +7709,7 @@
     I18N.ja = {
         ...I18N.en,
         languageName: '日本語',
-        nav: { settings: '設定', premium: 'プレミアム', themes: 'テーマ', sounds: 'サウンド', skins: 'スキン', swipeUp: '上にスワイプ', close: '閉じる', home: 'ホーム', library: 'ライブラリ', guide: 'Noise ID', account: 'アカウント' },
+        nav: { settings: '設定', premium: 'プレミアム', themes: 'テーマ', sounds: 'サウンド', skins: 'スキン', swipeUp: '上にスワイプ', close: '閉じる', home: 'ホーム', recent: '最近', library: 'ライブラリ', guide: 'Noise ID', account: 'アカウント' },
         home: { kicker: '小さな触覚の儀式', title: '押す。聴く。<br>整える。', subtitle: '触れる世界と音のムードで<br>整え、ゆるめ、集中を取り戻す。', posters: { click: ['クリック', '心地よい軽やかなクリック'], moon: ['月', '夜の集中にやさしい空気感'], whiteNoise: ['ホワイトノイズ', '一定で、シンプルで、落ち着く。'], brownNoise: ['ブラウンノイズ', '深めの音でしっかり落ち着く'], rain: ['雨', '葉に落ちる自然な雨音'], pinkNoise: ['ピンクノイズ', 'やわらかく、バランスがいい。'], infrared: ['赤外', 'あたたかく、深く、内側が静かに。'] }, use: '使う', noiseId: 'Noise ID' },
         onboarding: { ...I18N.en.onboarding, slide1Kicker: '刺激が多すぎる瞬間のための<br>小さな儀式', slide1Title: '意識を<br>切り替える', slide1Sub: 'ほんの少しだけ', slide2Kicker: 'オーディオシフト', slide2Title: '感覚のリセット', slide2Sub: '次へ進む前に、心を整える', headphones: 'ヘッドホン推奨', slide3Title: '押す。聴く。<br>整える。', demoHint: 'タップして、クリック音と触覚を感じる', next: '次へ ->', pressesLeft: count => `あと${count}回押してください` },
         settings: { ...I18N.en.settings, title: '設定', sound: 'サウンド', vibration: '振動', centered: '中央ボタン', language: '言語', share: 'アプリを共有', rate: 'アプリを評価', privacy: 'プライバシーポリシー', terms: '利用規約', support: 'サポート', restore: '購入を復元' },
@@ -7712,7 +7723,7 @@
     I18N.fr = {
         ...I18N.en,
         languageName: 'Français',
-        nav: { settings: 'Réglages', premium: 'Premium', themes: 'Thèmes', sounds: 'Sons', skins: 'Skins', swipeUp: 'Balayer vers le haut', close: 'Fermer', home: 'Accueil', library: 'Bibliothèque', guide: 'Noise ID', account: 'Compte' },
+        nav: { settings: 'Réglages', premium: 'Premium', themes: 'Thèmes', sounds: 'Sons', skins: 'Skins', swipeUp: 'Balayer vers le haut', close: 'Fermer', home: 'Accueil', recent: 'Récent', library: 'Bibliothèque', guide: 'Noise ID', account: 'Compte' },
         home: { kicker: 'Un petit rituel tactile', title: 'Appuie. Écoute.<br>Respire.', subtitle: 'Des mondes tactiles et des ambiances sonores<br>pour te recentrer, relâcher et retrouver ton focus.', posters: { click: ['Clic', 'Des clics nets et satisfaisants'], moon: ['Lune', 'Une ambiance douce pour le focus nocturne'], whiteNoise: ['Bruit blanc', 'Stable. Simple. Apaisant.'], brownNoise: ['Bruit brun', 'Des tons plus profonds pour s’ancrer'], rain: ['Pluie', 'Pluie naturelle sur les feuilles'], pinkNoise: ['Bruit rose', 'Équilibré et doux.'], infrared: ['Infrarouge', 'Chaleur. Profondeur. Calme intérieur.'] }, use: 'Utiliser', noiseId: 'Noise ID' },
         onboarding: { ...I18N.en.onboarding, slide1Kicker: 'Un petit rituel pour<br>les moments saturés', slide1Title: 'Change<br>de focus', slide1Sub: 'Juste un instant', slide2Kicker: 'BASCULE AUDIO', slide2Title: 'Une remise à zéro sensorielle', slide2Sub: 'Libère ton esprit pour la suite', headphones: 'Casque recommandé', slide3Title: 'Appuie. Écoute.<br>Respire.', demoHint: 'Touche, entends le clic, sens le retour haptique', next: 'Suivant ->', pressesLeft: count => count === 1 ? 'Encore 1 pression' : `Encore ${count} pressions` },
         settings: { ...I18N.en.settings, title: 'Réglages', sound: 'Son', vibration: 'Vibration', centered: 'Bouton centré', language: 'Langue', share: 'Partager', rate: 'Noter l’app', privacy: 'Confidentialité', terms: 'Conditions d’utilisation', support: 'Assistance', restore: 'Restaurer l’achat' },
@@ -7726,7 +7737,7 @@
     I18N.de = {
         ...I18N.en,
         languageName: 'Deutsch',
-        nav: { settings: 'Einstellungen', premium: 'Premium', themes: 'Themes', sounds: 'Sounds', skins: 'Skins', swipeUp: 'Nach oben wischen', close: 'Schließen', home: 'Start', library: 'Bibliothek', guide: 'Noise ID', account: 'Konto' },
+        nav: { settings: 'Einstellungen', premium: 'Premium', themes: 'Themes', sounds: 'Sounds', skins: 'Skins', swipeUp: 'Nach oben wischen', close: 'Schließen', home: 'Start', recent: 'Zuletzt', library: 'Bibliothek', guide: 'Noise ID', account: 'Konto' },
         home: { kicker: 'Ein kleines taktiles Ritual', title: 'Drücken. Hören.<br>Reset.', subtitle: 'Taktile Welten und Klangstimmungen,<br>um neu zu starten, loszulassen und den Fokus zu finden.', posters: { click: ['Klick', 'Saubere, angenehme Klicks'], moon: ['Mond', 'Sanfte Atmosphäre für nächtlichen Fokus'], whiteNoise: ['Weißes Rauschen', 'Konstant. Einfach. Beruhigend.'], brownNoise: ['Braunes Rauschen', 'Tiefere Töne zum Erden'], rain: ['Regen', 'Natürlicher Regen auf Blättern'], pinkNoise: ['Rosa Rauschen', 'Ausgewogen und sanft.'], infrared: ['Infrarot', 'Warm. Tief. Innere Ruhe.'] }, use: 'Benutzen', noiseId: 'Noise ID' },
         onboarding: { ...I18N.en.onboarding, slide1Kicker: 'Ein kleines Ritual für<br>überreizte Momente', slide1Title: 'Fokus<br>wechseln', slide1Sub: 'Nur für einen Moment', slide2Kicker: 'AUDIO-WECHSEL', slide2Title: 'Ein sensorischer Reset', slide2Sub: 'Mach den Kopf frei für das Nächste', headphones: 'Kopfhörer empfohlen', slide3Title: 'Drücken. Hören.<br>Reset.', demoHint: 'Tippe, höre den Klick, spüre das Haptik-Feedback', next: 'Weiter ->', pressesLeft: count => count === 1 ? 'Noch 1 Druck' : `Noch ${count} Drücke` },
         settings: { ...I18N.en.settings, title: 'Einstellungen', sound: 'Sound', vibration: 'Vibration', centered: 'Zentrierter Button', language: 'Sprache', share: 'App teilen', rate: 'App bewerten', privacy: 'Datenschutz', terms: 'Nutzungsbedingungen', support: 'Support', restore: 'Kauf wiederherstellen' },
@@ -7740,7 +7751,7 @@
     I18N.es = {
         ...I18N.en,
         languageName: 'Español',
-        nav: { settings: 'Ajustes', premium: 'Premium', themes: 'Temas', sounds: 'Sonidos', skins: 'Skins', swipeUp: 'Desliza hacia arriba', close: 'Cerrar', home: 'Inicio', library: 'Biblioteca', guide: 'Noise ID', account: 'Cuenta' },
+        nav: { settings: 'Ajustes', premium: 'Premium', themes: 'Temas', sounds: 'Sonidos', skins: 'Skins', swipeUp: 'Desliza hacia arriba', close: 'Cerrar', home: 'Inicio', recent: 'Reciente', library: 'Biblioteca', guide: 'Noise ID', account: 'Cuenta' },
         home: { kicker: 'Un pequeño ritual táctil', title: 'Pulsa. Escucha.<br>Respira.', subtitle: 'Mundos táctiles y atmósferas sonoras<br>para reiniciarte, relajarte y volver al foco.', posters: { click: ['Click', 'Clics limpios y satisfactorios'], moon: ['Luna', 'Ambiente suave para el foco nocturno'], whiteNoise: ['Ruido blanco', 'Constante. Simple. Calmante.'], brownNoise: ['Ruido marrón', 'Tonos más profundos para aterrizar'], rain: ['Lluvia', 'Lluvia natural sobre hojas'], pinkNoise: ['Ruido rosa', 'Equilibrado y suave.'], infrared: ['Infrarrojo', 'Cálido. Profundo. Silencio interior.'] }, use: 'Usar', noiseId: 'Noise ID' },
         onboarding: { ...I18N.en.onboarding, slide1Kicker: 'Un pequeño ritual para<br>momentos saturados', slide1Title: 'Cambia<br>el foco', slide1Sub: 'Solo por un momento', slide2Kicker: 'CAMBIO DE AUDIO', slide2Title: 'Un reinicio sensorial', slide2Sub: 'Aclara tu mente para lo que sigue', headphones: 'Se recomiendan auriculares', slide3Title: 'Pulsa. Escucha.<br>Respira.', demoHint: 'Toca, oye el clic y siente la respuesta háptica', next: 'Siguiente ->', pressesLeft: count => count === 1 ? '1 pulsación más' : `${count} pulsaciones más` },
         settings: { ...I18N.en.settings, title: 'Ajustes', sound: 'Sonido', vibration: 'Vibración', centered: 'Botón centrado', language: 'Idioma', share: 'Compartir app', rate: 'Valorar app', privacy: 'Privacidad', terms: 'Condiciones de uso', support: 'Soporte', restore: 'Restaurar compra' },
@@ -7754,7 +7765,7 @@
     I18N.pt = {
         ...I18N.en,
         languageName: 'Português',
-        nav: { settings: 'Definições', premium: 'Premium', themes: 'Temas', sounds: 'Sons', skins: 'Skins', swipeUp: 'Deslize para cima', close: 'Fechar', home: 'Início', library: 'Biblioteca', guide: 'Noise ID', account: 'Conta' },
+        nav: { settings: 'Definições', premium: 'Premium', themes: 'Temas', sounds: 'Sons', skins: 'Skins', swipeUp: 'Deslize para cima', close: 'Fechar', home: 'Início', recent: 'Recente', library: 'Biblioteca', guide: 'Noise ID', account: 'Conta' },
         home: { kicker: 'Um pequeno ritual tátil', title: 'Pressione. Ouça.<br>Respire.', subtitle: 'Mundos táteis e climas sonoros<br>para resetar, relaxar e recuperar o foco.', posters: { click: ['Clique', 'Cliques limpos e satisfatórios'], moon: ['Lua', 'Ambiente suave para o foco noturno'], whiteNoise: ['Ruído branco', 'Estável. Simples. Calmante.'], brownNoise: ['Ruído marrom', 'Tons mais profundos para aterramento'], rain: ['Chuva', 'Chuva natural sobre as folhas'], pinkNoise: ['Ruído rosa', 'Equilibrado e suave.'], infrared: ['Infravermelho', 'Quente. Profundo. Quietude interior.'] }, use: 'Usar', noiseId: 'Noise ID' },
         onboarding: { ...I18N.en.onboarding, slide1Kicker: 'Um pequeno ritual para<br>momentos sobrecarregados', slide1Title: 'Mude<br>o foco', slide1Sub: 'Só por um momento', slide2Kicker: 'MUDANÇA DE ÁUDIO', slide2Title: 'Um reset sensorial', slide2Sub: 'Limpe a mente para o que vem a seguir', headphones: 'Fones recomendados', slide3Title: 'Pressione. Ouça.<br>Respire.', demoHint: 'Toque, ouça o clique e sinta o háptico', next: 'Seguinte ->', pressesLeft: count => count === 1 ? 'Mais 1 toque' : `Mais ${count} toques` },
         settings: { ...I18N.en.settings, title: 'Definições', sound: 'Som', vibration: 'Vibração', centered: 'Botão centralizado', language: 'Idioma', share: 'Partilhar app', rate: 'Avaliar app', privacy: 'Política de privacidade', terms: 'Termos de uso', support: 'Suporte', restore: 'Restaurar compra' },
@@ -8163,7 +8174,7 @@
     const SOUND_PROFILES = [
         { id: 'classic-click', name: 'Classic Click', desc: 'Soft tactile click',
           free: true, gain: 0.92, iconPath: 'M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z',
-          mode: 'single', variations: ['sound-click.mp3'], pitchJitter: 0.008, hapticOffsetMs: -30 },
+          mode: 'single', variations: ['sound-click.mp3'], pitchJitter: 0.008, hapticOffsetMs: 0 },
         { id: 'foot-switch-click', name: 'Foot Switch', desc: 'Chunky foot switch press',
           free: false, gain: 0.94, iconPath: 'M17 7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h10c2.76 0 5-2.24 5-5s-2.24-5-5-5zM7 15c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z',
           mode: 'single', variations: ['foot-switch.mp3'], pitchJitter: 0 },
@@ -11860,8 +11871,9 @@
 
         isPosterPlaying(poster) {
             if (!poster || !document.body.classList.contains('noise-playing')) return false;
-            if (AudioEngine.getActiveLoopSkinId?.() !== poster.skinId) return false;
-            return !poster.soundProfileId || AudioEngine.activeLoopProfileId === poster.soundProfileId;
+            // A home card represents its sound skin, not one particular track.
+            // Switching tracks within that skin must keep the playback marker visible.
+            return AudioEngine.getActiveLoopSkinId?.() === poster.skinId;
         },
 
         buildPosterCard(poster) {
@@ -11934,14 +11946,25 @@
             const cards = [...this.rail.children];
             if (!cards.length) return;
             let activeIndex = 0;
-            let closestDistance = Infinity;
-            cards.forEach((card, index) => {
-                const distance = Math.abs(card.offsetLeft - this.viewport.scrollLeft);
-                if (distance < closestDistance) {
-                    closestDistance = distance;
-                    activeIndex = index;
-                }
-            });
+            const maxScrollLeft = Math.max(0, this.viewport.scrollWidth - this.viewport.clientWidth);
+            const reachedRightEdge = maxScrollLeft > 0
+                && this.viewport.scrollLeft >= maxScrollLeft - 2;
+
+            if (reachedRightEdge) {
+                // The last card may not align its left edge with the viewport's
+                // final scroll position. At that physical endpoint the last
+                // pagination marker is the truthful indicator.
+                activeIndex = cards.length - 1;
+            } else {
+                let closestDistance = Infinity;
+                cards.forEach((card, index) => {
+                    const distance = Math.abs(card.offsetLeft - this.viewport.scrollLeft);
+                    if (distance < closestDistance) {
+                        closestDistance = distance;
+                        activeIndex = index;
+                    }
+                });
+            }
             [...this.pagination.children].forEach((dot, index) => dot.setAttribute('aria-current', String(index === activeIndex)));
         },
 
@@ -12309,6 +12332,15 @@
             const selectedTarget = target || 'home';
             switch (selectedTarget) {
                 case 'library':
+                    if (document.body.classList.contains('home-view-active')) {
+                        SleepTimerManager.close();
+                        KnowledgeManager.close();
+                        Settings.close();
+                        AccountPanel.close();
+                        Paywall.close();
+                        HomeSkinScene.enterSkinExperience();
+                        break;
+                    }
                     SleepTimerManager.close();
                     KnowledgeManager.close();
                     Settings.close();
@@ -12332,7 +12364,6 @@
                     KnowledgeManager.close();
                     Settings.close();
                     Paywall.close();
-                    HomeSkinScene.enterSkinExperience();
                     AccountPanel.open();
                     break;
                 case 'home':
@@ -12350,6 +12381,12 @@
         },
 
         sync(explicitTarget = null) {
+            const libraryLabel = this.root?.querySelector('[data-nav-target="library"] .m3-nav-label');
+            if (libraryLabel) {
+                const isHome = document.body.classList.contains('home-view-active');
+                libraryLabel.dataset.i18n = isHome ? 'nav.recent' : 'nav.library';
+                libraryLabel.textContent = I18n.t(libraryLabel.dataset.i18n, libraryLabel.textContent);
+            }
             const nextTarget = explicitTarget || this.resolveCurrentTarget();
             if (!nextTarget) return;
             const activeItem = this.items.find(item => item.classList.contains('is-active'));
@@ -12357,7 +12394,9 @@
                 && activeItem?.dataset.navTarget === nextTarget) return;
             this.activeTarget = nextTarget;
             this.items.forEach(item => {
-                const isActive = item.dataset.navTarget === nextTarget;
+                const isActive = nextTarget === 'home'
+                    && item.dataset.navTarget === 'home'
+                    && document.body.classList.contains('home-view-active');
                 item.classList.toggle('is-active', isActive);
                 if (isActive) {
                     item.setAttribute('aria-current', 'page');

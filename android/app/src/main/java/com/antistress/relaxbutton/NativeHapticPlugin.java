@@ -173,7 +173,7 @@ public class NativeHapticPlugin extends Plugin {
     }
 
     private void vibrateEffect(Vibrator vibrator, VibrationEffect effect, boolean useHardwareFeedback) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && useHardwareFeedback) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && useHardwareFeedback) {
             VibrationAttributes attributes = new VibrationAttributes.Builder()
                 .setUsage(VibrationAttributes.USAGE_HARDWARE_FEEDBACK)
                 .build();
