@@ -10679,6 +10679,12 @@
             const available = state?.available === true;
             const price = state && state.price;
 
+            if (state?.premium === true) {
+                button.disabled = true;
+                button.textContent = `${I18n.t('nav.premium')} • ${I18n.t('sounds.active')}`;
+                return;
+            }
+
             button.disabled = !ready || !available;
             if (!ready) {
                 button.textContent = I18n.t('paywall.connecting');
@@ -11979,15 +11985,21 @@
                 return;
             }
 
-            const profileId = poster.soundProfileId || skin.recommendedSoundProfileId || '';
+            const isCurrentSkinPlaying = document.body.classList.contains('noise-playing')
+                && AudioEngine.getActiveLoopSkinId() === skin.id;
+            const activeProfileId = isCurrentSkinPlaying ? AudioEngine.activeLoopProfileId : '';
+            const requestedProfileId = activeProfileId || poster.soundProfileId || '';
+            const profileId = requestedProfileId || skin.recommendedSoundProfileId || '';
             const backdropReady = profileId
                 ? NoiseBackdropScene?.preloadArtworkForKey?.(profileId, 'high')
                 : Promise.resolve(true);
             this.selectedPosterId = poster.id;
             document.body.classList.add('skin-transitioning');
             SkinManager.select(skin.id, {
-                soundProfileId: poster.soundProfileId || '',
-                soundMode: poster.soundProfileId ? 'custom' : undefined,
+                soundProfileId: requestedProfileId,
+                soundMode: activeProfileId
+                    ? (activeProfileId === skin.recommendedSoundProfileId ? 'matched' : 'custom')
+                    : (poster.soundProfileId ? 'custom' : undefined),
                 deferSecondaryUI: true,
                 deferBackdrop: true,
                 deferHomeSync: true
@@ -12493,18 +12505,10 @@
 
         document.getElementById('sheet-premium').addEventListener('click', () => {
             BottomSheet.close();
-            if (EntitlementManager.hasPaidPremium()) {
-                Settings.open();
-            } else {
-                Paywall.open();
-            }
+            Paywall.open();
         });
         document.getElementById('click-premium-button')?.addEventListener('click', () => {
-            if (EntitlementManager.hasPaidPremium()) {
-                Settings.open();
-            } else {
-                Paywall.open();
-            }
+            Paywall.open();
         });
     }
 

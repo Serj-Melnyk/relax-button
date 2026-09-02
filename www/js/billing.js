@@ -141,6 +141,22 @@
             error: null
           });
         })
+        .receiptUpdated(() => {
+          publish({
+            available: true,
+            ready: true,
+            premium: store.owned(productId),
+            error: null
+          });
+        })
+        .receiptsReady(() => {
+          publish({
+            available: true,
+            ready: true,
+            premium: store.owned(productId),
+            error: null
+          });
+        })
         .approved((transaction) => {
           transaction.verify();
         })
@@ -229,7 +245,7 @@
     if (error) throw new Error(error.message || "Restore failed.");
     await store.update();
     publish({ premium: store.owned(productId), ready: true });
-    return state.premium;
+    return state.premium || waitForPremium(15000);
   }
 
   window.BillingBridge = {
