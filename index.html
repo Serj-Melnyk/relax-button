@@ -4349,6 +4349,15 @@
         color: var(--accent);
     }
 
+    .account-restore-status {
+        min-height: 1.4em;
+        margin: 8px 20px 0;
+        color: var(--on-surface-var);
+        font-size: 13px;
+        line-height: 1.4;
+        text-align: center;
+    }
+
     #account-panel .account-version {
         padding: 8px 14px 4px;
         text-align: center;
@@ -7278,6 +7287,7 @@
             <span class="account-row-action" aria-hidden="true">›</span>
         </button>
         </section>
+        <div id="account-restore-status" class="account-restore-status" role="status" aria-live="polite"></div>
 
         <div class="account-version">
             <span class="setting-label" data-i18n="settings.version" style="color: var(--on-surface-var); font-size: 12px;">Digital Fidget: Mental ASMR v1.0</span>
@@ -7513,7 +7523,7 @@
                 feature2: 'Premium sound library',
                 feature3: 'Premium visual themes',
                 feature4: 'No ads, ever',
-                buy: 'Unlock Premium', restore: 'Restore Purchase',
+                buy: 'Unlock Premium', restore: 'Restore Purchase', restored: 'Purchase restored. Premium is active.',
                 connecting: 'Connecting to store...', pending: 'Purchase is pending or could not be verified.',
                 unavailable: 'Purchases are not available.', none: 'No active purchase found.',
                 restoreUnavailable: 'Restore purchases is not available on this build yet.',
@@ -7645,7 +7655,7 @@
         paywall: {
             title: 'Відкрий звуки, скіни й теми', subtitle: 'Зроби відпочинок глибшим',
             feature1: 'Преміум-скіни взаємодії', feature2: 'Преміум-бібліотека звуків', feature3: 'Преміум-візуальні теми', feature4: 'Без реклами. Взагалі.',
-            buy: 'Відкрити Преміум', restore: 'Відновити покупку',
+            buy: 'Відкрити Преміум', restore: 'Відновити покупку', restored: 'Покупку відновлено. Преміум активовано.',
             connecting: 'Підключення до магазину...', pending: 'Покупка очікує підтвердження або не перевірена.',
             unavailable: 'Покупки недоступні.', none: 'Активну покупку не знайдено.', restoreUnavailable: 'Відновлення покупок у цій збірці поки недоступне.', lifetime: 'Назавжди'
         },
@@ -7715,7 +7725,7 @@
         settings: { ...I18N.en.settings, title: '設定', sound: 'サウンド', vibration: '振動', centered: '中央ボタン', language: '言語', share: 'アプリを共有', rate: 'アプリを評価', privacy: 'プライバシーポリシー', terms: '利用規約', support: 'サポート', restore: '購入を復元' },
         timer: { ...I18N.en.timer, title: 'スリープタイマー', off: 'オフ', idle: '時間または分をスワイプまたはタップして、+/-で調整。', active: value => `${value}後に音が止まります。`, hours: '時間', minutes: '分', hr: '時間', min: '分', set: 'タイマーを設定', clear: 'タイマーを解除' },
         knowledge: { ...I18N.en.knowledge, title: 'サウンドガイド', subtitle: 'ノイズカラーの短い説明です。', whiteTitle: 'ホワイトノイズ', whiteCopy: '<strong>特徴:</strong> 全帯域に均一に広がる技術的なノイズです。明るく密度が高く、細かな外音を一気に覆いやすいのが特徴です。<br><br><strong>印象:</strong> テレビの砂嵐、周波数の合っていないラジオ、鋭い音の砂のように感じられます。<br><br><strong>向いている場面:</strong> 外音を強く遮りたい時、短時間の強い集中、耳鳴りの知覚を和らげたい時。<br><br><strong>聴き心地:</strong> 効果は強いですが疲れやすいため、長時間より短めの利用と中くらいの音量が向いています。', pinkTitle: 'ピンクノイズ', pinkCopy: '<strong>特徴:</strong> やわらかく均整の取れたノイズです。高音がなだらかに抑えられているため、ホワイトノイズより自然で、集中も保ちやすい音です。<br><br><strong>印象:</strong> 一定の雨音、木々を抜ける風、部屋を満たす穏やかな空気の流れのように聞こえます。<br><br><strong>向いている場面:</strong> 集中、勉強、読書、生活音のマスキング、落ち着いた作業空間づくり。<br><br><strong>聴き心地:</strong> 低音の圧が強すぎないので、長めの作業中にも流しやすい音です。', brownTitle: 'ブラウンノイズ', brownCopy: '<strong>特徴:</strong> 低く深く、包み込むようなノイズです。高音が大きく減り、低音が前に出るため、安心感や接地感が出やすい音です。<br><br><strong>印象:</strong> 遠い波音、壁越しの滝、深い雨音、やわらかな低い響きのように感じられます。<br><br><strong>向いている場面:</strong> 入眠、緊張を下げたい時、周囲の雑音を隠したい時、頭を静かに切り替えたい時。<br><br><strong>聴き心地:</strong> あたたかく密度のある音です。低音が重くなりすぎないよう、音量は小さめから中くらいが向いています。', rainTitle: '雨', rainCopy: '<strong>特徴:</strong> 自然で反復的、そして親しみやすい音です。動きはありますが、強く注意を引かないのが雨の良さです。<br><br><strong>印象:</strong> 窓に当たる雨、外で静かに降る通り雨、部屋との間にやさしい膜ができるような感覚です。<br><br><strong>向いている場面:</strong> 思考を落ち着かせたい時、静けさをやわらげたい時、読書、休息、空間を少しプライベートに感じたい時。<br><br><strong>聴き心地:</strong> 純粋なノイズより情景があり、やさしく落ち着ける雰囲気のある音です。' },
-        paywall: { ...I18N.en.paywall, title: 'サウンド、スキン、テーマを解放', subtitle: 'リラックス体験を深める', buy: 'プレミアムを解放', restore: '購入を復元' },
+        paywall: { ...I18N.en.paywall, title: 'サウンド、スキン、テーマを解放', subtitle: 'リラックス体験を深める', buy: 'プレミアムを解放', restore: '購入を復元', restored: '購入が復元されました。プレミアムが有効です。' },
         rating: { ...I18N.en.rating, title: 'Digital Fidgetを楽しんでいますか？', copy: '短い評価が、落ち着ける瞬間を探す人の助けになります。', choose: '評価を選択', rate: 'ストアで評価', later: '今はしない', star: count => `${count}つ星` }
         ,fallback: { singleSound: '触覚的なクリック音', continuousSound: 'リラックス用のループ音' }
     };
@@ -7729,7 +7739,7 @@
         settings: { ...I18N.en.settings, title: 'Réglages', sound: 'Son', vibration: 'Vibration', centered: 'Bouton centré', language: 'Langue', share: 'Partager', rate: 'Noter l’app', privacy: 'Confidentialité', terms: 'Conditions d’utilisation', support: 'Assistance', restore: 'Restaurer l’achat' },
         timer: { ...I18N.en.timer, title: 'Minuteur de sommeil', off: 'Off', idle: 'Fais glisser ou touche heures/minutes, puis ajuste avec +/-.', active: value => `Le son s’arrêtera dans ${value}.`, hours: 'Heures', minutes: 'Minutes', hr: 'h', min: 'min', set: 'Régler le minuteur', clear: 'Effacer' },
         knowledge: { ...I18N.en.knowledge, title: 'Guide des sons', subtitle: 'Quelques mots sur les couleurs de bruit.', whiteTitle: 'Bruit blanc', whiteCopy: '<strong>Sensation générale :</strong> Un signal uniforme et technique, réparti sur tout le spectre audible. Il paraît brillant, dense et très direct.<br><br><strong>À quoi ça ressemble :</strong> Une neige télévisée, une radio non réglée ou un sable acoustique très net qui recouvre instantanément les petits détails autour.<br><br><strong>Utile pour :</strong> Masquer fortement les sons extérieurs, tenir une courte session de focus intense et atténuer la perception des acouphènes.<br><br><strong>À l’écoute :</strong> Très efficace, mais plus fatigant que le bruit rose ou brun. Mieux en sessions courtes et à volume modéré.', pinkTitle: 'Bruit rose', pinkCopy: '<strong>Sensation générale :</strong> Doux et équilibré. Les aigus sont plus feutrés que dans le bruit blanc, ce qui le rend plus naturel tout en gardant de la clarté mentale.<br><br><strong>À quoi ça ressemble :</strong> Une pluie régulière, du vent dans les arbres ou un souffle calme qui remplit la pièce sans agresser l’oreille.<br><br><strong>Utile pour :</strong> Se concentrer, étudier, lire, masquer les conversations autour de soi et installer une bulle de travail apaisante.<br><br><strong>À l’écoute :</strong> Confortable sur des sessions longues, car il reste présent sans trop charger le bas du spectre.', brownTitle: 'Bruit brun', brownCopy: '<strong>Sensation générale :</strong> Plus grave, plus profond et plus dense. Le haut du spectre s’efface davantage, ce qui donne une impression de chaleur et d’ancrage.<br><br><strong>À quoi ça ressemble :</strong> Un ressac lointain, une cascade derrière un mur, une pluie épaisse ou un roulement grave et doux qui enveloppe les autres sons.<br><br><strong>Utile pour :</strong> S’endormir, relâcher le système nerveux, bloquer le chaos sonore ambiant et décompresser vite après une charge mentale intense.<br><br><strong>À l’écoute :</strong> Chaud et enveloppant. Mieux vaut le garder à volume faible ou moyen pour que les basses restent apaisantes.', rainTitle: 'Pluie', rainCopy: '<strong>Sensation générale :</strong> Une texture naturelle, répétitive et familière. La pluie apporte du mouvement sans demander d’attention.<br><br><strong>À quoi ça ressemble :</strong> Des gouttes sur une vitre, une averse calme dehors, comme un voile doux entre toi et le reste de la pièce.<br><br><strong>Utile pour :</strong> Calmer les pensées rapides, adoucir le silence, lire, ralentir et rendre l’espace plus intime.<br><br><strong>À l’écoute :</strong> Atmosphérique et douce, idéale si tu veux quelque chose de relaxant mais moins abstrait qu’un bruit pur.' },
-        paywall: { ...I18N.en.paywall, title: 'Débloquer sons, skins et thèmes', subtitle: 'Rends ton moment de détente plus profond', buy: 'Débloquer Premium', restore: 'Restaurer l’achat' },
+        paywall: { ...I18N.en.paywall, title: 'Débloquer sons, skins et thèmes', subtitle: 'Rends ton moment de détente plus profond', buy: 'Débloquer Premium', restore: 'Restaurer l’achat', restored: 'Achat restauré. Premium est actif.' },
         rating: { ...I18N.en.rating, title: 'Tu aimes Digital Fidget ?', copy: 'Une note rapide aide d’autres personnes à trouver un moment plus calme.', choose: 'Choisir une note', rate: 'Noter dans le store', later: 'Pas maintenant', star: count => `${count} étoile${count > 1 ? 's' : ''}` }
         ,fallback: { singleSound: 'Son de clic tactile', continuousSound: 'Son relaxant en boucle' }
     };
@@ -7743,7 +7753,7 @@
         settings: { ...I18N.en.settings, title: 'Einstellungen', sound: 'Sound', vibration: 'Vibration', centered: 'Zentrierter Button', language: 'Sprache', share: 'App teilen', rate: 'App bewerten', privacy: 'Datenschutz', terms: 'Nutzungsbedingungen', support: 'Support', restore: 'Kauf wiederherstellen' },
         timer: { ...I18N.en.timer, title: 'Sleep-Timer', off: 'Aus', idle: 'Stunden/Minuten wischen oder antippen, dann mit +/- anpassen.', active: value => `Der Sound stoppt in ${value}.`, hours: 'Stunden', minutes: 'Minuten', hr: 'h', min: 'min', set: 'Timer setzen', clear: 'Timer löschen' },
         knowledge: { ...I18N.en.knowledge, title: 'Sound-Guide', subtitle: 'Kurz erklärt: die Farben des Rauschens.', whiteTitle: 'Weißes Rauschen', whiteCopy: '<strong>Grundgefühl:</strong> Ein gleichmäßig verteilter technischer Klang über das ganze hörbare Spektrum. Dadurch wirkt er hell, dicht und sehr direkt.<br><br><strong>Klingt wie:</strong> Fernsehrauschen, ein nicht eingestelltes Radio oder akustischer Sand, der kleine Details in der Umgebung sofort überdeckt.<br><br><strong>Hilft oft bei:</strong> Radikalem Abschirmen äußerer Geräusche, kurzen harten Fokus-Sessions und beim Dämpfen der Wahrnehmung von Tinnitus.<br><br><strong>Hörgefühl:</strong> Sehr wirksam, aber ermüdender als rosa oder braunes Rauschen. Besser in kürzeren Sessions und bei mittlerer Lautstärke.', pinkTitle: 'Rosa Rauschen', pinkCopy: '<strong>Grundgefühl:</strong> Weich und ausgewogen. Die Höhen sind sanfter als bei weißem Rauschen, dadurch wirkt es natürlicher und hält den Kopf trotzdem klar genug für Fokus.<br><br><strong>Klingt wie:</strong> Gleichmäßiger Regen, Wind in Bäumen oder ein ruhiger Luftteppich im Raum ohne scharfes Zischen.<br><br><strong>Hilft oft bei:</strong> Konzentration, Lernen, Lesen, dem Ausblenden von Gesprächen und dem Aufbau einer ruhigen Arbeitsblase.<br><br><strong>Hörgefühl:</strong> Gut für längere Sessions, weil es präsent bleibt, ohne mit zu viel Bass zu drücken.', brownTitle: 'Braunes Rauschen', brownCopy: '<strong>Grundgefühl:</strong> Tiefer, dunkler und dichter. Die hohen Frequenzen treten stark zurück, während der Bass mehr Wärme und ein geerdetes Gefühl gibt.<br><br><strong>Klingt wie:</strong> Ferne Brandung, ein Wasserfall hinter einer Wand, starker Regen oder ein weiches tiefes Grollen, das andere Geräusche umhüllt.<br><br><strong>Hilft oft bei:</strong> Einschlafen, Herunterregeln des Nervensystems, Abschirmen chaotischer Umgebung und schnellem sensorischem Reset.<br><br><strong>Hörgefühl:</strong> Warm und schwerer. Am besten leise bis mittel laut, damit die Tiefen beruhigen statt zu ermüden.', rainTitle: 'Regen', rainCopy: '<strong>Grundgefühl:</strong> Natürlich, wiederholend und vertraut. Regen bringt Bewegung in die Stille, ohne Aufmerksamkeit einzufordern.<br><br><strong>Klingt wie:</strong> Tropfen am Fenster, ein leiser Schauer draußen oder ein sanfter Vorhang zwischen dir und dem Rest des Raums.<br><br><strong>Hilft oft bei:</strong> Rasende Gedanken beruhigen, Stille weicher machen, Lesen, Abschalten und einem Raum mehr Geborgenheit geben.<br><br><strong>Hörgefühl:</strong> Sanft und atmosphärisch, besonders wenn du etwas Beruhigendes willst, das weniger abstrakt ist als reines Rauschen.' },
-        paywall: { ...I18N.en.paywall, title: 'Sounds, Skins und Themes freischalten', subtitle: 'Mach deine Entspannung tiefer', buy: 'Premium freischalten', restore: 'Kauf wiederherstellen' },
+        paywall: { ...I18N.en.paywall, title: 'Sounds, Skins und Themes freischalten', subtitle: 'Mach deine Entspannung tiefer', buy: 'Premium freischalten', restore: 'Kauf wiederherstellen', restored: 'Kauf wiederhergestellt. Premium ist aktiv.' },
         rating: { ...I18N.en.rating, title: 'Gefällt dir Digital Fidget?', copy: 'Eine kurze Bewertung hilft anderen, einen ruhigeren Moment zu finden.', choose: 'Bewertung auswählen', rate: 'Im Store bewerten', later: 'Nicht jetzt', star: count => `${count} Stern${count > 1 ? 'e' : ''}` }
         ,fallback: { singleSound: 'Taktiler Klicksound', continuousSound: 'Loopender Entspannungssound' }
     };
@@ -7757,7 +7767,7 @@
         settings: { ...I18N.en.settings, title: 'Ajustes', sound: 'Sonido', vibration: 'Vibración', centered: 'Botón centrado', language: 'Idioma', share: 'Compartir app', rate: 'Valorar app', privacy: 'Privacidad', terms: 'Condiciones de uso', support: 'Soporte', restore: 'Restaurar compra' },
         timer: { ...I18N.en.timer, title: 'Temporizador', off: 'Off', idle: 'Desliza o toca horas/minutos y luego ajusta con +/-.', active: value => `El sonido se detendrá en ${value}.`, hours: 'Horas', minutes: 'Minutos', hr: 'h', min: 'min', set: 'Activar temporizador', clear: 'Borrar' },
         knowledge: { ...I18N.en.knowledge, title: 'Guía de sonidos', subtitle: 'Una nota breve sobre los colores del ruido.', whiteTitle: 'Ruido blanco', whiteCopy: '<strong>Sensación general:</strong> Una señal técnica uniforme repartida por todo el espectro audible. Se siente brillante, densa y muy directa.<br><br><strong>A qué se parece:</strong> La estática del televisor, una radio sin sintonizar o arena acústica que tapa de inmediato los detalles pequeños del entorno.<br><br><strong>Suele servir para:</strong> Aislar con fuerza sonidos externos, sesiones cortas de enfoque intenso y reducir la percepción del tinnitus.<br><br><strong>Al escucharlo:</strong> Es muy eficaz, pero fatiga más rápido que el ruido rosa o marrón. Mejor en sesiones cortas y con volumen moderado.', pinkTitle: 'Ruido rosa', pinkCopy: '<strong>Sensación general:</strong> Suave y equilibrado. Los agudos están más contenidos que en el ruido blanco, así que se siente más natural sin perder claridad mental.<br><br><strong>A qué se parece:</strong> Lluvia constante, viento entre árboles o un fondo de aire sereno que llena el espacio sin sonar áspero.<br><br><strong>Suele servir para:</strong> Concentrarse, estudiar, leer, tapar conversaciones cercanas y crear una burbuja de trabajo tranquila.<br><br><strong>Al escucharlo:</strong> Resulta cómodo durante sesiones largas porque está presente sin empujar demasiado los graves.', brownTitle: 'Ruido marrón', brownCopy: '<strong>Sensación general:</strong> Más bajo, profundo y denso. Reduce mucho la parte aguda y se apoya en los graves, lo que da una sensación de refugio y aterrizaje.<br><br><strong>A qué se parece:</strong> Oleaje lejano, una cascada detrás de una pared, lluvia espesa o un rumor grave y suave que envuelve otros sonidos.<br><br><strong>Suele servir para:</strong> Dormir, bajar revoluciones, bloquear entornos caóticos y hacer una descompresión sensorial rápida.<br><br><strong>Al escucharlo:</strong> Cálido y pesado. Va mejor a volumen bajo o medio para que los graves relajen sin fatigar.', rainTitle: 'Lluvia', rainCopy: '<strong>Sensación general:</strong> Una textura natural, repetitiva y familiar. La lluvia aporta movimiento sin pedir atención.<br><br><strong>A qué se parece:</strong> Gotas en la ventana, una lluvia tranquila afuera o una cortina suave entre tú y el resto de la habitación.<br><br><strong>Suele servir para:</strong> Bajar pensamientos acelerados, suavizar el silencio, leer, descansar y hacer que el espacio se sienta más íntimo.<br><br><strong>Al escucharlo:</strong> Es suave y atmosférico, ideal si quieres algo calmante pero menos abstracto que un ruido puro.' },
-        paywall: { ...I18N.en.paywall, title: 'Desbloquea sonidos, skins y temas', subtitle: 'Eleva tu momento de calma', buy: 'Desbloquear Premium', restore: 'Restaurar compra' },
+        paywall: { ...I18N.en.paywall, title: 'Desbloquea sonidos, skins y temas', subtitle: 'Eleva tu momento de calma', buy: 'Desbloquear Premium', restore: 'Restaurar compra', restored: 'Compra restaurada. Premium está activo.' },
         rating: { ...I18N.en.rating, title: '¿Te gusta Digital Fidget?', copy: 'Una valoración rápida ayuda a más personas a encontrar un momento de calma.', choose: 'Elige una valoración', rate: 'Valorar en la tienda', later: 'Ahora no', star: count => `${count} estrella${count > 1 ? 's' : ''}` }
         ,fallback: { singleSound: 'Sonido de clic táctil', continuousSound: 'Sonido relajante en bucle' }
     };
@@ -7771,7 +7781,7 @@
         settings: { ...I18N.en.settings, title: 'Definições', sound: 'Som', vibration: 'Vibração', centered: 'Botão centralizado', language: 'Idioma', share: 'Partilhar app', rate: 'Avaliar app', privacy: 'Política de privacidade', terms: 'Termos de uso', support: 'Suporte', restore: 'Restaurar compra' },
         timer: { ...I18N.en.timer, title: 'Temporizador de sono', off: 'Off', idle: 'Deslize ou toque horas/minutos e ajuste com +/-.', active: value => `O som vai parar em ${value}.`, hours: 'Horas', minutes: 'Minutos', hr: 'h', min: 'min', set: 'Definir temporizador', clear: 'Limpar' },
         knowledge: { ...I18N.en.knowledge, title: 'Guia de sons', subtitle: 'Uma nota rápida sobre as cores do ruído.', whiteTitle: 'Ruído branco', whiteCopy: '<strong>Sensação geral:</strong> Um sinal técnico uniforme distribuído por todo o espectro audível. Ele soa brilhante, denso e muito direto.<br><br><strong>Lembra o quê:</strong> Estática de TV, rádio fora de sintonia ou areia acústica cobrindo imediatamente os pequenos detalhes do ambiente.<br><br><strong>Costuma ajudar em:</strong> Isolar agressivamente sons externos, sessões curtas de foco intenso e reduzir a percepção do zumbido.<br><br><strong>Ao ouvir:</strong> É muito eficaz, mas cansa mais rápido do que o ruído rosa ou marrom. Funciona melhor em sessões curtas e volume moderado.', pinkTitle: 'Ruído rosa', pinkCopy: '<strong>Sensação geral:</strong> Suave e equilibrado. Os agudos ficam mais contidos do que no ruído branco, então ele soa mais natural sem perder clareza para manter o foco.<br><br><strong>Lembra o quê:</strong> Chuva constante, vento nas árvores ou um fundo de ar calmo preenchendo o ambiente sem aspereza.<br><br><strong>Costuma ajudar em:</strong> Foco, estudo, leitura, mascarar conversas ao redor e criar uma bolha de trabalho tranquila.<br><br><strong>Ao ouvir:</strong> É confortável por períodos mais longos, porque permanece presente sem pressionar demais os graves.', brownTitle: 'Ruído marrom', brownCopy: '<strong>Sensação geral:</strong> Mais baixo, profundo e denso. A parte aguda quase desaparece e os graves trazem sensação de abrigo e aterramento.<br><br><strong>Lembra o quê:</strong> Ondas distantes, uma cachoeira atrás da parede, chuva pesada ou um ronco grave e macio cobrindo outros sons.<br><br><strong>Costuma ajudar em:</strong> Dormir, desacelerar o sistema nervoso, bloquear ambientes caóticos e fazer uma descompressão sensorial rápida.<br><br><strong>Ao ouvir:</strong> Quente e encorpado. Funciona melhor em volume baixo ou médio para que os graves acalmem sem cansar.', rainTitle: 'Chuva', rainCopy: '<strong>Sensação geral:</strong> Uma textura natural, repetitiva e familiar. A chuva traz movimento sem exigir sua atenção.<br><br><strong>Lembra o quê:</strong> Gotas na janela, uma chuva calma lá fora ou uma cortina suave entre você e o resto do ambiente.<br><br><strong>Costuma ajudar em:</strong> Acalmar pensamentos acelerados, suavizar o silêncio, ler, descansar e deixar o espaço mais acolhedor e privado.<br><br><strong>Ao ouvir:</strong> É gentil e atmosférico, ótimo quando você quer algo calmante, mas menos abstrato do que um ruído puro.' },
-        paywall: { ...I18N.en.paywall, title: 'Desbloqueie sons, skins e temas', subtitle: 'Aprofunde seu momento de calma', buy: 'Desbloquear Premium', restore: 'Restaurar compra' },
+        paywall: { ...I18N.en.paywall, title: 'Desbloqueie sons, skins e temas', subtitle: 'Aprofunde seu momento de calma', buy: 'Desbloquear Premium', restore: 'Restaurar compra', restored: 'Compra restaurada. O Premium está ativo.' },
         rating: { ...I18N.en.rating, title: 'Gostando do Digital Fidget?', copy: 'Uma avaliação rápida ajuda mais pessoas a encontrar um momento de calma.', choose: 'Escolha uma avaliação', rate: 'Avaliar na loja', later: 'Agora não', star: count => `${count} estrela${count > 1 ? 's' : ''}` }
         ,fallback: { singleSound: 'Som de clique tátil', continuousSound: 'Som relaxante em loop' }
     };
@@ -8764,7 +8774,7 @@
                 if (result && typeof result.catch === 'function') {
                     result.catch(error => console.warn('Keep-awake bridge failed:', error));
                 }
-            } catch (error) {
+            } catch {
                 console.warn('Keep-awake bridge failed:', error);
             }
         },
@@ -10640,11 +10650,14 @@
                 const premium = await EntitlementManager.restore();
                 if (!premium) {
                     alert(I18n.t('paywall.none'));
-                    return;
+                    return false;
                 }
                 this.onEntitlementVerified();
+                alert(I18n.t('paywall.restored'));
+                return true;
             } catch (e) {
                 alert(e.message || I18n.t('paywall.restoreUnavailable'));
+                return false;
             }
         },
 
@@ -11665,6 +11678,7 @@
         layoutRow: null,
         themeSection: null,
         languageRow: null,
+        restoreStatus: null,
         dismissSwipe: null,
         dismissScrimSwipe: null,
 
@@ -11674,6 +11688,7 @@
             this.layoutRow = document.getElementById('setting-layout-row');
             this.themeSection = this.panel?.querySelector('.setting-theme-section');
             this.languageRow = document.getElementById('setting-language-row');
+            this.restoreStatus = document.getElementById('account-restore-status');
 
             document.getElementById('sheet-settings')?.addEventListener('click', () => {
                 BottomSheet.close();
@@ -11760,11 +11775,21 @@
         },
 
         async restorePurchase() {
+            if (this.restoreStatus) this.restoreStatus.textContent = '';
             try {
-                await Paywall.restore();
-            } finally {
-                this.close();
-                AccountPanel.close();
+                const premium = await EntitlementManager.restore();
+                if (!premium) {
+                    if (this.restoreStatus) this.restoreStatus.textContent = I18n.t('paywall.none');
+                    return false;
+                }
+                Paywall.onEntitlementVerified();
+                if (this.restoreStatus) this.restoreStatus.textContent = I18n.t('paywall.restored');
+                return true;
+            } catch (error) {
+                if (this.restoreStatus) {
+                    this.restoreStatus.textContent = I18n.t('paywall.restoreUnavailable');
+                }
+                return false;
             }
         },
 

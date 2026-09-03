@@ -3,17 +3,13 @@ const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 
-async function run() {
-  let owned = false;
-  let adapterReady = true;
+function createHarness({ initiallyOwned = false, adapterReady = true, nativePurchases = [], onRestore } = {}) {
+  let owned = initiallyOwned;
   let restoreCalls = 0;
   let updateCalls = 0;
-
   const when = {};
   ['productUpdated', 'receiptUpdated', 'receiptsReady', 'approved', 'verified', 'unverified', 'receiptsVerified']
-    .forEach((eventName) => {
-      when[eventName] = () => when;
-    });
+    .forEach((eventName) => { when[eventName] = () => when; });
 
   const store = {
     getAdapter: () => ({ ready: adapterReady }),
@@ -25,7 +21,7 @@ async function run() {
     initialize: async () => [{ message: 'Product details are still loading.' }],
     restorePurchases: async () => {
       restoreCalls += 1;
-      setTimeout(() => { owned = true; }, 20);
+      if (onRestore) onRestore(() => { owned = true; });
       return undefined;
     },
     update: async () => { updateCalls += 1; }
@@ -36,7 +32,10 @@ async function run() {
     __APP_RUNTIME_CONFIG__: { billing: { premiumProductId: 'premium_lifetime' } },
     Capacitor: {
       getPlatform: () => 'android',
-      isNativePlatform: () => true
+      isNativePlatform: () => true,
+      Plugins: {
+        PurchasePlugin: { getPurchases: async () => ({ purchases: nativePurchases }) }
+      }
     },
     CdvPurchase: {
       store,
@@ -70,17 +69,30 @@ async function run() {
 
   const source = fs.readFileSync(path.join(__dirname, '../www/js/billing.js'), 'utf8');
   vm.runInNewContext(source, context, { filename: 'billing.js' });
+  return {
+    bridge: window.BillingBridge,
+    stats: () => ({ restoreCalls, updateCalls })
+  };
+}
 
-  const restored = await window.BillingBridge.restore();
-  assert.equal(restored, true, 'restore should wait for Google Play ownership');
-  assert.equal(window.BillingBridge.isPremium(), true);
-  assert.equal(restoreCalls, 1);
-  assert.equal(updateCalls, 0, 'restore should not issue a racing store.update call');
+async function run() {
+  const eventHarness = createHarness({
+    onRestore: (markOwned) => setTimeout(markOwned, 20)
+  });
+  assert.equal(await eventHarness.bridge.restore(), true, 'restore should wait for library ownership');
+  assert.equal(eventHarness.bridge.isPremium(), true);
+  assert.deepEqual(eventHarness.stats(), { restoreCalls: 1, updateCalls: 0 });
 
-  adapterReady = false;
-  const restoredAgain = await window.BillingBridge.restore();
-  assert.equal(restoredAgain, true, 'an already-owned purchase should restore immediately');
-  assert.equal(restoreCalls, 1, 'an already-owned purchase should not query Play again');
+  const nativeHarness = createHarness({
+    nativePurchases: [{ productIds: ['premium_lifetime'], getPurchaseState: 1 }]
+  });
+  assert.equal(await nativeHarness.bridge.restore(), true, 'restore should use the direct Google Play result');
+  assert.equal(nativeHarness.bridge.isPremium(), true);
+  assert.deepEqual(nativeHarness.stats(), { restoreCalls: 1, updateCalls: 0 });
+
+  const ownedHarness = createHarness({ initiallyOwned: true, adapterReady: false });
+  assert.equal(await ownedHarness.bridge.restore(), true, 'an already-owned purchase should restore immediately');
+  assert.deepEqual(ownedHarness.stats(), { restoreCalls: 0, updateCalls: 0 });
 
   console.log('Billing restore checks passed.');
 }

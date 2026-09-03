@@ -5,6 +5,11 @@
   const validatorUrl = config.validatorUrl || "";
   const requireServerValidation = config.requireServerValidation === true;
   const listeners = new Set();
+  let nativeReady = !window.cordova;
+
+  document.addEventListener("deviceready", () => {
+    nativeReady = true;
+  }, { once: true });
 
   const state = {
     available: false,
@@ -64,6 +69,44 @@
     return product && product.owned === true;
   }
 
+  function purchaseIncludesPremium(purchase) {
+    if (!purchase || purchase.consumed === true || purchase.isConsumed === true) return false;
+
+    const purchaseState = purchase.getPurchaseState ?? purchase.purchaseState;
+    if (purchaseState !== undefined && Number(purchaseState) !== 1) return false;
+
+    const ids = Array.isArray(purchase.productIds)
+      ? purchase.productIds
+      : Array.isArray(purchase.products)
+        ? purchase.products.map((product) => typeof product === "string" ? product : product && product.id)
+        : [purchase.productId || purchase.sku];
+    return ids.includes(productId);
+  }
+
+  async function queryNativeGooglePremium() {
+    const capacitorPlugin = window.Capacitor
+      && window.Capacitor.Plugins
+      && window.Capacitor.Plugins.PurchasePlugin;
+
+    if (capacitorPlugin && typeof capacitorPlugin.getPurchases === "function") {
+      const result = await capacitorPlugin.getPurchases();
+      const purchases = Array.isArray(result) ? result : result && result.purchases;
+      return Array.isArray(purchases) && purchases.some(purchaseIncludesPremium);
+    }
+
+    if (!window.cordova || typeof window.cordova.exec !== "function") return false;
+    const purchases = await new Promise((resolve, reject) => {
+      window.cordova.exec(
+        resolve,
+        (error) => reject(new Error(error && error.message ? error.message : String(error || "Purchase query failed."))),
+        "InAppBillingPlugin",
+        "getPurchases",
+        []
+      );
+    });
+    return Array.isArray(purchases) && purchases.some(purchaseIncludesPremium);
+  }
+
   function waitForPremium(store, timeoutMs) {
     if (state.premium || isPremiumOwned(store)) return Promise.resolve(true);
 
@@ -96,11 +139,12 @@
     const isNative = !!(window.Capacitor
       && typeof window.Capacitor.isNativePlatform === "function"
       && window.Capacitor.isNativePlatform());
-    if (!isNative || window.CdvPurchase) return;
+    if (!isNative || nativeReady) return;
 
     await new Promise((resolve) => {
       const timer = window.setTimeout(resolve, 10000);
       document.addEventListener("deviceready", () => {
+        nativeReady = true;
         window.clearTimeout(timer);
         resolve();
       }, { once: true });
@@ -263,6 +307,12 @@
     publish({ error: null });
     const error = await store.restorePurchases();
     if (error) throw new Error(error.message || "Restore failed.");
+
+    if (platform === CdvPurchase.Platform.GOOGLE_PLAY && await queryNativeGooglePremium()) {
+      publish({ available: true, ready: true, premium: true, error: null });
+      return true;
+    }
+
     const premium = await waitForPremium(store, 15000);
     publish({ premium, ready: true });
     return premium;
