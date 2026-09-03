@@ -57,17 +57,28 @@
     return "";
   }
 
-  function waitForPremium(timeoutMs) {
-    if (state.premium) return Promise.resolve(true);
+  function isPremiumOwned(store) {
+    if (!store) return false;
+    if (store.owned(productId)) return true;
+    const product = store.get && store.get(productId);
+    return product && product.owned === true;
+  }
+
+  function waitForPremium(store, timeoutMs) {
+    if (state.premium || isPremiumOwned(store)) return Promise.resolve(true);
 
     return new Promise((resolve) => {
       let settled = false;
       const timer = window.setTimeout(() => finish(false), timeoutMs);
+      const poller = window.setInterval(() => {
+        if (isPremiumOwned(store)) finish(true);
+      }, 250);
 
       function finish(value) {
         if (settled) return;
         settled = true;
         window.clearTimeout(timer);
+        window.clearInterval(poller);
         listeners.delete(onUpdate);
         resolve(value);
       }
@@ -228,24 +239,33 @@
     publish({ error: null });
     const error = await offer.order();
     if (error) throw new Error(error.message || "Purchase could not be started.");
-    return waitForPremium(120000);
+    return waitForPremium(store, 120000);
   }
 
   async function restore() {
     await initialize();
     const CdvPurchase = window.CdvPurchase;
     const store = CdvPurchase && CdvPurchase.store;
+    const platform = CdvPurchase && currentPlatform(CdvPurchase);
+    const adapter = store && platform && store.getAdapter
+      ? store.getAdapter(platform)
+      : null;
 
-    if (!state.available || !store) {
+    if (state.premium || isPremiumOwned(store)) {
+      publish({ available: true, ready: true, premium: true, error: null });
+      return true;
+    }
+
+    if (!store || !platform || !adapter || adapter.ready !== true) {
       throw new Error(state.error || "Restore is only available in the installed app.");
     }
 
     publish({ error: null });
     const error = await store.restorePurchases();
     if (error) throw new Error(error.message || "Restore failed.");
-    await store.update();
-    publish({ premium: store.owned(productId), ready: true });
-    return state.premium || waitForPremium(15000);
+    const premium = await waitForPremium(store, 15000);
+    publish({ premium, ready: true });
+    return premium;
   }
 
   window.BillingBridge = {

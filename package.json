@@ -6,6 +6,7 @@
     "sync": "npx cap sync",
     "build:android": "cd android && JAVA_HOME='/Applications/Android Studio.app/Contents/jbr/Contents/Home' ./gradlew bundleRelease",
     "build:android:unsigned": "cd android && ANDROID_ALLOW_UNSIGNED_RELEASE_BUILD=true JAVA_HOME='/Applications/Android Studio.app/Contents/jbr/Contents/Home' ./gradlew bundleRelease",
+    "test:billing": "node scripts/test-billing-restore.js",
     "check": "node scripts/release-check.js",
     "assets:release": "node scripts/capture-release-assets.js"
   },
@@ -18,7 +19,7 @@
     "@capacitor/core": "^8.4.0",
     "@capacitor/haptics": "^8.0.2",
     "@capacitor/ios": "^8.4.0",
-    "cordova-plugin-purchase": "^13.12.1"
+    "cordova-plugin-purchase": "^13.18.0"
   },
   "devDependencies": {
     "@capacitor/cli": "^8.4.0",
