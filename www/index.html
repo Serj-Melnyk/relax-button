@@ -3185,17 +3185,41 @@
         color: color-mix(in srgb, var(--on-surface) 82%, var(--accent) 18%);
     }
 
-    .theme-item.is-premium .theme-name::after {
-        content: "Premium";
-        display: block;
-        margin-top: 2px;
+    .theme-item.is-premium .theme-circle {
+        filter: saturate(0.78) brightness(0.94);
+        opacity: 0.9;
+    }
+
+    .premium-lock-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        min-width: 0;
+        padding: 2px 6px;
+        border: 1px solid color-mix(in srgb, var(--accent) 26%, transparent);
+        border-radius: var(--radius-full);
+        color: color-mix(in srgb, var(--accent) 74%, var(--on-surface) 26%);
+        background: color-mix(in srgb, var(--accent-container) 76%, var(--surface) 24%);
+        box-shadow: inset 0 1px 0 color-mix(in srgb, white 34%, transparent);
         font-size: 7px;
         line-height: 1;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        font-weight: 700;
-        color: color-mix(in srgb, var(--accent) 62%, var(--on-surface-var) 38%);
-        opacity: 0.86;
+        font-weight: 800;
+        letter-spacing: 0.035em;
+        white-space: nowrap;
+        pointer-events: none;
+    }
+
+    .premium-lock-badge svg {
+        width: 8px;
+        height: 8px;
+        flex: 0 0 auto;
+        fill: currentColor;
+    }
+
+    .theme-premium-badge {
+        max-width: 58px;
+        margin-top: -5px;
     }
 
     .theme-item.active .theme-name {
@@ -3262,6 +3286,22 @@
 
     .sound-item.is-premium .sound-name {
         color: color-mix(in srgb, var(--on-surface) 80%, var(--accent) 20%);
+    }
+
+    .sound-item.is-premium {
+        border: 1px solid color-mix(in srgb, var(--accent) 11%, transparent);
+        background: linear-gradient(90deg,
+            color-mix(in srgb, var(--accent-container) 25%, transparent),
+            transparent 48%);
+    }
+
+    .sound-item.is-premium .sound-icon {
+        color: var(--accent);
+        background: color-mix(in srgb, var(--accent-container) 72%, var(--surface) 28%);
+    }
+
+    .sound-item.is-premium .sound-icon svg {
+        fill: currentColor;
     }
 
     .sound-item.preview-used:not(.active) .sound-preview {
@@ -3404,6 +3444,12 @@
         cursor: default;
     }
 
+    .sound-select-btn.is-premium {
+        border-color: color-mix(in srgb, var(--accent) 28%, transparent);
+        color: color-mix(in srgb, var(--accent) 78%, var(--on-surface) 22%);
+        background: color-mix(in srgb, var(--accent-container) 76%, var(--surface) 24%);
+    }
+
     .sound-actions {
         width: 154px;
         min-width: 154px;
@@ -3491,6 +3537,22 @@
             4px 4px 12px color-mix(in srgb, var(--shadow-d) 18%, transparent),
             -2px -2px 8px color-mix(in srgb, var(--shadow-l) 16%, transparent),
             inset 0 0 0 1px color-mix(in srgb, var(--accent) 10%, transparent);
+    }
+
+    .skin-item.is-premium {
+        border-color: color-mix(in srgb, var(--accent) 18%, var(--outline) 82%);
+        background: linear-gradient(160deg,
+            color-mix(in srgb, var(--accent-container) 31%, var(--surface) 69%),
+            color-mix(in srgb, var(--surface) 94%, var(--bg) 6%));
+    }
+
+    .skin-item.is-premium .skin-icon {
+        color: var(--accent);
+        background: color-mix(in srgb, var(--accent-container) 70%, var(--surface) 30%);
+    }
+
+    .skin-item.is-premium .skin-icon svg {
+        fill: currentColor;
     }
 
     .skin-item.coming-soon {
@@ -3588,6 +3650,11 @@
         min-height: 9px;
         margin-top: -1px;
         width: 100%;
+    }
+
+    .skin-premium-badge {
+        max-width: 68px;
+        padding-inline: 5px;
     }
 
     .skin-badge {
@@ -5886,6 +5953,43 @@
         pointer-events: none;
     }
 
+    body.home-view-active .home-session-rail .home-poster-card.is-locked {
+        border-color: color-mix(in srgb, var(--home-color-accent-deep) 74%, white 26%);
+        box-shadow:
+            0 7px 18px var(--home-color-shadow),
+            inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+    }
+
+    body.home-view-active .home-session-rail .home-poster-card.is-locked .home-poster-media {
+        filter: saturate(0.72) brightness(0.82);
+    }
+
+    body.home-view-active .home-session-rail .home-poster-card.is-locked.has-artwork::before {
+        background: linear-gradient(180deg, rgba(8, 12, 18, 0.22) 0%, rgba(8, 12, 18, 0.4) 48%, rgba(8, 12, 18, 0.92) 100%);
+    }
+
+    .home-premium-badge {
+        position: absolute;
+        z-index: calc(var(--home-z-base) + 1);
+        inset: var(--home-space-sm) var(--home-space-sm) auto auto;
+        max-width: calc(100% - (var(--home-space-sm) * 2));
+        padding: 4px 7px;
+        border-color: rgba(255, 255, 255, 0.32);
+        color: #fff;
+        background: rgba(12, 14, 18, 0.62);
+        box-shadow: 0 2px 8px rgba(8, 12, 18, 0.24);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        font-family: system-ui, sans-serif;
+        font-size: 0.58rem;
+        letter-spacing: 0.02em;
+    }
+
+    .home-premium-badge svg {
+        width: 0.62rem;
+        height: 0.62rem;
+    }
+
     body.home-view-active .home-session-rail .home-poster-card::after {
         content: none;
     }
@@ -8051,9 +8155,17 @@
     }
 
     const PreviewAccess = {
-        allowsPremiumPreview() {
+        isLocalHost() {
             return ['localhost', '127.0.0.1', '::1'].includes(window.location.hostname)
                 || window.location.protocol === 'file:';
+        },
+
+        forcesLockedPreview() {
+            return this.isLocalHost() && new URLSearchParams(window.location.search).has('premium-lock-preview');
+        },
+
+        allowsPremiumPreview() {
+            return this.isLocalHost() && !this.forcesLockedPreview();
         }
     };
 
@@ -8064,6 +8176,13 @@
         freeSkinIds: new Set(['classic-button']),
         freeSoundProfileIds: new Set(['classic-click'])
     };
+
+    const PREMIUM_LOCK_PATH = 'M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zM9 8V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9z';
+
+    function premiumLockBadge(className = '') {
+        const classes = ['premium-lock-badge', className].filter(Boolean).join(' ');
+        return `<span class="${classes}" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="${PREMIUM_LOCK_PATH}"/></svg><span>${I18n.t('nav.premium')}</span></span>`;
+    }
 
     const AccessManager = {
         firstOpenedAt: 0,
@@ -8077,6 +8196,7 @@
         },
 
         isTrialActive() {
+            if (PreviewAccess.forcesLockedPreview()) return false;
             return Date.now() - this.firstOpenedAt < ACCESS_DEFAULTS.trialDurationMs;
         },
 
@@ -8497,6 +8617,7 @@
         activeLoopGain: null,
         activeLoopAudio: null,
         activeLoopProfileId: null,
+        activeLoopSkinId: null,
         activeLoopFile: null,
         activePreviewAudio: null,
         loopPreviewTimeoutId: null,
@@ -8921,6 +9042,7 @@
             this.stopLoop();
             const requestId = ++this.loopRequestId;
             this.activeLoopProfileId = playback.profile.id;
+            this.activeLoopSkinId = AppState.currentSkin;
             this.activeLoopFile = playback.file;
             this.activeLoopPlayback = playback;
 
@@ -8930,6 +9052,7 @@
                     return true;
                 }
                 this.activeLoopProfileId = null;
+                this.activeLoopSkinId = null;
                 this.activeLoopFile = null;
                 this.activeLoopPlayback = null;
                 this.setLoopingState(false);
@@ -8982,6 +9105,7 @@
             if (this.shouldUseNativeContinuousLoop(playback)) {
                 const requestId = ++this.loopRequestId;
                 this.activeLoopProfileId = playback.profile.id;
+                this.activeLoopSkinId = AppState.currentSkin;
                 this.activeLoopFile = playback.file;
                 this.activeLoopPlayback = playback;
                 if (this.startNativeLoop(playback, playback.gain)) {
@@ -9021,6 +9145,7 @@
             this.activeLoopGain = null;
             this.activeLoopAudio = null;
             this.activeLoopProfileId = null;
+            this.activeLoopSkinId = null;
             this.activeLoopFile = null;
             this.activeLoopPlayback = null;
             this.stopNativeLoop();
@@ -9044,6 +9169,7 @@
                         this.nativeLoopActive = false;
                         if (this.activeLoopPlayback === playback) {
                             this.activeLoopProfileId = null;
+                            this.activeLoopSkinId = null;
                             this.activeLoopFile = null;
                             this.activeLoopPlayback = null;
                             this.setLoopingState(false);
@@ -9200,7 +9326,7 @@
         },
 
         getActiveLoopSkinId() {
-            return getSkinIdForSoundProfile(this.activeLoopProfileId);
+            return this.activeLoopSkinId || getSkinIdForSoundProfile(this.activeLoopProfileId);
         },
 
         async syncNativeLoopState(options = {}) {
@@ -9228,6 +9354,7 @@
                     }
                     this.nativeLoopActive = false;
                     this.activeLoopProfileId = null;
+                    this.activeLoopSkinId = null;
                     this.activeLoopFile = null;
                     this.activeLoopPlayback = null;
                     this.setLoopingState(false);
@@ -9240,6 +9367,7 @@
                 }
 
                 this.nativeLoopActive = true;
+                this.activeLoopSkinId = AppState.currentSkin;
                 if (file && (!this.activeLoopPlayback || this.activeLoopFile !== file)) {
                     this.activeLoopPlayback = expectedPlayback;
                     this.activeLoopProfileId = expectedPlayback.profile.id;
@@ -9256,6 +9384,7 @@
             const nativePlugin = getNativeHapticPlugin();
             this.nativeLoopActive = false;
             this.activeLoopProfileId = null;
+            this.activeLoopSkinId = null;
             this.activeLoopFile = null;
             this.activeLoopPlayback = null;
             if (this.activeLoopAudio) {
@@ -9717,7 +9846,9 @@
                         + (theme.id === AppState.theme ? ' active' : '')
                         + (isLocked ? ' is-premium' : '');
                     item.dataset.theme = theme.id;
-                    item.setAttribute('aria-label', I18n.theme(theme));
+                    item.setAttribute('aria-label', isLocked
+                        ? `${I18n.theme(theme)}, ${I18n.t('nav.premium')}`
+                        : I18n.theme(theme));
                     item.setAttribute('aria-pressed', String(theme.id === AppState.theme));
                     item.onclick = () => this.apply(theme.id);
 
@@ -9726,6 +9857,7 @@
                             <div class="theme-circle-inner"></div>
                         </div>
                         <span class="theme-name">${I18n.theme(theme)}</span>
+                        ${isLocked ? premiumLockBadge('theme-premium-badge') : ''}
                     `;
 
                     container.appendChild(item);
@@ -9838,6 +9970,7 @@
         updateUI() {
             document.querySelectorAll('.sound-item').forEach(item => {
                 const isActive = item.dataset.soundProfile === AppState.currentSoundProfile;
+                const isLocked = !AccessManager.canUseSoundProfile(item.dataset.soundProfile);
                 const isPreviewed = this.isPreviewLimitReached(item.dataset.soundProfile);
                 const isFavorite = this.isFavorite(item.dataset.soundProfile);
                 const isPlaying = AudioEngine.activeLoopProfileId === item.dataset.soundProfile
@@ -9858,10 +9991,18 @@
                 }
                 if (!button) return;
                 button.classList.toggle('active', isActive);
+                button.classList.toggle('is-premium', isLocked);
                 button.disabled = isActive;
-                button.innerHTML = isActive
-                    ? `<svg viewBox="0 0 24 24"><path d="M9 16.17l-3.88-3.88L3.7 13.7 9 19 20.3 7.7l-1.41-1.41z"/></svg>${I18n.t('actions.active')}`
-                    : `<svg viewBox="0 0 24 24"><path d="M9 16.17l-3.88-3.88L3.7 13.7 9 19 20.3 7.7l-1.41-1.41z"/></svg>${I18n.t('actions.select')}`;
+                button.setAttribute('aria-label', isLocked
+                    ? `${I18n.t('nav.premium')}: ${item.querySelector('.sound-name')?.textContent || ''}`
+                    : (isActive ? I18n.t('actions.active') : I18n.t('actions.select')));
+                const buttonIconPath = isLocked
+                    ? PREMIUM_LOCK_PATH
+                    : 'M9 16.17l-3.88-3.88L3.7 13.7 9 19 20.3 7.7l-1.41-1.41z';
+                const buttonLabel = isActive
+                    ? I18n.t('actions.active')
+                    : (isLocked ? I18n.t('nav.premium') : I18n.t('actions.select'));
+                button.innerHTML = `<svg viewBox="0 0 24 24"><path d="${buttonIconPath}"/></svg>${buttonLabel}`;
             });
             NoisePlayerUI?.updateUI?.();
         },
@@ -9913,9 +10054,9 @@
                         <button class="sound-favorite-btn${this.isFavorite(profile.id) ? ' active' : ''}" type="button" aria-label="${this.isFavorite(profile.id) ? I18n.call('actions.removeFavorite', I18n.sound(profile, 'name')) : I18n.call('actions.addFavorite', I18n.sound(profile, 'name'))}" aria-pressed="${this.isFavorite(profile.id)}">
                             <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
                         </button>
-                        <button class="sound-select-btn${isActive ? ' active' : ''}" type="button"${isActive ? ' disabled' : ''}>
-                            <svg viewBox="0 0 24 24"><path d="M9 16.17l-3.88-3.88L3.7 13.7 9 19 20.3 7.7l-1.41-1.41z"/></svg>
-                            ${isActive ? I18n.t('actions.active') : I18n.t('actions.select')}
+                        <button class="sound-select-btn${isActive ? ' active' : ''}${isLocked ? ' is-premium' : ''}" type="button" aria-label="${isLocked ? `${I18n.t('nav.premium')}: ${I18n.sound(profile, 'name')}` : I18n.t('actions.select')}"${isActive ? ' disabled' : ''}>
+                            <svg viewBox="0 0 24 24"><path d="${isLocked ? PREMIUM_LOCK_PATH : 'M9 16.17l-3.88-3.88L3.7 13.7 9 19 20.3 7.7l-1.41-1.41z'}"/></svg>
+                            ${isActive ? I18n.t('actions.active') : (isLocked ? I18n.t('nav.premium') : I18n.t('actions.select'))}
                         </button>
                     </div>
                 `;
@@ -10128,11 +10269,15 @@
             }
             document.querySelectorAll('.skin-item').forEach(item => {
                 const isActive = item.dataset.skin === AppState.currentSkin;
+                const skin = SKINS.find(entry => entry.id === item.dataset.skin);
+                const isLocked = !!skin && !skin.comingSoon && !AccessManager.canUseSkin(skin.id);
                 item.classList.toggle('active', isActive);
 
                 const foot = item.querySelector('.skin-foot');
                 if (!foot || item.classList.contains('coming-soon')) return;
-                foot.innerHTML = isActive ? `<span class="skin-badge">${I18n.t('actions.active')}</span>` : '';
+                foot.innerHTML = isActive
+                    ? `<span class="skin-badge">${I18n.t('actions.active')}</span>`
+                    : (isLocked ? premiumLockBadge('skin-premium-badge') : '');
             });
         },
 
@@ -10154,7 +10299,18 @@
                 if (skin.comingSoon) {
                     item.setAttribute('aria-disabled', 'true');
                 } else {
+                    item.setAttribute('role', 'button');
+                    item.tabIndex = 0;
+                    item.setAttribute('aria-label', isLocked
+                        ? `${I18n.skin(skin, 'name')}, ${I18n.t('nav.premium')}`
+                        : I18n.skin(skin, 'name'));
                     item.onclick = () => this.select(skin.id);
+                    item.onkeydown = event => {
+                        if (event.key === 'Enter' || event.key === ' ') {
+                            event.preventDefault();
+                            this.select(skin.id);
+                        }
+                    };
                 }
                 item.innerHTML = `
                     <div class="skin-icon">
@@ -10165,7 +10321,7 @@
                     </div>
                     <div class="skin-foot">
                         ${isActive ? `<span class="skin-badge">${I18n.t('actions.active')}</span>` : ''}
-                        ${isLocked ? '<svg class="sound-lock" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM12 17c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zM9 8V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9z"/></svg>' : ''}
+                        ${isLocked && !isActive ? premiumLockBadge('skin-premium-badge') : ''}
                     </div>
                 `;
 
@@ -11920,11 +12076,14 @@
                 + (this.isPosterPlaying(poster) ? ' is-playing' : '')
                 + (isLocked ? ' is-locked' : '');
             button.dataset.poster = poster.id;
-            button.setAttribute('aria-label', localizedTitle);
+            button.setAttribute('aria-label', isLocked
+                ? `${localizedTitle}, ${I18n.t('nav.premium')}`
+                : localizedTitle);
             button.setAttribute('aria-pressed', String(poster.id === this.selectedPosterId));
             button.style.setProperty('--poster-tint', poster.tint);
             button.innerHTML = `
                 ${poster.image ? `<img class="home-poster-media" src="${poster.image}" alt="" loading="lazy" decoding="async">` : ''}
+                ${isLocked ? premiumLockBadge('home-premium-badge') : ''}
                 <div class="home-poster-card-body">
                     ${poster.chip ? `<span class="home-poster-chip">${poster.chip}</span>` : ''}
                     <h2 class="home-poster-name">${localizedTitle}</h2>
