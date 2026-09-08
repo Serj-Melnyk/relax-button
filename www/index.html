@@ -6846,7 +6846,7 @@
 
     body.home-view-active .home-feature-copy p,
     body.home-view-active .home-explore-heading p,
-    body.home-view-active .home-explore-heading button {
+    body.home-view-active .home-explore-heading > button {
         display: none;
     }
 
@@ -6862,6 +6862,120 @@
         line-height: 1.05;
         font-weight: 600;
         letter-spacing: -0.035em;
+    }
+
+    .home-now-playing[hidden] {
+        display: none !important;
+    }
+
+    body.home-view-active .home-now-playing {
+        min-width: 0;
+        width: clamp(7.5rem, 36vw, 9rem);
+        height: 2.3rem;
+        display: flex;
+        align-items: center;
+        gap: 0.32rem;
+        padding: 0.22rem 0.24rem 0.22rem 0.52rem;
+        border: 1px solid rgba(255, 255, 255, 0.64);
+        border-radius: 999px;
+        color: #402e20;
+        background: rgba(250, 244, 234, 0.62);
+        box-shadow:
+            0 0.28rem 0.72rem rgba(70, 47, 34, 0.1),
+            inset 0 1px 0 rgba(255, 255, 255, 0.72);
+        backdrop-filter: blur(14px) saturate(1.08);
+        -webkit-backdrop-filter: blur(14px) saturate(1.08);
+    }
+
+    .home-now-playing-copy {
+        min-width: 0;
+        flex: 1;
+        display: grid;
+        gap: 0.08rem;
+        text-align: left;
+    }
+
+    .home-now-playing-state {
+        display: flex;
+        align-items: center;
+        gap: 0.22rem;
+        min-width: 0;
+        color: rgba(64, 46, 32, 0.62);
+        font-family: system-ui, sans-serif;
+        font-size: 0.48rem;
+        line-height: 1;
+        font-weight: 700;
+        letter-spacing: 0.045em;
+        text-transform: uppercase;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .home-now-playing-state::before {
+        content: "";
+        width: 0.28rem;
+        height: 0.28rem;
+        flex: 0 0 auto;
+        border-radius: 50%;
+        background: rgba(64, 46, 32, 0.34);
+        box-shadow: 0 0 0 0 rgba(95, 120, 76, 0);
+    }
+
+    .home-now-playing.is-playing .home-now-playing-state::before {
+        background: #667c54;
+        box-shadow: 0 0 0 0.12rem rgba(102, 124, 84, 0.14);
+    }
+
+    .home-now-playing-title {
+        min-width: 0;
+        overflow: hidden;
+        color: #402e20;
+        font-family: system-ui, sans-serif;
+        font-size: 0.7rem;
+        line-height: 1.15;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    body.home-view-active .home-now-playing-toggle {
+        width: 1.75rem;
+        height: 1.75rem;
+        min-width: 1.75rem;
+        min-height: 1.75rem;
+        display: grid;
+        place-items: center;
+        padding: 0;
+        border: 1px solid rgba(103, 75, 51, 0.2);
+        border-radius: 50%;
+        color: #f8efe3;
+        background: #5a4030;
+        box-shadow:
+            0 0.2rem 0.45rem rgba(67, 43, 27, 0.18),
+            inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    }
+
+    body.home-view-active .home-now-playing-toggle svg {
+        width: 0.78rem;
+        height: 0.78rem;
+        fill: currentColor;
+    }
+
+    body.home-view-active .home-now-playing-toggle:active {
+        transform: scale(0.94);
+    }
+
+    @media (max-width: 22.4375rem) {
+        body.home-view-active .home-explore-heading h2 {
+            font-size: clamp(1.15rem, 5.7vw, 1.45rem);
+        }
+
+        body.home-view-active .home-now-playing {
+            width: min(7.25rem, 36vw);
+            padding-left: 0.44rem;
+        }
     }
 
     body.home-view-active .home-session-viewport {
@@ -7129,6 +7243,15 @@
             <div class="home-explore-heading">
                 <div>
                     <h2 data-i18n="home.explore">Спробуй інші</h2>
+                </div>
+                <div id="home-now-playing" class="home-now-playing" role="group" aria-live="polite">
+                    <div class="home-now-playing-copy">
+                        <span id="home-now-playing-state" class="home-now-playing-state" data-i18n="home.nothingPlaying">Нічого не грає</span>
+                        <strong id="home-now-playing-title" class="home-now-playing-title" data-i18n="home.chooseSound">Обери звук</strong>
+                    </div>
+                    <button id="home-now-playing-toggle" class="home-now-playing-toggle" type="button" data-i18n-aria="home.chooseSoundFirst" aria-label="Спочатку обери звук" aria-pressed="false" disabled>
+                        <svg id="home-now-playing-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.14v13.72L19.2 12 8 5.14Z"/></svg>
+                    </button>
                 </div>
             </div>
 
@@ -7580,7 +7703,14 @@
                 sleep: 'Sleep',
                 minutes: '2 min',
                 timer: 'timer',
-                noiseId: 'Noise ID'
+                noiseId: 'Noise ID',
+                nowPlaying: 'Now playing',
+                paused: 'Paused',
+                nothingPlaying: 'Nothing playing',
+                chooseSound: 'Choose a sound',
+                chooseSoundFirst: 'Choose a sound first',
+                playSound: 'Play sound',
+                pauseSound: 'Pause sound'
             },
             onboarding: {
                 slide1Kicker: 'A small ritual for<br>overstimulated moments',
@@ -7901,7 +8031,10 @@
             explore: 'Спробуй інші', exploreCopy: 'Шуми для фокусу, відпочинку та сну', allSounds: 'Усі',
             start: 'Почати', continue: 'Продовжити', otherSounds: 'Інші звуки', viewAll: 'Переглянути всі',
             configure: 'Налаштувати', rhythm: 'Твій ритм', reset: 'Ресет', focus: 'Фокус', sleep: 'Сон',
-            minutes: '2 хв', timer: 'таймер', use: 'Запустити'
+            minutes: '2 хв', timer: 'таймер', use: 'Запустити',
+            nowPlaying: 'Зараз грає', paused: 'На паузі', nothingPlaying: 'Нічого не грає',
+            chooseSound: 'Обери звук', chooseSoundFirst: 'Спочатку обери звук',
+            playSound: 'Увімкнути звук', pauseSound: 'Призупинити звук'
         },
         ja: {
             greeting: 'おかえりなさい', prompt: '今、何が必要ですか？',
@@ -7910,7 +8043,10 @@
             explore: 'ほかの音を試す', exploreCopy: '集中・休息・睡眠のための音', allSounds: 'すべて',
             start: '始める', continue: '続ける', otherSounds: 'ほかの音', viewAll: 'すべて見る',
             configure: '設定する', rhythm: 'あなたのリズム', reset: 'リセット', focus: '集中', sleep: '睡眠',
-            minutes: '2分', timer: 'タイマー', use: '再生'
+            minutes: '2分', timer: 'タイマー', use: '再生',
+            nowPlaying: '再生中', paused: '一時停止', nothingPlaying: '再生なし',
+            chooseSound: 'サウンドを選択', chooseSoundFirst: '先にサウンドを選択',
+            playSound: '音を再生', pauseSound: '音を一時停止'
         },
         fr: {
             greeting: 'Bon retour', prompt: 'De quoi as-tu besoin maintenant ?',
@@ -7919,7 +8055,10 @@
             explore: 'Essaie les autres', exploreCopy: 'Des sons pour le focus, le repos et le sommeil', allSounds: 'Tous',
             start: 'Commencer', continue: 'Continuer', otherSounds: 'Autres sons', viewAll: 'Tout voir',
             configure: 'Configurer', rhythm: 'Ton rythme', reset: 'Réinitialiser', focus: 'Focus', sleep: 'Sommeil',
-            minutes: '2 min', timer: 'minuteur', use: 'Lancer'
+            minutes: '2 min', timer: 'minuteur', use: 'Lancer',
+            nowPlaying: 'En lecture', paused: 'En pause', nothingPlaying: 'Aucun son',
+            chooseSound: 'Choisir un son', chooseSoundFirst: 'Choisissez d’abord un son',
+            playSound: 'Lire le son', pauseSound: 'Mettre en pause'
         },
         de: {
             greeting: 'Willkommen zurück', prompt: 'Was hilft dir gerade?',
@@ -7928,7 +8067,10 @@
             explore: 'Andere ausprobieren', exploreCopy: 'Klänge für Fokus, Ruhe und Schlaf', allSounds: 'Alle',
             start: 'Starten', continue: 'Fortsetzen', otherSounds: 'Andere Klänge', viewAll: 'Alle ansehen',
             configure: 'Einstellen', rhythm: 'Dein Rhythmus', reset: 'Zurücksetzen', focus: 'Fokus', sleep: 'Schlaf',
-            minutes: '2 Min.', timer: 'Timer', use: 'Abspielen'
+            minutes: '2 Min.', timer: 'Timer', use: 'Abspielen',
+            nowPlaying: 'Läuft gerade', paused: 'Pausiert', nothingPlaying: 'Kein Sound',
+            chooseSound: 'Sound auswählen', chooseSoundFirst: 'Zuerst Sound auswählen',
+            playSound: 'Sound abspielen', pauseSound: 'Sound pausieren'
         },
         es: {
             greeting: 'Bienvenido de nuevo', prompt: '¿Qué te ayudaría ahora?',
@@ -7937,7 +8079,10 @@
             explore: 'Prueba otros', exploreCopy: 'Sonidos para concentrarte, descansar y dormir', allSounds: 'Todos',
             start: 'Empezar', continue: 'Continuar', otherSounds: 'Otros sonidos', viewAll: 'Ver todos',
             configure: 'Configurar', rhythm: 'Tu ritmo', reset: 'Reiniciar', focus: 'Concentración', sleep: 'Sueño',
-            minutes: '2 min', timer: 'temporizador', use: 'Reproducir'
+            minutes: '2 min', timer: 'temporizador', use: 'Reproducir',
+            nowPlaying: 'Reproduciendo', paused: 'En pausa', nothingPlaying: 'Sin sonido',
+            chooseSound: 'Elige un sonido', chooseSoundFirst: 'Elige primero un sonido',
+            playSound: 'Reproducir sonido', pauseSound: 'Pausar sonido'
         },
         pt: {
             greeting: 'Bem-vindo de volta', prompt: 'O que ajudaria agora?',
@@ -7946,7 +8091,10 @@
             explore: 'Experimente outros', exploreCopy: 'Sons para foco, descanso e sono', allSounds: 'Todos',
             start: 'Começar', continue: 'Continuar', otherSounds: 'Outros sons', viewAll: 'Ver todos',
             configure: 'Configurar', rhythm: 'O seu ritmo', reset: 'Reiniciar', focus: 'Foco', sleep: 'Sono',
-            minutes: '2 min', timer: 'temporizador', use: 'Reproduzir'
+            minutes: '2 min', timer: 'temporizador', use: 'Reproduzir',
+            nowPlaying: 'A reproduzir', paused: 'Em pausa', nothingPlaying: 'Sem som',
+            chooseSound: 'Escolha um som', chooseSoundFirst: 'Escolha primeiro um som',
+            playSound: 'Reproduzir som', pauseSound: 'Pausar som'
         }
     };
 
@@ -8127,6 +8275,7 @@
             SoundManager?.buildList?.();
             SkinManager?.buildList?.();
             HomeSkinScene?.build?.();
+            HomeNowPlaying?.updateUI?.();
             SleepTimerManager?.updateUI?.();
             KnowledgeManager?.render?.();
         }
@@ -8877,6 +9026,7 @@
             this.updateMainButtonState();
             NoisePlayerUI?.updateUI?.();
             HomeSkinScene?.updateSelectionUI?.();
+            HomeNowPlaying?.updateUI?.();
             if (window.SleepTimerManager?.onLoopStateChange) {
                 window.SleepTimerManager.onLoopStateChange(isPlaying);
             }
@@ -12004,6 +12154,101 @@
         }
     };
 
+    const HomeNowPlaying = {
+        root: null,
+        stateLabel: null,
+        title: null,
+        toggleButton: null,
+        toggleIcon: null,
+        lastProfileId: '',
+        lastSkinId: '',
+
+        init() {
+            this.root = document.getElementById('home-now-playing');
+            this.stateLabel = document.getElementById('home-now-playing-state');
+            this.title = document.getElementById('home-now-playing-title');
+            this.toggleButton = document.getElementById('home-now-playing-toggle');
+            this.toggleIcon = document.getElementById('home-now-playing-icon');
+            this.toggleButton?.addEventListener('click', () => this.togglePlayback());
+            this.updateUI();
+        },
+
+        captureActiveSession() {
+            if (!document.body.classList.contains('noise-playing')) return;
+            if (!AudioEngine.activeLoopProfileId) return;
+            this.lastProfileId = AudioEngine.activeLoopProfileId;
+            this.lastSkinId = AudioEngine.getActiveLoopSkinId?.() || AppState.currentSkin;
+        },
+
+        togglePlayback() {
+            if (!this.lastProfileId || this.lastSkinId !== AppState.currentSkin) return;
+            const isPlaying = document.body.classList.contains('noise-playing')
+                && AudioEngine.activeLoopProfileId === this.lastProfileId;
+            if (isPlaying) {
+                AudioEngine.stopLoop();
+            } else {
+                AudioEngine.startLoop(this.lastProfileId);
+            }
+            HapticsEngine.light();
+        },
+
+        updateUI() {
+            if (!this.root) return;
+            this.captureActiveSession();
+
+            const selectedProfile = SkinRegistry.getSelectedSoundProfile();
+            const selectedSkin = SkinRegistry.getSelectedSkin();
+            const selectedIsContinuous = selectedProfile?.mode === 'continuous'
+                && selectedSkin?.interaction === 'continuous-toggle';
+            if (selectedIsContinuous && (!this.lastProfileId || this.lastSkinId !== selectedSkin.id)) {
+                this.lastProfileId = selectedProfile.id;
+                this.lastSkinId = selectedSkin.id;
+            }
+
+            const profile = SkinRegistry.getSoundProfile(this.lastProfileId);
+            const matchesCurrentSkin = !!this.lastSkinId && this.lastSkinId === AppState.currentSkin;
+            const canControl = !!profile
+                && profile.mode === 'continuous'
+                && matchesCurrentSkin
+                && AppState.soundEnabled;
+
+            this.root.hidden = false;
+            this.toggleButton?.toggleAttribute('disabled', !canControl);
+            if (!canControl) {
+                this.root.classList.remove('is-playing');
+                if (this.stateLabel) this.stateLabel.textContent = I18n.t('home.nothingPlaying');
+                if (this.title) this.title.textContent = I18n.t('home.chooseSound');
+                if (this.toggleButton) {
+                    this.toggleButton.setAttribute('aria-label', I18n.t('home.chooseSoundFirst'));
+                    this.toggleButton.setAttribute('aria-pressed', 'false');
+                }
+                if (this.toggleIcon) {
+                    this.toggleIcon.innerHTML = '<path d="M8 5.14v13.72L19.2 12 8 5.14Z"/>';
+                }
+                return;
+            }
+
+            const isPlaying = document.body.classList.contains('noise-playing')
+                && AudioEngine.activeLoopProfileId === profile.id;
+            this.root.classList.toggle('is-playing', isPlaying);
+            if (this.stateLabel) {
+                this.stateLabel.textContent = I18n.t(isPlaying ? 'home.nowPlaying' : 'home.paused');
+            }
+            if (this.title) {
+                this.title.textContent = I18n.sound(profile, 'name');
+            }
+            if (this.toggleButton) {
+                this.toggleButton.setAttribute('aria-label', I18n.t(isPlaying ? 'home.pauseSound' : 'home.playSound'));
+                this.toggleButton.setAttribute('aria-pressed', String(isPlaying));
+            }
+            if (this.toggleIcon) {
+                this.toggleIcon.innerHTML = isPlaying
+                    ? '<path d="M7 5h4v14H7zm6 0h4v14h-4z"/>'
+                    : '<path d="M8 5.14v13.72L19.2 12 8 5.14Z"/>';
+            }
+        }
+    };
+
     const HomeSkinScene = {
         app: null,
         home: null,
@@ -12212,6 +12457,7 @@
                 card.classList.toggle('is-playing', this.isPosterPlaying(poster));
                 card.setAttribute('aria-pressed', String(isSelected));
             });
+            HomeNowPlaying.updateUI();
         },
 
         syncCurrentSkin() {
@@ -12634,6 +12880,7 @@
         AppNav.init();
         SleepTimerManager.init();
         KnowledgeManager.init();
+        HomeNowPlaying.init();
         HomeSkinScene.init();
         NoiseBackdropScene.init();
         RatePrompt.init();
