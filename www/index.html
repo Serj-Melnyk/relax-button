@@ -9180,10 +9180,11 @@
             requestAnimationFrame(fadeStep);
         },
 
-        async startLoop(soundProfileId) {
+        async startLoop(soundProfileId, options = {}) {
+            const targetSkinId = options.skinId || AppState.currentSkin;
             if (!AppState.soundEnabled) return false;
-            if (SkinRegistry.getInteractionConfig().interaction !== 'continuous-toggle') return false;
-            if (!isSoundProfileAvailableForSkin(soundProfileId || AppState.currentSoundProfile)) return false;
+            if (SkinRegistry.getInteractionConfig(targetSkinId).interaction !== 'continuous-toggle') return false;
+            if (!isSoundProfileAvailableForSkin(soundProfileId || AppState.currentSoundProfile, targetSkinId)) return false;
 
             const playback = this.resolvePlayback(soundProfileId || AppState.currentSoundProfile);
             if (!playback) return false;
@@ -9192,7 +9193,7 @@
             this.stopLoop();
             const requestId = ++this.loopRequestId;
             this.activeLoopProfileId = playback.profile.id;
-            this.activeLoopSkinId = AppState.currentSkin;
+            this.activeLoopSkinId = targetSkinId;
             this.activeLoopFile = playback.file;
             this.activeLoopPlayback = playback;
 
@@ -9479,6 +9480,16 @@
             return this.activeLoopSkinId || getSkinIdForSoundProfile(this.activeLoopProfileId);
         },
 
+        getContinuousPlaybackForFile(file) {
+            if (!file) return null;
+            const profile = SOUND_PROFILES.find(entry =>
+                entry.mode === 'continuous' && entry.variations?.includes(file)
+            );
+            if (!profile) return null;
+            const variationIndex = Math.max(0, profile.variations.indexOf(file));
+            return this.resolvePlayback(profile.id, { variationIndex });
+        },
+
         async syncNativeLoopState(options = {}) {
             const nativePlugin = getNativeHapticPlugin();
             if (!nativePlugin || !nativePlugin.getNoiseLoopState) return;
@@ -9511,18 +9522,25 @@
                     return;
                 }
 
-                if (!expectedPlayback || (file && expectedPlayback.file !== file)) {
+                const actualPlayback = this.getContinuousPlaybackForFile(file)
+                    || (!file ? this.activeLoopPlayback : null);
+                if (!actualPlayback) {
                     await this.clearNativeLoopState();
                     return;
                 }
 
+                const previousSkinId = this.activeLoopFile === actualPlayback.file
+                    && isSoundProfileAvailableForSkin(actualPlayback.profile.id, this.activeLoopSkinId)
+                    ? this.activeLoopSkinId
+                    : '';
                 this.nativeLoopActive = true;
-                this.activeLoopSkinId = AppState.currentSkin;
-                if (file && (!this.activeLoopPlayback || this.activeLoopFile !== file)) {
-                    this.activeLoopPlayback = expectedPlayback;
-                    this.activeLoopProfileId = expectedPlayback.profile.id;
-                    this.activeLoopFile = expectedPlayback.file;
-                }
+                this.activeLoopPlayback = actualPlayback;
+                this.activeLoopProfileId = actualPlayback.profile.id;
+                this.activeLoopSkinId = previousSkinId
+                    || (isSoundProfileAvailableForSkin(actualPlayback.profile.id, AppState.currentSkin)
+                        ? AppState.currentSkin
+                        : getSkinIdForSoundProfile(actualPlayback.profile.id));
+                this.activeLoopFile = actualPlayback.file;
 
                 this.setLoopingState(true);
             } catch (error) {
@@ -12177,17 +12195,18 @@
             if (!document.body.classList.contains('noise-playing')) return;
             if (!AudioEngine.activeLoopProfileId) return;
             this.lastProfileId = AudioEngine.activeLoopProfileId;
-            this.lastSkinId = AudioEngine.getActiveLoopSkinId?.() || AppState.currentSkin;
+            this.lastSkinId = AudioEngine.getActiveLoopSkinId?.()
+                || getSkinIdForSoundProfile(AudioEngine.activeLoopProfileId);
         },
 
         togglePlayback() {
-            if (!this.lastProfileId || this.lastSkinId !== AppState.currentSkin) return;
+            if (!this.lastProfileId || !this.lastSkinId) return;
             const isPlaying = document.body.classList.contains('noise-playing')
                 && AudioEngine.activeLoopProfileId === this.lastProfileId;
             if (isPlaying) {
                 AudioEngine.stopLoop();
             } else {
-                AudioEngine.startLoop(this.lastProfileId);
+                AudioEngine.startLoop(this.lastProfileId, { skinId: this.lastSkinId });
             }
             HapticsEngine.light();
         },
@@ -12196,20 +12215,10 @@
             if (!this.root) return;
             this.captureActiveSession();
 
-            const selectedProfile = SkinRegistry.getSelectedSoundProfile();
-            const selectedSkin = SkinRegistry.getSelectedSkin();
-            const selectedIsContinuous = selectedProfile?.mode === 'continuous'
-                && selectedSkin?.interaction === 'continuous-toggle';
-            if (selectedIsContinuous && (!this.lastProfileId || this.lastSkinId !== selectedSkin.id)) {
-                this.lastProfileId = selectedProfile.id;
-                this.lastSkinId = selectedSkin.id;
-            }
-
             const profile = SkinRegistry.getSoundProfile(this.lastProfileId);
-            const matchesCurrentSkin = !!this.lastSkinId && this.lastSkinId === AppState.currentSkin;
             const canControl = !!profile
                 && profile.mode === 'continuous'
-                && matchesCurrentSkin
+                && !!this.lastSkinId
                 && AppState.soundEnabled;
 
             this.root.hidden = false;
