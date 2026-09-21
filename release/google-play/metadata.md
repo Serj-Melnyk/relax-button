@@ -49,4 +49,4 @@ Digital Fidget: Mental ASMR is intended for general relaxation and entertainment
 
 ## Release Notes
 
-Initial release of Digital Fidget: Mental ASMR with tactile feedback, calming themes, sound packs, and optional lifetime Premium access.
+Added clear Premium badges to locked skin cards after freemium access ends.

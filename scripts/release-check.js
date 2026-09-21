@@ -56,16 +56,20 @@ const themeFlags = [...themesBlock.matchAll(/\{\s*id:\s*'([^']+)'[\s\S]*?free:\s
 check(themeFlags.length === 7, "Expected seven theme definitions.");
 check(themeFlags.filter((theme) => theme.free).map((theme) => theme.id).join(",") === "classic,night",
   "Classic and Night must remain the free themes.");
-check(!webIndex.includes("PreviewMode"), "Production web bundle must not contain Premium preview bypasses.");
+check(!webIndex.includes("PreviewMode") && !webIndex.includes("PreviewAccess"),
+  "Production web bundle must not contain Premium preview bypasses.");
 check(webIndex.includes("window.BillingBridge"), "UI must use the shared BillingBridge.");
+check(webIndex.includes("capacitor.registerPlugin('Share')")
+  && webIndex.includes("nativeShare.share(shareData)"),
+  "Share App must open the native Android/iOS share sheet.");
+check(webIndex.includes("home-poster-premium-badge")
+  && webIndex.includes("isLocked ? `<span class=\"home-poster-premium-badge\">${I18n.t('nav.premium')}</span>` : ''"),
+  "Locked Home skin cards must display a localized Premium badge after freemium access ends.");
 check(!webIndex.includes("fonts.googleapis.com") && !webIndex.includes("fonts.gstatic.com"),
   "Production app bundle must not load Google Fonts from WebView.");
 check(!webIndex.includes("|| this.curatedPixabayArtwork[artworkKey]")
   && !webIndex.includes("|| this.curatedPixabayArtwork[skinFallbackKey]"),
   "Production app bundle must not use Pixabay CDN artwork without the Firebase proxy.");
-check(webIndex.includes("const PreviewAccess =") && webIndex.includes("127.0.0.1")
-  && webIndex.includes("window.location.protocol === 'file:'"),
-  "Local preview should allow temporary Premium inspection without changing production entitlement logic.");
 check(!webIndex.includes('id="btn-settings"') && !webIndex.includes('id="btn-premium"'),
   "Main screen must not restore hard-to-reach top-corner controls.");
 check(webIndex.includes('id="swipe-indicator"')

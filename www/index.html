@@ -5245,6 +5245,29 @@
         align-content: end;
     }
 
+    body.home-view-active .home-session-rail .home-poster-premium-badge {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        z-index: 2;
+        display: inline-flex;
+        align-items: center;
+        min-height: 16px;
+        padding: 2px 6px;
+        border: 1px solid rgba(255, 255, 255, 0.42);
+        border-radius: 999px;
+        color: #fff;
+        background: rgba(24, 28, 26, 0.62);
+        box-shadow: 0 2px 8px rgba(20, 24, 22, 0.18);
+        font-size: 7px;
+        line-height: 1;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+    }
+
     body.home-view-active .home-session-rail .home-poster-name {
         margin: 0;
         color: #fff;
@@ -8040,13 +8063,6 @@
             && window.Capacitor.getPlatform() === 'android';
     }
 
-    const PreviewAccess = {
-        allowsPremiumPreview() {
-            return ['localhost', '127.0.0.1', '::1'].includes(window.location.hostname)
-                || window.location.protocol === 'file:';
-        }
-    };
-
     const ACCESS_DEFAULTS = {
         trialDurationMs: 3 * 24 * 60 * 60 * 1000,
         firstOpenedAtKey: 'rb_first_opened_at',
@@ -8072,8 +8088,7 @@
 
         hasFullAccess() {
             return EntitlementManager.hasPaidPremium()
-                || this.isTrialActive()
-                || PreviewAccess.allowsPremiumPreview();
+                || this.isTrialActive();
         },
 
         canUseTheme(themeId) {
@@ -8119,7 +8134,7 @@
         },
 
         isPremium() {
-            return this.hasPaidPremium() || AccessManager.isTrialActive() || PreviewAccess.allowsPremiumPreview();
+            return this.hasPaidPremium() || AccessManager.isTrialActive();
         },
 
         async purchase() {
@@ -10695,12 +10710,39 @@
     };
 
     const AppActions = {
+        nativeSharePlugin: null,
+
         getStoreUrl() {
             const config = (window.__APP_RUNTIME_CONFIG__ || {}).store || {};
             const platform = window.Capacitor?.getPlatform?.() || 'web';
             if (platform === 'android') return config.playStoreUrl || config.landingUrl;
             if (platform === 'ios') return config.appStoreUrl || config.landingUrl;
             return config.landingUrl || config.playStoreUrl || config.appStoreUrl || window.location.href;
+        },
+
+        getNativeSharePlugin() {
+            const capacitor = window.Capacitor;
+            if (!capacitor || capacitor.getPlatform?.() === 'web') return null;
+            if (!this.nativeSharePlugin && capacitor.registerPlugin) {
+                this.nativeSharePlugin = capacitor.registerPlugin('Share');
+            }
+            return this.nativeSharePlugin || capacitor.Plugins?.Share || null;
+        },
+
+        isShareCancelled(error) {
+            const message = String(error?.message || '').toLowerCase();
+            return error?.name === 'AbortError'
+                || message.includes('cancel')
+                || message.includes('dismiss');
+        },
+
+        async copyShareLink(url) {
+            if (navigator.clipboard?.writeText) {
+                await navigator.clipboard.writeText(url);
+                alert(I18n.t('actions.copied'));
+                return;
+            }
+            window.prompt(I18n.t('actions.sharePrompt'), url);
         },
 
         async share() {
@@ -10710,24 +10752,24 @@
             const shareData = {
                 title: I18n.t('actions.shareTitle'),
                 text: I18n.t('actions.shareText'),
-                url
+                url,
+                dialogTitle: I18n.t('settings.share')
             };
+            const nativeShare = this.getNativeSharePlugin();
 
             try {
+                if (nativeShare?.share) {
+                    await nativeShare.share(shareData);
+                    return;
+                }
                 if (navigator.share) {
                     await navigator.share(shareData);
                     return;
                 }
-                if (navigator.clipboard?.writeText) {
-                    await navigator.clipboard.writeText(url);
-                    alert(I18n.t('actions.copied'));
-                    return;
-                }
-                window.prompt(I18n.t('actions.sharePrompt'), url);
+                await this.copyShareLink(url);
             } catch (error) {
-                if (error?.name !== 'AbortError') {
-                    window.prompt(I18n.t('actions.sharePrompt'), url);
-                }
+                if (this.isShareCancelled(error)) return;
+                await this.copyShareLink(url);
             }
         }
     };
@@ -11889,11 +11931,14 @@
                 + (this.isPosterPlaying(poster) ? ' is-playing' : '')
                 + (isLocked ? ' is-locked' : '');
             button.dataset.poster = poster.id;
-            button.setAttribute('aria-label', localizedTitle);
+            button.setAttribute('aria-label', isLocked
+                ? `${localizedTitle}, ${I18n.t('nav.premium')}`
+                : localizedTitle);
             button.setAttribute('aria-pressed', String(poster.id === this.selectedPosterId));
             button.style.setProperty('--poster-tint', poster.tint);
             button.innerHTML = `
                 ${poster.image ? `<img class="home-poster-media" src="${poster.image}" alt="" loading="lazy" decoding="async">` : ''}
+                ${isLocked ? `<span class="home-poster-premium-badge">${I18n.t('nav.premium')}</span>` : ''}
                 <div class="home-poster-card-body">
                     ${poster.chip ? `<span class="home-poster-chip">${poster.chip}</span>` : ''}
                     <h2 class="home-poster-name">${localizedTitle}</h2>
