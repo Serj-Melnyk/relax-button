@@ -49,4 +49,4 @@ Digital Fidget: Mental ASMR is intended for general relaxation and entertainment
 
 ## Release Notes
 
-Added clear Premium badges to locked skin cards after freemium access ends.
+Restored the Home screen mini player. Background noise now stops when the app is closed, while continuing when it is minimized. Fixed brief Premium badge flashes for existing buyers.

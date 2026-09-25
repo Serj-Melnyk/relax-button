@@ -154,6 +154,17 @@ public class NoisePlaybackService extends Service {
     }
 
     @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        Log.d(TAG, "Task removed; stopping noise");
+        clearSavedState();
+        abandonAudioFocus();
+        stopPlayback();
+        dismissPlaybackNotification();
+        stopSelf();
+        super.onTaskRemoved(rootIntent);
+    }
+
+    @Override
     public void onDestroy() {
         Log.d(TAG, "onDestroy");
         clearLiveState();

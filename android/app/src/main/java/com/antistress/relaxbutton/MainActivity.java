@@ -1,13 +1,12 @@
 package com.antistress.relaxbutton;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.WindowManager;
 import androidx.activity.OnBackPressedCallback;
 import com.getcapacitor.BridgeActivity;
 
 public class MainActivity extends BridgeActivity {
-    private OnBackPressedCallback nativeBackCallback;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         registerPlugin(NativeHapticPlugin.class);
@@ -22,6 +21,14 @@ public class MainActivity extends BridgeActivity {
         applyStableRefreshRate();
     }
 
+    @Override
+    public void onDestroy() {
+        if (isFinishing()) {
+            stopService(new Intent(this, NoisePlaybackService.class));
+        }
+        super.onDestroy();
+    }
+
     private void applyStableRefreshRate() {
         if (getWindow() == null) return;
         WindowManager.LayoutParams params = getWindow().getAttributes();
@@ -31,13 +38,12 @@ public class MainActivity extends BridgeActivity {
     }
 
     private void registerBackHandler() {
-        nativeBackCallback = new OnBackPressedCallback(true) {
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
                 dispatchBackToWeb();
             }
-        };
-        getOnBackPressedDispatcher().addCallback(this, nativeBackCallback);
+        });
     }
 
     private void dispatchBackToWeb() {
@@ -56,16 +62,6 @@ public class MainActivity extends BridgeActivity {
     }
 
     private void fallbackToSystemBack() {
-        if (nativeBackCallback == null) {
-            getOnBackPressedDispatcher().onBackPressed();
-            return;
-        }
-
-        nativeBackCallback.setEnabled(false);
-        try {
-            getOnBackPressedDispatcher().onBackPressed();
-        } finally {
-            nativeBackCallback.setEnabled(true);
-        }
+        finish();
     }
 }

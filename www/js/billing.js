@@ -131,6 +131,12 @@
         platform
       });
 
+      // initialize() can finish before Google Play has loaded existing purchases.
+      // Wait for the local receipts before the UI decides which skins are locked.
+      let receiptsReady = null;
+      const receiptsReadyPromise = new Promise((resolve) => { receiptsReady = resolve; });
+      const receiptTimeout = window.setTimeout(receiptsReady, 10000);
+
       store.when()
         .productUpdated((product) => {
           if (!product || product.id !== productId) return;
@@ -140,6 +146,12 @@
             premium: store.owned(productId),
             error: null
           });
+        })
+        .receiptUpdated(() => {
+          publish({ premium: store.owned(productId), error: null });
+        })
+        .receiptsReady(() => {
+          receiptsReady();
         })
         .approved((transaction) => {
           transaction.verify();
@@ -184,6 +196,8 @@
       }]);
 
       const firstError = Array.isArray(errors) ? errors.find(Boolean) : errors;
+      if (!firstError) await receiptsReadyPromise;
+      window.clearTimeout(receiptTimeout);
       publish({
         available: !firstError,
         ready: true,
