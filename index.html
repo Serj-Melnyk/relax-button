@@ -26,6 +26,7 @@
             const onboardingPreview = window.location.hash.includes('onboarding-preview');
             const onboardingDone = localStorage.getItem('rb_onboarding') === 'true' && !onboardingPreview;
             const savedTheme = localStorage.getItem('rb_theme') || 'classic';
+            const savedHomeTheme = localStorage.getItem('rb_home_theme') || (savedTheme === 'night' ? 'night' : 'day');
             const savedSkin = localStorage.getItem('rb_skin_id') || 'classic-button';
             const savedLayout = localStorage.getItem('rb_layout') || 'bottom';
             const browserLanguage = normalizeDefaultLanguage((navigator.languages && navigator.languages.find(Boolean)) || navigator.language || '');
@@ -42,12 +43,14 @@
             window.__BUTTON_BOOT__ = {
                 language: savedLanguage,
                 theme: savedTheme,
+                homeTheme: savedHomeTheme,
                 skin: savedSkin,
                 layout: savedLayout,
                 onboardingDone
             };
             document.documentElement.lang = savedLanguage;
             document.documentElement.dataset.bootTheme = savedTheme;
+            document.documentElement.dataset.bootHomeTheme = savedHomeTheme;
             document.documentElement.dataset.bootSkin = savedSkin;
             document.documentElement.dataset.bootLayout = savedLayout;
             document.documentElement.dataset.bootLanguage = savedLanguage;
@@ -721,29 +724,6 @@
 
     body.home-view-active #app .noise-top-controls {
         display: none;
-    }
-
-    body.home-view-active {
-        --m3-nav-icon: rgba(70, 52, 82, 0.72);
-        --m3-nav-label: rgba(70, 52, 82, 0.78);
-        --m3-nav-indicator-icon: rgba(64, 39, 77, 0.96);
-        --m3-nav-icon-filter: drop-shadow(0 1px 1px rgba(255,255,255,0.64));
-        --m3-nav-label-shadow: 0 1px 1px rgba(255,255,255,0.6);
-        --m3-nav-bg:
-            radial-gradient(circle at 20% 0%, rgba(255,255,255,0.72), transparent 34%),
-            radial-gradient(circle at 82% 100%, rgba(210,190,238,0.34), transparent 42%),
-            linear-gradient(155deg, rgba(255,255,255,0.74) 0%, rgba(247,241,255,0.66) 48%, rgba(233,221,247,0.58) 100%);
-        --m3-nav-border: rgba(255,255,255,0.72);
-        --m3-nav-box-shadow:
-            0 18px 38px rgba(79,54,105,0.13),
-            0 6px 14px rgba(79,54,105,0.07),
-            inset 0 1px 0 rgba(255,255,255,0.72),
-            inset 0 -1px 0 rgba(255,255,255,0.20);
-        --m3-nav-veil:
-            radial-gradient(circle at 18% 0%, rgba(255,255,255,0.54), transparent 30%),
-            radial-gradient(circle at 76% 96%, rgba(220,202,245,0.22), transparent 36%),
-            linear-gradient(180deg, rgba(255,255,255,0.28), rgba(255,255,255,0.08) 46%, rgba(255,255,255,0.03));
-        --m3-nav-veil-opacity: 0.64;
     }
 
     body:not(.home-view-active) {
@@ -3325,19 +3305,24 @@
     .sound-name {
         font-size: 13px;
         font-weight: 500;
+        line-height: 1.25;
         color: var(--on-surface);
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        overflow: visible;
+        overflow-wrap: anywhere;
+        text-overflow: clip;
+        white-space: normal;
         transition: color var(--dur-theme) var(--ease-standard);
     }
 
     .sound-desc {
         font-size: 10px;
+        line-height: 1.3;
         color: var(--on-surface-var);
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        display: block;
+        overflow: visible;
+        text-overflow: clip;
+        white-space: normal;
+        overflow-wrap: anywhere;
         transition: color var(--dur-theme) var(--ease-standard);
     }
 
@@ -3868,6 +3853,63 @@
 
     .paywall-restore:active { color: var(--accent); }
 
+    @media (orientation: landscape) and (max-height: 560px) {
+        #paywall {
+            align-items: center;
+            padding: calc(8px + env(safe-area-inset-top, 0px))
+                calc(12px + env(safe-area-inset-right, 0px))
+                calc(8px + env(safe-area-inset-bottom, 0px))
+                calc(12px + env(safe-area-inset-left, 0px));
+        }
+
+        .paywall-card {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+            grid-template-areas:
+                "icon benefits"
+                "title benefits"
+                "subtitle benefits"
+                "buy buy"
+                "restore restore";
+            grid-template-rows: auto auto 1fr auto auto;
+            column-gap: 20px;
+            row-gap: 4px;
+            width: min(100%, 700px);
+            max-width: 700px;
+            max-height: calc(100dvh - 16px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+            margin: 0;
+            padding: 18px 24px 12px;
+            overflow-x: hidden;
+            overflow-y: auto;
+            border-radius: 24px;
+        }
+
+        .paywall-card > .paywall-icon {
+            grid-area: icon;
+            display: flex;
+            justify-self: center;
+            width: 28px;
+            height: 28px;
+            margin: 0;
+        }
+        .paywall-card > .paywall-icon svg { width: 24px; height: 24px; }
+        .paywall-card > .paywall-title,
+        .paywall-card > .paywall-subtitle,
+        .paywall-card > .paywall-benefits,
+        .paywall-card > .paywall-buy-btn,
+        .paywall-card > .paywall-restore {
+            width: 100%;
+            margin: 0;
+        }
+        .paywall-card > .paywall-title { grid-area: title; align-self: end; font-size: 20px; line-height: 1.2; }
+        .paywall-card > .paywall-subtitle { grid-area: subtitle; align-self: start; font-size: 13px; }
+        .paywall-card > .paywall-benefits { grid-area: benefits; align-self: center; }
+        .paywall-benefits li { padding: 4px 0; font-size: 12px; line-height: 1.25; }
+        .paywall-benefits li svg { width: 18px; height: 18px; }
+        .paywall-card > .paywall-buy-btn { grid-area: buy; padding: 10px 16px; font-size: 14px; }
+        .paywall-card > .paywall-restore { grid-area: restore; padding: 6px; font-size: 12px; }
+    }
+
     /* ════════════════════════════════════════════════════════════
        14. SETTINGS PANEL
        ════════════════════════════════════════════════════════════ */
@@ -3903,6 +3945,7 @@
         padding: 0;
         overflow-y: auto;
         overflow-x: hidden;
+        pointer-events: none;
         will-change: transform, opacity;
     }
 
@@ -3915,6 +3958,7 @@
     #account-panel.is-open {
         transform: translateX(0) scale(1);
         opacity: 1;
+        pointer-events: auto;
     }
 
     #settings-scrim,
@@ -3925,13 +3969,11 @@
         z-index: 190;
         opacity: 0;
         pointer-events: none;
-        backdrop-filter: blur(0px) saturate(1);
-        -webkit-backdrop-filter: blur(0px) saturate(1);
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
         transition:
             opacity var(--dur-scrim) var(--ease-standard),
-            background var(--dur-scrim) var(--ease-standard),
-            backdrop-filter var(--dur-scrim) var(--ease-standard),
-            -webkit-backdrop-filter var(--dur-scrim) var(--ease-standard);
+            background var(--dur-scrim) var(--ease-standard);
     }
 
     #settings-scrim.visible,
@@ -3939,8 +3981,12 @@
         background: rgba(10, 12, 18, 0.34);
         opacity: 1;
         pointer-events: auto;
-        backdrop-filter: blur(6px) saturate(1.04);
-        -webkit-backdrop-filter: blur(6px) saturate(1.04);
+    }
+
+    body:has(#settings-scrim.visible, #account-scrim.visible) #app,
+    body:has(#settings-scrim.visible, #account-scrim.visible) #home-screen,
+    body:has(#settings-scrim.visible, #account-scrim.visible) #app-nav {
+        filter: blur(6px);
     }
 
     .settings-title {
@@ -4196,9 +4242,10 @@
         font-weight: 500;
         line-height: 1.35;
         color: var(--on-surface);
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        overflow: visible;
+        overflow-wrap: anywhere;
+        text-overflow: clip;
+        white-space: normal;
     }
 
     .account-row-action {
@@ -4361,7 +4408,8 @@
         font-weight: 600;
     }
 
-    #rating-modal {
+    #rating-modal,
+    #update-modal {
         position: fixed;
         inset: 0;
         z-index: 320;
@@ -4375,7 +4423,8 @@
         transition: opacity 220ms ease, background 220ms ease;
     }
 
-    #rating-modal.visible {
+    #rating-modal.visible,
+    #update-modal.visible {
         opacity: 1;
         pointer-events: auto;
         background: rgba(0,0,0,0.48);
@@ -4394,8 +4443,26 @@
         transition: transform 260ms var(--ease-standard), background var(--dur-theme) var(--ease-standard);
     }
 
-    #rating-modal.visible .rating-card {
+    #rating-modal.visible .rating-card,
+    #update-modal.visible .rating-card {
         transform: translateY(0) scale(1);
+    }
+
+    .update-icon {
+        width: 58px;
+        height: 58px;
+        margin: 0 auto 16px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: var(--accent-container);
+        color: var(--accent);
+    }
+
+    .update-icon svg {
+        width: 30px;
+        height: 30px;
+        fill: currentColor;
     }
 
     .rating-title {
@@ -5282,14 +5349,14 @@
     body.home-view-active .home-session-rail .home-poster-copy {
         display: block;
         margin: 0;
-        overflow: hidden;
+        overflow: visible;
         color: rgba(255,255,255,0.78);
         background: none;
         -webkit-text-fill-color: currentColor;
         font-size: 10px;
         line-height: 1.2;
         font-weight: 500;
-        max-height: 24px;
+        max-height: none;
     }
 
     body.home-view-active #home-featured-poster,
@@ -5945,7 +6012,9 @@
     body.home-view-active .home-session-rail .home-poster-name {
         min-width: 0;
         margin: 0;
-        overflow-wrap: anywhere;
+        overflow-wrap: normal;
+        word-break: normal;
+        hyphens: none;
         color: var(--home-color-ink);
         background: none;
         -webkit-text-fill-color: currentColor;
@@ -5961,14 +6030,14 @@
     body.home-view-active .home-session-rail .home-poster-copy {
         display: block;
         margin: 0;
-        overflow: hidden;
+        overflow: visible;
         color: var(--home-color-muted);
         background: none;
         -webkit-text-fill-color: currentColor;
         font-size: var(--home-text-sm);
         line-height: 1.35;
         font-weight: 400;
-        max-height: 2.7em;
+        max-height: none;
         white-space: normal;
     }
 
@@ -6325,31 +6394,6 @@
         }
 
         .home-poster-pagination { grid-area: pagination; }
-    }
-
-    /* Home uses the exact shared navigation component: no home-only sizing,
-       positioning, or motion overrides that can make the bar jump. */
-    /* Keep the same dark glass palette after returning from a skin. The
-       Home route previously replaced these values with a light variant. */
-    body.home-view-active {
-        --m3-nav-icon: rgba(255, 252, 255, 0.74);
-        --m3-nav-label: rgba(255, 252, 255, 0.8);
-        --m3-nav-indicator-icon: rgba(255, 255, 255, 0.99);
-        --m3-nav-icon-filter:
-            drop-shadow(0 1px 2px rgba(0,0,0,0.82))
-            drop-shadow(0 0 7px rgba(0,0,0,0.34));
-        --m3-nav-label-shadow:
-            0 1px 2px rgba(0,0,0,0.82),
-            0 0 6px rgba(0,0,0,0.32);
-        --m3-nav-bg:
-            radial-gradient(circle at 20% 0%, rgba(255,255,255,0.10), transparent 32%),
-            radial-gradient(circle at 82% 100%, rgba(255,255,255,0.04), transparent 40%),
-            linear-gradient(155deg, rgba(73,78,103,0.26) 0%, rgba(31,34,52,0.44) 46%, rgba(14,16,28,0.62) 100%);
-        --m3-nav-border: rgba(255,255,255,0.18);
-        --m3-nav-box-shadow:
-            0 24px 52px rgba(6,8,18,0.42),
-            0 8px 18px rgba(0,0,0,0.22),
-            inset 0 1px 0 rgba(255,255,255,0.22);
     }
 
     body.home-view-active #app-nav {
@@ -6922,7 +6966,7 @@
     body.home-view-active .home-session-rail .home-poster-copy {
         font-size: clamp(0.69rem, 3.1vw, 0.84rem);
         line-height: 1.24;
-        max-height: 2.48em;
+        max-height: none;
     }
 
     body.home-view-active .home-poster-pagination {
@@ -7016,9 +7060,169 @@
         }
     }
 
+    /* Comfortable typography pass. Kept as one override layer so the whole
+       experiment can be reverted without touching component structure. */
+    .sheet-section-title {
+        font-size: 12px;
+        line-height: 1.25;
+    }
+
+    .sheet-action {
+        font-size: 13px;
+    }
+
+    .theme-name {
+        min-height: 22px;
+        font-size: 11px;
+        line-height: 1.2;
+    }
+
+    .theme-item.is-premium .theme-name::after {
+        font-size: 8px;
+    }
+
+    .sound-name {
+        font-size: 14px;
+        line-height: 1.3;
+    }
+
+    .sound-desc {
+        font-size: 12px;
+        line-height: 1.4;
+    }
+
+    .sound-select-btn {
+        min-height: 34px;
+        font-size: 12px;
+    }
+
+    .sound-badge {
+        font-size: 11px;
+    }
+
+    .settings-title {
+        font-size: 22px;
+    }
+
+    .setting-label,
+    .account-row-label,
+    #account-panel .account-row-label {
+        font-size: 15px;
+        line-height: 1.4;
+    }
+
+    .setting-value {
+        font-size: 14px;
+    }
+
+    .rating-copy {
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .rating-later {
+        font-size: 13px;
+    }
+
+    .home-now-playing-state {
+        font-size: 0.625rem;
+        line-height: 1.05;
+    }
+
+    .home-now-playing-title {
+        font-size: 0.75rem;
+        line-height: 1.2;
+    }
+
+    body.home-view-active .home-session-rail .home-poster-name {
+        font-size: clamp(0.75rem, 3.1vw, 0.9rem);
+        line-height: 1.08;
+    }
+
+    body.home-view-active .home-session-rail .home-poster-copy {
+        font-size: clamp(0.67rem, 2.75vw, 0.78rem);
+        line-height: 1.28;
+    }
+
+    body.home-view-active .home-poster-premium-badge {
+        font-size: 9px;
+    }
+
+    @media (max-width: 380px) {
+        .sound-item {
+            gap: 6px;
+            padding-inline: 6px;
+        }
+
+        .sound-preview {
+            gap: 7px;
+        }
+
+        .sound-actions {
+            width: 124px;
+            min-width: 124px;
+            grid-template-columns: 32px 86px;
+            gap: 6px;
+        }
+
+        .sound-select-btn {
+            width: 86px;
+            min-width: 86px;
+            padding-inline: 7px;
+        }
+    }
+
+    @media (max-width: 340px) {
+        .sound-item {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr);
+            align-items: stretch;
+            padding: 8px;
+        }
+
+        .sound-preview {
+            width: 100%;
+        }
+
+        .sound-actions {
+            width: 100%;
+            min-width: 0;
+            grid-template-columns: 32px 86px;
+            justify-content: end;
+        }
+    }
+
+    /* Returning users should never see the static HTML labels before the
+       localized cards, navigation, and saved state are ready. Keep the real
+       Home UI hidden over its already-cached background, then reveal it as a
+       single composed frame at the end of initApp(). */
+    html.app-booting.onboarding-complete body {
+        background:
+            #d8d0c1
+            url('assets/home-backgrounds/linen-sunlight-background.webp')
+            center / cover no-repeat;
+    }
+
+    html.app-booting.onboarding-complete #home-screen {
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+        transform: none !important;
+        transition: none !important;
+    }
+
     </style>
-    <!-- Capacitor native bridge -->
-    <script src="capacitor.js"></script>
+    <link rel="stylesheet" href="assets/home-pause.css?v=9">
+    <link rel="icon" href="data:,">
+    <!-- Capacitor native bridge is provided by the native WebView, not the local preview server. -->
+    <script>
+    (function loadCapacitorBridge() {
+        const isLocalPreview = ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname)
+            && new URLSearchParams(location.search).get('web-preview') === '1'
+            && location.protocol === 'http:';
+        if (!isLocalPreview) document.write('<script src="capacitor.js"><\/script>');
+    })();
+    </script>
     <script>
     (function loadRuntimeScripts() {
         const useRootJs = window.location.pathname.includes('/www/')
@@ -7035,6 +7239,7 @@
     (function () {
         try {
             const savedTheme = localStorage.getItem('rb_theme') || 'classic';
+            const savedHomeTheme = localStorage.getItem('rb_home_theme') || (savedTheme === 'night' ? 'night' : 'day');
             const savedSkin = localStorage.getItem('rb_skin_id') || 'classic-button';
             const savedLanguage = window.__BUTTON_BOOT__?.language || 'en';
             if (savedTheme === 'classic') {
@@ -7043,6 +7248,7 @@
                 document.body.dataset.theme = savedTheme;
             }
             document.body.dataset.skin = savedSkin;
+            document.body.dataset.homeTheme = savedHomeTheme;
             document.body.dataset.language = savedLanguage;
         } catch (_) {}
     })();
@@ -7120,24 +7326,27 @@
     </div>
 
     <div id="home-screen" aria-label="Home">
-        <img class="home-background-image" src="assets/home-backgrounds/linen-sunlight-background.webp" alt="" aria-hidden="true">
         <section id="home-poster-scene" class="home-dashboard" aria-label="Relaxation dashboard">
+          <div class="home-hero">
+            <img class="home-background-image home-background-image--day" src="assets/home-backgrounds/pause-day.webp" alt="" aria-hidden="true" decoding="async" fetchpriority="high">
+            <img class="home-background-image home-background-image--night" src="assets/home-backgrounds/pause-night.webp" alt="" aria-hidden="true" decoding="async" fetchpriority="high">
+            <button id="home-theme-toggle" type="button" onclick="HomeTheme.toggle()" data-i18n-aria="home.nightTheme" aria-label="Нічна тема" aria-pressed="false">
+                <img class="home-theme-moon" src="assets/home-icons/moon.svg" alt="">
+                <img class="home-theme-sun" src="assets/home-icons/sun.svg" alt="">
+            </button>
             <header class="home-dashboard-header">
                 <div>
-                    <h1 data-i18n="home.title">Натисни. Послухай.<br>Видихни.</h1>
+                    <h1 data-i18n="home.pauseTitle">Нехай світ<br>зачекає.</h1>
                 </div>
             </header>
 
-            <button class="home-feature" type="button" onclick="HomeSkinScene.openPoster('click')" aria-label="Відкрити Click">
-                <div class="home-feature-copy">
-                    <h2><span data-i18n="home.clickTitle">Click</span><svg class="home-feature-play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.14v13.72L19.2 12 8 5.14Z"/></svg></h2>
-                </div>
-                <span class="home-feature-tactile-button" aria-hidden="true"><span></span></span>
-            </button>
+            <button class="home-feature" type="button" onclick="HomeSkinScene.openPoster('click')" data-i18n-aria="home.clickTitle" aria-label="Клік"></button>
+            <p class="home-touch-caption" data-i18n="home.touchCaption">Натисни.Послухай.Видихни.</p>
+          </div>
 
             <div class="home-explore-heading">
                 <div>
-                    <h2 data-i18n="home.explore">Спробуй інші</h2>
+                    <h2 data-i18n="home.pauseSounds">Обери своє</h2>
                 </div>
                 <div id="home-now-playing" class="home-now-playing" role="group" aria-live="polite">
                     <div class="home-now-playing-copy">
@@ -7260,18 +7469,21 @@
         </button>
         <button class="m3-nav-item" type="button" data-nav-target="library">
             <span class="m3-nav-indicator" aria-hidden="true">
+                <img class="home-nav-icon" src="assets/home-icons/clock.svg" alt="">
                 <svg viewBox="0 0 24 24"><path d="M4 6.5A2.5 2.5 0 016.5 4h11A2.5 2.5 0 0120 6.5v11a2.5 2.5 0 01-2.5 2.5h-11A2.5 2.5 0 014 17.5v-11zm2.5-.5a.5.5 0 00-.5.5v11c0 .28.22.5.5.5h11a.5.5 0 00.5-.5v-11a.5.5 0 00-.5-.5h-11zM8 8h8v1.5H8V8zm0 3h8v1.5H8V11zm0 3h5v1.5H8V14z"/></svg>
             </span>
             <span class="m3-nav-label" data-i18n="nav.library">Library</span>
         </button>
         <button class="m3-nav-item" type="button" data-nav-target="guide">
             <span class="m3-nav-indicator" aria-hidden="true">
+                <img class="home-nav-icon" src="assets/home-icons/activity.svg" alt="">
                 <svg viewBox="0 0 24 24"><path d="M5 3.5A2.5 2.5 0 017.5 1h10A1.5 1.5 0 0119 2.5v17.75a.75.75 0 01-1.16.63L13 17.76l-4.84 3.12A.75.75 0 017 20.25V4.5H6.5a.5.5 0 00-.5.5v14H4V5.5A2 2 0 016 3.5h11V3h-9.5a.5.5 0 00-.5.5V18.9l6-3.87 4 2.58V5.5H7V3.5h-2z"/></svg>
             </span>
             <span class="m3-nav-label" data-i18n="nav.guide">Noise ID</span>
         </button>
         <button class="m3-nav-item" type="button" data-nav-target="account">
             <span class="m3-nav-indicator" aria-hidden="true">
+                <img class="home-nav-icon" src="assets/home-icons/user.svg" alt="">
                 <svg viewBox="0 0 24 24"><path d="M12 12c2.76 0 5-2.24 5-5S14.76 2 12 2 7 4.24 7 7s2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v3h20v-3c0-3.33-6.67-5-10-5z"/></svg>
             </span>
             <span class="m3-nav-label" data-i18n="nav.account">Account</span>
@@ -7493,6 +7705,18 @@
         </div>
     </div>
 
+    <div id="update-modal" onclick="UpdatePrompt.handleBackdrop(event)">
+        <div class="rating-card" onclick="event.stopPropagation()">
+            <div class="update-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M12 3a1 1 0 011 1v9.59l3.3-3.3 1.4 1.42-5 5a1 1 0 01-1.4 0l-5-5 1.4-1.42 3.3 3.3V4a1 1 0 011-1zM5 19h14v2H5v-2z"/></svg>
+            </div>
+            <h2 class="rating-title" data-i18n="update.title">Update available</h2>
+            <p class="rating-copy" data-i18n="update.copy">A newer version with the latest improvements and fixes is ready in Google Play.</p>
+            <button class="rating-primary" type="button" data-i18n="update.action" onclick="UpdatePrompt.openStore()">Update in Google Play</button>
+            <button class="rating-later" type="button" data-i18n="update.later" onclick="UpdatePrompt.remindLater()">Later</button>
+        </div>
+    </div>
+
     <!-- ════════════════════════════════════════════════════════
          JAVASCRIPT ENGINE
          ════════════════════════════════════════════════════════ -->
@@ -7503,6 +7727,7 @@
        ════════════════════════════════════════════════════════════ */
     const AppState = {
         theme: localStorage.getItem('rb_theme') || 'classic',
+        homeTheme: localStorage.getItem('rb_home_theme') || ((localStorage.getItem('rb_theme') || 'classic') === 'night' ? 'night' : 'day'),
         layout: localStorage.getItem('rb_layout') || 'bottom',
         soundEnabled: localStorage.getItem('rb_sound') !== 'false',
         vibrationEnabled: localStorage.getItem('rb_vibration') !== 'false',
@@ -7543,6 +7768,7 @@
             this[key] = value;
             const storageMap = {
                 theme: 'rb_theme',
+                homeTheme: 'rb_home_theme',
                 layout: 'rb_layout',
                 language: 'rb_language',
                 soundEnabled: 'rb_sound', vibrationEnabled: 'rb_vibration',
@@ -7586,7 +7812,7 @@
                 subtitle: 'Tactile worlds and sound moods<br>to reset, relax and refocus.',
                 posters: {
                     click: ['Click', 'Clean, satisfying clicks'],
-                    moon: ['Moon', 'Soft ambience for night focus'],
+                    moon: ['Moon', 'Mysterious atmosphere.'],
                     whiteNoise: ['White Noise', 'Steady. Simple. Soothing.'],
                     brownNoise: ['Brown Noise', 'Deeper tones for grounding'],
                     rain: ['Rain', 'Natural rain on leaves'],
@@ -7673,6 +7899,11 @@
                 copy: 'A quick rating helps more people discover a calmer moment.',
                 choose: 'Choose a rating', rate: 'Rate in Store', later: 'Not now',
                 star: count => count === 1 ? '1 star' : `${count} stars`
+            },
+            update: {
+                title: 'Update available',
+                copy: 'A newer version with the latest improvements and fixes is ready in Google Play.',
+                action: 'Update in Google Play', later: 'Later'
             },
             actions: {
                 active: 'Active', select: 'Select', stop: 'Stop', preview: name => `Preview ${name}`,
@@ -7803,6 +8034,11 @@
             choose: 'Оберіть оцінку', rate: 'Оцінити в магазині', later: 'Не зараз',
             star: count => `${count} ${count === 1 ? 'зірка' : 'зірок'}`
         },
+        update: {
+            title: 'Доступне оновлення',
+            copy: 'У Google Play уже доступна нова версія з останніми покращеннями та виправленнями.',
+            action: 'Оновити в Google Play', later: 'Пізніше'
+        },
         actions: {
             active: 'Активно', select: 'Обрати', stop: 'Стоп', preview: name => `Прослухати ${name}`,
             addFavorite: name => `Додати ${name} в обране`, removeFavorite: name => `Прибрати ${name} з обраного`,
@@ -7853,13 +8089,14 @@
         ...I18N.en,
         languageName: '日本語',
         nav: { settings: '設定', premium: 'プレミアム', themes: 'テーマ', sounds: 'サウンド', skins: 'スキン', swipeUp: '上にスワイプ', close: '閉じる', home: 'ホーム', recent: '最近', library: 'ライブラリ', guide: 'Noise ID', account: 'アカウント' },
-        home: { kicker: '小さな触覚の儀式', title: '押す。聴く。<br>整える。', subtitle: '触れる世界と音のムードで<br>整え、ゆるめ、集中を取り戻す。', posters: { click: ['クリック', '心地よい軽やかなクリック'], moon: ['月', '夜の集中にやさしい空気感'], whiteNoise: ['ホワイトノイズ', '一定で、シンプルで、落ち着く。'], brownNoise: ['ブラウンノイズ', '深めの音でしっかり落ち着く'], rain: ['雨', '葉に落ちる自然な雨音'], pinkNoise: ['ピンクノイズ', 'やわらかく、バランスがいい。'], infrared: ['赤外', 'あたたかく、深く、内側が静かに。'] }, use: '使う', noiseId: 'Noise ID' },
+        home: { kicker: '小さな触覚の儀式', title: '押す。聴く。<br>整える。', subtitle: '触れる世界と音のムードで<br>整え、ゆるめ、集中を取り戻す。', posters: { click: ['クリック', '心地よい軽やかなクリック'], moon: ['月', '神秘的な雰囲気。'], whiteNoise: ['ホワイトノイズ', '一定で、シンプルで、落ち着く。'], brownNoise: ['ブラウンノイズ', '深めの音でしっかり落ち着く'], rain: ['雨', '葉に落ちる自然な雨音'], pinkNoise: ['ピンクノイズ', 'やわらかく、バランスがいい。'], infrared: ['赤外', 'あたたかく、深く、内側が静かに。'] }, use: '使う', noiseId: 'Noise ID' },
         onboarding: { ...I18N.en.onboarding, slide1Kicker: '刺激が多すぎる瞬間のための<br>小さな儀式', slide1Title: '意識を<br>切り替える', slide1Sub: 'ほんの少しだけ', slide2Kicker: 'オーディオシフト', slide2Title: '感覚のリセット', slide2Sub: '次へ進む前に、心を整える', headphones: 'ヘッドホン推奨', slide3Title: '押す。聴く。<br>整える。', demoHint: 'タップして、クリック音と触覚を感じる', next: '次へ ->', pressesLeft: count => `あと${count}回押してください` },
         settings: { ...I18N.en.settings, title: '設定', sound: 'サウンド', vibration: '振動', centered: '中央ボタン', language: '言語', share: 'アプリを共有', rate: 'アプリを評価', privacy: 'プライバシーポリシー', terms: '利用規約', support: 'サポート', restore: '購入を復元' },
         timer: { ...I18N.en.timer, title: 'スリープタイマー', off: 'オフ', idle: '時間または分をスワイプまたはタップして、+/-で調整。', active: value => `${value}後に音が止まります。`, hours: '時間', minutes: '分', hr: '時間', min: '分', set: 'タイマーを設定', clear: 'タイマーを解除' },
         knowledge: { ...I18N.en.knowledge, title: 'サウンドガイド', subtitle: 'ノイズカラーの短い説明です。', whiteTitle: 'ホワイトノイズ', whiteCopy: '<strong>特徴:</strong> 全帯域に均一に広がる技術的なノイズです。明るく密度が高く、細かな外音を一気に覆いやすいのが特徴です。<br><br><strong>印象:</strong> テレビの砂嵐、周波数の合っていないラジオ、鋭い音の砂のように感じられます。<br><br><strong>向いている場面:</strong> 外音を強く遮りたい時、短時間の強い集中、耳鳴りの知覚を和らげたい時。<br><br><strong>聴き心地:</strong> 効果は強いですが疲れやすいため、長時間より短めの利用と中くらいの音量が向いています。', pinkTitle: 'ピンクノイズ', pinkCopy: '<strong>特徴:</strong> やわらかく均整の取れたノイズです。高音がなだらかに抑えられているため、ホワイトノイズより自然で、集中も保ちやすい音です。<br><br><strong>印象:</strong> 一定の雨音、木々を抜ける風、部屋を満たす穏やかな空気の流れのように聞こえます。<br><br><strong>向いている場面:</strong> 集中、勉強、読書、生活音のマスキング、落ち着いた作業空間づくり。<br><br><strong>聴き心地:</strong> 低音の圧が強すぎないので、長めの作業中にも流しやすい音です。', brownTitle: 'ブラウンノイズ', brownCopy: '<strong>特徴:</strong> 低く深く、包み込むようなノイズです。高音が大きく減り、低音が前に出るため、安心感や接地感が出やすい音です。<br><br><strong>印象:</strong> 遠い波音、壁越しの滝、深い雨音、やわらかな低い響きのように感じられます。<br><br><strong>向いている場面:</strong> 入眠、緊張を下げたい時、周囲の雑音を隠したい時、頭を静かに切り替えたい時。<br><br><strong>聴き心地:</strong> あたたかく密度のある音です。低音が重くなりすぎないよう、音量は小さめから中くらいが向いています。', rainTitle: '雨', rainCopy: '<strong>特徴:</strong> 自然で反復的、そして親しみやすい音です。動きはありますが、強く注意を引かないのが雨の良さです。<br><br><strong>印象:</strong> 窓に当たる雨、外で静かに降る通り雨、部屋との間にやさしい膜ができるような感覚です。<br><br><strong>向いている場面:</strong> 思考を落ち着かせたい時、静けさをやわらげたい時、読書、休息、空間を少しプライベートに感じたい時。<br><br><strong>聴き心地:</strong> 純粋なノイズより情景があり、やさしく落ち着ける雰囲気のある音です。' },
         paywall: { ...I18N.en.paywall, title: 'サウンド、スキン、テーマを解放', subtitle: 'リラックス体験を深める', buy: 'プレミアムを解放', restore: '購入を復元' },
-        rating: { ...I18N.en.rating, title: 'Digital Fidgetを楽しんでいますか？', copy: '短い評価が、落ち着ける瞬間を探す人の助けになります。', choose: '評価を選択', rate: 'ストアで評価', later: '今はしない', star: count => `${count}つ星` }
+        rating: { ...I18N.en.rating, title: 'Digital Fidgetを楽しんでいますか？', copy: '短い評価が、落ち着ける瞬間を探す人の助けになります。', choose: '評価を選択', rate: 'ストアで評価', later: '今はしない', star: count => `${count}つ星` },
+        update: { title: 'アップデートがあります', copy: '最新の改善と修正を含む新しいバージョンが Google Play で利用できます。', action: 'Google Play で更新', later: '後で' }
         ,fallback: { singleSound: '触覚的なクリック音', continuousSound: 'リラックス用のループ音' }
     };
 
@@ -7867,13 +8104,14 @@
         ...I18N.en,
         languageName: 'Français',
         nav: { settings: 'Réglages', premium: 'Premium', themes: 'Thèmes', sounds: 'Sons', skins: 'Skins', swipeUp: 'Balayer vers le haut', close: 'Fermer', home: 'Accueil', recent: 'Récent', library: 'Bibliothèque', guide: 'Noise ID', account: 'Compte' },
-        home: { kicker: 'Un petit rituel tactile', title: 'Appuie. Écoute.<br>Respire.', subtitle: 'Des mondes tactiles et des ambiances sonores<br>pour te recentrer, relâcher et retrouver ton focus.', posters: { click: ['Clic', 'Des clics nets et satisfaisants'], moon: ['Lune', 'Une ambiance douce pour le focus nocturne'], whiteNoise: ['Bruit blanc', 'Stable. Simple. Apaisant.'], brownNoise: ['Bruit brun', 'Des tons plus profonds pour s’ancrer'], rain: ['Pluie', 'Pluie naturelle sur les feuilles'], pinkNoise: ['Bruit rose', 'Équilibré et doux.'], infrared: ['Infrarouge', 'Chaleur. Profondeur. Calme intérieur.'] }, use: 'Utiliser', noiseId: 'Noise ID' },
+        home: { kicker: 'Un petit rituel tactile', title: 'Appuie. Écoute.<br>Respire.', subtitle: 'Des mondes tactiles et des ambiances sonores<br>pour te recentrer, relâcher et retrouver ton focus.', posters: { click: ['Clic', 'Des clics nets et satisfaisants'], moon: ['Lune', 'Une atmosphère mystérieuse.'], whiteNoise: ['Bruit blanc', 'Stable. Simple. Apaisant.'], brownNoise: ['Bruit brun', 'Des tons plus profonds pour s’ancrer'], rain: ['Pluie', 'Pluie naturelle sur les feuilles'], pinkNoise: ['Bruit rose', 'Équilibré et doux.'], infrared: ['Infrarouge', 'Chaleur. Profondeur. Calme intérieur.'] }, use: 'Utiliser', noiseId: 'Noise ID' },
         onboarding: { ...I18N.en.onboarding, slide1Kicker: 'Un petit rituel pour<br>les moments saturés', slide1Title: 'Change<br>de focus', slide1Sub: 'Juste un instant', slide2Kicker: 'BASCULE AUDIO', slide2Title: 'Une remise à zéro sensorielle', slide2Sub: 'Libère ton esprit pour la suite', headphones: 'Casque recommandé', slide3Title: 'Appuie. Écoute.<br>Respire.', demoHint: 'Touche, entends le clic, sens le retour haptique', next: 'Suivant ->', pressesLeft: count => count === 1 ? 'Encore 1 pression' : `Encore ${count} pressions` },
         settings: { ...I18N.en.settings, title: 'Réglages', sound: 'Son', vibration: 'Vibration', centered: 'Bouton centré', language: 'Langue', share: 'Partager', rate: 'Noter l’app', privacy: 'Confidentialité', terms: 'Conditions d’utilisation', support: 'Assistance', restore: 'Restaurer l’achat' },
         timer: { ...I18N.en.timer, title: 'Minuteur de sommeil', off: 'Off', idle: 'Fais glisser ou touche heures/minutes, puis ajuste avec +/-.', active: value => `Le son s’arrêtera dans ${value}.`, hours: 'Heures', minutes: 'Minutes', hr: 'h', min: 'min', set: 'Régler le minuteur', clear: 'Effacer' },
         knowledge: { ...I18N.en.knowledge, title: 'Guide des sons', subtitle: 'Quelques mots sur les couleurs de bruit.', whiteTitle: 'Bruit blanc', whiteCopy: '<strong>Sensation générale :</strong> Un signal uniforme et technique, réparti sur tout le spectre audible. Il paraît brillant, dense et très direct.<br><br><strong>À quoi ça ressemble :</strong> Une neige télévisée, une radio non réglée ou un sable acoustique très net qui recouvre instantanément les petits détails autour.<br><br><strong>Utile pour :</strong> Masquer fortement les sons extérieurs, tenir une courte session de focus intense et atténuer la perception des acouphènes.<br><br><strong>À l’écoute :</strong> Très efficace, mais plus fatigant que le bruit rose ou brun. Mieux en sessions courtes et à volume modéré.', pinkTitle: 'Bruit rose', pinkCopy: '<strong>Sensation générale :</strong> Doux et équilibré. Les aigus sont plus feutrés que dans le bruit blanc, ce qui le rend plus naturel tout en gardant de la clarté mentale.<br><br><strong>À quoi ça ressemble :</strong> Une pluie régulière, du vent dans les arbres ou un souffle calme qui remplit la pièce sans agresser l’oreille.<br><br><strong>Utile pour :</strong> Se concentrer, étudier, lire, masquer les conversations autour de soi et installer une bulle de travail apaisante.<br><br><strong>À l’écoute :</strong> Confortable sur des sessions longues, car il reste présent sans trop charger le bas du spectre.', brownTitle: 'Bruit brun', brownCopy: '<strong>Sensation générale :</strong> Plus grave, plus profond et plus dense. Le haut du spectre s’efface davantage, ce qui donne une impression de chaleur et d’ancrage.<br><br><strong>À quoi ça ressemble :</strong> Un ressac lointain, une cascade derrière un mur, une pluie épaisse ou un roulement grave et doux qui enveloppe les autres sons.<br><br><strong>Utile pour :</strong> S’endormir, relâcher le système nerveux, bloquer le chaos sonore ambiant et décompresser vite après une charge mentale intense.<br><br><strong>À l’écoute :</strong> Chaud et enveloppant. Mieux vaut le garder à volume faible ou moyen pour que les basses restent apaisantes.', rainTitle: 'Pluie', rainCopy: '<strong>Sensation générale :</strong> Une texture naturelle, répétitive et familière. La pluie apporte du mouvement sans demander d’attention.<br><br><strong>À quoi ça ressemble :</strong> Des gouttes sur une vitre, une averse calme dehors, comme un voile doux entre toi et le reste de la pièce.<br><br><strong>Utile pour :</strong> Calmer les pensées rapides, adoucir le silence, lire, ralentir et rendre l’espace plus intime.<br><br><strong>À l’écoute :</strong> Atmosphérique et douce, idéale si tu veux quelque chose de relaxant mais moins abstrait qu’un bruit pur.' },
         paywall: { ...I18N.en.paywall, title: 'Débloquer sons, skins et thèmes', subtitle: 'Rends ton moment de détente plus profond', buy: 'Débloquer Premium', restore: 'Restaurer l’achat' },
-        rating: { ...I18N.en.rating, title: 'Tu aimes Digital Fidget ?', copy: 'Une note rapide aide d’autres personnes à trouver un moment plus calme.', choose: 'Choisir une note', rate: 'Noter dans le store', later: 'Pas maintenant', star: count => `${count} étoile${count > 1 ? 's' : ''}` }
+        rating: { ...I18N.en.rating, title: 'Tu aimes Digital Fidget ?', copy: 'Une note rapide aide d’autres personnes à trouver un moment plus calme.', choose: 'Choisir une note', rate: 'Noter dans le store', later: 'Pas maintenant', star: count => `${count} étoile${count > 1 ? 's' : ''}` },
+        update: { title: 'Mise à jour disponible', copy: 'Une nouvelle version avec les dernières améliorations et corrections est disponible sur Google Play.', action: 'Mettre à jour dans Google Play', later: 'Plus tard' }
         ,fallback: { singleSound: 'Son de clic tactile', continuousSound: 'Son relaxant en boucle' }
     };
 
@@ -7881,13 +8119,14 @@
         ...I18N.en,
         languageName: 'Deutsch',
         nav: { settings: 'Einstellungen', premium: 'Premium', themes: 'Themes', sounds: 'Sounds', skins: 'Skins', swipeUp: 'Nach oben wischen', close: 'Schließen', home: 'Start', recent: 'Zuletzt', library: 'Bibliothek', guide: 'Noise ID', account: 'Konto' },
-        home: { kicker: 'Ein kleines taktiles Ritual', title: 'Drücken. Hören.<br>Reset.', subtitle: 'Taktile Welten und Klangstimmungen,<br>um neu zu starten, loszulassen und den Fokus zu finden.', posters: { click: ['Klick', 'Saubere, angenehme Klicks'], moon: ['Mond', 'Sanfte Atmosphäre für nächtlichen Fokus'], whiteNoise: ['Weißes Rauschen', 'Konstant. Einfach. Beruhigend.'], brownNoise: ['Braunes Rauschen', 'Tiefere Töne zum Erden'], rain: ['Regen', 'Natürlicher Regen auf Blättern'], pinkNoise: ['Rosa Rauschen', 'Ausgewogen und sanft.'], infrared: ['Infrarot', 'Warm. Tief. Innere Ruhe.'] }, use: 'Benutzen', noiseId: 'Noise ID' },
+        home: { kicker: 'Ein kleines taktiles Ritual', title: 'Drücken. Hören.<br>Reset.', subtitle: 'Taktile Welten und Klangstimmungen,<br>um neu zu starten, loszulassen und den Fokus zu finden.', posters: { click: ['Klick', 'Saubere, angenehme Klicks'], moon: ['Mond', 'Eine geheimnisvolle Atmosphäre.'], whiteNoise: ['Weißes Rauschen', 'Konstant. Einfach. Beruhigend.'], brownNoise: ['Braunes Rauschen', 'Tiefere Töne zum Erden'], rain: ['Regen', 'Natürlicher Regen auf Blättern'], pinkNoise: ['Rosa Rauschen', 'Ausgewogen und sanft.'], infrared: ['Infrarot', 'Warm. Tief. Innere Ruhe.'] }, use: 'Benutzen', noiseId: 'Noise ID' },
         onboarding: { ...I18N.en.onboarding, slide1Kicker: 'Ein kleines Ritual für<br>überreizte Momente', slide1Title: 'Fokus<br>wechseln', slide1Sub: 'Nur für einen Moment', slide2Kicker: 'AUDIO-WECHSEL', slide2Title: 'Ein sensorischer Reset', slide2Sub: 'Mach den Kopf frei für das Nächste', headphones: 'Kopfhörer empfohlen', slide3Title: 'Drücken. Hören.<br>Reset.', demoHint: 'Tippe, höre den Klick, spüre das Haptik-Feedback', next: 'Weiter ->', pressesLeft: count => count === 1 ? 'Noch 1 Druck' : `Noch ${count} Drücke` },
         settings: { ...I18N.en.settings, title: 'Einstellungen', sound: 'Sound', vibration: 'Vibration', centered: 'Zentrierter Button', language: 'Sprache', share: 'App teilen', rate: 'App bewerten', privacy: 'Datenschutz', terms: 'Nutzungsbedingungen', support: 'Support', restore: 'Kauf wiederherstellen' },
         timer: { ...I18N.en.timer, title: 'Sleep-Timer', off: 'Aus', idle: 'Stunden/Minuten wischen oder antippen, dann mit +/- anpassen.', active: value => `Der Sound stoppt in ${value}.`, hours: 'Stunden', minutes: 'Minuten', hr: 'h', min: 'min', set: 'Timer setzen', clear: 'Timer löschen' },
         knowledge: { ...I18N.en.knowledge, title: 'Sound-Guide', subtitle: 'Kurz erklärt: die Farben des Rauschens.', whiteTitle: 'Weißes Rauschen', whiteCopy: '<strong>Grundgefühl:</strong> Ein gleichmäßig verteilter technischer Klang über das ganze hörbare Spektrum. Dadurch wirkt er hell, dicht und sehr direkt.<br><br><strong>Klingt wie:</strong> Fernsehrauschen, ein nicht eingestelltes Radio oder akustischer Sand, der kleine Details in der Umgebung sofort überdeckt.<br><br><strong>Hilft oft bei:</strong> Radikalem Abschirmen äußerer Geräusche, kurzen harten Fokus-Sessions und beim Dämpfen der Wahrnehmung von Tinnitus.<br><br><strong>Hörgefühl:</strong> Sehr wirksam, aber ermüdender als rosa oder braunes Rauschen. Besser in kürzeren Sessions und bei mittlerer Lautstärke.', pinkTitle: 'Rosa Rauschen', pinkCopy: '<strong>Grundgefühl:</strong> Weich und ausgewogen. Die Höhen sind sanfter als bei weißem Rauschen, dadurch wirkt es natürlicher und hält den Kopf trotzdem klar genug für Fokus.<br><br><strong>Klingt wie:</strong> Gleichmäßiger Regen, Wind in Bäumen oder ein ruhiger Luftteppich im Raum ohne scharfes Zischen.<br><br><strong>Hilft oft bei:</strong> Konzentration, Lernen, Lesen, dem Ausblenden von Gesprächen und dem Aufbau einer ruhigen Arbeitsblase.<br><br><strong>Hörgefühl:</strong> Gut für längere Sessions, weil es präsent bleibt, ohne mit zu viel Bass zu drücken.', brownTitle: 'Braunes Rauschen', brownCopy: '<strong>Grundgefühl:</strong> Tiefer, dunkler und dichter. Die hohen Frequenzen treten stark zurück, während der Bass mehr Wärme und ein geerdetes Gefühl gibt.<br><br><strong>Klingt wie:</strong> Ferne Brandung, ein Wasserfall hinter einer Wand, starker Regen oder ein weiches tiefes Grollen, das andere Geräusche umhüllt.<br><br><strong>Hilft oft bei:</strong> Einschlafen, Herunterregeln des Nervensystems, Abschirmen chaotischer Umgebung und schnellem sensorischem Reset.<br><br><strong>Hörgefühl:</strong> Warm und schwerer. Am besten leise bis mittel laut, damit die Tiefen beruhigen statt zu ermüden.', rainTitle: 'Regen', rainCopy: '<strong>Grundgefühl:</strong> Natürlich, wiederholend und vertraut. Regen bringt Bewegung in die Stille, ohne Aufmerksamkeit einzufordern.<br><br><strong>Klingt wie:</strong> Tropfen am Fenster, ein leiser Schauer draußen oder ein sanfter Vorhang zwischen dir und dem Rest des Raums.<br><br><strong>Hilft oft bei:</strong> Rasende Gedanken beruhigen, Stille weicher machen, Lesen, Abschalten und einem Raum mehr Geborgenheit geben.<br><br><strong>Hörgefühl:</strong> Sanft und atmosphärisch, besonders wenn du etwas Beruhigendes willst, das weniger abstrakt ist als reines Rauschen.' },
         paywall: { ...I18N.en.paywall, title: 'Sounds, Skins und Themes freischalten', subtitle: 'Mach deine Entspannung tiefer', buy: 'Premium freischalten', restore: 'Kauf wiederherstellen' },
-        rating: { ...I18N.en.rating, title: 'Gefällt dir Digital Fidget?', copy: 'Eine kurze Bewertung hilft anderen, einen ruhigeren Moment zu finden.', choose: 'Bewertung auswählen', rate: 'Im Store bewerten', later: 'Nicht jetzt', star: count => `${count} Stern${count > 1 ? 'e' : ''}` }
+        rating: { ...I18N.en.rating, title: 'Gefällt dir Digital Fidget?', copy: 'Eine kurze Bewertung hilft anderen, einen ruhigeren Moment zu finden.', choose: 'Bewertung auswählen', rate: 'Im Store bewerten', later: 'Nicht jetzt', star: count => `${count} Stern${count > 1 ? 'e' : ''}` },
+        update: { title: 'Update verfügbar', copy: 'Eine neue Version mit den neuesten Verbesserungen und Fehlerbehebungen ist bei Google Play verfügbar.', action: 'In Google Play aktualisieren', later: 'Später' }
         ,fallback: { singleSound: 'Taktiler Klicksound', continuousSound: 'Loopender Entspannungssound' }
     };
 
@@ -7895,13 +8134,14 @@
         ...I18N.en,
         languageName: 'Español',
         nav: { settings: 'Ajustes', premium: 'Premium', themes: 'Temas', sounds: 'Sonidos', skins: 'Skins', swipeUp: 'Desliza hacia arriba', close: 'Cerrar', home: 'Inicio', recent: 'Reciente', library: 'Biblioteca', guide: 'Noise ID', account: 'Cuenta' },
-        home: { kicker: 'Un pequeño ritual táctil', title: 'Pulsa. Escucha.<br>Respira.', subtitle: 'Mundos táctiles y atmósferas sonoras<br>para reiniciarte, relajarte y volver al foco.', posters: { click: ['Click', 'Clics limpios y satisfactorios'], moon: ['Luna', 'Ambiente suave para el foco nocturno'], whiteNoise: ['Ruido blanco', 'Constante. Simple. Calmante.'], brownNoise: ['Ruido marrón', 'Tonos más profundos para aterrizar'], rain: ['Lluvia', 'Lluvia natural sobre hojas'], pinkNoise: ['Ruido rosa', 'Equilibrado y suave.'], infrared: ['Infrarrojo', 'Cálido. Profundo. Silencio interior.'] }, use: 'Usar', noiseId: 'Noise ID' },
+        home: { kicker: 'Un pequeño ritual táctil', title: 'Pulsa. Escucha.<br>Respira.', subtitle: 'Mundos táctiles y atmósferas sonoras<br>para reiniciarte, relajarte y volver al foco.', posters: { click: ['Click', 'Clics limpios y satisfactorios'], moon: ['Luna', 'Atmósfera misteriosa.'], whiteNoise: ['Ruido blanco', 'Constante. Simple. Calmante.'], brownNoise: ['Ruido marrón', 'Tonos más profundos para aterrizar'], rain: ['Lluvia', 'Lluvia natural sobre hojas'], pinkNoise: ['Ruido rosa', 'Equilibrado y suave.'], infrared: ['Infrarrojo', 'Cálido. Profundo. Silencio interior.'] }, use: 'Usar', noiseId: 'Noise ID' },
         onboarding: { ...I18N.en.onboarding, slide1Kicker: 'Un pequeño ritual para<br>momentos saturados', slide1Title: 'Cambia<br>el foco', slide1Sub: 'Solo por un momento', slide2Kicker: 'CAMBIO DE AUDIO', slide2Title: 'Un reinicio sensorial', slide2Sub: 'Aclara tu mente para lo que sigue', headphones: 'Se recomiendan auriculares', slide3Title: 'Pulsa. Escucha.<br>Respira.', demoHint: 'Toca, oye el clic y siente la respuesta háptica', next: 'Siguiente ->', pressesLeft: count => count === 1 ? '1 pulsación más' : `${count} pulsaciones más` },
         settings: { ...I18N.en.settings, title: 'Ajustes', sound: 'Sonido', vibration: 'Vibración', centered: 'Botón centrado', language: 'Idioma', share: 'Compartir app', rate: 'Valorar app', privacy: 'Privacidad', terms: 'Condiciones de uso', support: 'Soporte', restore: 'Restaurar compra' },
         timer: { ...I18N.en.timer, title: 'Temporizador', off: 'Off', idle: 'Desliza o toca horas/minutos y luego ajusta con +/-.', active: value => `El sonido se detendrá en ${value}.`, hours: 'Horas', minutes: 'Minutos', hr: 'h', min: 'min', set: 'Activar temporizador', clear: 'Borrar' },
         knowledge: { ...I18N.en.knowledge, title: 'Guía de sonidos', subtitle: 'Una nota breve sobre los colores del ruido.', whiteTitle: 'Ruido blanco', whiteCopy: '<strong>Sensación general:</strong> Una señal técnica uniforme repartida por todo el espectro audible. Se siente brillante, densa y muy directa.<br><br><strong>A qué se parece:</strong> La estática del televisor, una radio sin sintonizar o arena acústica que tapa de inmediato los detalles pequeños del entorno.<br><br><strong>Suele servir para:</strong> Aislar con fuerza sonidos externos, sesiones cortas de enfoque intenso y reducir la percepción del tinnitus.<br><br><strong>Al escucharlo:</strong> Es muy eficaz, pero fatiga más rápido que el ruido rosa o marrón. Mejor en sesiones cortas y con volumen moderado.', pinkTitle: 'Ruido rosa', pinkCopy: '<strong>Sensación general:</strong> Suave y equilibrado. Los agudos están más contenidos que en el ruido blanco, así que se siente más natural sin perder claridad mental.<br><br><strong>A qué se parece:</strong> Lluvia constante, viento entre árboles o un fondo de aire sereno que llena el espacio sin sonar áspero.<br><br><strong>Suele servir para:</strong> Concentrarse, estudiar, leer, tapar conversaciones cercanas y crear una burbuja de trabajo tranquila.<br><br><strong>Al escucharlo:</strong> Resulta cómodo durante sesiones largas porque está presente sin empujar demasiado los graves.', brownTitle: 'Ruido marrón', brownCopy: '<strong>Sensación general:</strong> Más bajo, profundo y denso. Reduce mucho la parte aguda y se apoya en los graves, lo que da una sensación de refugio y aterrizaje.<br><br><strong>A qué se parece:</strong> Oleaje lejano, una cascada detrás de una pared, lluvia espesa o un rumor grave y suave que envuelve otros sonidos.<br><br><strong>Suele servir para:</strong> Dormir, bajar revoluciones, bloquear entornos caóticos y hacer una descompresión sensorial rápida.<br><br><strong>Al escucharlo:</strong> Cálido y pesado. Va mejor a volumen bajo o medio para que los graves relajen sin fatigar.', rainTitle: 'Lluvia', rainCopy: '<strong>Sensación general:</strong> Una textura natural, repetitiva y familiar. La lluvia aporta movimiento sin pedir atención.<br><br><strong>A qué se parece:</strong> Gotas en la ventana, una lluvia tranquila afuera o una cortina suave entre tú y el resto de la habitación.<br><br><strong>Suele servir para:</strong> Bajar pensamientos acelerados, suavizar el silencio, leer, descansar y hacer que el espacio se sienta más íntimo.<br><br><strong>Al escucharlo:</strong> Es suave y atmosférico, ideal si quieres algo calmante pero menos abstracto que un ruido puro.' },
         paywall: { ...I18N.en.paywall, title: 'Desbloquea sonidos, skins y temas', subtitle: 'Eleva tu momento de calma', buy: 'Desbloquear Premium', restore: 'Restaurar compra' },
-        rating: { ...I18N.en.rating, title: '¿Te gusta Digital Fidget?', copy: 'Una valoración rápida ayuda a más personas a encontrar un momento de calma.', choose: 'Elige una valoración', rate: 'Valorar en la tienda', later: 'Ahora no', star: count => `${count} estrella${count > 1 ? 's' : ''}` }
+        rating: { ...I18N.en.rating, title: '¿Te gusta Digital Fidget?', copy: 'Una valoración rápida ayuda a más personas a encontrar un momento de calma.', choose: 'Elige una valoración', rate: 'Valorar en la tienda', later: 'Ahora no', star: count => `${count} estrella${count > 1 ? 's' : ''}` },
+        update: { title: 'Actualización disponible', copy: 'Hay una nueva versión con las últimas mejoras y correcciones en Google Play.', action: 'Actualizar en Google Play', later: 'Más tarde' }
         ,fallback: { singleSound: 'Sonido de clic táctil', continuousSound: 'Sonido relajante en bucle' }
     };
 
@@ -7909,13 +8149,14 @@
         ...I18N.en,
         languageName: 'Português',
         nav: { settings: 'Definições', premium: 'Premium', themes: 'Temas', sounds: 'Sons', skins: 'Skins', swipeUp: 'Deslize para cima', close: 'Fechar', home: 'Início', recent: 'Recente', library: 'Biblioteca', guide: 'Noise ID', account: 'Conta' },
-        home: { kicker: 'Um pequeno ritual tátil', title: 'Pressione. Ouça.<br>Respire.', subtitle: 'Mundos táteis e climas sonoros<br>para resetar, relaxar e recuperar o foco.', posters: { click: ['Clique', 'Cliques limpos e satisfatórios'], moon: ['Lua', 'Ambiente suave para o foco noturno'], whiteNoise: ['Ruído branco', 'Estável. Simples. Calmante.'], brownNoise: ['Ruído marrom', 'Tons mais profundos para aterramento'], rain: ['Chuva', 'Chuva natural sobre as folhas'], pinkNoise: ['Ruído rosa', 'Equilibrado e suave.'], infrared: ['Infravermelho', 'Quente. Profundo. Quietude interior.'] }, use: 'Usar', noiseId: 'Noise ID' },
+        home: { kicker: 'Um pequeno ritual tátil', title: 'Pressione. Ouça.<br>Respire.', subtitle: 'Mundos táteis e climas sonoros<br>para resetar, relaxar e recuperar o foco.', posters: { click: ['Clique', 'Cliques limpos e satisfatórios'], moon: ['Lua', 'Atmosfera misteriosa.'], whiteNoise: ['Ruído branco', 'Estável. Simples. Calmante.'], brownNoise: ['Ruído marrom', 'Tons mais profundos para aterramento'], rain: ['Chuva', 'Chuva natural sobre as folhas'], pinkNoise: ['Ruído rosa', 'Equilibrado e suave.'], infrared: ['Infravermelho', 'Quente. Profundo. Quietude interior.'] }, use: 'Usar', noiseId: 'Noise ID' },
         onboarding: { ...I18N.en.onboarding, slide1Kicker: 'Um pequeno ritual para<br>momentos sobrecarregados', slide1Title: 'Mude<br>o foco', slide1Sub: 'Só por um momento', slide2Kicker: 'MUDANÇA DE ÁUDIO', slide2Title: 'Um reset sensorial', slide2Sub: 'Limpe a mente para o que vem a seguir', headphones: 'Fones recomendados', slide3Title: 'Pressione. Ouça.<br>Respire.', demoHint: 'Toque, ouça o clique e sinta o háptico', next: 'Seguinte ->', pressesLeft: count => count === 1 ? 'Mais 1 toque' : `Mais ${count} toques` },
         settings: { ...I18N.en.settings, title: 'Definições', sound: 'Som', vibration: 'Vibração', centered: 'Botão centralizado', language: 'Idioma', share: 'Partilhar app', rate: 'Avaliar app', privacy: 'Política de privacidade', terms: 'Termos de uso', support: 'Suporte', restore: 'Restaurar compra' },
         timer: { ...I18N.en.timer, title: 'Temporizador de sono', off: 'Off', idle: 'Deslize ou toque horas/minutos e ajuste com +/-.', active: value => `O som vai parar em ${value}.`, hours: 'Horas', minutes: 'Minutos', hr: 'h', min: 'min', set: 'Definir temporizador', clear: 'Limpar' },
         knowledge: { ...I18N.en.knowledge, title: 'Guia de sons', subtitle: 'Uma nota rápida sobre as cores do ruído.', whiteTitle: 'Ruído branco', whiteCopy: '<strong>Sensação geral:</strong> Um sinal técnico uniforme distribuído por todo o espectro audível. Ele soa brilhante, denso e muito direto.<br><br><strong>Lembra o quê:</strong> Estática de TV, rádio fora de sintonia ou areia acústica cobrindo imediatamente os pequenos detalhes do ambiente.<br><br><strong>Costuma ajudar em:</strong> Isolar agressivamente sons externos, sessões curtas de foco intenso e reduzir a percepção do zumbido.<br><br><strong>Ao ouvir:</strong> É muito eficaz, mas cansa mais rápido do que o ruído rosa ou marrom. Funciona melhor em sessões curtas e volume moderado.', pinkTitle: 'Ruído rosa', pinkCopy: '<strong>Sensação geral:</strong> Suave e equilibrado. Os agudos ficam mais contidos do que no ruído branco, então ele soa mais natural sem perder clareza para manter o foco.<br><br><strong>Lembra o quê:</strong> Chuva constante, vento nas árvores ou um fundo de ar calmo preenchendo o ambiente sem aspereza.<br><br><strong>Costuma ajudar em:</strong> Foco, estudo, leitura, mascarar conversas ao redor e criar uma bolha de trabalho tranquila.<br><br><strong>Ao ouvir:</strong> É confortável por períodos mais longos, porque permanece presente sem pressionar demais os graves.', brownTitle: 'Ruído marrom', brownCopy: '<strong>Sensação geral:</strong> Mais baixo, profundo e denso. A parte aguda quase desaparece e os graves trazem sensação de abrigo e aterramento.<br><br><strong>Lembra o quê:</strong> Ondas distantes, uma cachoeira atrás da parede, chuva pesada ou um ronco grave e macio cobrindo outros sons.<br><br><strong>Costuma ajudar em:</strong> Dormir, desacelerar o sistema nervoso, bloquear ambientes caóticos e fazer uma descompressão sensorial rápida.<br><br><strong>Ao ouvir:</strong> Quente e encorpado. Funciona melhor em volume baixo ou médio para que os graves acalmem sem cansar.', rainTitle: 'Chuva', rainCopy: '<strong>Sensação geral:</strong> Uma textura natural, repetitiva e familiar. A chuva traz movimento sem exigir sua atenção.<br><br><strong>Lembra o quê:</strong> Gotas na janela, uma chuva calma lá fora ou uma cortina suave entre você e o resto do ambiente.<br><br><strong>Costuma ajudar em:</strong> Acalmar pensamentos acelerados, suavizar o silêncio, ler, descansar e deixar o espaço mais acolhedor e privado.<br><br><strong>Ao ouvir:</strong> É gentil e atmosférico, ótimo quando você quer algo calmante, mas menos abstrato do que um ruído puro.' },
         paywall: { ...I18N.en.paywall, title: 'Desbloqueie sons, skins e temas', subtitle: 'Aprofunde seu momento de calma', buy: 'Desbloquear Premium', restore: 'Restaurar compra' },
-        rating: { ...I18N.en.rating, title: 'Gostando do Digital Fidget?', copy: 'Uma avaliação rápida ajuda mais pessoas a encontrar um momento de calma.', choose: 'Escolha uma avaliação', rate: 'Avaliar na loja', later: 'Agora não', star: count => `${count} estrela${count > 1 ? 's' : ''}` }
+        rating: { ...I18N.en.rating, title: 'Gostando do Digital Fidget?', copy: 'Uma avaliação rápida ajuda mais pessoas a encontrar um momento de calma.', choose: 'Escolha uma avaliação', rate: 'Avaliar na loja', later: 'Agora não', star: count => `${count} estrela${count > 1 ? 's' : ''}` },
+        update: { title: 'Atualização disponível', copy: 'Uma nova versão com as melhorias e correções mais recentes está disponível no Google Play.', action: 'Atualizar no Google Play', later: 'Mais tarde' }
         ,fallback: { singleSound: 'Som de clique tátil', continuousSound: 'Som relaxante em loop' }
     };
 
@@ -8049,6 +8290,26 @@
         I18N[lang].actions = { ...I18N.en.actions, ...I18N[lang].actions, ...completion.actions };
         I18N[lang].timer = { ...I18N.en.timer, ...I18N[lang].timer, ...completion.timer };
         I18N[lang].paywall = { ...I18N.en.paywall, ...I18N[lang].paywall, ...completion.paywall };
+    });
+
+    const HOME_PAUSE_LOCALES = {
+        uk: ['Нехай світ<br>зачекає.', 'Твоя хвилина тиші.', 'Натисни.Послухай.Видихни.', 'Обери своє', 'Нічна тема'],
+        en: ['Let the world<br>wait.', 'Your moment of quiet.', 'Press.Listen.Exhale.', 'Choose yours', 'Night theme'],
+        ja: ['世界を少し<br>待たせよう。', 'あなただけの静かなひととき。', '押す。聴く。息を吐く。', '自分の音を選ぶ', 'ナイトテーマ'],
+        fr: ['Le monde<br>peut attendre.', 'Votre instant de calme.', 'Appuyez.Écoutez.Expirez.', 'Choisissez le vôtre', 'Thème nuit'],
+        de: ['Die Welt<br>kann warten.', 'Dein Moment der Ruhe.', 'Drück.Hör zu.Atme aus.', 'Wähle deinen Klang', 'Nachtdesign'],
+        es: ['El mundo<br>puede esperar.', 'Tu momento de calma.', 'Pulsa.Escucha.Exhala.', 'Elige el tuyo', 'Tema nocturno'],
+        pt: ['O mundo<br>pode esperar.', 'O seu momento de calma.', 'Toque.Ouça.Expire.', 'Escolha o seu', 'Tema noturno']
+    };
+    Object.entries(HOME_PAUSE_LOCALES).forEach(([lang, labels]) => {
+        ['pauseTitle', 'pauseSubtitle', 'touchCaption', 'pauseSounds', 'nightTheme'].forEach((key, index) => {
+            I18N[lang].home[key] = labels[index];
+        });
+    });
+    Object.assign(I18N.uk.home.posters, {
+        pinkNoise: ['Рожевий шум', 'М’який баланс'],
+        orangeNoise: ['Помаранчевий шум', 'Теплий фокус'],
+        infrared: ['Інфрачервоний шум', 'Глибока тиша']
     });
 
     const SUPPORTED_LANGUAGES = ['en', 'ja', 'fr', 'de', 'es', 'pt', 'uk'];
@@ -8195,6 +8456,12 @@
             && window.Capacitor.getPlatform() === 'android';
     }
 
+    function isLocalWebPreview() {
+        return ['localhost', '127.0.0.1', '[::1]'].includes(window.location.hostname)
+            && new URLSearchParams(window.location.search).get('web-preview') === '1'
+            && !window.Capacitor?.isNativePlatform?.();
+    }
+
     const ACCESS_DEFAULTS = {
         trialDurationMs: 3 * 24 * 60 * 60 * 1000,
         firstOpenedAtKey: 'rb_first_opened_at',
@@ -8219,7 +8486,8 @@
         },
 
         hasFullAccess() {
-            return EntitlementManager.hasPaidPremium()
+            return isLocalWebPreview()
+                || EntitlementManager.hasPaidPremium()
                 || this.isTrialActive();
         },
 
@@ -9642,7 +9910,7 @@
                     }
                 }
             }
-            if (this.supported) {
+            if (this.supported && navigator.userActivation?.hasBeenActive !== false) {
                 navigator.vibrate(profile.vibrate);
             }
         }
@@ -9819,10 +10087,10 @@
             SoundManager.updateUI();
             SkinManager.updateUI();
             AppState.save('onboardingDone', true);
+            RatePrompt.recordOnboardingCompletion();
             this.el.classList.add('igniting');
             setTimeout(() => {
                 this.el.style.display = 'none';
-                RatePrompt.maybeAutoOpen();
             }, 1020);
         }
     };
@@ -9831,6 +10099,37 @@
        7. THEME MANAGER
        Native: ThemeRepository
        ════════════════════════════════════════════════════════════ */
+    const HomeTheme = {
+        artworkCache: new Map(),
+
+        preload(value) {
+            if (this.artworkCache.has(value)) return this.artworkCache.get(value).ready;
+            const image = document.querySelector(`.home-background-image--${value}`);
+            if (!image) return Promise.resolve();
+            const ready = image.decode
+                ? image.decode().catch(() => {})
+                : new Promise(resolve => {
+                    image.addEventListener('load', resolve, { once: true });
+                    image.addEventListener('error', resolve, { once: true });
+                });
+            this.artworkCache.set(value, { ready });
+            return ready;
+        },
+
+        apply(value) {
+            const next = value === 'night' ? 'night' : 'day';
+            AppState.save('homeTheme', next);
+            document.body.dataset.homeTheme = next;
+            document.getElementById('home-theme-toggle')?.setAttribute('aria-pressed', String(next === 'night'));
+        },
+
+        async toggle() {
+            const next = AppState.homeTheme === 'night' ? 'day' : 'night';
+            await this.preload(next);
+            this.apply(next);
+        }
+    };
+
     const ThemeManager = {
         pendingFrame: 0,
         cleanupTimer: 0,
@@ -10697,6 +10996,7 @@
             }
             // Spring rebound is handled by CSS transition on the button
             HapticsEngine.pressUp(interaction.hapticProfile);
+            RatePrompt.afterMeaningfulInteraction();
         }
     };
 
@@ -10959,27 +11259,179 @@
         }
     };
 
+    const UpdatePrompt = {
+        available: false,
+        availableVersionCode: 0,
+        nativePlugin: null,
+        reminderMs: 3 * 24 * 60 * 60 * 1000,
+        dismissedAtKey: 'rb_update_prompt_dismissed_at',
+        dismissedVersionKey: 'rb_update_prompt_dismissed_version',
+
+        isPreview() {
+            const platform = window.Capacitor?.getPlatform?.() || 'web';
+            return platform === 'web' && window.location.hash.startsWith('#update-preview');
+        },
+
+        getPreviewVersionCode() {
+            const match = window.location.hash.match(/^#update-preview=(\d+)$/);
+            return match ? Number(match[1]) : 999;
+        },
+
+        getNativePlugin() {
+            const capacitor = window.Capacitor;
+            if (!capacitor || capacitor.getPlatform?.() !== 'android') return null;
+            if (!this.nativePlugin && capacitor.registerPlugin) {
+                this.nativePlugin = capacitor.registerPlugin('AppUpdate');
+            }
+            return this.nativePlugin || capacitor.Plugins?.AppUpdate || null;
+        },
+
+        async init() {
+            if (!AppState.onboardingDone) return false;
+
+            let result = null;
+            if (this.isPreview()) {
+                result = { available: true, availableVersionCode: this.getPreviewVersionCode() };
+            } else {
+                const plugin = this.getNativePlugin();
+                if (!plugin?.checkForUpdate) return false;
+                try {
+                    result = await Promise.race([
+                        plugin.checkForUpdate(),
+                        new Promise(resolve => setTimeout(() => resolve(null), 5000))
+                    ]);
+                } catch (error) {
+                    console.warn('Google Play update check failed.', error);
+                    return false;
+                }
+            }
+
+            this.available = result?.available === true;
+            this.availableVersionCode = Number(result?.availableVersionCode || 0);
+            if (this.available && this.shouldShow()) {
+                setTimeout(() => this.open(), 700);
+            }
+            return this.available;
+        },
+
+        shouldShow() {
+            const dismissedAt = Number(localStorage.getItem(this.dismissedAtKey) || 0);
+            const dismissedVersion = Number(localStorage.getItem(this.dismissedVersionKey) || 0);
+            return dismissedVersion !== this.availableVersionCode
+                || Date.now() - dismissedAt >= this.reminderMs;
+        },
+
+        open() {
+            if (!this.available || !AppState.onboardingDone) return;
+            Settings.close();
+            AccountPanel.close();
+            BottomSheet.close();
+            Paywall.close();
+            RatePrompt.close();
+            document.getElementById('update-modal')?.classList.add('visible');
+            HapticsEngine.light();
+        },
+
+        close() {
+            document.getElementById('update-modal')?.classList.remove('visible');
+        },
+
+        rememberDismissal() {
+            localStorage.setItem(this.dismissedAtKey, String(Date.now()));
+            localStorage.setItem(this.dismissedVersionKey, String(this.availableVersionCode));
+        },
+
+        remindLater() {
+            this.rememberDismissal();
+            this.close();
+        },
+
+        handleBackdrop(event) {
+            if (event.target?.id === 'update-modal') this.remindLater();
+        },
+
+        async openStore() {
+            this.rememberDismissal();
+            this.close();
+            const plugin = this.getNativePlugin();
+            if (plugin?.openStoreListing) {
+                try {
+                    await plugin.openStoreListing();
+                    return;
+                } catch (error) {
+                    console.warn('Could not open the native Google Play listing.', error);
+                }
+            }
+            const storeConfig = (window.__APP_RUNTIME_CONFIG__ || {}).store || {};
+            window.open(storeConfig.playStoreUrl || AppActions.getStoreUrl(), '_blank', 'noopener');
+        }
+    };
+
     const RatePrompt = {
         rating: 0,
         shouldAutoOpen: false,
+        eligibleForAutoOpen: false,
+        updateCheckPending: false,
+        hadMeaningfulInteraction: false,
+        autoOpenScheduled: false,
+        launchCountKey: 'rb_rating_eligible_launch_count',
 
-        init() {
-            const launches = Number.parseInt(localStorage.getItem('rb_launch_count') || '0', 10) + 1;
-            localStorage.setItem('rb_launch_count', String(launches));
-            this.shouldAutoOpen = launches === 5
+        init({ deferUntilUpdateCheck = false } = {}) {
+            if (!AppState.onboardingDone) return;
+
+            const previousLaunches = Number.parseInt(localStorage.getItem(this.launchCountKey) || '0', 10);
+            const launches = Number.isFinite(previousLaunches) && previousLaunches > 0
+                ? Math.min(previousLaunches + 1, 3)
+                : 1;
+            localStorage.setItem(this.launchCountKey, String(launches));
+            this.eligibleForAutoOpen = launches >= 3
                 && localStorage.getItem('rb_rating_prompt_shown') !== 'true'
                 && localStorage.getItem('rb_app_rated') !== 'true';
+            this.updateCheckPending = deferUntilUpdateCheck;
+            this.shouldAutoOpen = this.eligibleForAutoOpen && !deferUntilUpdateCheck;
 
-            if (AppState.onboardingDone) {
-                setTimeout(() => this.maybeAutoOpen(), 900);
+            document.addEventListener('click', event => {
+                const action = event.target?.closest?.('button, [role="button"], a, input, select');
+                if (!action || action.closest('#onboarding, #rating-modal, #update-modal')) return;
+                this.afterMeaningfulInteraction();
+            }, true);
+        },
+
+        recordOnboardingCompletion() {
+            if (!localStorage.getItem(this.launchCountKey)) {
+                localStorage.setItem(this.launchCountKey, '1');
             }
+            this.eligibleForAutoOpen = false;
+            this.updateCheckPending = false;
+            this.shouldAutoOpen = false;
+        },
+
+        afterMeaningfulInteraction() {
+            this.hadMeaningfulInteraction = true;
+            if (!this.shouldAutoOpen || this.autoOpenScheduled) return;
+            this.autoOpenScheduled = true;
+            setTimeout(() => {
+                this.autoOpenScheduled = false;
+                this.maybeAutoOpen();
+            }, 420);
         },
 
         maybeAutoOpen() {
-            if (!this.shouldAutoOpen) return;
+            if (!this.shouldAutoOpen || this.updateCheckPending || UpdatePrompt.available) return;
             this.shouldAutoOpen = false;
             localStorage.setItem('rb_rating_prompt_shown', 'true');
             this.open();
+        },
+
+        resolveUpdateCheck(updateAvailable) {
+            this.updateCheckPending = false;
+            if (updateAvailable) {
+                this.shouldAutoOpen = false;
+                this.autoOpenScheduled = false;
+                return;
+            }
+            this.shouldAutoOpen = this.eligibleForAutoOpen;
+            if (this.hadMeaningfulInteraction) this.afterMeaningfulInteraction();
         },
 
         open() {
@@ -11703,6 +12155,9 @@
             if (document.getElementById('paywall')?.classList.contains('visible')) {
                 return () => Paywall.close();
             }
+            if (document.getElementById('update-modal')?.classList.contains('visible')) {
+                return () => UpdatePrompt.remindLater();
+            }
             if (document.getElementById('rating-modal')?.classList.contains('visible')) {
                 return () => RatePrompt.close();
             }
@@ -12086,6 +12541,13 @@
         updateUI() {
             if (!this.root) return;
             this.captureActiveSession();
+            if ((!this.lastProfileId || !this.lastSkinId) && SkinRegistry.isContinuousSkin()) {
+                const selectedProfile = SkinRegistry.getSelectedSoundProfile();
+                if (selectedProfile?.mode === 'continuous') {
+                    this.lastProfileId = selectedProfile.id;
+                    this.lastSkinId = AppState.currentSkin;
+                }
+            }
 
             const profile = SkinRegistry.getSoundProfile(this.lastProfileId);
             const canControl = !!profile
@@ -12131,7 +12593,7 @@
         rhythm: null,
         posterDefinitions: [
             { id: 'click', skinId: 'classic-button', chip: '', title: 'Click', copy: 'Clean, satisfying clicks', image: 'assets/home-posters/click-card.webp', classes: 'home-poster-card--featured', tint: 'rgba(232, 198, 210, 0.24)' },
-            { id: 'moon', skinId: 'moon', chip: '', title: 'Moon', copy: 'Soft ambience for night focus', image: 'assets/home-posters/moon-card.webp', classes: 'home-poster-card--compact', tint: 'rgba(108, 118, 170, 0.28)' },
+            { id: 'moon', skinId: 'moon', chip: '', title: 'Moon', copy: 'Mysterious atmosphere.', image: 'assets/home-posters/moon-card.webp', classes: 'home-poster-card--compact', tint: 'rgba(108, 118, 170, 0.28)' },
             { id: 'white-noise', skinId: 'white-noise', chip: '', title: 'White Noise', copy: 'Steady. Simple. Soothing.', image: 'assets/home-posters/white-noise-card.webp', classes: 'home-poster-card--compact', tint: 'rgba(214, 226, 242, 0.26)' },
             { id: 'brown-noise', skinId: 'brown-noise', soundProfileId: 'brown-waterfall', chip: '', title: 'Brown Noise', copy: 'Deeper tones for grounding', image: 'assets/home-posters/brown-noise-card.webp', classes: 'home-poster-card--compact', tint: 'rgba(132, 112, 86, 0.30)' },
             { id: 'rain', skinId: 'rain', chip: '', title: 'Rain', copy: 'Natural rain on leaves', image: 'assets/home-posters/rain-card.webp', classes: 'home-poster-card--compact', tint: 'rgba(78, 104, 84, 0.28)' },
@@ -12178,10 +12640,16 @@
             return AudioEngine.getActiveLoopSkinId?.() === poster.skinId;
         },
 
-        buildPosterCard(poster) {
+        buildPosterCard(poster, { eager = false } = {}) {
             const isLocked = !AccessManager.canUseSkin(poster.skinId);
             const localizedTitle = I18n.poster(poster, 'title');
             const localizedCopy = I18n.poster(poster, 'copy');
+            const referenceArtwork = {
+                'pink-noise': 'assets/home-posters/pause-pink.png',
+                'orange-noise': 'assets/home-posters/pause-orange.png',
+                infrared: 'assets/home-posters/pause-infrared.png'
+            };
+            const cardImage = referenceArtwork[poster.id] || poster.image;
             const button = document.createElement('button');
             button.type = 'button';
             button.className = `home-poster-card ${poster.classes}`
@@ -12197,13 +12665,14 @@
             button.setAttribute('aria-pressed', String(poster.id === this.selectedPosterId));
             button.style.setProperty('--poster-tint', poster.tint);
             button.innerHTML = `
-                ${poster.image ? `<img class="home-poster-media" src="${poster.image}" alt="" loading="lazy" decoding="async">` : ''}
+                ${cardImage ? `<img class="home-poster-media" src="${cardImage}" alt="" loading="${eager ? 'eager' : 'lazy'}" decoding="async"${eager ? ' fetchpriority="high"' : ''}>` : ''}
                 ${isLocked ? `<span class="home-poster-premium-badge">${I18n.t('nav.premium')}</span>` : ''}
                 <div class="home-poster-card-body">
                     ${poster.chip ? `<span class="home-poster-chip">${poster.chip}</span>` : ''}
                     <h2 class="home-poster-name">${localizedTitle}</h2>
                     <p class="home-poster-copy">${localizedCopy}</p>
                 </div>
+                <span class="home-card-play" aria-hidden="true"><img src="assets/home-icons/play.svg" alt=""></span>
             `;
             const warmPosterBackdrop = () => {
                 const profileId = poster.soundProfileId
@@ -12225,12 +12694,34 @@
             this.featured.innerHTML = '';
             this.rail.innerHTML = '';
 
-            this.posterDefinitions.filter(poster => poster.id !== this.featuredPosterId).forEach((poster) => {
-                const card = this.buildPosterCard(poster);
+            const homeOrder = ['moon', 'white-noise', 'brown-noise', 'rain', 'pink-noise', 'orange-noise', 'infrared'];
+            homeOrder.map(id => this.getPosterById(id)).filter(Boolean).forEach((poster, index) => {
+                const card = this.buildPosterCard(poster, { eager: index < 3 });
                 this.rail.appendChild(card);
             });
             this.buildPosterPagination();
             requestAnimationFrame(() => this.syncPosterPagination());
+        },
+
+        async waitForInitialVisuals() {
+            const images = [
+                this.home?.querySelector(`.home-background-image--${AppState.homeTheme}`),
+                ...Array.from(this.rail?.querySelectorAll('.home-poster-media[loading="eager"]') || [])
+            ].filter(Boolean);
+            const ready = Promise.all(images.map(image => {
+                if (image.complete && image.naturalWidth > 0) {
+                    return image.decode?.().catch(() => {}) || Promise.resolve();
+                }
+                return new Promise(resolve => {
+                    image.addEventListener('load', resolve, { once: true });
+                    image.addEventListener('error', resolve, { once: true });
+                });
+            }));
+            await Promise.race([
+                ready,
+                new Promise(resolve => setTimeout(resolve, 1200))
+            ]);
+            await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
         },
 
         buildPosterPagination() {
@@ -12752,7 +13243,14 @@
         SleepTimerManager.init();
         KnowledgeManager.init();
         NoiseBackdropScene.init();
-        RatePrompt.init();
+        const shouldCheckForUpdate = AppState.onboardingDone
+            && (isNativeAndroid() || UpdatePrompt.isPreview());
+        RatePrompt.init({ deferUntilUpdateCheck: shouldCheckForUpdate });
+        if (shouldCheckForUpdate) {
+            UpdatePrompt.init()
+                .then(available => RatePrompt.resolveUpdateCheck(available))
+                .catch(() => RatePrompt.resolveUpdateCheck(false));
+        }
 
         await EntitlementManager.refresh();
         AccessManager.sanitizeState();
@@ -12790,6 +13288,8 @@
         I18n.apply();
 
         // Restore saved state
+        HomeTheme.apply(AppState.homeTheme);
+        HomeTheme.preload(AppState.homeTheme === 'night' ? 'day' : 'night');
         ThemeManager.apply(AppState.theme);
         delete document.documentElement.dataset.bootTheme;
         delete document.documentElement.dataset.bootSkin;
@@ -12802,20 +13302,22 @@
         AudioEngine.warmInteractionProfilesForSkin();
         schedulePostInteraction(() => AudioEngine.warmAvailableOneShotProfiles(), 1800);
 
+        await HomeSkinScene.waitForInitialVisuals();
+
         requestAnimationFrame(() => {
             document.documentElement.classList.remove('app-booting');
         });
 
         document.getElementById('sheet-premium').addEventListener('click', () => {
             BottomSheet.close();
-            if (EntitlementManager.hasPaidPremium()) {
+            if (isLocalWebPreview() || EntitlementManager.hasPaidPremium()) {
                 Settings.open();
             } else {
                 Paywall.open();
             }
         });
         document.getElementById('click-premium-button')?.addEventListener('click', () => {
-            if (EntitlementManager.hasPaidPremium()) {
+            if (isLocalWebPreview() || EntitlementManager.hasPaidPremium()) {
                 Settings.open();
             } else {
                 Paywall.open();

@@ -1,40 +1,36 @@
-# Design QA — clean responsive home dashboard
+# Home sound cards — focused verification
 
-- Reference: `/Users/serhii/Desktop/Знімок екрана 2026-07-15 о 14.24.55.png`.
-- Scope agreed with the user: reproduce the reference's element hierarchy and placement, not its final visual design; do not place card imagery yet.
+final result: passed
 
-## Implemented hierarchy
+Scope: sound cards only. This is not approval of the previously implemented hero or whole screen.
 
-1. Greeting and settings control.
-2. Supportive daily-insight card.
-3. Prominent Click & Relax action block.
-4. Explore heading and horizontal session carousel.
-5. Persistent bottom navigation.
+## Source and evidence
 
-## Cleanup
+- Day source: `/Users/serhii/Desktop/Зображення Codex 28 вер. 2026 р., 17_17_30.png`
+- Night source: `/Users/serhii/Desktop/Зображення Codex 28 вер. 2026 р., 17_12_33.png`
+- Browser: `http://127.0.0.1:4174/index.html`
+- Day implementation: `/tmp/button-cards-day-final.png`
+- Focused source: `/tmp/button-cards-reference.png`
+- Focused implementation: `/tmp/button-cards-implementation-final.png`
+- CSS viewport / screenshot: 412 × 891, 1×. Source 853 × 1844, normalized to 412px wide for card comparison. Region crops are aligned by their first thumbnail; source crop includes 11px of leading space.
 
-- Removed the accumulated orbital, circular-card, Material carousel, rhythm-card, and Continue-block styling layers.
-- Removed the orbital and Material-carousel JavaScript paths.
-- Removed Home artwork loading and last-scene/Continue UI code.
-- Home now has one scoped style section and one card-building path.
-- No Home card image URLs are assigned. Session cards intentionally use neutral color surfaces.
+## Comparison and fixes
 
-## Responsive coverage
+Initial state had a horizontal single-row carousel, different artwork and visible premium badges. Replaced with stacked rows, original thumbnail pixels extracted from the supplied source, hidden visual badges (access checks and accessible premium labels retained), thin separators and filled play icons inside outlined circles. A follow-up capture found a stronger legacy badge rule; corrected specificity and captured again.
 
-- Compact phones: up to 359px.
-- Standard phones: 360–429px.
-- Large phones / small tablets: 430–767px.
-- Tablets: 768–1023px with a two-column insight/feature row.
-- Desktop preview: 1024px and above, using a centred tablet composition.
-- Landscape phones and tablets: 640px wide and above with height up to 700px.
-- Short screens: height up to 740px.
+Both themes were inspected in the browser. The day source and corrected implementation card crops were displayed together for the final comparison.
 
-## Verification
+- Typography: sans-serif titles approximately 18px, descriptions 14px at the tested phone width; full Ukrainian names fit without mid-word breaks.
+- Layout: approximately 82px thumbnails, 18px text gap, 36px outlined play affordance, vertically stacked rows and thin full-width dividers.
+- Colors: existing day/night ink, secondary-text and divider tokens remain active. No solid card backgrounds or poster overlays.
+- Imagery: forest, crystals and canyon come directly from the supplied reference; no regenerated substitutes.
+- Copy: Рожевий шум / М’який баланс; Помаранчевий шум / Теплий фокус; Інфрачервоний шум / Глибока тиша.
 
-- Release checks: passed.
-- `git diff --check`: passed.
-- Inline JavaScript parse: passed (4 scripts).
-- Source cleanup check: only the new Home reset section remains; obsolete Home experiment labels and handlers are absent.
-- Visual browser comparison: blocked. The in-app browser refused the local `file://` preview under its URL policy, so a same-viewport rendered screenshot could not be captured without bypassing the browser restriction.
+## Checks and limits
 
-final result: blocked
+- Theme switching and vertical scrolling checked visually.
+- Browser error log: no captured errors.
+- Inline JavaScript syntax check passed; root and www HTML match.
+- Existing sound access and click handlers preserved. Paid playback was not bypassed or exercised.
+- Other existing sounds remain available below the three reference rows. The reference only depicts three; none of the app's sounds were removed.
+- Minor P3: the thumbnails inherit the reference's raster corner pixels. The main hero remains outside this narrowly requested card change.

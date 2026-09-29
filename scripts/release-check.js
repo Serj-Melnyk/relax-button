@@ -102,6 +102,11 @@ check(digest("www/index.html") === digest("ios/App/App/public/index.html"),
 
 check(read("android/capacitor-cordova-android-plugins/build.gradle").includes("billing"),
   "Google Play Billing is not present in the generated Android Cordova plugin project.");
+check(read("android/app/build.gradle").includes('com.google.android.play:app-update:2.1.0'),
+  "Google Play in-app update availability is not configured.");
+check(read("android/app/src/main/java/com/antistress/relaxbutton/MainActivity.java")
+  .includes("registerPlugin(AppUpdatePlugin.class)"),
+  "The native AppUpdate Capacitor plugin must be registered.");
 check(read("ios/App/App/config.xml").includes("InAppPurchase"),
   "StoreKit purchase plugin is not present in the generated iOS configuration.");
 

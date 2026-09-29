@@ -49,4 +49,4 @@ Digital Fidget: Mental ASMR is intended for general relaxation and entertainment
 
 ## Release Notes
 
-Fixed the audio player when switching skins and returning Home. Each skin now remembers its last sound, shared Rain and Brown Noise tracks stay mapped correctly, and fade volume remains within safe limits.
+Refreshed the Home screen with day and night modes, improved navigation and landscape layouts, and smoother transitions between all seven skins. Fixed the player controls and improved the in-app update and rating prompts.
