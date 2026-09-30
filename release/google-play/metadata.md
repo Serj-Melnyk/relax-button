@@ -49,4 +49,4 @@ Digital Fidget: Mental ASMR is intended for general relaxation and entertainment
 
 ## Release Notes
 
-Refreshed the Home screen with day and night modes, improved navigation and landscape layouts, and smoother transitions between all seven skins. Fixed the player controls and improved the in-app update and rating prompts.
+Polished the Home screen layout and moved the main button and heading higher for easier reach. Added clear Premium crown markers to locked skins and themes, a verified Google Play update link in Account, and kept manual rating available. Improved navigation and stability.
