@@ -144,6 +144,7 @@ body.home-view-active button:focus-visible { outline: 2px solid var(--pause-acce
     font-weight: 500;
     line-height: 1.22;
     letter-spacing: -.025em;
+    overflow-wrap: anywhere;
     text-shadow: none;
 }
 body.home-view-active .home-explore-heading {
@@ -351,11 +352,28 @@ body.home-view-active #app-nav .m3-nav-item.is-active .m3-nav-indicator {
     body.home-view-active .home-session-viewport { padding-inline: 18px; scroll-padding-inline: 18px; }
 }
 
+/* Leave room for Android's status bar and larger system text on narrow phones. */
+@media (orientation: portrait) and (max-width: 400px) {
+    body.home-view-active .home-dashboard-header {
+        top: max(24px, calc(env(safe-area-inset-top, 0px) - 2px));
+    }
+    body.home-view-active .home-dashboard-header h1 {
+        font-size: clamp(30px, 8.9vw, 36px);
+    }
+    body.home-view-active #home-theme-toggle {
+        top: max(0px, calc(env(safe-area-inset-top, 0px) - 8px));
+        right: 18px;
+    }
+}
+
 /* Landscape keeps the hero's native aspect ratio beside the scrolling list. */
 @media (orientation: landscape) {
+    body.home-view-active {
+        --home-landscape-hero-width: min(48vw, calc((100dvh - 50px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)) * .888889));
+    }
     body.home-view-active .home-dashboard {
         display: grid !important;
-        grid-template-columns: min(40vw, calc((100dvh - 90px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)) * .888889)) minmax(0, 1fr);
+        grid-template-columns: var(--home-landscape-hero-width) minmax(0, 1fr);
         grid-template-rows: auto minmax(0, 1fr);
         grid-template-areas: "hero heading" "hero sounds";
         width: min(100%, 1000px);
@@ -365,17 +383,18 @@ body.home-view-active #app-nav .m3-nav-item.is-active .m3-nav-indicator {
     }
     body.home-view-active .home-hero {
         grid-area: hero;
-        align-self: center;
+        align-self: start;
         width: 100%;
         height: auto;
         aspect-ratio: 1024 / 1152;
+        transform: translateY(calc(0px - env(safe-area-inset-top, 0px)));
     }
     body.home-view-active .home-background-image { object-fit: contain; transform: none; }
     body.home-view-active .home-dashboard-header { top: 13%; }
     body.home-view-active .home-feature { top: 39.8%; }
     body.home-view-active .home-dashboard-header h1 { font-size: clamp(22px, 6.5dvh, 42px); }
     body.home-view-active .home-dashboard-header p { margin-top: 8px; font-size: clamp(11px, 3.2dvh, 16px); }
-    body.home-view-active .home-touch-caption { font-size: 16px; }
+    body.home-view-active .home-touch-caption { top: 82%; font-size: 16px; }
     body.home-view-active #home-theme-toggle { top: 0; right: 0; }
     body.home-view-active .home-explore-heading {
         grid-area: heading;
@@ -389,4 +408,10 @@ body.home-view-active #app-nav .m3-nav-item.is-active .m3-nav-indicator {
     body.home-view-active .home-session-rail .home-poster-card { max-width: none; grid-template-columns: 64px minmax(0, 1fr) 36px; column-gap: 14px; }
     body.home-view-active .home-session-rail .home-poster-name { font-size: 16px; }
     body.home-view-active .home-session-rail .home-poster-copy { font-size: 13px; }
+    body.home-view-active #app-nav {
+        left: 16px;
+        right: 16px;
+        width: calc(100% - 32px);
+        transform: none;
+    }
 }
