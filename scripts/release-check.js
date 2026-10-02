@@ -77,6 +77,24 @@ check(webIndex.includes('id="swipe-indicator"')
   && webIndex.includes('onclick="Settings.open()"'),
   "Thumb-friendly customization, Premium, and Account Settings controls are required.");
 
+const newClickSounds = [
+  ["click-glass-breaking", "click-glass-breaking.mp3"],
+  ["click-camera-capture", "click-camera-capture.mp3"],
+  ["click-bottle-shatter", "click-bottle-shatter.mp3"],
+  ["click-snap-fingers", "click-snap-fingers.mp3"],
+  ["click-bottle-glass-hit", "click-bottle-glass-hit.mp3"]
+];
+const clickSoundPositions = newClickSounds.map(([id]) => webIndex.indexOf(`{ id: '${id}'`));
+check(clickSoundPositions.every((position) => position >= 0)
+  && clickSoundPositions.every((position, index) => index === 0 || position > clickSoundPositions[index - 1]),
+  "New Click sounds must appear in the supplied order.");
+newClickSounds.forEach(([, file]) => {
+  check(exists(file) && exists(`www/${file}`), `Missing Click audio: ${file}`);
+  if (exists(file) && exists(`www/${file}`)) {
+    check(digest(file) === digest(`www/${file}`), `Click audio is not synced: ${file}`);
+  }
+});
+
 const webPayload = walkFiles("www");
 const webPayloadBytes = webPayload.reduce((total, file) => total + fileSize(file), 0);
 const oversizedImages = webPayload.filter((file) => /\.(?:avif|jpe?g|png|webp)$/i.test(file)

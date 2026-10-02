@@ -110,7 +110,9 @@ public class NoisePlaybackService extends Service {
             abandonAudioFocus();
             stopPlayback();
             dismissPlaybackNotification();
-            stopSelf();
+            // A newer START may already be queued while switching skins. Only stop
+            // this service if no later start command has arrived.
+            stopSelf(startId);
             return START_NOT_STICKY;
         }
 

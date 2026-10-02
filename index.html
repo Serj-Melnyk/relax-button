@@ -61,6 +61,14 @@
             document.documentElement.dataset.bootSkin = savedSkin;
             document.documentElement.dataset.bootLayout = savedLayout;
             document.documentElement.dataset.bootLanguage = savedLanguage;
+            if (onboardingDone) {
+                const background = document.createElement('link');
+                background.rel = 'preload';
+                background.as = 'image';
+                background.href = `assets/home-backgrounds/pause-${savedHomeTheme === 'night' ? 'night' : 'day'}.webp`;
+                background.fetchPriority = 'high';
+                document.head.appendChild(background);
+            }
         } catch (_) {}
     })();
     </script>
@@ -962,7 +970,8 @@
     body[data-skin="orange-noise"] #main-button,
     body[data-skin="brown-noise"] #main-button,
     body[data-skin="infrared-noise"] #main-button,
-    body[data-skin="rain"] #main-button {
+    body[data-skin="rain"] #main-button,
+    body[data-skin="people"] #main-button {
         display: none !important;
     }
 
@@ -1116,13 +1125,13 @@
         height: 36px;
     }
 
-    body[data-theme="night"]:not([data-skin="moon"]):not([data-skin="white-noise"]):not([data-skin="pink-noise"]):not([data-skin="orange-noise"]):not([data-skin="brown-noise"]):not([data-skin="infrared-noise"]):not([data-skin="rain"]) #app {
+    body[data-theme="night"]:not([data-skin="moon"]):not([data-skin="people"]):not([data-skin="white-noise"]):not([data-skin="pink-noise"]):not([data-skin="orange-noise"]):not([data-skin="brown-noise"]):not([data-skin="infrared-noise"]):not([data-skin="rain"]) #app {
         background:
             radial-gradient(circle at 50% 18%, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.035) 18%, transparent 44%),
             linear-gradient(180deg, #4a4a4d 0%, #202022 56%, #151516 100%);
     }
 
-    body[data-theme="night"]:not([data-skin="moon"]):not([data-skin="white-noise"]):not([data-skin="pink-noise"]):not([data-skin="orange-noise"]):not([data-skin="brown-noise"]):not([data-skin="infrared-noise"]):not([data-skin="rain"]) #main-button {
+    body[data-theme="night"]:not([data-skin="moon"]):not([data-skin="people"]):not([data-skin="white-noise"]):not([data-skin="pink-noise"]):not([data-skin="orange-noise"]):not([data-skin="brown-noise"]):not([data-skin="infrared-noise"]):not([data-skin="rain"]) #main-button {
         background:
             radial-gradient(circle at 30% 28%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 42%, transparent 66%),
             linear-gradient(180deg, #2b2b2f 0%, #1c1c1f 100%);
@@ -1131,18 +1140,18 @@
             -12px -12px 24px rgba(71,71,76,0.34);
     }
 
-    body[data-theme="night"]:not([data-skin="moon"]):not([data-skin="white-noise"]):not([data-skin="pink-noise"]):not([data-skin="orange-noise"]):not([data-skin="brown-noise"]):not([data-skin="infrared-noise"]):not([data-skin="rain"]) #main-button::after {
+    body[data-theme="night"]:not([data-skin="moon"]):not([data-skin="people"]):not([data-skin="white-noise"]):not([data-skin="pink-noise"]):not([data-skin="orange-noise"]):not([data-skin="brown-noise"]):not([data-skin="infrared-noise"]):not([data-skin="rain"]) #main-button::after {
         background:
             radial-gradient(circle at 32% 28%, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.06) 24%, transparent 62%);
     }
 
-    body[data-theme="night"]:not([data-skin="moon"]):not([data-skin="white-noise"]):not([data-skin="pink-noise"]):not([data-skin="orange-noise"]):not([data-skin="brown-noise"]):not([data-skin="infrared-noise"]):not([data-skin="rain"]) #main-button.is-pressed {
+    body[data-theme="night"]:not([data-skin="moon"]):not([data-skin="people"]):not([data-skin="white-noise"]):not([data-skin="pink-noise"]):not([data-skin="orange-noise"]):not([data-skin="brown-noise"]):not([data-skin="infrared-noise"]):not([data-skin="rain"]) #main-button.is-pressed {
         box-shadow:
             inset 12px 12px 26px rgba(10,10,12,0.55),
             inset -10px -10px 22px rgba(66,66,72,0.22);
     }
 
-    body[data-theme="night"]:not([data-skin="moon"]):not([data-skin="white-noise"]):not([data-skin="pink-noise"]):not([data-skin="orange-noise"]):not([data-skin="brown-noise"]):not([data-skin="infrared-noise"]):not([data-skin="rain"]) #swipe-indicator {
+    body[data-theme="night"]:not([data-skin="moon"]):not([data-skin="people"]):not([data-skin="white-noise"]):not([data-skin="pink-noise"]):not([data-skin="orange-noise"]):not([data-skin="brown-noise"]):not([data-skin="infrared-noise"]):not([data-skin="rain"]) #swipe-indicator {
         color: rgba(236, 232, 244, 0.7);
         text-shadow: 0 1px 10px rgba(0, 0, 0, 0.55);
     }
@@ -1200,6 +1209,28 @@
     body[data-skin="moon"] {
         --cinematic-glass-glow: rgba(214, 232, 255, 0.10);
         --cinematic-bottom-tint: rgba(7, 14, 24, 0.34);
+    }
+
+    body[data-skin="people"] {
+        --player-chrome: rgba(255, 255, 255, 0.98);
+        --player-muted: rgba(255, 255, 255, 0.82);
+        --player-surface: rgba(13, 23, 40, 0.44);
+        --player-surface-strong: rgba(13, 23, 40, 0.64);
+        --player-shadow: 0 18px 40px rgba(6, 12, 25, 0.32);
+        --noise-backdrop-image: none;
+        --noise-backdrop-image-bottom: none;
+        --noise-button-scene-fill: none;
+        --cinematic-glass-glow: rgba(255, 194, 135, 0.12);
+        --cinematic-bottom-tint: rgba(7, 14, 28, 0.44);
+    }
+
+    body[data-skin="people"] #app {
+        isolation: isolate;
+        overflow: hidden;
+        background:
+            linear-gradient(180deg, rgba(7, 14, 27, 0.54), rgba(7, 14, 27, 0.28) 42%, rgba(7, 14, 27, 0.56)),
+            var(--noise-backdrop-image, none) center / cover no-repeat,
+            linear-gradient(160deg, #193457, #763d53 55%, #152943);
     }
 
     body[data-skin="white-noise"] {
@@ -1633,6 +1664,7 @@
     body[data-skin="brown-noise"] .noise-top-controls,
     body[data-skin="infrared-noise"] .noise-top-controls,
     body[data-skin="rain"] .noise-top-controls,
+    body[data-skin="people"] .noise-top-controls,
     body[data-skin="classic-button"] .noise-top-controls {
         display: flex;
     }
@@ -3279,6 +3311,7 @@
     }
 
     .sound-icon {
+        position: relative;
         width: 34px;
         height: 34px;
         border-radius: var(--radius-sm);
@@ -3347,6 +3380,23 @@
             border-color var(--dur-theme) var(--ease-standard);
     }
 
+    .new-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 auto;
+        padding: 2px 6px;
+        border-radius: 999px;
+        color: #fff;
+        background: #d45c42;
+        box-shadow: 0 2px 7px rgba(60, 25, 18, 0.18);
+        font-size: 9px;
+        line-height: 1.1;
+        font-weight: 800;
+        letter-spacing: 0.03em;
+        pointer-events: none;
+    }
+
     .sound-lock {
         width: 18px;
         height: 18px;
@@ -3405,6 +3455,17 @@
         justify-content: end;
         gap: 10px;
         flex: 0 0 auto;
+    }
+
+    .sound-item .sound-new-badge {
+        position: absolute;
+        bottom: -5px;
+        left: 50%;
+        z-index: 1;
+        padding: 2px 4px;
+        font-size: 8px;
+        white-space: nowrap;
+        transform: translateX(-50%);
     }
 
     .sound-favorite-btn {
@@ -3563,6 +3624,8 @@
         color: var(--on-surface);
         transition: color var(--dur-theme) var(--ease-standard);
     }
+
+    .skin-new-badge { margin-top: 3px; font-size: 7px; }
 
     .skin-desc {
         margin-top: 2px;
@@ -5386,6 +5449,15 @@
         text-transform: uppercase;
         backdrop-filter: blur(8px);
         -webkit-backdrop-filter: blur(8px);
+    }
+
+    body.home-view-active .home-session-rail .home-poster-new-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 2;
+        border: 1px solid rgba(255, 255, 255, 0.65);
+        font-size: 8px;
     }
 
     body.home-view-active .home-session-rail .home-poster-card.is-locked .home-card-play {
@@ -7255,19 +7327,13 @@
             grid-template-columns: 32px 86px;
             justify-content: end;
         }
+
     }
 
     /* Returning users should never see the static HTML labels before the
        localized cards, navigation, and saved state are ready. Keep the real
        Home UI hidden over its already-cached background, then reveal it as a
        single composed frame at the end of initApp(). */
-    html.app-booting.onboarding-complete body {
-        background:
-            #d8d0c1
-            url('assets/home-backgrounds/linen-sunlight-background.webp')
-            center / cover no-repeat;
-    }
-
     html.app-booting.onboarding-complete #home-screen {
         opacity: 0 !important;
         visibility: hidden !important;
@@ -7390,8 +7456,18 @@
     <div id="home-screen" aria-label="Home">
         <section id="home-poster-scene" class="home-dashboard" aria-label="Relaxation dashboard">
           <div class="home-hero">
-            <img class="home-background-image home-background-image--day" src="assets/home-backgrounds/pause-day.webp" alt="" aria-hidden="true" decoding="async" fetchpriority="high">
-            <img class="home-background-image home-background-image--night" src="assets/home-backgrounds/pause-night.webp" alt="" aria-hidden="true" decoding="async" fetchpriority="high">
+            <img class="home-background-image home-background-image--day" data-src="assets/home-backgrounds/pause-day.webp" alt="" aria-hidden="true" decoding="async">
+            <img class="home-background-image home-background-image--night" data-src="assets/home-backgrounds/pause-night.webp" alt="" aria-hidden="true" decoding="async">
+            <script>
+            (function () {
+                const selected = document.documentElement.dataset.bootHomeTheme === 'night' ? 'night' : 'day';
+                const image = document.querySelector(`.home-background-image--${selected}`);
+                if (image) {
+                    image.fetchPriority = 'high';
+                    image.src = image.dataset.src;
+                }
+            })();
+            </script>
             <button id="home-theme-toggle" type="button" onclick="HomeTheme.toggle()" data-i18n-aria="home.nightTheme" aria-label="Нічна тема" aria-pressed="false">
                 <img class="home-theme-moon" src="assets/home-icons/moon.svg" alt="">
                 <img class="home-theme-sun" src="assets/home-icons/sun.svg" alt="">
@@ -7685,7 +7761,7 @@
         </section>
 
         <div class="account-version">
-            <span class="setting-label" data-i18n="settings.version" style="color: var(--on-surface-var); font-size: 12px;">Digital Fidget: Mental ASMR v1.0.16</span>
+            <span class="setting-label" data-i18n="settings.version" style="color: var(--on-surface-var); font-size: 12px;">Digital Fidget: Mental ASMR v1.0.17</span>
             <button id="account-update-link" class="account-update-link" type="button" data-i18n="update.accountAction" onclick="UpdatePrompt.openStore()" hidden>Update available</button>
         </div>
     </div>
@@ -7955,7 +8031,7 @@
                 title: 'Settings', sound: 'Sound', vibration: 'Vibration', centered: 'Centered Button',
                 language: 'Language', share: 'Share App', rate: 'Rate App',
                 privacy: 'Privacy Policy', terms: 'Terms of Use', support: 'Support',
-                restore: 'Restore Purchase', version: 'Digital Fidget: Mental ASMR v1.0.16'
+                restore: 'Restore Purchase', version: 'Digital Fidget: Mental ASMR v1.0.17'
             },
             rating: {
                 title: 'Enjoying Digital Fidget?',
@@ -8090,7 +8166,7 @@
             title: 'Налаштування', sound: 'Звук', vibration: 'Вібрація', centered: 'Кнопка по центру',
             language: 'Мова', share: 'Поділитися', rate: 'Оцінити застосунок',
             privacy: 'Політика приватності', terms: 'Умови використання', support: 'Підтримка',
-            restore: 'Відновити покупку', version: 'Digital Fidget: Mental ASMR v1.0.16'
+            restore: 'Відновити покупку', version: 'Digital Fidget: Mental ASMR v1.0.17'
         },
         rating: {
             title: 'Подобається Digital Fidget?', copy: 'Коротка оцінка допоможе іншим знайти спокійнішу мить.',
@@ -8340,6 +8416,19 @@
     Object.entries(HOME_PLAYER_LOCALES).forEach(([lang, labels]) => {
         Object.assign(I18N[lang].home, labels);
     });
+    const PEOPLE_LOCALES = {
+        en: { poster: ['People', 'A shared space to unwind.'], skin: ['People', 'Human ambience and shared spaces'] },
+        uk: { poster: ['Люди', 'Атмосфера спільного простору.'], skin: ['Люди', 'Голоси й атмосфера людних місць'] },
+        ja: { poster: ['人々', '人が集う穏やかな空間。'], skin: ['人々', '人の声と集いの空気感'] },
+        fr: { poster: ['Personnes', 'Une présence apaisante.'], skin: ['Personnes', 'Voix et lieux partagés'] },
+        de: { poster: ['Menschen', 'Gemeinsam zur Ruhe kommen.'], skin: ['Menschen', 'Stimmen und gemeinsame Räume'] },
+        es: { poster: ['Personas', 'Un espacio para relajarse.'], skin: ['Personas', 'Voces y espacios compartidos'] },
+        pt: { poster: ['Pessoas', 'Um espaço para relaxar.'], skin: ['Pessoas', 'Vozes e espaços partilhados'] }
+    };
+    Object.entries(PEOPLE_LOCALES).forEach(([lang, labels]) => {
+        I18N[lang].home.posters.people = labels.poster;
+        I18N[lang].skins = { ...I18N.en.skins, ...I18N[lang].skins, people: labels.skin };
+    });
     Object.assign(I18N.ja.home.posters, { orangeNoise: ['オレンジノイズ', 'あたたかな集中のための音域'] });
     Object.assign(I18N.fr.home.posters, { orangeNoise: ['Bruit orange', 'Un spectre chaleureux pour le focus'] });
     Object.assign(I18N.de.home.posters, { orangeNoise: ['Oranges Rauschen', 'Warmes Spektrum für den Fokus'] });
@@ -8408,7 +8497,7 @@
             if (localized) return localized;
             if (this.lang !== 'en') {
                 const posterKey = ({
-                    moon: 'moon', 'white-noise': 'whiteNoise', 'pink-noise': 'pinkNoise',
+                    moon: 'moon', people: 'people', 'white-noise': 'whiteNoise', 'pink-noise': 'pinkNoise',
                     'orange-noise': 'orangeNoise', 'brown-noise': 'brownNoise',
                     'infrared-noise': 'infrared', rain: 'rain'
                 })[skin.id] || 'click';
@@ -8498,6 +8587,49 @@
     };
     window.I18n = I18n;
     I18n.apply({ refreshDynamic: false });
+
+    const NewContent = {
+        ids: new Set([
+            'skin:people',
+            'sound:click-glass-breaking',
+            'sound:click-camera-capture',
+            'sound:click-bottle-shatter',
+            'sound:click-snap-fingers',
+            'sound:click-bottle-glass-hit'
+        ]),
+        labels: { en: 'New', uk: 'Нове', ja: '新着', fr: 'Nouveau', de: 'Neu', es: 'Nuevo', pt: 'Novo' },
+        storageKey: 'rb_seen_new_content_v1',
+        get seen() {
+            if (!this._seen) {
+                try {
+                    const saved = JSON.parse(localStorage.getItem(this.storageKey) || '[]');
+                    this._seen = new Set(Array.isArray(saved) ? saved : []);
+                } catch {
+                    this._seen = new Set();
+                }
+            }
+            return this._seen;
+        },
+        hasBadge(type, id) {
+            const key = `${type}:${id}`;
+            return this.ids.has(key) && !this.seen.has(key);
+        },
+        badge(type, id, className = '') {
+            if (!this.hasBadge(type, id)) return '';
+            return `<span class="new-badge ${className}" data-new-key="${type}:${id}">${this.labels[I18n.lang] || this.labels.en}</span>`;
+        },
+        markSeen(type, id) {
+            const key = `${type}:${id}`;
+            if (!this.ids.has(key) || this.seen.has(key)) return;
+            this.seen.add(key);
+            localStorage.setItem(this.storageKey, JSON.stringify([...this.seen]));
+            document.querySelectorAll('[data-new-key]').forEach(badge => {
+                if (badge.dataset.newKey !== key) return;
+                badge.closest('.sound-item')?.classList.remove('has-new-badge');
+                badge.remove();
+            });
+        }
+    };
 
     const FORCE_WALKTHROUGH = window.location.hash.includes('walkthrough');
     const FORCE_ONBOARDING_PREVIEW = window.location.hash.includes('onboarding-preview');
@@ -8679,6 +8811,21 @@
         { id: 'switching-button-click', name: 'Switching Button', desc: 'Snappy button toggle',
           free: false, gain: 0.95, iconPath: 'M6 4h12v4H6V4zm-2 6h16v10H4V10zm4 2v6h2v-6H8zm6 0v6h2v-6h-2z',
           mode: 'single', variations: ['switching-button.mp3'], pitchJitter: 0 },
+        { id: 'click-glass-breaking', name: 'Glass Breaking', desc: 'Crisp glass shatter',
+          free: false, gain: 0.94, iconPath: 'M11 2h2v7l4-5 1.5 1.5-5 5H21v2h-7.5l5 5L17 19l-4-5v8h-2v-8l-4 5-1.5-1.5 5-5H3v-2h7.5l-5-5L7 4l4 5V2z',
+          mode: 'single', variations: ['click-glass-breaking.mp3'], pitchJitter: 0 },
+        { id: 'click-camera-capture', name: 'Camera Capture', desc: 'Quick shutter snap',
+          free: false, gain: 0.94, iconPath: 'M4 5h4l2-2h4l2 2h4v15H4V5zm8 3a4 4 0 100 8 4 4 0 000-8z',
+          mode: 'single', variations: ['click-camera-capture.mp3'], pitchJitter: 0 },
+        { id: 'click-bottle-shatter', name: 'Bottle Shatter', desc: 'Glass bottle breaking',
+          free: false, gain: 0.94, iconPath: 'M9 2h6v3h-1v3l2 3-2 2 3 2-2 7H9l-2-7 3-2-2-2 2-3V5H9V2z',
+          mode: 'single', variations: ['click-bottle-shatter.mp3'], pitchJitter: 0 },
+        { id: 'click-snap-fingers', name: 'Snap Fingers', desc: 'Short finger snap',
+          free: false, gain: 0.94, iconPath: 'M4 12h5l2-8 2 16 2-8h5',
+          mode: 'single', variations: ['click-snap-fingers.mp3'], pitchJitter: 0 },
+        { id: 'click-bottle-glass-hit', name: 'Bottle Glass Hit', desc: 'Solid glass bottle tap',
+          free: false, gain: 0.94, iconPath: 'M9 2h6v3h-1v4c2 1.4 3 3.2 3 5.5V22H7v-7.5C7 12.2 8 10.4 10 9V5H9V2z',
+          mode: 'single', variations: ['click-bottle-glass-hit.mp3'], pitchJitter: 0 },
         { id: 'alien-technology', name: 'Alien Technology', desc: 'Deep extraterrestrial signal',
           free: false, gain: 0.9, iconPath: 'M12 2a8 8 0 00-8 8c0 4.5 3.58 8.48 8 12 4.42-3.52 8-7.5 8-12a8 8 0 00-8-8zm-3 9a2 2 0 110-4 2 2 0 010 4zm6 0a2 2 0 110-4 2 2 0 010 4zm-3 6c-1.66 0-3-1.34-3-3h6c0 1.66-1.34 3-3 3z',
           mode: 'single', variations: ['alien-technology-1.mp3'], pitchJitter: 0 },
@@ -8706,6 +8853,18 @@
         { id: 'techno-horn', name: 'Techno Horn', desc: 'Resonant techno flare',
           free: false, gain: 0.9, iconPath: 'M4 10h4l5-4v12l-5-4H4v-4zm11.5-2.5a5.5 5.5 0 010 9',
           mode: 'single', variations: ['techno-horn.mp3'], pitchJitter: 0 },
+        { id: 'people-crowd', name: 'Crowd', desc: 'A flowing crowd ambience',
+          free: false, gain: 0.72, iconPath: 'M16 11a3 3 0 100-6 3 3 0 000 6zM8 11a3 3 0 100-6 3 3 0 000 6zM8 13c-2.33 0-7 1.17-7 3.5V19h14v-2.5C15 14.17 10.33 13 8 13zm8 0-.97.05c1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5C23 14.17 18.33 13 16 13z',
+          mode: 'continuous', variations: ['people-crowd.m4a'], pitchJitter: 0, loopStart: 0, loopEndTrim: 0 },
+        { id: 'people-community', name: 'Community', desc: 'A warm shared-space ambience',
+          free: false, gain: 0.72, iconPath: 'M16 11a3 3 0 100-6 3 3 0 000 6zM8 11a3 3 0 100-6 3 3 0 000 6zM8 13c-2.33 0-7 1.17-7 3.5V19h14v-2.5C15 14.17 10.33 13 8 13zm8 0-.97.05c1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5C23 14.17 18.33 13 16 13z',
+          mode: 'continuous', variations: ['people-community.m4a'], pitchJitter: 0, loopStart: 0, loopEndTrim: 0 },
+        { id: 'people-catering', name: 'Catering', desc: 'The gentle bustle of a shared meal',
+          free: false, gain: 0.72, iconPath: 'M16 11a3 3 0 100-6 3 3 0 000 6zM8 11a3 3 0 100-6 3 3 0 000 6zM8 13c-2.33 0-7 1.17-7 3.5V19h14v-2.5C15 14.17 10.33 13 8 13zm8 0-.97.05c1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5C23 14.17 18.33 13 16 13z',
+          mode: 'continuous', variations: ['people-catering.m4a'], pitchJitter: 0, loopStart: 0, loopEndTrim: 0 },
+        { id: 'people-bar-crowd', name: 'Bar Crowd', desc: 'Low-lit conversations and lively ambience',
+          free: false, gain: 0.72, iconPath: 'M16 11a3 3 0 100-6 3 3 0 000 6zM8 11a3 3 0 100-6 3 3 0 000 6zM8 13c-2.33 0-7 1.17-7 3.5V19h14v-2.5C15 14.17 10.33 13 8 13zm8 0-.97.05c1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5C23 14.17 18.33 13 16 13z',
+          mode: 'continuous', variations: ['people-bar-crowd.m4a'], pitchJitter: 0, loopStart: 0, loopEndTrim: 0 },
         { id: 'infrared-ocean-waves', name: 'Ocean Waves', desc: 'Infrared noise with ocean waves',
           free: true, gain: 0.58, iconPath: 'M3 13c1.8-2.8 3.6-2.8 5.4 0s3.6 2.8 5.4 0 3.6-2.8 5.4 0 2.4 1.8 2.4 1.8v3.2c0 0-.6-3.7-2.4-1.8s-3.6 2.8-5.4 0-3.6 2.8-5.4 0-3.6 2.8-5.4 0V13z',
           mode: 'continuous', variations: ['Loop-1x-INFARED noise-ocean-waves.m4a'], pitchJitter: 0, loopStart: 0.08, loopEndTrim: 0.14 },
@@ -8789,6 +8948,13 @@
         'techno-horn'
     ]);
 
+    const PEOPLE_SOUND_PROFILE_IDS = new Set([
+        'people-crowd',
+        'people-community',
+        'people-catering',
+        'people-bar-crowd'
+    ]);
+
     const PINK_NOISE_SOUND_PROFILE_IDS = new Set([
         'pink-soft-noise'
     ]);
@@ -8837,6 +9003,7 @@
 
     function isSoundProfileAvailableForSkin(soundProfileId, skinId = AppState.currentSkin) {
         if (skinId === 'moon') return MOON_SOUND_PROFILE_IDS.has(soundProfileId);
+        if (skinId === 'people') return PEOPLE_SOUND_PROFILE_IDS.has(soundProfileId);
         if (skinId === 'white-noise') return WHITE_NOISE_SOUND_PROFILE_IDS.has(soundProfileId);
         if (skinId === 'pink-noise') return PINK_NOISE_SOUND_PROFILE_IDS.has(soundProfileId);
         if (skinId === 'orange-noise') return ORANGE_NOISE_SOUND_PROFILE_IDS.has(soundProfileId);
@@ -8844,6 +9011,7 @@
         if (skinId === 'infrared-noise') return INFRARED_NOISE_SOUND_PROFILE_IDS.has(soundProfileId);
         if (skinId === 'rain') return RAIN_SOUND_PROFILE_IDS.has(soundProfileId);
         return !MOON_SOUND_PROFILE_IDS.has(soundProfileId)
+            && !PEOPLE_SOUND_PROFILE_IDS.has(soundProfileId)
             && !WHITE_NOISE_SOUND_PROFILE_IDS.has(soundProfileId)
             && !PINK_NOISE_SOUND_PROFILE_IDS.has(soundProfileId)
             && !ORANGE_NOISE_SOUND_PROFILE_IDS.has(soundProfileId)
@@ -8905,6 +9073,9 @@
         { id: 'moon', name: 'Moon', desc: 'Lunar space button',
           free: false, iconPath: 'M20.2 15.4A8.3 8.3 0 018.6 3.8 8.8 8.8 0 1019.9 15c.12.13.22.27.3.4z',
           interaction: 'tap', recommendedSoundProfileId: 'morphed-metal', hapticProfile: 'heavy-toggle' },
+        { id: 'people', name: 'People', desc: 'Human ambience and shared spaces',
+          free: false, iconPath: 'M16 11a3 3 0 100-6 3 3 0 000 6zM8 11a3 3 0 100-6 3 3 0 000 6zM8 13c-2.33 0-7 1.17-7 3.5V19h14v-2.5C15 14.17 10.33 13 8 13zm8 0-.97.05c1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5C23 14.17 18.33 13 16 13z',
+          interaction: 'continuous-toggle', recommendedSoundProfileId: 'people-crowd', hapticProfile: 'light-click' },
         { id: 'white-noise', name: 'White Noise', desc: 'Snowfield static hush',
           free: true, iconPath: 'M12 2l1.4 3.9L17 4.7l-1.7 3.8L19 10l-3.7 1.5 1.7 3.8-3.6-1.2L12 18l-1.4-3.9-3.6 1.2 1.7-3.8L5 10l3.7-1.5L7 4.7l3.6 1.2L12 2z',
           interaction: 'continuous-toggle', recommendedSoundProfileId: 'white-noise', hapticProfile: 'light-click' },
@@ -9406,6 +9577,14 @@
             const playback = this.resolvePlayback(soundProfileId || AppState.currentSoundProfile);
             if (!playback) return false;
             if (playback.profile.mode !== 'continuous') return false;
+
+            // Replace an Android loop in place. Stopping the service immediately before
+            // starting the next skin can let the STOP intent shut down the new player.
+            if (this.nativeLoopActive
+                && document.body.classList.contains('noise-playing')
+                && this.shouldUseNativeContinuousLoop(playback)) {
+                return this.switchLoopToProfile(playback.profile.id, { skinId });
+            }
 
             this.stopLoop();
             const requestId = ++this.loopRequestId;
@@ -10173,6 +10352,7 @@
             if (this.artworkCache.has(value)) return this.artworkCache.get(value).ready;
             const image = document.querySelector(`.home-background-image--${value}`);
             if (!image) return Promise.resolve();
+            if (!image.getAttribute('src')) image.src = image.dataset.src;
             const ready = image.decode
                 ? image.decode().catch(() => {})
                 : new Promise(resolve => {
@@ -10352,6 +10532,7 @@
             if (this.isPreviewLimitReached(soundProfileId)) return;
 
             this.recordPreview(soundProfileId);
+            NewContent.markSeen('sound', soundProfileId);
             if (profile.mode === 'continuous') {
                 AudioEngine.previewLoop(soundProfileId, 5000);
                 HapticsEngine.light();
@@ -10382,10 +10563,13 @@
             }
             AppState.save('currentSoundProfile', soundProfileId);
             saveSoundProfileIdForSkin(AppState.currentSkin, soundProfileId);
+            NewContent.markSeen('sound', soundProfileId);
             if (options.mode) {
                 AppState.save('soundMode', options.mode);
             }
             AudioEngine.warmSoundProfile(soundProfileId);
+            this.buildList();
+            document.getElementById('sound-list').scrollTop = 0;
             this.updateUI();
         },
 
@@ -10448,19 +10632,27 @@
                 AppState.save('soundMode', 'matched');
             }
 
-            availableProfiles.forEach(profile => {
+            const orderedProfiles = [
+                ...availableProfiles.filter(profile => profile.id === AppState.currentSoundProfile),
+                ...availableProfiles.filter(profile => profile.id !== AppState.currentSoundProfile && this.isFavorite(profile.id)),
+                ...availableProfiles.filter(profile => profile.id !== AppState.currentSoundProfile && !this.isFavorite(profile.id))
+            ];
+
+            orderedProfiles.forEach(profile => {
                 const isActive = profile.id === AppState.currentSoundProfile;
                 const isLocked = !AccessManager.canUseSoundProfile(profile.id);
                 const item = document.createElement('div');
                 item.className = 'sound-item'
                     + (isActive ? ' active' : '')
                     + (this.isPreviewLimitReached(profile.id) ? ' preview-used' : '')
-                    + (isLocked ? ' is-premium' : '');
+                    + (isLocked ? ' is-premium' : '')
+                    + (NewContent.hasBadge('sound', profile.id) ? ' has-new-badge' : '');
                 item.dataset.soundProfile = profile.id;
                 item.innerHTML = `
                     <div class="sound-preview" role="button" tabindex="0" aria-label="${I18n.call('actions.preview', I18n.sound(profile, 'name'))}">
                         <div class="sound-icon">
                             <svg viewBox="0 0 24 24"><path d="${profile.iconPath}"/></svg>
+                            ${NewContent.badge('sound', profile.id, 'sound-new-badge')}
                         </div>
                         <div class="sound-info">
                             <div class="sound-name">${I18n.sound(profile, 'name')}</div>
@@ -10633,6 +10825,7 @@
 
             const previousSkinId = AppState.currentSkin;
             AppState.save('currentSkin', skinId);
+            NewContent.markSeen('skin', skinId);
             const recommendationKey = `rb_skin_sound_initialized_${skinId}`;
             const currentSoundIsAvailable = SoundManager.getAvailableProfiles(skinId)
                 .some(profile => profile.id === AppState.currentSoundProfile);
@@ -10672,7 +10865,7 @@
         },
 
         warmSkinAudio(skinId = AppState.currentSkin) {
-            if (!['white-noise', 'pink-noise', 'orange-noise', 'brown-noise', 'infrared-noise', 'rain'].includes(skinId)) return;
+            if (!['people', 'white-noise', 'pink-noise', 'orange-noise', 'brown-noise', 'infrared-noise', 'rain'].includes(skinId)) return;
             AudioEngine.warmContinuousProfilesForSkin(skinId);
         },
 
@@ -10722,6 +10915,7 @@
                     </div>
                     <div class="skin-meta">
                         <div class="skin-name">${I18n.skin(skin, 'name')}</div>
+                        ${NewContent.badge('skin', skin.id, 'skin-new-badge')}
                     </div>
                     <div class="skin-foot">
                         ${isActive ? `<span class="skin-badge">${I18n.t('actions.active')}</span>` : ''}
@@ -10991,6 +11185,7 @@
         pressDown() {
             if (this.isPressed) return;
             this.isPressed = true;
+            NewContent.markSeen('sound', AppState.currentSoundProfile);
             const interaction = SkinRegistry.getInteractionConfig();
 
             this.button.classList.add('is-pressed');
@@ -11024,7 +11219,7 @@
 
         createThemeSmoke() {
             const theme = THEMES.find(entry => entry.id === AppState.theme);
-            if (!theme || theme.free || ['moon', 'white-noise', 'pink-noise', 'orange-noise', 'brown-noise', 'infrared-noise', 'rain'].includes(AppState.currentSkin)) return;
+            if (!theme || theme.free || ['moon', 'people', 'white-noise', 'pink-noise', 'orange-noise', 'brown-noise', 'infrared-noise', 'rain'].includes(AppState.currentSkin)) return;
 
             const app = document.getElementById('app');
             const appRect = app.getBoundingClientRect();
@@ -12682,6 +12877,7 @@
         posterDefinitions: [
             { id: 'click', skinId: 'classic-button', chip: '', title: 'Click', copy: 'Clean, satisfying clicks', image: 'assets/home-posters/click-card.webp', classes: 'home-poster-card--featured', tint: 'rgba(232, 198, 210, 0.24)' },
             { id: 'moon', skinId: 'moon', chip: '', title: 'Moon', copy: 'Mysterious atmosphere.', image: 'assets/home-posters/moon-card.webp', classes: 'home-poster-card--compact', tint: 'rgba(108, 118, 170, 0.28)' },
+            { id: 'people', skinId: 'people', chip: '', title: 'People', copy: 'A shared space to unwind.', image: 'assets/people/people-cover.webp', classes: 'home-poster-card--compact', tint: 'rgba(222, 110, 74, 0.30)' },
             { id: 'white-noise', skinId: 'white-noise', chip: '', title: 'White Noise', copy: 'Steady. Simple. Soothing.', image: 'assets/home-posters/white-noise-card.webp', classes: 'home-poster-card--compact', tint: 'rgba(214, 226, 242, 0.26)' },
             { id: 'brown-noise', skinId: 'brown-noise', soundProfileId: 'brown-waterfall', chip: '', title: 'Brown Noise', copy: 'Deeper tones for grounding', image: 'assets/home-posters/brown-noise-card.webp', classes: 'home-poster-card--compact', tint: 'rgba(132, 112, 86, 0.30)' },
             { id: 'rain', skinId: 'rain', chip: '', title: 'Rain', copy: 'Natural rain on leaves', image: 'assets/home-posters/rain-card.webp', classes: 'home-poster-card--compact', tint: 'rgba(78, 104, 84, 0.28)' },
@@ -12753,8 +12949,9 @@
             button.setAttribute('aria-pressed', String(poster.id === this.selectedPosterId));
             button.style.setProperty('--poster-tint', poster.tint);
             button.innerHTML = `
-                ${cardImage ? `<img class="home-poster-media" src="${cardImage}" alt="" loading="${eager ? 'eager' : 'lazy'}" decoding="async"${eager ? ' fetchpriority="high"' : ''}>` : ''}
+                ${cardImage ? `<img class="home-poster-media" src="${cardImage}" alt="" loading="${eager ? 'eager' : 'lazy'}" decoding="async">` : ''}
                 ${isLocked ? `<span class="home-poster-premium-badge">${I18n.t('nav.premium')}</span>` : ''}
+                ${NewContent.badge('skin', poster.skinId, 'home-poster-new-badge')}
                 <div class="home-poster-card-body">
                     ${poster.chip ? `<span class="home-poster-chip">${poster.chip}</span>` : ''}
                     <h2 class="home-poster-name">${localizedTitle}</h2>
@@ -12784,7 +12981,7 @@
             this.featured.innerHTML = '';
             this.rail.innerHTML = '';
 
-            const homeOrder = ['moon', 'white-noise', 'brown-noise', 'rain', 'pink-noise', 'orange-noise', 'infrared'];
+            const homeOrder = ['moon', 'people', 'white-noise', 'brown-noise', 'rain', 'pink-noise', 'orange-noise', 'infrared'];
             homeOrder.map(id => this.getPosterById(id)).filter(Boolean).forEach((poster, index) => {
                 const card = this.buildPosterCard(poster, { eager: index < 3 });
                 this.rail.appendChild(card);
@@ -12799,17 +12996,16 @@
                 ...Array.from(this.rail?.querySelectorAll('.home-poster-media[loading="eager"]') || [])
             ].filter(Boolean);
             const ready = Promise.all(images.map(image => {
-                if (image.complete && image.naturalWidth > 0) {
-                    return image.decode?.().catch(() => {}) || Promise.resolve();
-                }
+                const decode = () => image.decode?.().catch(() => {}) || Promise.resolve();
+                if (image.complete) return image.naturalWidth > 0 ? decode() : Promise.resolve();
                 return new Promise(resolve => {
-                    image.addEventListener('load', resolve, { once: true });
+                    image.addEventListener('load', () => decode().then(resolve), { once: true });
                     image.addEventListener('error', resolve, { once: true });
                 });
             }));
             await Promise.race([
                 ready,
-                new Promise(resolve => setTimeout(resolve, 1200))
+                new Promise(resolve => setTimeout(resolve, 3000))
             ]);
             await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
         },
@@ -12953,6 +13149,11 @@
         backdropRequestId: 0,
         preloadedImages: new Set(),
         fallbackArtwork: {
+            'people-crowd': 'assets/people/crowd.webp',
+            'people-community': 'assets/people/community.webp',
+            'people-catering': 'assets/people/catering.webp',
+            'people-bar-crowd': 'assets/people/bar-crowd.webp',
+            'people-skin': 'assets/people/crowd.webp',
             'white-noise': 'assets/home-posters/white-noise-winter-river.webp',
             'white-noise-radio': 'assets/home-posters/white-clouds.webp',
             'pink-soft-noise': 'assets/home-posters/pink-fog.webp',
@@ -13078,7 +13279,8 @@
             const urls = [...new Set([
                 ...preferredKeys.map(key => this.artworkUrlForKey(key)),
                 ...Object.entries(this.fallbackArtwork)
-                    .filter(([key]) => !key.endsWith('-skin'))
+                    .filter(([key]) => !key.endsWith('-skin')
+                        && (!key.startsWith('people-') || AppState.currentSkin === 'people'))
                     .map(([, url]) => url)
             ].filter(Boolean))];
             const warmNext = (index = 0) => {
@@ -13381,7 +13583,6 @@
 
         // Restore saved state
         HomeTheme.apply(AppState.homeTheme);
-        HomeTheme.preload(AppState.homeTheme === 'night' ? 'day' : 'night');
         ThemeManager.apply(AppState.theme);
         delete document.documentElement.dataset.bootTheme;
         delete document.documentElement.dataset.bootSkin;
@@ -13398,6 +13599,9 @@
 
         requestAnimationFrame(() => {
             document.documentElement.classList.remove('app-booting');
+            schedulePostInteraction(() => {
+                HomeTheme.preload(AppState.homeTheme === 'night' ? 'day' : 'night');
+            }, 1800);
         });
 
         document.getElementById('sheet-premium').addEventListener('click', () => {
