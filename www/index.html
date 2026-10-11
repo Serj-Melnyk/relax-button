@@ -5763,6 +5763,27 @@
             transform var(--home-dur-short) var(--home-ease-out);
     }
 
+    /* Leaving Home: show the skin underneath at once and fade Home out on top
+       of it, so the light page background never flashes between the two. */
+    body.home-exiting #app {
+        transition: none !important;
+    }
+
+    body.home-exiting #home-screen {
+        visibility: visible;
+        pointer-events: none;
+        transition: opacity var(--home-dur-short) var(--home-ease-out) !important;
+    }
+
+    /* Returning Home: keep the skin fully visible until Home has faded in
+       over it. */
+    body.home-entering #app {
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        transition: none !important;
+    }
+
     .home-background-video,
     .home-background-image {
         position: absolute;
@@ -7761,7 +7782,7 @@
         </section>
 
         <div class="account-version">
-            <span class="setting-label" data-i18n="settings.version" style="color: var(--on-surface-var); font-size: 12px;">Digital Fidget: Mental ASMR v1.0.17</span>
+            <span class="setting-label" data-i18n="settings.version" style="color: var(--on-surface-var); font-size: 12px;">Digital Fidget: Mental ASMR v1.0.18</span>
             <button id="account-update-link" class="account-update-link" type="button" data-i18n="update.accountAction" onclick="UpdatePrompt.openStore()" hidden>Update available</button>
         </div>
     </div>
@@ -8031,7 +8052,7 @@
                 title: 'Settings', sound: 'Sound', vibration: 'Vibration', centered: 'Centered Button',
                 language: 'Language', share: 'Share App', rate: 'Rate App',
                 privacy: 'Privacy Policy', terms: 'Terms of Use', support: 'Support',
-                restore: 'Restore Purchase', version: 'Digital Fidget: Mental ASMR v1.0.17'
+                restore: 'Restore Purchase', version: 'Digital Fidget: Mental ASMR v1.0.18'
             },
             rating: {
                 title: 'Enjoying Digital Fidget?',
@@ -8166,7 +8187,7 @@
             title: 'Налаштування', sound: 'Звук', vibration: 'Вібрація', centered: 'Кнопка по центру',
             language: 'Мова', share: 'Поділитися', rate: 'Оцінити застосунок',
             privacy: 'Політика приватності', terms: 'Умови використання', support: 'Підтримка',
-            restore: 'Відновити покупку', version: 'Digital Fidget: Mental ASMR v1.0.17'
+            restore: 'Відновити покупку', version: 'Digital Fidget: Mental ASMR v1.0.18'
         },
         rating: {
             title: 'Подобається Digital Fidget?', copy: 'Коротка оцінка допоможе іншим знайти спокійнішу мить.',
@@ -12872,6 +12893,7 @@
         viewport: null,
         pagination: null,
         selectedPosterId: '',
+        homeExitTimer: 0,
         featuredPosterId: 'click',
         rhythm: null,
         posterDefinitions: [
@@ -13117,8 +13139,17 @@
             if (resetSelection) {
                 this.selectedPosterId = this.getCurrentPosterId();
             }
+            clearTimeout(this.homeExitTimer);
+            const wasInSkin = !document.body.classList.contains('home-view-active')
+                && !document.documentElement.classList.contains('boot-home-view');
             document.documentElement.classList.remove('boot-home-view');
-            document.body.classList.remove('skin-transitioning');
+            document.body.classList.remove('skin-transitioning', 'home-exiting');
+            if (wasInSkin) {
+                document.body.classList.add('home-entering');
+                this.homeExitTimer = setTimeout(() => {
+                    document.body.classList.remove('home-entering');
+                }, 280);
+            }
             document.body.classList.add('home-view-active');
             HomeTheme.syncStatusBar();
             if (this.rail?.parentElement) this.rail.parentElement.scrollLeft = 0;
@@ -13128,6 +13159,14 @@
         },
 
         enterSkinExperience() {
+            if (document.body.classList.contains('home-view-active')) {
+                clearTimeout(this.homeExitTimer);
+                document.body.classList.remove('home-entering');
+                document.body.classList.add('home-exiting');
+                this.homeExitTimer = setTimeout(() => {
+                    document.body.classList.remove('home-exiting');
+                }, 280);
+            }
             document.documentElement.classList.remove('boot-home-view');
             document.body.classList.remove('home-view-active');
             HomeTheme.syncStatusBar('DEFAULT');
