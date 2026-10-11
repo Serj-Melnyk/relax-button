@@ -13183,6 +13183,7 @@
         appliedImageUrl: '',
         backdropRequestId: 0,
         preloadedImages: new Set(),
+        decodedImages: new Map(),
         fallbackArtwork: {
             'people-crowd': 'assets/people/crowd.webp',
             'people-community': 'assets/people/community.webp',
@@ -13286,12 +13287,32 @@
                     image.fetchPriority = fetchPriority;
                 }
                 image.onload = () => {
-                    this.preloadedImages.add(imageUrl);
-                    resolve(true);
+                    // Resolve only once the bitmap is decoded, so the first frame
+                    // of a skin shows its artwork instead of the gradient beneath.
+                    const finish = () => {
+                        this.preloadedImages.add(imageUrl);
+                        this.keepDecoded(imageUrl, image);
+                        resolve(true);
+                    };
+                    if (typeof image.decode === 'function') {
+                        image.decode().then(finish, finish);
+                    } else {
+                        finish();
+                    }
                 };
                 image.onerror = () => resolve(false);
                 image.src = imageUrl;
             });
+        },
+
+        // Holding a few decoded images keeps their bitmaps ready for the next
+        // skin switch; older ones are released to bound memory on phones.
+        keepDecoded(imageUrl, image) {
+            this.decodedImages.delete(imageUrl);
+            this.decodedImages.set(imageUrl, image);
+            while (this.decodedImages.size > 4) {
+                this.decodedImages.delete(this.decodedImages.keys().next().value);
+            }
         },
 
         preloadArtworkForKey(artworkKey = '', fetchPriority = 'high') {
