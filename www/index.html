@@ -5763,16 +5763,12 @@
             transform var(--home-dur-short) var(--home-ease-out);
     }
 
-    /* Leaving Home: show the skin underneath at once and fade Home out on top
-       of it, so the light page background never flashes between the two. */
+    /* Leaving Home: show the skin at once as Home hides, so the light page
+       background never flashes between the two. Home is not faded out here:
+       its layout rules are scoped to body.home-view-active, which is already
+       gone, so a fading Home would show its unstyled layout. */
     body.home-exiting #app {
         transition: none !important;
-    }
-
-    body.home-exiting #home-screen {
-        visibility: visible;
-        pointer-events: none;
-        transition: opacity var(--home-dur-short) var(--home-ease-out) !important;
     }
 
     /* Returning Home: keep the skin fully visible until Home has faded in
