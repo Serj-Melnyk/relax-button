@@ -5824,11 +5824,12 @@
     /* While Home fades in over the skin, the nav bar is filled solid with
        Home's colour, so the dark skin never shows through its glass. */
     body.home-view-active.home-entering #app-nav {
-        background: rgb(246, 240, 231) !important;
+        /* A gradient fill, not a colour, so it is not eased away afterwards. */
+        background-image: linear-gradient(rgb(246, 240, 231), rgb(246, 240, 231)) !important;
     }
 
     body.home-view-active.home-entering[data-home-theme="night"] #app-nav {
-        background: rgb(30, 28, 24) !important;
+        background-image: linear-gradient(rgb(30, 28, 24), rgb(30, 28, 24)) !important;
     }
 
     .home-background-video,
