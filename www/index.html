@@ -5771,6 +5771,28 @@
         transition: none !important;
     }
 
+    /* Opening a skin: paint it beneath Home for a few frames first, so its
+       artwork is already rasterized when Home hides and the gradient under
+       the photo never shows. Home stays a hair short of opaque so the
+       compositor does not skip the covered skin. */
+    body.skin-prepaint.home-view-active #app {
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        transition: none !important;
+    }
+
+    body.skin-prepaint.skin-transitioning #app {
+        --noise-backdrop-image: inherit !important;
+        --noise-backdrop-image-bottom: inherit !important;
+        --noise-button-scene-fill: inherit !important;
+    }
+
+    body.skin-prepaint.home-view-active #home-screen {
+        opacity: 0.999;
+        transition: none;
+    }
+
     /* Returning Home: keep the skin fully visible until Home has faded in
        over it. */
     body.home-entering #app {
@@ -13102,14 +13124,23 @@
 
             // Keep the Home screen above the player until its backdrop is ready.
             // Otherwise the sound picker beneath the player can flash for a frame.
+            // Then let the skin paint beneath Home for a few frames, so the
+            // decoded artwork is rasterized before Home hides.
             Promise.resolve(backdropReady).finally(() => {
                 NoiseBackdropScene?.sync?.();
-                requestAnimationFrame(() => {
-                    document.body.classList.remove('skin-transitioning');
+                document.body.classList.add('skin-prepaint');
+                let framesLeft = 3;
+                const reveal = () => {
+                    if (--framesLeft > 0) {
+                        requestAnimationFrame(reveal);
+                        return;
+                    }
+                    document.body.classList.remove('skin-transitioning', 'skin-prepaint');
                     this.enterSkinExperience();
                     AppNav.sync();
                     schedulePostInteraction(() => this.syncCurrentSkin(), 120);
-                });
+                };
+                requestAnimationFrame(reveal);
             });
         },
 
