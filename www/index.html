@@ -1077,33 +1077,35 @@
         cursor: default;
     }
 
-    /* The player controls sit in one glass pill that matches the nav bar. */
     .noise-player-controls {
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 14px;
+        gap: 18px;
         align-self: center;
-        padding: 8px 14px;
-        border: 1px solid var(--m3-nav-border);
-        border-radius: 999px;
-        background: var(--m3-nav-bg);
-        box-shadow: var(--m3-nav-box-shadow);
-        backdrop-filter: blur(48px) saturate(1.64) contrast(1.03);
-        -webkit-backdrop-filter: blur(48px) saturate(1.64) contrast(1.03);
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        box-shadow: none;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
         pointer-events: auto;
     }
 
     .noise-player-control {
         width: 54px;
         height: 54px;
-        border: 0;
         border-radius: 50%;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        background: transparent;
-        box-shadow: none;
+        /* Each button is its own circle of the nav bar's glass. */
+        background: var(--m3-nav-bg);
+        border: 1px solid var(--m3-nav-border);
+        box-shadow: var(--m3-nav-box-shadow);
+        backdrop-filter: blur(48px) saturate(1.64) contrast(1.03);
+        -webkit-backdrop-filter: blur(48px) saturate(1.64) contrast(1.03);
         color: var(--player-chrome);
         cursor: pointer;
         transition: transform 160ms ease, background-color 180ms var(--ease-standard), color 180ms var(--ease-standard), opacity 180ms var(--ease-standard);
@@ -1125,11 +1127,8 @@
     }
 
     .noise-player-control.play-toggle {
-        width: 68px;
-        height: 68px;
-        border: 0;
-        background: rgba(255, 255, 255, 0.16);
-        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22);
+        width: 92px;
+        height: 92px;
         color: var(--player-chrome);
     }
 
@@ -4907,8 +4906,8 @@
         }
 
         .noise-player-control.play-toggle {
-            width: 60px;
-            height: 60px;
+            width: 76px;
+            height: 76px;
         }
 
         .noise-player-control.play-toggle svg {
