@@ -1,0 +1,21 @@
+<en-US>
+The app is about 18 MB lighter. Opening a skin is now instant and clean, with the artwork from the very first frame. Noise and People sounds loop seamlessly, with no audible seams or volume dips.
+</en-US>
+<de-DE>
+Die App ist rund 18 MB kleiner. Skins öffnen sich jetzt sofort und sauber, das Bild ist ab dem ersten Moment da. Rauschen und People-Klänge laufen nahtlos in Schleife, ohne hörbare Übergänge oder Lautstärkeeinbrüche.
+</de-DE>
+<es-ES>
+La app pesa unos 18 MB menos. Los skins se abren al instante y sin parpadeos, con la imagen desde el primer momento. Los ruidos y los sonidos de People se repiten sin cortes audibles ni bajadas de volumen.
+</es-ES>
+<fr-FR>
+L'application est allégée d'environ 18 Mo. Les skins s'ouvrent instantanément et proprement, avec l'image dès le premier instant. Les bruits et les sons People tournent en boucle sans raccord audible ni baisse de volume.
+</fr-FR>
+<ja-JP>
+アプリのサイズが約18MB小さくなりました。スキンが一瞬で、最初から画像付きで開くようになりました。ノイズとPeopleのサウンドは、つなぎ目や音量の落ち込みなく自然にループします。
+</ja-JP>
+<pt-BR>
+O app ficou cerca de 18 MB mais leve. As skins agora abrem na hora, com a imagem desde o primeiro instante. Os ruídos e os sons de People se repetem sem emendas audíveis nem quedas de volume.
+</pt-BR>
+<uk>
+Застосунок став легшим приблизно на 18 МБ. Скіни відкриваються миттєво й чисто — фото видно з першої миті. Шуми та звуки People зациклюються без чутних стиків і провалів гучності.
+</uk>
