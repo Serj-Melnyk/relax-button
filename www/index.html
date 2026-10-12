@@ -5822,6 +5822,23 @@
         transition: none !important;
     }
 
+    /* Home's own background appears at once, so the glass nav bar never shows
+       the dark skin through it; only Home's content fades in. */
+    body.home-entering #home-screen {
+        opacity: 1;
+        transform: none;
+        transition: none !important;
+    }
+
+    body.home-entering .home-dashboard {
+        animation: home-content-in 260ms var(--home-ease-out, ease-out) both;
+    }
+
+    @keyframes home-content-in {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
     .home-background-video,
     .home-background-image {
         position: absolute;
