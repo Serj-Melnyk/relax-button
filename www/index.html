@@ -956,18 +956,18 @@
         pointer-events: none;
     }
 
-    /* Soft shade behind the sound name so it stays readable on bright or
-       busy photo backdrops. It fades out well before the screen edges. */
+    /* Cinematic shade from the top edge so the sound name stays readable
+       on bright photos: the sky darkens gently and melts into the picture,
+       with no visible shape. */
     #noise-player::before {
         content: '';
-        position: absolute;
-        left: -24px;
-        top: -140px;
-        width: min(460px, calc(100% + 48px));
-        height: 470px;
-        background: radial-gradient(closest-side at 38% 50%,
-            rgba(4, 9, 18, 0.46) 0%,
-            rgba(4, 9, 18, 0.26) 52%,
+        position: fixed;
+        inset: 0 0 auto 0;
+        height: 64vh;
+        background: linear-gradient(180deg,
+            rgba(4, 9, 18, 0.50) 0%,
+            rgba(4, 9, 18, 0.34) 30%,
+            rgba(4, 9, 18, 0.14) 62%,
             rgba(4, 9, 18, 0) 100%);
         pointer-events: none;
         z-index: -1;
