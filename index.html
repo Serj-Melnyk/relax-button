@@ -2524,6 +2524,16 @@
         -webkit-backdrop-filter: none !important;
     }
 
+    /* Between Home and a skin the nav bar swaps its look in one frame. Easing
+       its colours while Home fades in left it dark, then washed out. */
+    body.home-entering #app-nav,
+    body.home-entering #app-nav *,
+    body.home-exiting #app-nav,
+    body.home-exiting #app-nav *,
+    body.skin-transitioning #app-nav * {
+        transition: none !important;
+    }
+
     /* Subtle top-edge highlight on nav bar */
     #app-nav::after {
         content: '';
