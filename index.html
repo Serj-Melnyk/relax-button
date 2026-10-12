@@ -5812,8 +5812,8 @@
         transition: none;
     }
 
-    /* Returning Home: keep the skin fully visible until Home has faded in
-       over it. */
+    /* Returning Home: keep the skin painted beneath for a moment so no light
+       page background flashes while Home appears over it. */
     body.home-entering #app {
         opacity: 1;
         visibility: visible;
@@ -5821,15 +5821,10 @@
         transition: none !important;
     }
 
-    /* While Home fades in over the skin, the nav bar is filled solid with
-       Home's colour, so the dark skin never shows through its glass. */
-    body.home-view-active.home-entering #app-nav {
-        /* A gradient fill, not a colour, so it is not eased away afterwards. */
-        background-image: linear-gradient(rgb(246, 240, 231), rgb(246, 240, 231)) !important;
-    }
-
-    body.home-view-active.home-entering[data-home-theme="night"] #app-nav {
-        background-image: linear-gradient(rgb(30, 28, 24), rgb(30, 28, 24)) !important;
+    /* Returning Home is instant too: a fading Home made the glass nav bar
+       show the skin, then a flat bar, then glass. */
+    body.home-entering #home-screen {
+        transition: none !important;
     }
 
     .home-background-video,
@@ -13594,21 +13589,10 @@
             document.documentElement.classList.remove('boot-home-view');
             document.body.classList.remove('skin-transitioning', 'home-exiting');
             if (wasInSkin) {
-                // Hold 'home-entering' (skin kept beneath, solid nav bar) until
-                // Home has finished fading in; ending it earlier let the glass
-                // nav bar show the dark skin turning light behind it.
                 document.body.classList.add('home-entering');
-                const homeScreen = document.getElementById('home-screen');
-                const finish = () => {
-                    clearTimeout(this.homeExitTimer);
-                    homeScreen?.removeEventListener('transitionend', onEnd);
+                this.homeExitTimer = setTimeout(() => {
                     document.body.classList.remove('home-entering');
-                };
-                const onEnd = (event) => {
-                    if (event.target === homeScreen && event.propertyName === 'opacity') finish();
-                };
-                homeScreen?.addEventListener('transitionend', onEnd);
-                this.homeExitTimer = setTimeout(finish, 900);
+                }, 280);
             }
             document.body.classList.add('home-view-active');
             HomeTheme.syncStatusBar();
