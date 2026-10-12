@@ -49,6 +49,11 @@ android {
         }
     }
     buildTypes {
+        // Installs beside the Play build, so device QA keeps the tester's data.
+        debug {
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-debug"
+        }
         release {
             if (hasReleaseSigning) {
                 signingConfig signingConfigs.release

@@ -91,10 +91,11 @@ public class NativeHapticPlugin: CAPPlugin {
         let gain = Float(call.getDouble("gain", 0.72))
         let loopStartMs = max(0, call.getInt("loopStartMs", 0))
         let loopEndTrimMs = max(0, call.getInt("loopEndTrimMs", 0))
+        let loopCrossfadeMs = max(0, call.getInt("loopCrossfadeMs", 0))
 
         DispatchQueue.main.async {
             do {
-                try self.startNoiseLoopInternal(file: file, gain: gain, loopStartMs: loopStartMs, loopEndTrimMs: loopEndTrimMs)
+                try self.startNoiseLoopInternal(file: file, gain: gain, loopStartMs: loopStartMs, loopEndTrimMs: loopEndTrimMs, loopCrossfadeMs: loopCrossfadeMs)
                 call.resolve()
             } catch {
                 call.reject("Unable to start native noise loop", nil, error)
@@ -163,14 +164,14 @@ public class NativeHapticPlugin: CAPPlugin {
         audioEngine.mainMixerNode.outputVolume = 1.0
     }
 
-    private func startNoiseLoopInternal(file: String, gain: Float, loopStartMs: Int, loopEndTrimMs: Int) throws {
+    private func startNoiseLoopInternal(file: String, gain: Float, loopStartMs: Int, loopEndTrimMs: Int, loopCrossfadeMs: Int) throws {
         configureAudioEngineIfNeeded()
 
         let session = AVAudioSession.sharedInstance()
         try session.setCategory(.playback, mode: .default, options: [.mixWithOthers])
         try session.setActive(true)
 
-        let loopKey = makeLoopCacheKey(file: file, loopStartMs: loopStartMs, loopEndTrimMs: loopEndTrimMs)
+        let loopKey = makeLoopCacheKey(file: file, loopStartMs: loopStartMs, loopEndTrimMs: loopEndTrimMs, loopCrossfadeMs: loopCrossfadeMs)
         currentVolume = max(0, min(1, gain))
         if currentLoopKey == loopKey, loopBuffer != nil {
             playerNode.volume = currentVolume
@@ -183,7 +184,7 @@ public class NativeHapticPlugin: CAPPlugin {
             return
         }
 
-        let buffer = try makeLoopBuffer(file: file, loopStartMs: loopStartMs, loopEndTrimMs: loopEndTrimMs)
+        let buffer = try makeLoopBuffer(file: file, loopStartMs: loopStartMs, loopEndTrimMs: loopEndTrimMs, loopCrossfadeMs: loopCrossfadeMs)
         if audioEngine.isRunning == false {
             try audioEngine.start()
         }
@@ -212,8 +213,8 @@ public class NativeHapticPlugin: CAPPlugin {
         }
     }
 
-    private func makeLoopBuffer(file: String, loopStartMs: Int, loopEndTrimMs: Int) throws -> AVAudioPCMBuffer {
-        let loopKey = makeLoopCacheKey(file: file, loopStartMs: loopStartMs, loopEndTrimMs: loopEndTrimMs)
+    private func makeLoopBuffer(file: String, loopStartMs: Int, loopEndTrimMs: Int, loopCrossfadeMs: Int) throws -> AVAudioPCMBuffer {
+        let loopKey = makeLoopCacheKey(file: file, loopStartMs: loopStartMs, loopEndTrimMs: loopEndTrimMs, loopCrossfadeMs: loopCrossfadeMs)
         if let cachedBuffer = loopBufferCache[loopKey] {
             return cachedBuffer
         }
@@ -236,8 +237,12 @@ public class NativeHapticPlugin: CAPPlugin {
         let sampleRate = format.sampleRate
         let startFrame = max(0, min(Int64((Double(loopStartMs) / 1000.0) * sampleRate), Int64(sourceBuffer.frameLength)))
         let trimFrames = max(0, Int64((Double(loopEndTrimMs) / 1000.0) * sampleRate))
-        let endFrame = max(startFrame + 1, Int64(sourceBuffer.frameLength) - trimFrames)
-        let framesToCopy = AVAudioFrameCount(max(1, min(Int64(sourceBuffer.frameLength), endFrame) - startFrame))
+        let endFrame = min(Int64(sourceBuffer.frameLength), max(startFrame + 1, Int64(sourceBuffer.frameLength) - trimFrames))
+        // The seam is baked into the buffer: the tail [end - fade, end] fades out
+        // over the head [start, start + fade] fading in, matching Android and web.
+        let fadeFrames = min(Int64((Double(loopCrossfadeMs) / 1000.0) * sampleRate), (endFrame - startFrame) / 3)
+        let tailFrame = endFrame - fadeFrames
+        let framesToCopy = AVAudioFrameCount(max(1, tailFrame - startFrame))
 
         guard let clippedBuffer = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: framesToCopy) else {
             throw NSError(domain: "NativeHapticPlugin", code: 3, userInfo: [NSLocalizedDescriptionKey: "Unable to allocate clipped buffer"])
@@ -245,12 +250,23 @@ public class NativeHapticPlugin: CAPPlugin {
 
         clippedBuffer.frameLength = framesToCopy
         try copyFrames(from: sourceBuffer, to: clippedBuffer, startFrame: Int(startFrame), frameCount: Int(framesToCopy))
+        if fadeFrames > 0, let sourceData = sourceBuffer.floatChannelData, let loopData = clippedBuffer.floatChannelData {
+            let fadeCount = Int(fadeFrames)
+            for channel in 0..<Int(format.channelCount) {
+                let head = sourceData[channel].advanced(by: Int(startFrame))
+                let tail = sourceData[channel].advanced(by: Int(tailFrame))
+                for i in 0..<fadeCount {
+                    let angle = Float(i) / Float(fadeCount) * Float.pi * 0.5
+                    loopData[channel][i] = head[i] * sin(angle) + tail[i] * cos(angle)
+                }
+            }
+        }
         cacheLoopBuffer(clippedBuffer, key: loopKey)
         return clippedBuffer
     }
 
-    private func makeLoopCacheKey(file: String, loopStartMs: Int, loopEndTrimMs: Int) -> String {
-        return "\(file)#\(loopStartMs)#\(loopEndTrimMs)"
+    private func makeLoopCacheKey(file: String, loopStartMs: Int, loopEndTrimMs: Int, loopCrossfadeMs: Int) -> String {
+        return "\(file)#\(loopStartMs)#\(loopEndTrimMs)#\(loopCrossfadeMs)"
     }
 
     private func cacheLoopBuffer(_ buffer: AVAudioPCMBuffer, key: String) {

@@ -35,6 +35,7 @@ public class NoisePlaybackService extends Service {
     public static final String EXTRA_VOLUME = "volume";
     public static final String EXTRA_LOOP_START_MS = "loopStartMs";
     public static final String EXTRA_LOOP_END_TRIM_MS = "loopEndTrimMs";
+    public static final String EXTRA_LOOP_CROSSFADE_MS = "loopCrossfadeMs";
     public static final String EXTRA_SLEEP_TIMER_MS = "sleepTimerMs";
 
     private static final String CHANNEL_ID = "relax_noise_playback";
@@ -46,9 +47,13 @@ public class NoisePlaybackService extends Service {
     private static final String PREF_PLAYING = "is_playing";
     private static final String PREF_LOOP_START_MS = "loop_start_ms";
     private static final String PREF_LOOP_END_TRIM_MS = "loop_end_trim_ms";
+    private static final String PREF_LOOP_CROSSFADE_MS = "loop_crossfade_ms";
     private static final long WATCHDOG_INTERVAL_MS = 15000L;
-    private static final long EXO_LOOP_CROSSFADE_MS = 780L;
-    private static final int EXO_LOOP_FADE_STEPS = 24;
+    private static final int DEFAULT_LOOP_CROSSFADE_MS = 780;
+    private static final long EXO_LOOP_FADE_STEP_MS = 20L;
+    // Start the crossfade when the outgoing player is within this of the target.
+    private static final long EXO_ROLLOVER_TOLERANCE_MS = 12L;
+    private static final long EXO_ROLLOVER_MAX_POLL_MS = 4000L;
 
     private static volatile boolean serviceRunning = false;
     private static volatile boolean playbackActive = false;
@@ -61,6 +66,7 @@ public class NoisePlaybackService extends Service {
     private float currentVolume = 0.72f;
     private int currentLoopStartMs = 80;
     private int currentLoopEndTrimMs = 120;
+    private int currentLoopCrossfadeMs = DEFAULT_LOOP_CROSSFADE_MS;
     private int loopGeneration = 0;
     private int scheduledExoRolloverGeneration = -1;
     private AudioManager audioManager;
@@ -118,7 +124,7 @@ public class NoisePlaybackService extends Service {
 
         if (intent != null && ACTION_VOLUME.equals(intent.getAction())) {
             setPlayerVolume(intent.getFloatExtra(EXTRA_VOLUME, 0f));
-            savePlaybackState(currentFile, currentVolume, exoPlayer != null && exoPlayer.isPlaying(), currentLoopStartMs, currentLoopEndTrimMs);
+            savePlaybackState(currentFile, currentVolume, exoPlayer != null && exoPlayer.isPlaying(), currentLoopStartMs, currentLoopEndTrimMs, currentLoopCrossfadeMs);
             return START_REDELIVER_INTENT;
         }
 
@@ -131,12 +137,14 @@ public class NoisePlaybackService extends Service {
         float volume = intent != null ? intent.getFloatExtra(EXTRA_VOLUME, currentVolume) : currentVolume;
         int loopStartMs = intent != null ? intent.getIntExtra(EXTRA_LOOP_START_MS, currentLoopStartMs) : currentLoopStartMs;
         int loopEndTrimMs = intent != null ? intent.getIntExtra(EXTRA_LOOP_END_TRIM_MS, currentLoopEndTrimMs) : currentLoopEndTrimMs;
+        int loopCrossfadeMs = intent != null ? intent.getIntExtra(EXTRA_LOOP_CROSSFADE_MS, currentLoopCrossfadeMs) : currentLoopCrossfadeMs;
 
         if ((file == null || file.trim().isEmpty()) && isSavedPlaybackActive()) {
             file = getSavedFile();
             volume = getSavedVolume();
             loopStartMs = getSavedLoopStartMs();
             loopEndTrimMs = getSavedLoopEndTrimMs();
+            loopCrossfadeMs = getSavedLoopCrossfadeMs();
         }
 
         if (file == null || file.trim().isEmpty()) {
@@ -146,7 +154,7 @@ public class NoisePlaybackService extends Service {
         }
 
         startForegroundCompat();
-        startPlayback(file, volume, loopStartMs, loopEndTrimMs);
+        startPlayback(file, volume, loopStartMs, loopEndTrimMs, loopCrossfadeMs);
         return START_REDELIVER_INTENT;
     }
 
@@ -178,10 +186,11 @@ public class NoisePlaybackService extends Service {
         super.onDestroy();
     }
 
-    private void startPlayback(String file, float volume, int loopStartMs, int loopEndTrimMs) {
+    private void startPlayback(String file, float volume, int loopStartMs, int loopEndTrimMs, int loopCrossfadeMs) {
         float clampedVolume = Math.max(0f, Math.min(1f, volume));
         int safeLoopStartMs = Math.max(0, loopStartMs);
         int safeLoopEndTrimMs = Math.max(0, loopEndTrimMs);
+        int safeLoopCrossfadeMs = Math.max(100, loopCrossfadeMs);
         requestAudioFocus();
 
         if (
@@ -189,6 +198,7 @@ public class NoisePlaybackService extends Service {
                 && file.equals(currentFile)
                 && safeLoopStartMs == currentLoopStartMs
                 && safeLoopEndTrimMs == currentLoopEndTrimMs
+                && safeLoopCrossfadeMs == currentLoopCrossfadeMs
         ) {
             currentVolume = clampedVolume;
             currentLoopStartMs = safeLoopStartMs;
@@ -196,7 +206,7 @@ public class NoisePlaybackService extends Service {
             setPlayerVolume(clampedVolume);
             if (!exoPlayer.isPlaying()) exoPlayer.play();
             updateLiveState(true, file, clampedVolume);
-            savePlaybackState(file, clampedVolume, true, safeLoopStartMs, safeLoopEndTrimMs);
+            savePlaybackState(file, clampedVolume, true, safeLoopStartMs, safeLoopEndTrimMs, safeLoopCrossfadeMs);
             startWatchdog();
             return;
         }
@@ -206,6 +216,7 @@ public class NoisePlaybackService extends Service {
         currentVolume = clampedVolume;
         currentLoopStartMs = safeLoopStartMs;
         currentLoopEndTrimMs = safeLoopEndTrimMs;
+        currentLoopCrossfadeMs = safeLoopCrossfadeMs;
 
         try {
             Log.d(TAG, "startPlaybackExo " + file);
@@ -218,7 +229,7 @@ public class NoisePlaybackService extends Service {
             }
             exoPlayer.play();
             updateLiveState(true, file, clampedVolume);
-            savePlaybackState(file, clampedVolume, true, safeLoopStartMs, safeLoopEndTrimMs);
+            savePlaybackState(file, clampedVolume, true, safeLoopStartMs, safeLoopEndTrimMs, safeLoopCrossfadeMs);
             startWatchdog();
             scheduleExoLoopRollover(exoPlayer, file, loopGeneration);
         } catch (Exception error) {
@@ -233,7 +244,7 @@ public class NoisePlaybackService extends Service {
 
     private void restartPlayback(String file, float volume) {
         stopPlayback();
-        startPlayback(file, volume, currentLoopStartMs, currentLoopEndTrimMs);
+        startPlayback(file, volume, currentLoopStartMs, currentLoopEndTrimMs, currentLoopCrossfadeMs);
     }
 
     private void stopPlayback() {
@@ -302,25 +313,29 @@ public class NoisePlaybackService extends Service {
         if (scheduledPlayer == null || scheduledExoRolloverGeneration == generation) return;
         try {
             long durationMs = scheduledPlayer.getDuration();
-            if (durationMs == C.TIME_UNSET || durationMs <= EXO_LOOP_CROSSFADE_MS + 500L) {
+            // Not prepared yet: STATE_READY schedules the rollover again.
+            if (durationMs == C.TIME_UNSET) return;
+            long loopStartMs = Math.max(0L, Math.min(currentLoopStartMs, Math.max(durationMs - 1000L, 0L)));
+            long loopEndMs = Math.max(loopStartMs + 1000L, durationMs - currentLoopEndTrimMs);
+            long crossfadeMs = Math.min(currentLoopCrossfadeMs, (loopEndMs - loopStartMs) / 3);
+            if (crossfadeMs < 100L) {
                 scheduledPlayer.setRepeatMode(Player.REPEAT_MODE_ONE);
                 return;
             }
 
             scheduledExoRolloverGeneration = generation;
-            long loopStartMs = Math.max(0L, Math.min(currentLoopStartMs, Math.max(durationMs - 1000L, 0L)));
-            long loopEndMs = Math.max(loopStartMs + 1000L, durationMs - currentLoopEndTrimMs);
-            long crossfadeDelayMs = Math.max(250L, loopEndMs - EXO_LOOP_CROSSFADE_MS);
+            long rolloverAtMs = loopEndMs - crossfadeMs;
 
             Log.d(
                 TAG,
                 "scheduleExoLoopRollover file=" + file
                     + " durationMs=" + durationMs
                     + " loopEndMs=" + loopEndMs
-                    + " startDelayAfterPrepareMs=" + crossfadeDelayMs
+                    + " rolloverAtMs=" + rolloverAtMs
+                    + " crossfadeMs=" + crossfadeMs
             );
 
-            prepareNextExoForRollover(scheduledPlayer, file, generation, crossfadeDelayMs);
+            prepareNextExoForRollover(scheduledPlayer, file, generation, rolloverAtMs, crossfadeMs);
         } catch (Exception error) {
             scheduledExoRolloverGeneration = -1;
             Log.w(TAG, "Unable to schedule ExoPlayer rollover; using repeat mode", error);
@@ -331,7 +346,7 @@ public class NoisePlaybackService extends Service {
         }
     }
 
-    private void prepareNextExoForRollover(ExoPlayer oldPlayer, String file, int generation, long startDelayMs) {
+    private void prepareNextExoForRollover(ExoPlayer oldPlayer, String file, int generation, long rolloverAtMs, long crossfadeMs) {
         if (scheduledExoRolloverGeneration == generation) {
             scheduledExoRolloverGeneration = -1;
         }
@@ -339,30 +354,19 @@ public class NoisePlaybackService extends Service {
 
         try {
             releaseExoPlayerQuietly(preparedNextExoPlayer);
-            final long targetStartAtMs = SystemClock.uptimeMillis() + Math.max(0L, startDelayMs);
             ExoPlayer nextPlayer = createExoPlayer(file, 0f, currentLoopStartMs, currentLoopEndTrimMs);
             preparedNextExoPlayer = nextPlayer;
             nextPlayer.addListener(new Player.Listener() {
                 private boolean rolloverPosted = false;
 
-                private void postRolloverIfReady() {
-                    if (rolloverPosted) return;
+                @Override
+                public void onPlaybackStateChanged(int playbackState) {
+                    if (playbackState != Player.STATE_READY || rolloverPosted) return;
                     if (generation != loopGeneration || oldPlayer != exoPlayer || currentFile == null) return;
                     if (preparedNextExoPlayer != nextPlayer) return;
                     rolloverPosted = true;
-                    long remainingDelayMs = Math.max(0L, targetStartAtMs - SystemClock.uptimeMillis());
-                    Log.d(TAG, "preparedNextExoPlayer ready file=" + file + " remainingDelayMs=" + remainingDelayMs);
-                    watchdogHandler.postDelayed(
-                        () -> rollToPreparedNextExoPlayer(oldPlayer, file, generation),
-                        remainingDelayMs
-                    );
-                }
-
-                @Override
-                public void onPlaybackStateChanged(int playbackState) {
-                    if (playbackState == Player.STATE_READY) {
-                        postRolloverIfReady();
-                    }
+                    Log.d(TAG, "preparedNextExoPlayer ready file=" + file + " rolloverAtMs=" + rolloverAtMs);
+                    waitForRolloverPosition(oldPlayer, file, generation, rolloverAtMs, crossfadeMs);
                 }
             });
             nextPlayer.prepare();
@@ -378,7 +382,31 @@ public class NoisePlaybackService extends Service {
         }
     }
 
-    private void rollToPreparedNextExoPlayer(ExoPlayer oldPlayer, String file, int generation) {
+    // The crossfade is timed from the outgoing player's own position rather than
+    // a wall-clock delay, so start-up latency, pauses and handler drift cannot
+    // shift the seam away from the loop points chosen for each file.
+    private void waitForRolloverPosition(ExoPlayer oldPlayer, String file, int generation, long rolloverAtMs, long crossfadeMs) {
+        if (generation != loopGeneration || oldPlayer != exoPlayer || preparedNextExoPlayer == null || currentFile == null) {
+            return;
+        }
+        long remainingMs;
+        try {
+            remainingMs = rolloverAtMs - oldPlayer.getCurrentPosition();
+        } catch (Exception error) {
+            remainingMs = 0L;
+        }
+        if (remainingMs > EXO_ROLLOVER_TOLERANCE_MS) {
+            watchdogHandler.postDelayed(
+                () -> waitForRolloverPosition(oldPlayer, file, generation, rolloverAtMs, crossfadeMs),
+                Math.min(remainingMs, EXO_ROLLOVER_MAX_POLL_MS)
+            );
+            return;
+        }
+        Log.d(TAG, "loop rollover file=" + file + " targetMs=" + rolloverAtMs + " offByMs=" + (-remainingMs));
+        rollToPreparedNextExoPlayer(oldPlayer, file, generation, crossfadeMs);
+    }
+
+    private void rollToPreparedNextExoPlayer(ExoPlayer oldPlayer, String file, int generation, long crossfadeMs) {
         if (generation != loopGeneration || oldPlayer != exoPlayer || preparedNextExoPlayer == null || currentFile == null) {
             releaseExoPlayerQuietly(preparedNextExoPlayer);
             preparedNextExoPlayer = null;
@@ -392,7 +420,7 @@ public class NoisePlaybackService extends Service {
             exoPlayer = nextPlayer;
             attachCurrentExoListener(nextPlayer, file, nextGeneration);
             nextPlayer.play();
-            fadeBetweenExoPlayers(oldPlayer, nextPlayer, currentVolume, nextGeneration);
+            fadeBetweenExoPlayers(oldPlayer, nextPlayer, currentVolume, nextGeneration, crossfadeMs);
             scheduleExoLoopRollover(nextPlayer, file, nextGeneration);
         } catch (Exception error) {
             Log.w(TAG, "Prepared ExoPlayer rollover failed; restarting loop", error);
@@ -400,9 +428,10 @@ public class NoisePlaybackService extends Service {
         }
     }
 
-    private void fadeBetweenExoPlayers(ExoPlayer oldPlayer, ExoPlayer nextPlayer, float targetVolume, int generation) {
-        long stepDelay = Math.max(12L, EXO_LOOP_CROSSFADE_MS / EXO_LOOP_FADE_STEPS);
-        for (int step = 0; step <= EXO_LOOP_FADE_STEPS; step += 1) {
+    private void fadeBetweenExoPlayers(ExoPlayer oldPlayer, ExoPlayer nextPlayer, float targetVolume, int generation, long crossfadeMs) {
+        final int fadeSteps = (int) Math.max(12L, crossfadeMs / EXO_LOOP_FADE_STEP_MS);
+        long stepDelay = Math.max(1L, crossfadeMs / fadeSteps);
+        for (int step = 0; step <= fadeSteps; step += 1) {
             final int fadeStep = step;
             watchdogHandler.postDelayed(() -> {
                 if (generation != loopGeneration) {
@@ -410,7 +439,7 @@ public class NoisePlaybackService extends Service {
                     return;
                 }
 
-                double progress = Math.min(1d, Math.max(0d, fadeStep / (double) EXO_LOOP_FADE_STEPS));
+                double progress = Math.min(1d, Math.max(0d, fadeStep / (double) fadeSteps));
                 float inGain = (float) Math.sin(progress * Math.PI * 0.5d);
                 float outGain = (float) Math.cos(progress * Math.PI * 0.5d);
 
@@ -422,7 +451,7 @@ public class NoisePlaybackService extends Service {
                     oldPlayer.setVolume(targetVolume * outGain);
                 } catch (Exception ignored) {
                 }
-                if (fadeStep >= EXO_LOOP_FADE_STEPS) {
+                if (fadeStep >= fadeSteps) {
                     releaseExoPlayerQuietly(oldPlayer);
                 }
             }, stepDelay * step);
@@ -490,7 +519,7 @@ public class NoisePlaybackService extends Service {
         return getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
     }
 
-    private void savePlaybackState(String file, float volume, boolean isPlaying, int loopStartMs, int loopEndTrimMs) {
+    private void savePlaybackState(String file, float volume, boolean isPlaying, int loopStartMs, int loopEndTrimMs, int loopCrossfadeMs) {
         SharedPreferences.Editor editor = prefs().edit();
         editor.putBoolean(PREF_PLAYING, isPlaying);
         if (file == null || file.trim().isEmpty()) {
@@ -501,6 +530,7 @@ public class NoisePlaybackService extends Service {
         editor.putFloat(PREF_VOLUME, volume);
         editor.putInt(PREF_LOOP_START_MS, loopStartMs);
         editor.putInt(PREF_LOOP_END_TRIM_MS, loopEndTrimMs);
+        editor.putInt(PREF_LOOP_CROSSFADE_MS, loopCrossfadeMs);
         editor.apply();
     }
 
@@ -532,6 +562,7 @@ public class NoisePlaybackService extends Service {
             .remove(PREF_VOLUME)
             .remove(PREF_LOOP_START_MS)
             .remove(PREF_LOOP_END_TRIM_MS)
+            .remove(PREF_LOOP_CROSSFADE_MS)
             .putBoolean(PREF_PLAYING, false)
             .apply();
     }
@@ -554,6 +585,10 @@ public class NoisePlaybackService extends Service {
 
     private int getSavedLoopEndTrimMs() {
         return prefs().getInt(PREF_LOOP_END_TRIM_MS, currentLoopEndTrimMs);
+    }
+
+    private int getSavedLoopCrossfadeMs() {
+        return prefs().getInt(PREF_LOOP_CROSSFADE_MS, currentLoopCrossfadeMs);
     }
 
     private void startForegroundCompat() {
