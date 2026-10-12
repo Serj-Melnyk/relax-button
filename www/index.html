@@ -13182,34 +13182,37 @@
             'people-catering': 'assets/people/catering.webp',
             'people-bar-crowd': 'assets/people/bar-crowd.webp',
             'people-skin': 'assets/people/crowd.webp',
-            'white-noise': 'assets/home-posters/white-noise-winter-river.webp',
-            'white-noise-radio': 'assets/home-posters/white-clouds.webp',
-            'pink-soft-noise': 'assets/home-posters/pink-fog.webp',
-            'orange-noise': 'assets/home-posters/orange-poster.webp',
-            'brown-ideal-ocean-waves': 'assets/home-posters/ocean-waves.webp',
-            'brown-light-rain-outside': 'assets/home-posters/wooden-heavy-rainfall.webp',
-            'brown-rainy-town-birds': 'assets/home-posters/rainy-day-town.webp',
-            'brown-thunder-rain': 'assets/home-posters/thunder-rain.webp',
-            'brown-spring-birds': 'assets/home-posters/spring-birds.webp',
-            'brown-waterfall': 'assets/home-posters/waterfall.webp',
-            'infrared-ocean-waves': 'assets/home-posters/infrared-ocean-waves.webp',
-            'infrared-arctic-winds': 'assets/home-posters/arctic-wind.webp',
-            'infrared-noise-core': 'assets/home-posters/infrared-noise-core.webp',
-            'infrared-deep-noise': 'assets/home-posters/red-sands.webp',
-            'white-noise-skin': 'assets/home-posters/white-noise.webp',
-            'pink-noise-skin': 'assets/home-posters/pink-poster.webp',
-            'orange-noise-skin': 'assets/home-posters/orange-poster.webp',
-            'brown-noise-skin': 'assets/home-posters/brown-poster.webp',
-            'infrared-noise-skin': 'assets/home-posters/infrared.webp',
-            'rain-skin': 'assets/home-posters/rain.webp'
+            'white-noise': 'assets/noise-backdrops/white-noise.webp',
+            'white-noise-radio': 'assets/noise-backdrops/white-noise-radio.webp',
+            'pink-soft-noise': 'assets/noise-backdrops/pink-soft-noise.webp',
+            'orange-noise': 'assets/noise-backdrops/orange-noise.webp',
+            'brown-ideal-ocean-waves': 'assets/noise-backdrops/brown-ideal-ocean-waves.webp',
+            'brown-light-rain-outside': 'assets/noise-backdrops/brown-light-rain-outside.webp',
+            'brown-rainy-town-birds': 'assets/noise-backdrops/brown-rainy-town-birds.webp',
+            'brown-thunder-rain': 'assets/noise-backdrops/brown-thunder-rain.webp',
+            'brown-spring-birds': 'assets/noise-backdrops/brown-spring-birds.webp',
+            'brown-waterfall': 'assets/noise-backdrops/brown-waterfall.webp',
+            'infrared-ocean-waves': 'assets/noise-backdrops/infrared-ocean-waves.webp',
+            'infrared-arctic-winds': 'assets/noise-backdrops/infrared-arctic-winds.webp',
+            'infrared-noise-core': 'assets/noise-backdrops/infrared-noise-core.webp',
+            'infrared-deep-noise': 'assets/noise-backdrops/infrared-deep-noise.webp'
         },
         artworkQueries: {},
 
         init() {
             this.app = document.getElementById('app');
             this.restoreArtworkCache();
+            // Each noise backdrop has a portrait and a landscape image; switch
+            // when the phone is rotated.
+            this.landscapeQuery = window.matchMedia?.('(orientation: landscape)') || null;
+            this.landscapeQuery?.addEventListener?.('change', () => this.sync());
             this.sync();
             requestAnimationFrame(() => this.preloadLikelyArtwork());
+        },
+
+        orientArtworkUrl(imageUrl = '') {
+            if (!this.landscapeQuery?.matches || !imageUrl.startsWith('assets/noise-backdrops/')) return imageUrl;
+            return imageUrl.replace(/\.webp$/, '-landscape.webp');
         },
 
         restoreArtworkCache() {
@@ -13329,7 +13332,7 @@
                 ...Object.entries(this.fallbackArtwork)
                     .filter(([key]) => !key.endsWith('-skin')
                         && (!key.startsWith('people-') || AppState.currentSkin === 'people'))
-                    .map(([, url]) => url)
+                    .map(([, url]) => this.orientArtworkUrl(url))
             ].filter(Boolean))];
             const warmNext = (index = 0) => {
                 const batch = urls.slice(index, index + 2)
@@ -13350,6 +13353,10 @@
         },
 
         fallbackArtworkUrlForKey(artworkKey = '') {
+            return this.orientArtworkUrl(this.baseFallbackArtworkUrlForKey(artworkKey));
+        },
+
+        baseFallbackArtworkUrlForKey(artworkKey = '') {
             const skinFallbackKey = this.getSkinFallbackKey();
             if (Object.prototype.hasOwnProperty.call(this.fallbackArtwork, artworkKey)) {
                 return this.fallbackArtwork[artworkKey] || '';
@@ -13362,6 +13369,10 @@
         },
 
         artworkUrlForKey(artworkKey = '') {
+            return this.orientArtworkUrl(this.baseArtworkUrlForKey(artworkKey));
+        },
+
+        baseArtworkUrlForKey(artworkKey = '') {
             const skinFallbackKey = this.getSkinFallbackKey();
             if (this.shouldPreferFetchedArtwork(artworkKey)) {
                 if (Object.prototype.hasOwnProperty.call(this.fallbackArtwork, artworkKey)) {

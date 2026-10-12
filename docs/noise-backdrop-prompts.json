@@ -1,0 +1,30 @@
+{
+  "tool": "Google Flow (flow.google.com), model Nano Banana 2.1, project \"жовт. 12 - 10:12\" in oktober15sm@gmail.com",
+  "date": "2026-10-12",
+  "portrait": {
+    "aspect": "9:16 (768x1376)",
+    "template": "Vertical phone wallpaper, photorealistic landscape photo. {scene} Calm cinematic mood, soft natural light, slightly darker lower third. No people, no text, no logos, no watermark.",
+    "scenes": {
+      "white-noise": "A small frozen stream cascading over a low stone weir in deep winter, fresh snow on dark rocks, silky long-exposure water, cool silver-blue palette.",
+      "white-noise-radio": "Bright white cumulus clouds drifting across a clear deep-blue sky, seen from below, airy, luminous and peaceful.",
+      "pink-soft-noise": "Bare winter trees in a dense pink-magenta fog at dusk, a wooden footbridge railing fading into the mist, soft dreamy haze.",
+      "orange-noise": "Macro abstract of warm amber and orange stained glass, irregular rounded cells separated by dark lead lines, glowing soft backlight.",
+      "brown-ideal-ocean-waves": "A powerful turquoise ocean wave curling and breaking, white spray, overcast silver sky, deep teal water.",
+      "brown-light-rain-outside": "Light rain falling over a lush green forest, seen from a wet wooden deck in the foreground, soft bokeh, fresh green tones.",
+      "brown-rainy-town-birds": "Raindrops on a window pane, a blurred grey-green rainy town street behind the glass, soft muted overcast light.",
+      "brown-thunder-rain": "Dramatic thunderstorm over an empty mountain valley road, lightning bolts under dark green-grey clouds, wet asphalt reflecting light.",
+      "brown-spring-birds": "A small blue songbird perched on a blossoming almond branch with white flowers, soft bright spring sky with fluffy clouds.",
+      "brown-waterfall": "A wide horseshoe waterfall at golden hour, silky long-exposure water flowing into a turquoise pool, dramatic sunset clouds.",
+      "infrared-ocean-waves": "Weathered wooden groyne posts leading into a stormy grey sea, waves crashing, wet sandy beach, overcast winter light.",
+      "infrared-arctic-winds": "Arctic ice landscape under heavy blue-grey storm clouds, wind-blown snow drifting across a frozen plain, towering ice cliffs.",
+      "infrared-noise-core": "High aerial photograph of a coastline where deep crimson and scarlet land with fine eroded channels meets pale pink-white shallow water, diagonal shoreline, rich red and magenta tones, natural textures.",
+      "infrared-deep-noise": "A towering saturated red-orange sand dune with a razor-sharp curved crest, one side in deep shadow, fine wind ripples, vivid cobalt-blue clear sky, bright midday desert light."
+    }
+  },
+  "landscape": {
+    "aspect": "16:9 (1376x768)",
+    "method": "The chosen portrait image attached as a reference (\"ingredient\") with this prompt",
+    "prompt": "Recreate the attached photo as a wide 16:9 landscape version of the exact same scene: same place, subject, colours, light and photographic style. Extend the scene naturally to the left and right, keep the main subject centred. No people, no text, no logos, no watermark."
+  },
+  "export": "Flow JPEG previews converted with: cwebp -q 80 -m 6 <in>.jpg -o <sound-id>.webp / <sound-id>-landscape.webp"
+}
