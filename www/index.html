@@ -2516,9 +2516,8 @@
         opacity: 0 !important;
     }
 
-    body.skin-transitioning #app-nav,
-    body.skin-transitioning #app-nav::before,
-    body.skin-transitioning #app-nav::after,
+    /* The nav bar keeps its blur here: without it the light Home bar is almost
+       transparent and seemed to vanish while a skin opened beneath Home. */
     body.skin-transitioning .noise-top-button {
         backdrop-filter: none !important;
         -webkit-backdrop-filter: none !important;
@@ -5822,21 +5821,14 @@
         transition: none !important;
     }
 
-    /* Home's own background appears at once, so the glass nav bar never shows
-       the dark skin through it; only Home's content fades in. */
-    body.home-entering #home-screen {
-        opacity: 1;
-        transform: none;
-        transition: none !important;
+    /* While Home fades in over the skin, the nav bar is filled solid with
+       Home's colour, so the dark skin never shows through its glass. */
+    body.home-view-active.home-entering #app-nav {
+        background: rgb(246, 240, 231) !important;
     }
 
-    body.home-entering .home-dashboard {
-        animation: home-content-in 260ms var(--home-ease-out, ease-out) both;
-    }
-
-    @keyframes home-content-in {
-        from { opacity: 0; }
-        to { opacity: 1; }
+    body.home-view-active.home-entering[data-home-theme="night"] #app-nav {
+        background: rgb(30, 28, 24) !important;
     }
 
     .home-background-video,
