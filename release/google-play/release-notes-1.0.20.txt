@@ -1,0 +1,21 @@
+<en-US>
+Welcome to Digital Fidget! Brown, white, pink, orange and deep noise, rain, nature and People sounds that loop seamlessly, a tactile button with satisfying clicks, a sleep timer, and day and night themes. Every noise has its own artwork for portrait and landscape.
+</en-US>
+<de-DE>
+Willkommen bei Digital Fidget! Braunes, weißes, rosa, oranges und tiefes Rauschen, Regen-, Natur- und People-Klänge in nahtloser Schleife, ein taktiler Button mit befriedigenden Klicks, ein Sleep-Timer sowie Tag- und Nachtdesign. Jedes Rauschen hat eigene Bilder für Hoch- und Querformat.
+</de-DE>
+<es-ES>
+¡Bienvenido a Digital Fidget! Ruido marrón, blanco, rosa, naranja y profundo, lluvia, naturaleza y sonidos de People en bucle sin cortes, un botón táctil con clics satisfactorios, temporizador de sueño y temas de día y de noche. Cada ruido tiene su propia imagen en vertical y horizontal.
+</es-ES>
+<fr-FR>
+Bienvenue dans Digital Fidget ! Bruit brun, blanc, rose, orange et profond, pluie, nature et sons People en boucle sans coupure, un bouton tactile aux clics satisfaisants, une minuterie de sommeil et des thèmes jour et nuit. Chaque bruit a sa propre image en portrait et en paysage.
+</fr-FR>
+<ja-JP>
+Digital Fidgetへようこそ！ブラウン、ホワイト、ピンク、オレンジ、ディープノイズ、雨や自然、Peopleのサウンドが途切れずループ。心地よいクリックの触感ボタン、スリープタイマー、昼と夜のテーマ。各ノイズには縦向き・横向きそれぞれの画像があります。
+</ja-JP>
+<pt-BR>
+Boas-vindas ao Digital Fidget! Ruído marrom, branco, rosa, laranja e profundo, chuva, natureza e sons de People em loop contínuo, um botão tátil com cliques satisfatórios, timer de sono e temas de dia e de noite. Cada ruído tem sua própria imagem na vertical e na horizontal.
+</pt-BR>
+<uk>
+Вітаємо в Digital Fidget! Коричневий, білий, рожевий, помаранчевий і глибокий шум, дощ, природа та звуки People без стиків у циклі, тактильна кнопка з приємними клацаннями, таймер сну, денна й нічна теми. Кожен шум має власний фон для вертикального й горизонтального режиму.
+</uk>
