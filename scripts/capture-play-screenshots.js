@@ -21,6 +21,7 @@ async function openNoise(page, poster, profileId) {
     await new Promise((r) => setTimeout(r, 1400));
     if (profileId) NoisePlayerUI.selectProfile(profileId);
     AudioEngine.stopLoop();
+    document.activeElement?.blur();
   }, poster, profileId);
   await pause(1600);
 }
@@ -52,26 +53,33 @@ async function main() {
   await shot('02-home-night.png');
   await page.evaluate(() => HomeTheme.apply('day'));
 
-  await openNoise(page, 'brown-noise', 'brown-ideal-ocean-waves');
-  await shot('03-ocean-waves.png');
+  await openNoise(page, 'rain', 'brown-light-rain-outside');
+  await shot('03-light-rain.png');
 
   await openNoise(page, 'pink-noise', 'pink-soft-noise');
-  await shot('04-pink-fog.png');
+  await shot('04-pink-noise.png');
 
-  await openNoise(page, 'rain', 'brown-thunder-rain');
-  await shot('05-thunder-rain.png');
+  await openNoise(page, 'brown-noise', 'brown-spring-birds');
+  await shot('05-spring-birds.png');
 
-  await openNoise(page, 'people', null);
-  await shot('06-people.png');
-
-  await openNoise(page, 'moon', null);
-  await shot('07-moon-button.png');
-
-  await page.evaluate(() => {
-    document.querySelector('.m3-nav-item[data-nav-target="library"]').click();
-  });
+  // Classic tactile button in the Sage theme.
+  await page.evaluate(async (theme) => {
+    SkinManager.select('classic-button', { soundProfileId: 'classic-click', soundMode: 'matched' });
+    HomeSkinScene.enterSkinExperience();
+    ThemeManager.apply(theme);
+    AppNav.sync();
+    document.activeElement?.blur();
+  }, process.env.CLICK_THEME || 'sage');
   await pause(1200);
-  await shot('08-library.png');
+  await shot('06-click-button.png');
+
+  await page.evaluate(async (theme) => {
+    ThemeManager.apply(theme);
+    BottomSheet.open();
+    document.activeElement?.blur();
+  }, process.env.LIBRARY_THEME || 'obsidian');
+  await pause(1400);
+  await shot('07-library.png');
 
   await browser.close();
   console.log(`saved to ${outDir}`);
