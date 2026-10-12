@@ -13594,10 +13594,21 @@
             document.documentElement.classList.remove('boot-home-view');
             document.body.classList.remove('skin-transitioning', 'home-exiting');
             if (wasInSkin) {
+                // Hold 'home-entering' (skin kept beneath, solid nav bar) until
+                // Home has finished fading in; ending it earlier let the glass
+                // nav bar show the dark skin turning light behind it.
                 document.body.classList.add('home-entering');
-                this.homeExitTimer = setTimeout(() => {
+                const homeScreen = document.getElementById('home-screen');
+                const finish = () => {
+                    clearTimeout(this.homeExitTimer);
+                    homeScreen?.removeEventListener('transitionend', onEnd);
                     document.body.classList.remove('home-entering');
-                }, 280);
+                };
+                const onEnd = (event) => {
+                    if (event.target === homeScreen && event.propertyName === 'opacity') finish();
+                };
+                homeScreen?.addEventListener('transitionend', onEnd);
+                this.homeExitTimer = setTimeout(finish, 900);
             }
             document.body.classList.add('home-view-active');
             HomeTheme.syncStatusBar();
