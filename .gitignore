@@ -11,3 +11,5 @@ android/build/
 ios/App/build/
 ios/App/DerivedData/
 *.log
+tmp/
+.claude/

@@ -17,6 +17,7 @@ Digital Fidget: Mental ASMR — Capacitor app (Android first, iOS also built), p
 - Release notes, Play Console logs, store listing texts: `release/` (`CHANGELOG.md` is the
   per-version history, Ukrainian).
 - Session logs: `docs/WORKLOG-*.md` — read the latest one first.
+- `main` = latest released code (1.0.20 / vc22 as of 2026-10-13).
 
 ## Conventions that are easy to miss
 
