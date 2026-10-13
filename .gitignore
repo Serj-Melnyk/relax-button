@@ -13,3 +13,5 @@ ios/App/DerivedData/
 *.log
 tmp/
 .claude/
+.idea/
+release/CLOSED-TEST*.md

@@ -3,7 +3,7 @@ const path = require('path');
 const puppeteer = require('puppeteer');
 
 const baseUrl = 'http://127.0.0.1:4173/';
-const outDir = path.join(process.cwd(), 'design-audit-2026-06-09', 'screenshots');
+const outDir = path.join(process.cwd(), 'docs', 'archive', 'design-audit-2026-06-09', 'screenshots');
 
 async function ensureDir() {
   await fs.mkdir(outDir, { recursive: true });
