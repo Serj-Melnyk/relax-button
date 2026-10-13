@@ -20,6 +20,12 @@ Method
 Colour bands for alpha (owner's definitions):
   white |a| <= 0.3, peach 0.3-0.7, pink 0.7-1.3, orange 1.3-1.7,
   brown 1.7-2.3, infrared > 2.3.
+Green noise is not a power law, so it is checked by shape instead: the loudest
+1/3-octave band lies in 250-1000 Hz and the spectrum falls by >= 6 dB towards
+63 Hz and by >= 10 dB towards 8 kHz.
+
+The claimed colour of a sound is the skin it sits in (the *_SOUND_PROFILE_IDS sets
+in index.html), not its id prefix.
 """
 import json, re, subprocess, sys
 from pathlib import Path
@@ -143,20 +149,51 @@ def analyse(path, start=0.0, end_trim=0.0):
                         "std": round(float(np.std(block_alphas)), 3)} if block_alphas else None,
         "worstBandsDb": [[int(round(fit_f[i])), round(float(dev[i]), 1)] for i in worst],
         "peakDbfs": round(20 * np.log10(peak + 1e-12), 2),
+        "green": green_shape(bands),
         "_plot": (bands, slope, icpt, f_hi),
     }
 
 
-def claimed_colour(sound_id):
-    for name in ("white", "pink", "brown", "orange", "infrared"):
+SKIN_SETS = {"WHITE": "white", "GREEN": "green", "PINK": "pink", "ORANGE": "orange",
+             "BROWN": "brown", "INFRARED": "infrared"}
+
+
+def skin_colours():
+    src = (ROOT / "index.html").read_text(encoding="utf-8")
+    out = {}
+    for key, colour in SKIN_SETS.items():
+        m = re.search(rf"const {key}_NOISE_SOUND_PROFILE_IDS = new Set\(\[(.*?)\]\)", src, re.S)
+        for sid in re.findall(r"'([^']+)'", m.group(1) if m else ""):
+            out[sid] = colour
+    return out
+
+
+def claimed_colour(sound_id, colours=None):
+    if colours is not None and sound_id in colours:
+        return colours[sound_id]
+    for name in ("white", "green", "pink", "brown", "orange", "infrared"):
         if sound_id.startswith(name):
             return name
     return None
 
 
+def green_shape(bands):
+    db = 10 * np.log10(bands[:, 1] + 1e-30)
+    f = bands[:, 0]
+    peak_i = int(np.argmax(np.where((f >= 40) & (f <= 12000), db, -1e9)))
+    level = lambda hz: float(np.interp(np.log10(hz), np.log10(f), db))
+    peak_hz, peak_db = float(f[peak_i]), float(db[peak_i])
+    low_drop, high_drop = peak_db - level(63), peak_db - level(8000)
+    ok = 250 <= peak_hz <= 1000 and low_drop >= 6 and high_drop >= 10
+    return ok, round(peak_hz), round(low_drop, 1), round(high_drop, 1)
+
+
 def verdict(res, claimed):
     if claimed is None:
         return "no colour claimed"
+    if claimed == "green":
+        ok, hz, lo, hi = res["green"]
+        return "OK" if ok else f"MISMATCH: not green (peak {hz} Hz, -{lo} dB at 63 Hz, -{hi} dB at 8 kHz)"
     got, a = res["colour"], res["alpha"]
     if got != claimed:
         return f"MISMATCH: measured {got}"
@@ -220,10 +257,11 @@ def main(argv):
         argv = argv[:i] + argv[i + 2:]
     items = ([{"id": Path(a).stem.lower(), "name": Path(a).name, "path": Path(a), "start": 0, "endTrim": 0} for a in argv]
              if argv else sounds_from_index())
+    colours = skin_colours()
     rows = []
     for it in items:
         res = analyse(it["path"], it["start"], it["endTrim"])
-        claimed = claimed_colour(it["id"])
+        claimed = claimed_colour(it["id"], colours)
         res["id"], res["name"], res["claimed"], res["verdict"] = it["id"], it["name"], claimed, verdict(res, claimed)
         if svg_dir:
             svg(res, f'{it["name"]} ({it["id"]})', svg_dir / f'{it["id"]}.svg')
