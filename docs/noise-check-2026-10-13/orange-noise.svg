@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="420" font-family="sans-serif" font-size="11">
+<rect width="720" height="420" fill="#fff"/>
+<text x="60" y="22" font-size="14" font-weight="bold">Orange Noise (orange-noise)</text>
+<text x="700" y="22" text-anchor="end">alpha -0.229  ±7.24 dB  → white</text>
+<line x1="60.0" x2="60.0" y1="40" y2="370" stroke="#eee"/><text x="60.0" y="385" text-anchor="middle">20</text>
+<line x1="144.9" x2="144.9" y1="40" y2="370" stroke="#eee"/><text x="144.9" y="385" text-anchor="middle">50</text>
+<line x1="209.1" x2="209.1" y1="40" y2="370" stroke="#eee"/><text x="209.1" y="385" text-anchor="middle">100</text>
+<line x1="273.3" x2="273.3" y1="40" y2="370" stroke="#eee"/><text x="273.3" y="385" text-anchor="middle">200</text>
+<line x1="358.2" x2="358.2" y1="40" y2="370" stroke="#eee"/><text x="358.2" y="385" text-anchor="middle">500</text>
+<line x1="422.4" x2="422.4" y1="40" y2="370" stroke="#eee"/><text x="422.4" y="385" text-anchor="middle">1k</text>
+<line x1="486.7" x2="486.7" y1="40" y2="370" stroke="#eee"/><text x="486.7" y="385" text-anchor="middle">2k</text>
+<line x1="571.6" x2="571.6" y1="40" y2="370" stroke="#eee"/><text x="571.6" y="385" text-anchor="middle">5k</text>
+<line x1="635.8" x2="635.8" y1="40" y2="370" stroke="#eee"/><text x="635.8" y="385" text-anchor="middle">10k</text>
+<line x1="700.0" x2="700.0" y1="40" y2="370" stroke="#eee"/><text x="700.0" y="385" text-anchor="middle">20k</text>
+<line x1="60" x2="700" y1="370.0" y2="370.0" stroke="#eee"/><text x="54" y="374.0" text-anchor="end">-135</text>
+<line x1="60" x2="700" y1="333.3" y2="333.3" stroke="#eee"/><text x="54" y="337.3" text-anchor="end">-125</text>
+<line x1="60" x2="700" y1="296.7" y2="296.7" stroke="#eee"/><text x="54" y="300.7" text-anchor="end">-115</text>
+<line x1="60" x2="700" y1="260.0" y2="260.0" stroke="#eee"/><text x="54" y="264.0" text-anchor="end">-105</text>
+<line x1="60" x2="700" y1="223.3" y2="223.3" stroke="#eee"/><text x="54" y="227.3" text-anchor="end">-95</text>
+<line x1="60" x2="700" y1="186.7" y2="186.7" stroke="#eee"/><text x="54" y="190.7" text-anchor="end">-85</text>
+<line x1="60" x2="700" y1="150.0" y2="150.0" stroke="#eee"/><text x="54" y="154.0" text-anchor="end">-75</text>
+<line x1="60" x2="700" y1="113.3" y2="113.3" stroke="#eee"/><text x="54" y="117.3" text-anchor="end">-65</text>
+<line x1="60" x2="700" y1="76.7" y2="76.7" stroke="#eee"/><text x="54" y="80.7" text-anchor="end">-55</text>
+<line x1="60" x2="700" y1="40.0" y2="40.0" stroke="#eee"/><text x="54" y="44.0" text-anchor="end">-45</text>
+<rect x="124.2" y="40" width="545.3" height="330" fill="#4a7" opacity="0.06"/>
+<line x1="60.0" y1="120.4" x2="700.0" y2="120.4" stroke="#999" stroke-dasharray="4 4"/><text x="696.0" y="116.4" text-anchor="end" fill="#999">white</text>
+<line x1="60.0" y1="58.1" x2="700.0" y2="168.1" stroke="#e78ac3" stroke-dasharray="4 4"/><text x="696.0" y="164.1" text-anchor="end" fill="#e78ac3">pink</text>
+<line x1="60.0" y1="-4.2" x2="700.0" y2="215.8" stroke="#a6611a" stroke-dasharray="4 4"/><text x="696.0" y="211.8" text-anchor="end" fill="#a6611a">brown</text>
+<line x1="60.0" y1="-66.5" x2="700.0" y2="263.5" stroke="#8b0000" stroke-dasharray="4 4"/><text x="696.0" y="259.5" text-anchor="end" fill="#8b0000">α=3</text>
+<polyline points="101.3,97.3 122.8,108.5 144.2,130.6 165.6,148.0 187.0,158.5 208.4,176.8 229.8,173.6 251.2,156.6 272.6,130.7 294.0,89.1 315.4,81.8 336.8,92.0 358.2,93.4 379.6,89.5 401.0,89.8 422.4,97.2 443.9,98.1 465.3,102.1 486.7,106.0 508.1,110.5 529.5,114.3 550.9,122.8 572.3,129.5 593.7,128.5 615.1,127.9 636.5,137.6 657.9,146.7" fill="none" stroke="#2557d6" stroke-width="2.5"/>
+<text x="60" y="410">1/3-octave PSD (dB), green = fit range 40–14400 Hz, dashed = reference slopes through the fit at 1 kHz</text>
+</svg>

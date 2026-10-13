@@ -1,0 +1,682 @@
+[
+ {
+  "file": "/Users/serhii/.codex/worktrees/6109/Button/people-crowd.m4a",
+  "sampleRate": 48000,
+  "seconds": 23.8,
+  "fitRangeHz": [
+   40.0,
+   16000
+  ],
+  "alpha": 0.962,
+  "dbPerOctave": -2.9,
+  "r2": 0.4242,
+  "fitRmsDb": 8.44,
+  "colour": "pink",
+  "alphaBlocks": {
+   "min": 0.94,
+   "max": 0.97,
+   "std": 0.016
+  },
+  "worstBandsDb": [
+   [
+    16000,
+    -21.4
+   ],
+   [
+    50,
+    -18.1
+   ],
+   [
+    12699,
+    -12.7
+   ]
+  ],
+  "peakDbfs": -11.79,
+  "id": "classic",
+  "name": "Classic",
+  "claimed": null,
+  "verdict": "no colour claimed"
+ },
+ {
+  "file": "/Users/serhii/.codex/worktrees/6109/Button/people-community.m4a",
+  "sampleRate": 48000,
+  "seconds": 26.1,
+  "fitRangeHz": [
+   40.0,
+   11314
+  ],
+  "alpha": 1.657,
+  "dbPerOctave": -4.99,
+  "r2": 0.7048,
+  "fitRmsDb": 7.45,
+  "colour": "orange",
+  "alphaBlocks": {
+   "min": 1.62,
+   "max": 1.68,
+   "std": 0.031
+  },
+  "worstBandsDb": [
+   [
+    630,
+    12.8
+   ],
+   [
+    500,
+    11.9
+   ],
+   [
+    62,
+    -11.1
+   ]
+  ],
+  "peakDbfs": -3.4,
+  "id": "people-community",
+  "name": "Community",
+  "claimed": null,
+  "verdict": "no colour claimed"
+ },
+ {
+  "file": "/Users/serhii/.codex/worktrees/6109/Button/people-catering.m4a",
+  "sampleRate": 48000,
+  "seconds": 34.6,
+  "fitRangeHz": [
+   40.0,
+   14254
+  ],
+  "alpha": -0.168,
+  "dbPerOctave": 0.51,
+  "r2": 0.0127,
+  "fitRmsDb": 10.7,
+  "colour": "white",
+  "alphaBlocks": {
+   "min": -0.19,
+   "max": -0.15,
+   "std": 0.023
+  },
+  "worstBandsDb": [
+   [
+    50,
+    -21.5
+   ],
+   [
+    62,
+    -20.7
+   ],
+   [
+    12699,
+    -19.8
+   ]
+  ],
+  "peakDbfs": -7.04,
+  "id": "people-catering",
+  "name": "Catering",
+  "claimed": null,
+  "verdict": "no colour claimed"
+ },
+ {
+  "file": "/Users/serhii/.codex/worktrees/6109/Button/people-bar-crowd.m4a",
+  "sampleRate": 48000,
+  "seconds": 50.0,
+  "fitRangeHz": [
+   40.0,
+   16000
+  ],
+  "alpha": 1.321,
+  "dbPerOctave": -3.98,
+  "r2": 0.7058,
+  "fitRmsDb": 6.42,
+  "colour": "orange",
+  "alphaBlocks": {
+   "min": 1.25,
+   "max": 1.42,
+   "std": 0.059
+  },
+  "worstBandsDb": [
+   [
+    16000,
+    -17.6
+   ],
+   [
+    50,
+    -10.3
+   ],
+   [
+    12699,
+    -9.2
+   ]
+  ],
+  "peakDbfs": -1.76,
+  "id": "people-bar-crowd",
+  "name": "Bar Crowd",
+  "claimed": null,
+  "verdict": "no colour claimed"
+ },
+ {
+  "file": "/Users/serhii/.codex/worktrees/6109/Button/Loop-1x-INFARED noise-ocean-waves.m4a",
+  "sampleRate": 32000,
+  "seconds": 133.7,
+  "fitRangeHz": [
+   40.0,
+   14400
+  ],
+  "alpha": 1.105,
+  "dbPerOctave": -3.33,
+  "r2": 0.8208,
+  "fitRmsDb": 3.74,
+  "colour": "pink",
+  "alphaBlocks": {
+   "min": 1.0,
+   "max": 1.24,
+   "std": 0.075
+  },
+  "worstBandsDb": [
+   [
+    12699,
+    -8.9
+   ],
+   [
+    50,
+    -5.4
+   ],
+   [
+    62,
+    -5.1
+   ]
+  ],
+  "peakDbfs": -12.4,
+  "id": "infrared-ocean-waves",
+  "name": "Ocean Waves",
+  "claimed": "infrared",
+  "verdict": "MISMATCH: measured pink"
+ },
+ {
+  "file": "/Users/serhii/.codex/worktrees/6109/Button/Loop-1x-INFARED noise-arctic-winds.m4a",
+  "sampleRate": 32000,
+  "seconds": 184.3,
+  "fitRangeHz": [
+   40.0,
+   11314
+  ],
+  "alpha": 1.536,
+  "dbPerOctave": -4.62,
+  "r2": 0.3169,
+  "fitRmsDb": 15.67,
+  "colour": "orange",
+  "alphaBlocks": {
+   "min": 1.2,
+   "max": 2.8,
+   "std": 0.475
+  },
+  "worstBandsDb": [
+   [
+    10079,
+    -35.5
+   ],
+   [
+    2000,
+    28.0
+   ],
+   [
+    8000,
+    -26.9
+   ]
+  ],
+  "peakDbfs": -6.7,
+  "id": "infrared-arctic-winds",
+  "name": "Arctic Winds",
+  "claimed": "infrared",
+  "verdict": "MISMATCH: measured orange"
+ },
+ {
+  "file": "/Users/serhii/.codex/worktrees/6109/Button/Loop-2x-INFARED-noise.m4a",
+  "sampleRate": 32000,
+  "seconds": 116.4,
+  "fitRangeHz": [
+   40.0,
+   14400
+  ],
+  "alpha": 1.806,
+  "dbPerOctave": -5.44,
+  "r2": 0.8794,
+  "fitRmsDb": 4.84,
+  "colour": "brown",
+  "alphaBlocks": {
+   "min": 1.79,
+   "max": 1.82,
+   "std": 0.008
+  },
+  "worstBandsDb": [
+   [
+    157,
+    9.9
+   ],
+   [
+    62,
+    -9.6
+   ],
+   [
+    198,
+    8.6
+   ]
+  ],
+  "peakDbfs": -14.36,
+  "id": "infrared-noise-core",
+  "name": "Infrared Noise",
+  "claimed": "infrared",
+  "verdict": "MISMATCH: measured brown"
+ },
+ {
+  "file": "/Users/serhii/.codex/worktrees/6109/Button/Loop-2x-INFARED-deep-noise.m4a",
+  "sampleRate": 32000,
+  "seconds": 136.3,
+  "fitRangeHz": [
+   40.0,
+   14400
+  ],
+  "alpha": 4.547,
+  "dbPerOctave": -13.69,
+  "r2": 0.9556,
+  "fitRmsDb": 7.09,
+  "colour": "infrared",
+  "alphaBlocks": {
+   "min": 4.52,
+   "max": 4.58,
+   "std": 0.019
+  },
+  "worstBandsDb": [
+   [
+    50,
+    -17.7
+   ],
+   [
+    10079,
+    -11.6
+   ],
+   [
+    62,
+    -11.2
+   ]
+  ],
+  "peakDbfs": -1.14,
+  "id": "infrared-deep-noise",
+  "name": "Infrared Deep Noise",
+  "claimed": "infrared",
+  "verdict": "infrared by slope, but not a clean noise (±7.09 dB from the line)"
+ },
+ {
+  "file": "/Users/serhii/.codex/worktrees/6109/Button/Loop-1x-ORANGE-noise-from-river.m4a",
+  "sampleRate": 32000,
+  "seconds": 160.1,
+  "fitRangeHz": [
+   40.0,
+   14400
+  ],
+  "alpha": -0.229,
+  "dbPerOctave": 0.69,
+  "r2": 0.0499,
+  "fitRmsDb": 7.24,
+  "colour": "white",
+  "alphaBlocks": {
+   "min": -0.44,
+   "max": -0.01,
+   "std": 0.126
+  },
+  "worstBandsDb": [
+   [
+    99,
+    -13.1
+   ],
+   [
+    125,
+    -12.4
+   ],
+   [
+    315,
+    11.7
+   ]
+  ],
+  "peakDbfs": -4.2,
+  "id": "orange-noise",
+  "name": "Orange Noise",
+  "claimed": "orange",
+  "verdict": "MISMATCH: measured white"
+ },
+ {
+  "file": "/Users/serhii/.codex/worktrees/6109/Button/Loop-1x-WHITE-rain-noise.m4a",
+  "sampleRate": 32000,
+  "seconds": 151.7,
+  "fitRangeHz": [
+   40.0,
+   14400
+  ],
+  "alpha": -0.731,
+  "dbPerOctave": 2.2,
+  "r2": 0.7389,
+  "fitRmsDb": 3.14,
+  "colour": "blue/violet",
+  "alphaBlocks": {
+   "min": -0.81,
+   "max": -0.67,
+   "std": 0.043
+  },
+  "worstBandsDb": [
+   [
+    250,
+    -5.8
+   ],
+   [
+    315,
+    -5.8
+   ],
+   [
+    12699,
+    -4.8
+   ]
+  ],
+  "peakDbfs": -1.73,
+  "id": "white-noise",
+  "name": "White Noise",
+  "claimed": "white",
+  "verdict": "MISMATCH: measured blue/violet"
+ },
+ {
+  "file": "/Users/serhii/.codex/worktrees/6109/Button/Loop-2x-WHITE-noise-radio.m4a",
+  "sampleRate": 44100,
+  "seconds": 5.8,
+  "fitRangeHz": [
+   40.0,
+   16000
+  ],
+  "alpha": 0.004,
+  "dbPerOctave": -0.01,
+  "r2": 0.0064,
+  "fitRmsDb": 0.35,
+  "colour": "white",
+  "alphaBlocks": null,
+  "worstBandsDb": [
+   [
+    62,
+    -1.1
+   ],
+   [
+    500,
+    0.7
+   ],
+   [
+    16000,
+    0.5
+   ]
+  ],
+  "peakDbfs": -10.44,
+  "id": "white-noise-radio",
+  "name": "Radio Noise",
+  "claimed": "white",
+  "verdict": "OK"
+ },
+ {
+  "file": "/Users/serhii/.codex/worktrees/6109/Button/Loop-2x-PINK-noise-copy.m4a",
+  "sampleRate": 32000,
+  "seconds": 202.2,
+  "fitRangeHz": [
+   40.0,
+   14400
+  ],
+  "alpha": 1.026,
+  "dbPerOctave": -3.09,
+  "r2": 0.9995,
+  "fitRmsDb": 0.16,
+  "colour": "pink",
+  "alphaBlocks": {
+   "min": 1.01,
+   "max": 1.04,
+   "std": 0.006
+  },
+  "worstBandsDb": [
+   [
+    12699,
+    -0.5
+   ],
+   [
+    125,
+    0.2
+   ],
+   [
+    79,
+    -0.2
+   ]
+  ],
+  "peakDbfs": -4.54,
+  "id": "pink-soft-noise",
+  "name": "Pink Noise",
+  "claimed": "pink",
+  "verdict": "OK"
+ },
+ {
+  "file": "/Users/serhii/.codex/worktrees/6109/Button/Loop-1x-BROWN-ideal-noise-ocean-waves.m4a",
+  "sampleRate": 32000,
+  "seconds": 223.8,
+  "fitRangeHz": [
+   40.0,
+   14400
+  ],
+  "alpha": 1.164,
+  "dbPerOctave": -3.5,
+  "r2": 0.9328,
+  "fitRmsDb": 2.26,
+  "colour": "pink",
+  "alphaBlocks": {
+   "min": 1.06,
+   "max": 1.25,
+   "std": 0.045
+  },
+  "worstBandsDb": [
+   [
+    12699,
+    -6.8
+   ],
+   [
+    50,
+    -4.2
+   ],
+   [
+    250,
+    3.7
+   ]
+  ],
+  "peakDbfs": -0.45,
+  "id": "brown-ideal-ocean-waves",
+  "name": "Ideal Ocean Waves",
+  "claimed": "brown",
+  "verdict": "MISMATCH: measured pink"
+ },
+ {
+  "file": "/Users/serhii/.codex/worktrees/6109/Button/Loop-1x-BROWN-light-rain-outside-noise.m4a",
+  "sampleRate": 32000,
+  "seconds": 146.8,
+  "fitRangeHz": [
+   40.0,
+   14400
+  ],
+  "alpha": 1.159,
+  "dbPerOctave": -3.49,
+  "r2": 0.8909,
+  "fitRmsDb": 2.93,
+  "colour": "pink",
+  "alphaBlocks": {
+   "min": 1.11,
+   "max": 1.2,
+   "std": 0.022
+  },
+  "worstBandsDb": [
+   [
+    12699,
+    -7.2
+   ],
+   [
+    62,
+    -6.2
+   ],
+   [
+    4000,
+    5.6
+   ]
+  ],
+  "peakDbfs": -2.1,
+  "id": "brown-light-rain-outside",
+  "name": "Light Rain Outside",
+  "claimed": "brown",
+  "verdict": "MISMATCH: measured pink"
+ },
+ {
+  "file": "/Users/serhii/.codex/worktrees/6109/Button/Loop-1x-BROWN-rainy-day-in-town-with-birds-singing.m4a",
+  "sampleRate": 32000,
+  "seconds": 407.2,
+  "fitRangeHz": [
+   40.0,
+   14400
+  ],
+  "alpha": 1.158,
+  "dbPerOctave": -3.49,
+  "r2": 0.8211,
+  "fitRmsDb": 3.91,
+  "colour": "pink",
+  "alphaBlocks": {
+   "min": 0.91,
+   "max": 1.67,
+   "std": 0.191
+  },
+  "worstBandsDb": [
+   [
+    3175,
+    8.1
+   ],
+   [
+    4000,
+    6.7
+   ],
+   [
+    12699,
+    -6.7
+   ]
+  ],
+  "peakDbfs": -4.82,
+  "id": "brown-rainy-town-birds",
+  "name": "Rainy Day in Town",
+  "claimed": "brown",
+  "verdict": "MISMATCH: measured pink"
+ },
+ {
+  "file": "/Users/serhii/.codex/worktrees/6109/Button/Loop-1x-BROWN-thunder-rain.m4a",
+  "sampleRate": 32000,
+  "seconds": 330.0,
+  "fitRangeHz": [
+   40.0,
+   14400
+  ],
+  "alpha": 1.224,
+  "dbPerOctave": -3.69,
+  "r2": 0.9008,
+  "fitRmsDb": 2.94,
+  "colour": "pink",
+  "alphaBlocks": {
+   "min": 0.92,
+   "max": 1.44,
+   "std": 0.162
+  },
+  "worstBandsDb": [
+   [
+    50,
+    -9.2
+   ],
+   [
+    250,
+    6.3
+   ],
+   [
+    125,
+    4.7
+   ]
+  ],
+  "peakDbfs": 1.31,
+  "id": "brown-thunder-rain",
+  "name": "Thunder Rain",
+  "claimed": "brown",
+  "verdict": "MISMATCH: measured pink"
+ },
+ {
+  "file": "/Users/serhii/.codex/worktrees/6109/Button/Loop-2x-BROWN-spring-birds.m4a",
+  "sampleRate": 32000,
+  "seconds": 269.8,
+  "fitRangeHz": [
+   40.0,
+   14400
+  ],
+  "alpha": 0.219,
+  "dbPerOctave": -0.66,
+  "r2": 0.0567,
+  "fitRmsDb": 6.46,
+  "colour": "white",
+  "alphaBlocks": {
+   "min": 0.07,
+   "max": 0.47,
+   "std": 0.099
+  },
+  "worstBandsDb": [
+   [
+    12699,
+    -16.1
+   ],
+   [
+    10079,
+    -12.0
+   ],
+   [
+    4000,
+    11.5
+   ]
+  ],
+  "peakDbfs": -2.8,
+  "id": "brown-spring-birds",
+  "name": "Spring Birds",
+  "claimed": "brown",
+  "verdict": "MISMATCH: measured white"
+ },
+ {
+  "file": "/Users/serhii/.codex/worktrees/6109/Button/Loop-BROWN-waterfall.m4a",
+  "sampleRate": 32000,
+  "seconds": 56.9,
+  "fitRangeHz": [
+   40.0,
+   14400
+  ],
+  "alpha": 1.156,
+  "dbPerOctave": -3.48,
+  "r2": 0.9601,
+  "fitRmsDb": 1.7,
+  "colour": "pink",
+  "alphaBlocks": {
+   "min": 1.14,
+   "max": 1.16,
+   "std": 0.009
+  },
+  "worstBandsDb": [
+   [
+    250,
+    4.0
+   ],
+   [
+    198,
+    3.7
+   ],
+   [
+    99,
+    -3.0
+   ]
+  ],
+  "peakDbfs": -1.93,
+  "id": "brown-waterfall",
+  "name": "Waterfall",
+  "claimed": "brown",
+  "verdict": "MISMATCH: measured pink"
+ }
+]
