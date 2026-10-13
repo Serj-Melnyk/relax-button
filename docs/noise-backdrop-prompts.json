@@ -5,7 +5,7 @@
     "aspect": "9:16 (768x1376)",
     "template": "Vertical phone wallpaper, photorealistic landscape photo. {scene} Calm cinematic mood, soft natural light, slightly darker lower third. No people, no text, no logos, no watermark.",
     "scenes": {
-      "white-noise": "A small frozen stream cascading over a low stone weir in deep winter, fresh snow on dark rocks, silky long-exposure water, cool silver-blue palette.",
+      "white-noise": "(now Green Noise, file green-noise.webp, 2026-10-13) A quiet emerald forest stream flowing gently over mossy stones beneath tall ferns and beech trees, soft morning mist between the trunks, rich deep green palette.",
       "white-noise-radio": "Bright white cumulus clouds drifting across a clear deep-blue sky, seen from below, airy, luminous and peaceful.",
       "pink-soft-noise": "Bare winter trees in a dense pink-magenta fog at dusk, a wooden footbridge railing fading into the mist, soft dreamy haze.",
       "orange-noise": "Macro abstract of warm amber and orange stained glass, irregular rounded cells separated by dark lead lines, glowing soft backlight.",
@@ -26,5 +26,10 @@
     "method": "The chosen portrait image attached as a reference (\"ingredient\") with this prompt",
     "prompt": "Recreate the attached photo as a wide 16:9 landscape version of the exact same scene: same place, subject, colours, light and photographic style. Extend the scene naturally to the left and right, keep the main subject centred. No people, no text, no logos, no watermark."
   },
-  "export": "Flow JPEG previews converted with: cwebp -q 80 -m 6 <in>.jpg -o <sound-id>.webp / <sound-id>-landscape.webp"
+  "export": "Flow JPEG previews converted with: cwebp -q 80 -m 6 <in>.jpg -o <sound-id>.webp / <sound-id>-landscape.webp",
+  "home_cards": {
+    "note": "2026-10-13, 9:16, used as-is (object-fit cover)",
+    "green-noise-card": "Tall vertical poster artwork, soft dreamy stylized forest: slender pale trees in a dense emerald-green glowing mist, mossy rocks and low green shrubs in the foreground, a narrow path fading into the haze, monochrome green palette, gentle backlight, painterly and calm. No people, no text, no logos, no watermark.",
+    "rain-card": "Tall vertical poster artwork, soft dreamy and calm: gentle rain falling over a still lake surrounded by misty pine forest at blue hour, fine raindrop ripples on the water, a wet wooden pier leading into the haze, monochrome deep blue and cool slate palette, soft diffused light, painterly. No people, no text, no logos, no watermark."
+  }
 }
