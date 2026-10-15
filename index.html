@@ -307,8 +307,23 @@
         background-color: #D8DADF;
     }
 
-    /* Under a sound skin the page root must be dark: during a rotation the
-       freshly exposed area shows the root colour for a few frames. */
+    /* The page root shows through for a few frames during rotations and
+       Home <-> skin switches, so it must match what is on screen: the night
+       Home colour, dark app themes, and dark under sound skins. */
+    html.onboarding-complete:has(body[data-home-theme="night"]),
+    html.onboarding-complete body[data-home-theme="night"] {
+        background-color: #141310;
+    }
+
+    html.onboarding-complete:has(body[data-theme="night"]),
+    html.onboarding-complete body[data-theme="night"],
+    html.onboarding-complete:has(body[data-theme="obsidian"]),
+    html.onboarding-complete body[data-theme="obsidian"],
+    html.onboarding-complete:has(body[data-theme="cosmos"]),
+    html.onboarding-complete body[data-theme="cosmos"] {
+        background-color: #121212;
+    }
+
     html.onboarding-complete:has(body.noise-player-mode),
     html.onboarding-complete body.noise-player-mode {
         background-color: #07090d;
