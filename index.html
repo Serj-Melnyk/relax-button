@@ -5934,7 +5934,10 @@
 
     /* Returning Home is instant too: a fading Home made the glass nav bar
        show the skin, then a flat bar, then glass. */
-    body.home-entering #home-screen {
+    body.home-entering #home-screen,
+    body.home-entering #home-screen *,
+    body.home-entering #home-screen *::before,
+    body.home-entering #home-screen *::after {
         transition: none !important;
     }
 
