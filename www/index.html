@@ -307,6 +307,13 @@
         background-color: #D8DADF;
     }
 
+    /* Under a sound skin the page root must be dark: during a rotation the
+       freshly exposed area shows the root colour for a few frames. */
+    html.onboarding-complete:has(body.noise-player-mode),
+    html.onboarding-complete body.noise-player-mode {
+        background-color: #07090d;
+    }
+
     html[data-boot-theme="night"],
     html[data-boot-theme="night"] body {
         background-color: #121212;
@@ -1121,6 +1128,13 @@
         cursor: default;
     }
 
+    /* Previous/next are disabled only when the skin has a single sound: nothing
+       to skip to, so hide them instead of drawing faint glass ghosts. The space
+       stays reserved, so the play button keeps its place. */
+    .noise-player-control[disabled]:not(.play-toggle) {
+        visibility: hidden;
+    }
+
     .noise-player-control svg {
         width: 28px;
         height: 28px;
@@ -1569,11 +1583,6 @@
         --noise-backdrop-warming: 1;
     }
 
-    html.backdrop-orientation-fade::view-transition-old(root),
-    html.backdrop-orientation-fade::view-transition-new(root) {
-        animation-duration: 420ms;
-        animation-timing-function: ease-in-out;
-    }
 
     body[data-skin="pink-noise"] #app::before,
 
@@ -13791,10 +13800,7 @@
             // Each noise backdrop has a portrait and a landscape image; switch
             // when the phone is rotated.
             this.landscapeQuery = window.matchMedia?.('(orientation: landscape)') || null;
-            this.landscapeQuery?.addEventListener?.('change', () => {
-                this.orientationSwapPending = true;
-                this.sync();
-            });
+            this.landscapeQuery?.addEventListener?.('change', () => this.sync());
             this.sync();
             requestAnimationFrame(() => this.preloadLikelyArtwork());
         },
@@ -14011,25 +14017,11 @@
             }
 
             const cssUrl = `url('${imageUrl.replace(/'/g, '%27')}')`;
-            const isOrientationSwap = this.orientationSwapPending && !!this.appliedImageUrl;
-            this.orientationSwapPending = false;
             this.appliedImageUrl = imageUrl;
-            const swap = () => {
-                this.setBaseBackdropCssUrl(cssUrl);
-                document.body.classList.remove('noise-backdrop-loading');
-            };
-            // After a rotation the portrait and landscape artwork differ in framing;
-            // cross-fade between them instead of cutting.
-            if (isOrientationSwap && typeof document.startViewTransition === 'function'
-                && !window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches) {
-                document.documentElement.classList.add('backdrop-orientation-fade');
-                const transition = document.startViewTransition(swap);
-                transition.finished.finally(() => {
-                    document.documentElement.classList.remove('backdrop-orientation-fade');
-                });
-            } else {
-                swap();
-            }
+            this.setBaseBackdropCssUrl(cssUrl);
+            document.body.classList.remove('noise-backdrop-loading');
+            // Decode the other orientation now, so a rotation swaps the picture in
+            // the same frame as the new layout instead of waiting for a download.
             const otherUrl = this.otherOrientationUrl(imageUrl);
             if (otherUrl) {
                 schedulePostInteraction(() => this.preloadImage(otherUrl, 'low'), 600);
@@ -14047,7 +14039,6 @@
             }
 
             const nextImage = this.artworkUrlForKey(artworkKey);
-            if (nextImage === this.appliedImageUrl) this.orientationSwapPending = false;
             const hasMatchingAppliedImage = this.appliedArtworkKey === artworkKey
                 && !!nextImage
                 && this.appliedImageUrl === nextImage;
