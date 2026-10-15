@@ -33,9 +33,18 @@ public class MainActivity extends BridgeActivity {
     private void applyStableRefreshRate() {
         if (getWindow() == null) return;
         WindowManager.LayoutParams params = getWindow().getAttributes();
-        if (params.preferredRefreshRate == 60f) return;
-        params.preferredRefreshRate = 60f;
-        getWindow().setAttributes(params);
+        // Cross-fade on rotation instead of rotating a screenshot: the WebView
+        // needs a frame to relayout, and a rotated screenshot shows it cropped.
+        boolean changed = false;
+        if (params.rotationAnimation != WindowManager.LayoutParams.ROTATION_ANIMATION_CROSSFADE) {
+            params.rotationAnimation = WindowManager.LayoutParams.ROTATION_ANIMATION_CROSSFADE;
+            changed = true;
+        }
+        if (params.preferredRefreshRate != 60f) {
+            params.preferredRefreshRate = 60f;
+            changed = true;
+        }
+        if (changed) getWindow().setAttributes(params);
     }
 
     private void registerBackHandler() {

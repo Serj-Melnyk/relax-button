@@ -1591,6 +1591,18 @@
         --noise-backdrop-warming: 1;
     }
 
+    /* Rotation: see NoiseBackdropScene.settleAfterRotation(). */
+    html.orientation-settling #noise-player,
+    html.orientation-settling .noise-top-controls {
+        opacity: 0 !important;
+        transition: none !important;
+    }
+
+    html.orientation-revealing #noise-player,
+    html.orientation-revealing .noise-top-controls {
+        transition: opacity 220ms ease-out !important;
+    }
+
 
     body[data-skin="pink-noise"] #app::before,
 
@@ -4993,7 +5005,7 @@
             right: var(--landscape-edge);
             top: calc(72px + env(safe-area-inset-top, 0px));
             bottom: calc(var(--nav-bar-height) + 24px + env(safe-area-inset-bottom, 0px));
-            grid-template-columns: minmax(220px, 300px) minmax(0, 1fr);
+            grid-template-columns: minmax(240px, 420px) minmax(0, 1fr);
             grid-template-rows: minmax(0, 1fr) auto;
             align-items: start;
         }
@@ -5002,21 +5014,24 @@
             display: grid;
         }
 
+        /* Wider and a bit smaller than in portrait, so long names like
+           "Infrared Deep Noise" take fewer lines above the nav bar. */
         .noise-player-meta {
-            width: min(264px, 80vw);
-            gap: 8px;
+            width: min(420px, 48vw);
+            max-width: 420px;
+            gap: 6px;
             grid-column: 1;
             grid-row: 1;
         }
 
         .noise-player-title {
-            font-size: clamp(30px, 7vw, 40px);
-            max-width: 10.5ch;
+            font-size: clamp(26px, 4.4vw, 34px);
+            max-width: 16ch;
         }
 
         .noise-player-subtitle {
             font-size: 14px;
-            max-width: 16ch;
+            max-width: 30ch;
         }
 
         .noise-player-controls {
@@ -5068,8 +5083,16 @@
             width: min(600px, calc(100vw - 2 * var(--landscape-edge) - 120px));
             max-height: calc(100dvh - var(--nav-bar-height) - 30px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
             overflow-y: auto;
-            padding: 12px 14px;
+            padding: 10px 14px;
+            z-index: 320;
         }
+
+        .sleep-timer-panel .sleep-timer-wheel { min-height: 112px; }
+        .sleep-timer-panel .sleep-timer-wheel-list { height: 112px; padding: 35px 0; }
+        .sleep-timer-panel .sleep-timer-step { min-height: 46px; }
+        .sleep-timer-panel .sleep-timer-start,
+        .sleep-timer-panel .sleep-timer-clear { min-height: 40px; padding-top: 8px; padding-bottom: 8px; }
+        .sleep-timer-panel .sleep-timer-status { font-size: 12px; line-height: 1.35; }
 
         .sleep-timer-panel.is-open {
             display: grid;
@@ -13845,9 +13868,31 @@
             // Each noise backdrop has a portrait and a landscape image; switch
             // when the phone is rotated.
             this.landscapeQuery = window.matchMedia?.('(orientation: landscape)') || null;
-            this.landscapeQuery?.addEventListener?.('change', () => this.sync());
+            this.landscapeQuery?.addEventListener?.('change', () => {
+                this.settleAfterRotation();
+                this.sync();
+            });
             this.sync();
             requestAnimationFrame(() => this.preloadLikelyArtwork());
+        },
+
+        // After a rotation the WebView paints the backdrop a frame before the
+        // player text and glass buttons, which reads as a blink. Hide those
+        // layers for the relayout and fade them back once two frames are done.
+        settleAfterRotation() {
+            const root = document.documentElement;
+            clearTimeout(this.rotationRevealTimer);
+            root.classList.remove('orientation-revealing');
+            root.classList.add('orientation-settling');
+            requestAnimationFrame(() => requestAnimationFrame(() => {
+                this.rotationRevealTimer = setTimeout(() => {
+                    root.classList.add('orientation-revealing');
+                    root.classList.remove('orientation-settling');
+                    this.rotationRevealTimer = setTimeout(() => {
+                        root.classList.remove('orientation-revealing');
+                    }, 260);
+                }, 60);
+            }));
         },
 
         orientArtworkUrl(imageUrl = '') {
