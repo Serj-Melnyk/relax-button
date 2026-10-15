@@ -17,3 +17,4 @@ Not app code: the video project lives outside the repo, in `~/Desktop/Button/tmp
   circular iris from the wooden button to the app and its whoosh rejected (now a plain dissolve, no sound);
   tempo a bit slower (cuts every 2 beats instead of 1.5). EN version: "вроде норм", owner checking on the phone.
 - Clicks land on the touch within 0.5 frame in both languages (cross-correlation of the render).
+- Owner approved the final on the phone (EN + UA): "На телефоні все добре, фінал."
