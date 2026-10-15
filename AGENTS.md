@@ -39,4 +39,7 @@ Digital Fidget: Mental ASMR — Capacitor app (Android first, iOS also built), p
 - Debug builds install as `com.antistress.relaxbutton.debug` beside the Play build
   (`./gradlew assembleDebug`), so device QA keeps the tester's data.
 - Signing (`android/keystore.properties`) and `android/local.properties` are local only — never commit.
+- Promo video (Reels/TikTok/Shorts) is a separate Remotion project, not in this repo:
+  `~/Desktop/Button/tmp/promo-remotion/` (spec in its `DESIGN.md`, render with `render-all.sh`).
+  Timing is written in music beats in `src/timeline.ts`; change beats there, never raw frame numbers.
 - Production actions in Play Console (sending for review, promoting to production) are done by the owner.
