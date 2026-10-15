@@ -5084,7 +5084,15 @@
             max-height: calc(100dvh - var(--nav-bar-height) - 30px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
             overflow-y: auto;
             padding: 10px 14px;
-            z-index: 320;
+        }
+
+        /* The timer sits inside #app, which paints below the nav bar, so it can
+           never be lifted above it. In short landscape (and with a large system
+           font) it can reach the bar, so step the bar aside while it is open. */
+        body:has(.sleep-timer-panel.is-open) #app-nav {
+            opacity: 0 !important;
+            pointer-events: none !important;
+            transition: opacity 160ms ease !important;
         }
 
         .sleep-timer-panel .sleep-timer-wheel { min-height: 112px; }
