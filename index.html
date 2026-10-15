@@ -4964,21 +4964,33 @@
 
     @media (orientation: landscape) and (max-height: 560px) {
         /* In landscape the front-camera cutout sits at the left or right edge.
-           Capacitor's SystemBars injects --safe-area-inset-*; env() is the fallback. */
+           Use the reported inset (Capacitor SystemBars var, env() fallback), but
+           never less than a margin that clears a phone's punch-hole camera, on
+           both sides so the layout stays symmetric whichever way it is turned. */
         :root {
-            --landscape-safe-left: var(--safe-area-inset-left, env(safe-area-inset-left, 0px));
-            --landscape-safe-right: var(--safe-area-inset-right, env(safe-area-inset-right, 0px));
+            --landscape-edge: max(48px,
+                calc(14px + var(--safe-area-inset-left, env(safe-area-inset-left, 0px))),
+                calc(14px + var(--safe-area-inset-right, env(safe-area-inset-right, 0px))));
         }
 
         .noise-top-controls {
             top: calc(12px + env(safe-area-inset-top, 0px));
-            left: calc(14px + var(--landscape-safe-left));
-            right: calc(14px + var(--landscape-safe-right));
+            left: var(--landscape-edge);
+            right: var(--landscape-edge);
+        }
+
+        /* Side panels hug the left edge, where the camera may be in landscape. */
+        #settings-panel,
+        #account-panel {
+            width: min(calc(320px + var(--landscape-edge) - 14px), 85vw);
+            padding-left: calc(var(--landscape-edge) - 14px);
+            padding-top: env(safe-area-inset-top, 0px);
+            padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
         }
 
         #noise-player {
-            left: calc(16px + var(--landscape-safe-left));
-            right: calc(16px + var(--landscape-safe-right));
+            left: var(--landscape-edge);
+            right: var(--landscape-edge);
             top: calc(72px + env(safe-area-inset-top, 0px));
             bottom: calc(var(--nav-bar-height) + 24px + env(safe-area-inset-bottom, 0px));
             grid-template-columns: minmax(220px, 300px) minmax(0, 1fr);
@@ -5049,12 +5061,34 @@
             max-height: calc(100dvh - 86px);
         }
 
+        /* Short landscape: wheels on the left, actions on the right, so the
+           whole timer fits above the nav bar without scrolling. */
         .sleep-timer-panel {
-            top: calc(56px + env(safe-area-inset-top, 0px));
-            width: min(336px, calc(100vw - 28px));
-            max-height: calc(100dvh - var(--nav-bar-height) - 84px - env(safe-area-inset-bottom, 0px));
+            top: calc(10px + env(safe-area-inset-top, 0px));
+            width: min(600px, calc(100vw - 2 * var(--landscape-edge) - 120px));
+            max-height: calc(100dvh - var(--nav-bar-height) - 30px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
             overflow-y: auto;
+            padding: 12px 14px;
         }
+
+        .sleep-timer-panel.is-open {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(150px, 200px);
+            grid-template-areas:
+                "title  title"
+                "custom status"
+                "custom start"
+                "custom clear";
+            grid-template-rows: auto 1fr auto auto;
+            column-gap: 14px;
+            row-gap: 8px;
+        }
+
+        .sleep-timer-panel .sleep-timer-title { grid-area: title; }
+        .sleep-timer-panel .sleep-timer-status { grid-area: status; margin: 0; align-self: start; }
+        .sleep-timer-panel .sleep-timer-custom { grid-area: custom; margin: 0; }
+        .sleep-timer-panel .sleep-timer-start { grid-area: start; margin: 0; }
+        .sleep-timer-panel .sleep-timer-clear { grid-area: clear; margin: 0; }
 
         .sleep-timer-custom {
             grid-template-columns: 40px minmax(0, 1fr) minmax(0, 1fr) 40px;
