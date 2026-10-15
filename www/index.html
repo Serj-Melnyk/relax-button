@@ -1572,6 +1572,12 @@
         --noise-backdrop-warming: 1;
     }
 
+    html.backdrop-orientation-fade::view-transition-old(root),
+    html.backdrop-orientation-fade::view-transition-new(root) {
+        animation-duration: 420ms;
+        animation-timing-function: ease-in-out;
+    }
+
     body[data-skin="pink-noise"] #app::before,
 
     body[data-skin="green-noise"] #app::before,
@@ -3359,6 +3365,28 @@
         box-shadow:
             inset 0 1px 0 rgba(255,255,255,0.14),
             0 10px 24px color-mix(in srgb, var(--accent) 10%, transparent);
+    }
+
+    .sound-icon .sound-premium-crown {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        z-index: 1;
+        width: 17px;
+        height: 17px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--accent);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.22);
+        pointer-events: none;
+    }
+
+    .sound-icon .sound-premium-crown svg {
+        width: 10px;
+        height: 10px;
+        fill: var(--on-accent, #fff);
     }
 
     .sound-item.is-premium .sound-name {
@@ -9222,6 +9250,13 @@
             && window.Capacitor.getPlatform() === 'android';
     }
 
+    // Set only by android/app/src/debug/assets/public/js/runtime-config.js,
+    // which is packaged into debug builds and never into release builds.
+    function isDebugPremiumBuild() {
+        return window.__APP_RUNTIME_CONFIG__?.billing?.debugPremium === true
+            && !!window.Capacitor?.isNativePlatform?.();
+    }
+
     function isLocalWebPreview() {
         return window.__LOCAL_WEB_PREVIEW__ === true
             && !window.Capacitor?.isNativePlatform?.();
@@ -9252,6 +9287,7 @@
 
         hasFullAccess() {
             return isLocalWebPreview()
+                || isDebugPremiumBuild()
                 || EntitlementManager.hasPaidPremium()
                 || this.isTrialActive();
         },
@@ -11195,6 +11231,7 @@
                     <div class="sound-preview" role="button" tabindex="0" aria-label="${I18n.call('actions.preview', I18n.sound(profile, 'name'))}">
                         <div class="sound-icon">
                             <svg viewBox="0 0 24 24"><path d="${profile.iconPath}"/></svg>
+                            ${isLocked ? '<span class="sound-premium-crown" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M2.5 7 7 10l5-6 5 6 4.5-3-1.7 11H4.2L2.5 7Z"/><path d="M5 20h14v2H5z"/></svg></span>' : ''}
                             ${NewContent.badge('sound', profile.id, 'sound-new-badge')}
                         </div>
                         <div class="sound-info">
@@ -13751,7 +13788,10 @@
             // Each noise backdrop has a portrait and a landscape image; switch
             // when the phone is rotated.
             this.landscapeQuery = window.matchMedia?.('(orientation: landscape)') || null;
-            this.landscapeQuery?.addEventListener?.('change', () => this.sync());
+            this.landscapeQuery?.addEventListener?.('change', () => {
+                this.orientationSwapPending = true;
+                this.sync();
+            });
             this.sync();
             requestAnimationFrame(() => this.preloadLikelyArtwork());
         },
@@ -13759,6 +13799,15 @@
         orientArtworkUrl(imageUrl = '') {
             if (!this.landscapeQuery?.matches || !imageUrl.startsWith('assets/noise-backdrops/')) return imageUrl;
             return imageUrl.replace(/\.webp$/, '-landscape.webp');
+        },
+
+        // The image for the other orientation of the same backdrop, so it can be
+        // decoded ahead of a rotation instead of loading after it.
+        otherOrientationUrl(imageUrl = '') {
+            if (!imageUrl.startsWith('assets/noise-backdrops/')) return '';
+            return imageUrl.endsWith('-landscape.webp')
+                ? imageUrl.replace(/-landscape\.webp$/, '.webp')
+                : imageUrl.replace(/\.webp$/, '-landscape.webp');
         },
 
         restoreArtworkCache() {
@@ -13959,9 +14008,29 @@
             }
 
             const cssUrl = `url('${imageUrl.replace(/'/g, '%27')}')`;
+            const isOrientationSwap = this.orientationSwapPending && !!this.appliedImageUrl;
+            this.orientationSwapPending = false;
             this.appliedImageUrl = imageUrl;
-            this.setBaseBackdropCssUrl(cssUrl);
-            document.body.classList.remove('noise-backdrop-loading');
+            const swap = () => {
+                this.setBaseBackdropCssUrl(cssUrl);
+                document.body.classList.remove('noise-backdrop-loading');
+            };
+            // After a rotation the portrait and landscape artwork differ in framing;
+            // cross-fade between them instead of cutting.
+            if (isOrientationSwap && typeof document.startViewTransition === 'function'
+                && !window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches) {
+                document.documentElement.classList.add('backdrop-orientation-fade');
+                const transition = document.startViewTransition(swap);
+                transition.finished.finally(() => {
+                    document.documentElement.classList.remove('backdrop-orientation-fade');
+                });
+            } else {
+                swap();
+            }
+            const otherUrl = this.otherOrientationUrl(imageUrl);
+            if (otherUrl) {
+                schedulePostInteraction(() => this.preloadImage(otherUrl, 'low'), 600);
+            }
         },
 
         sync() {
@@ -13975,6 +14044,7 @@
             }
 
             const nextImage = this.artworkUrlForKey(artworkKey);
+            if (nextImage === this.appliedImageUrl) this.orientationSwapPending = false;
             const hasMatchingAppliedImage = this.appliedArtworkKey === artworkKey
                 && !!nextImage
                 && this.appliedImageUrl === nextImage;
