@@ -18,3 +18,7 @@ Not app code: the video project lives outside the repo, in `~/Desktop/Button/tmp
   tempo a bit slower (cuts every 2 beats instead of 1.5). EN version: "вроде норм", owner checking on the phone.
 - Clicks land on the touch within 0.5 frame in both languages (cross-correlation of the render).
 - Owner approved the final on the phone (EN + UA): "На телефоні все добре, фінал."
+- End card now ends with the official Google Play badge (EN "Get it on", UA "Завантажити з"; files from
+  play.google.com/intl/en_us/badges, unaltered) on beat 32.5; film is 25.2 s.
+- Final files (only copy, older builds deleted): `~/Desktop/Button/promo-video/digital-fidget-promo_{EN,UA}_{with-music,no-music}.mp4`
+  ("no-music" = app clicks and noises only). `render-all.sh` writes straight there. Folder is not git-tracked.
