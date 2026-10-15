@@ -4950,15 +4950,22 @@
     }
 
     @media (orientation: landscape) and (max-height: 560px) {
+        /* In landscape the front-camera cutout sits at the left or right edge.
+           Capacitor's SystemBars injects --safe-area-inset-*; env() is the fallback. */
+        :root {
+            --landscape-safe-left: var(--safe-area-inset-left, env(safe-area-inset-left, 0px));
+            --landscape-safe-right: var(--safe-area-inset-right, env(safe-area-inset-right, 0px));
+        }
+
         .noise-top-controls {
             top: calc(12px + env(safe-area-inset-top, 0px));
-            left: 14px;
-            right: 14px;
+            left: calc(14px + var(--landscape-safe-left));
+            right: calc(14px + var(--landscape-safe-right));
         }
 
         #noise-player {
-            left: 16px;
-            right: 16px;
+            left: calc(16px + var(--landscape-safe-left));
+            right: calc(16px + var(--landscape-safe-right));
             top: calc(72px + env(safe-area-inset-top, 0px));
             bottom: calc(var(--nav-bar-height) + 24px + env(safe-area-inset-bottom, 0px));
             grid-template-columns: minmax(220px, 300px) minmax(0, 1fr);
