@@ -5008,6 +5008,62 @@
             padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
         }
 
+        /* Settings in landscape: one wide card, toggles on the left, themes on the right,
+           so everything fits the short screen without scrolling. */
+        #settings-panel {
+            top: calc(10px + env(safe-area-inset-top, 0px));
+            bottom: auto;
+            left: var(--landscape-edge);
+            width: min(720px, calc(100vw - 2 * var(--landscape-edge)));
+            max-height: calc(100dvh - 20px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+            padding: 0 0 10px;
+            border-radius: 24px;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+            grid-auto-rows: min-content;
+            column-gap: 4px;
+            align-content: start;
+            touch-action: pan-y;
+            overscroll-behavior: contain;
+        }
+
+        #settings-panel:not(.is-open) {
+            transform: translateX(calc(-100% - var(--landscape-edge) - 18px)) scale(0.985);
+        }
+
+        #settings-panel .settings-title {
+            grid-column: 1 / -1;
+            position: static;
+            padding: 16px 24px 6px;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            background: none;
+        }
+
+        #settings-panel > .setting-row {
+            grid-column: 1;
+            padding: 11px 0;
+        }
+
+        #settings-panel > .setting-theme-section {
+            grid-column: 2;
+            grid-row: 2 / span 4;
+            align-self: start;
+            padding: 11px 0 6px;
+            border-bottom: 0;
+        }
+
+        #settings-panel .setting-theme-carousel {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(52px, 1fr));
+            gap: 8px 6px;
+            max-height: none;
+            overflow: visible;
+            touch-action: pan-y;
+            margin: 0;
+            padding: 2px 0;
+        }
+
         #noise-player {
             left: var(--landscape-edge);
             right: var(--landscape-edge);
@@ -5224,6 +5280,7 @@
             overflow-y: auto;
             overflow-x: hidden;
             padding: 2px 4px 2px 0;
+            touch-action: pan-y;
         }
 
         #app-nav {
@@ -11757,6 +11814,13 @@
 
             app.addEventListener('touchstart', (e) => {
                 const touch = e.touches[0];
+                // Wheels, sliders and lists in an open panel scroll vertically; in landscape they
+                // sit inside the bottom gesture band, so their drags must not open the sheet.
+                if (e.target instanceof Element && e.target.closest('.sleep-timer-panel, #settings-panel, #account-panel, #bottom-sheet, #paywall')
+                    || document.querySelector('.sleep-timer-panel.is-open, #settings-panel.is-open, #account-panel.is-open')) {
+                    this.active = false;
+                    return;
+                }
                 const button = document.getElementById('main-button');
                 const buttonRect = button?.getBoundingClientRect();
 
