@@ -1591,6 +1591,14 @@
         --noise-backdrop-warming: 1;
     }
 
+    /* Rotation: see NoiseBackdropScene.warmHomeAfterRotation(). */
+    body.home-raster-warm:not(.home-view-active) #home-screen {
+        visibility: visible;
+        opacity: 0.002;
+        pointer-events: none;
+        transition: none;
+    }
+
     /* Rotation: see NoiseBackdropScene.settleAfterRotation(). */
     html.orientation-settling #noise-player,
     html.orientation-settling .noise-top-controls {
@@ -13889,6 +13897,7 @@
         // layers for the relayout and fade them back once two frames are done.
         settleAfterRotation() {
             const root = document.documentElement;
+            this.warmHomeAfterRotation();
             clearTimeout(this.rotationRevealTimer);
             root.classList.remove('orientation-revealing');
             root.classList.add('orientation-settling');
@@ -13901,6 +13910,17 @@
                     }, 260);
                 }, 60);
             }));
+        },
+
+        // A hidden Home is not re-rastered after a rotation, so the first return
+        // to Home showed only its background for ~1 s on the phone. Keep Home
+        // painted at 0.2% opacity under the skin for a moment so it is ready.
+        warmHomeAfterRotation() {
+            const body = document.body;
+            if (!body || body.classList.contains('home-view-active')) return;
+            clearTimeout(this.homeWarmTimer);
+            body.classList.add('home-raster-warm');
+            this.homeWarmTimer = setTimeout(() => body.classList.remove('home-raster-warm'), 1600);
         },
 
         orientArtworkUrl(imageUrl = '') {
