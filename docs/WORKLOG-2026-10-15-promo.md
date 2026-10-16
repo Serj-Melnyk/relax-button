@@ -22,3 +22,4 @@ Not app code: the video project lives outside the repo, in `~/Desktop/Button/tmp
   play.google.com/intl/en_us/badges, unaltered) on beat 32.5; film is 25.2 s.
 - Final files (only copy, older builds deleted): `~/Desktop/Button/promo-video/digital-fidget-promo_{EN,UA}_{with-music,no-music}.mp4`
   ("no-music" = app clicks and noises only). `render-all.sh` writes straight there. Folder is not git-tracked.
+- 2026-10-16: app click kept only on the wooden button and the 3 theme clicks; removed from the noise play presses and the settings theme taps (owner).
