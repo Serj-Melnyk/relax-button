@@ -1,0 +1,21 @@
+<en-US>
+Every noise is now checked by its real spectrum and sits in the skin of its true colour. New Green Noise skin. New artwork for Rain, Moon and River. Premium sounds are marked with a crown. Landscape mode is easier to use: clearer sleep timer and settings, nothing hidden by the camera. Fewer flashes when switching screens and rotating, including the night theme.
+</en-US>
+<de-DE>
+Jedes Rauschen wird jetzt anhand seines echten Spektrums geprüft und gehört zum Skin seiner wahren Farbe. Neuer Skin „Grünes Rauschen“. Neue Bilder für Regen, Mond und Fluss. Premium-Klänge sind mit einer Krone markiert. Querformat ist einfacher: übersichtlicher Sleep-Timer und Einstellungen, nichts wird von der Kamera verdeckt. Weniger Aufblitzen beim Wechseln und Drehen, auch im Nachtdesign.
+</de-DE>
+<es-ES>
+Cada ruido se comprueba ahora por su espectro real y está en el skin de su verdadero color. Nuevo skin de Ruido verde. Nuevas imágenes para Lluvia, Luna y Río. Los sonidos Premium llevan una corona. El modo horizontal es más cómodo: temporizador y ajustes más claros, nada tapado por la cámara. Menos destellos al cambiar de pantalla y al girar, también en el tema de noche.
+</es-ES>
+<fr-FR>
+Chaque bruit est désormais vérifié selon son vrai spectre et placé dans le skin de sa vraie couleur. Nouveau skin Bruit vert. Nouvelles images pour Pluie, Lune et Rivière. Les sons Premium portent une couronne. Le mode paysage est plus pratique : minuterie et réglages plus clairs, rien de caché par la caméra. Moins de flashs en changeant d'écran et en tournant le téléphone, y compris en thème nuit.
+</fr-FR>
+<ja-JP>
+すべてのノイズを実際のスペクトルで確認し、本当の色のスキンに配置しました。新しいグリーンノイズのスキン。雨・月・川の新しい画像。Premiumサウンドに王冠マーク。横向き表示が使いやすくなり、スリープタイマーと設定が見やすく、カメラに隠れません。画面切り替えや回転時のちらつきを軽減（夜テーマも）。
+</ja-JP>
+<pt-BR>
+Cada ruído agora é verificado pelo seu espectro real e fica no skin da sua cor verdadeira. Novo skin de Ruído verde. Novas imagens para Chuva, Lua e Rio. Sons Premium têm uma coroa. O modo horizontal ficou mais fácil: timer de sono e ajustes mais claros, nada escondido pela câmera. Menos piscadas ao trocar de tela e girar o celular, inclusive no tema noturno.
+</pt-BR>
+<uk>
+Кожен шум тепер перевірено за справжнім спектром, і він стоїть у скіні свого реального кольору. Новий скін «Зелений шум». Нові картинки для Дощу, Луни й Річки. Преміум-звуки позначено короною. Горизонтальний режим зручніший: зрозуміліші таймер сну й налаштування, камера нічого не закриває. Менше блимань під час переходів і повороту, зокрема в нічній темі.
+</uk>
