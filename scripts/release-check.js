@@ -53,7 +53,7 @@ const themesBlock = webIndex.slice(
 const themeFlags = [...themesBlock.matchAll(/\{\s*id:\s*'([^']+)'[\s\S]*?free:\s*(true|false)/g)]
   .map((match) => ({ id: match[1], free: match[2] === "true" }));
 
-check(themeFlags.length === 7, "Expected seven theme definitions.");
+check(themeFlags.length === 8, "Expected eight theme definitions.");
 check(themeFlags.filter((theme) => theme.free).map((theme) => theme.id).join(",") === "classic,night",
   "Classic and Night must remain the free themes.");
 check(!webIndex.includes("PreviewMode") && !webIndex.includes("PreviewAccess"),

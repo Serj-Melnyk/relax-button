@@ -47,6 +47,9 @@ Digital Fidget: Mental ASMR — Capacitor app (Android first, iOS also built), p
   `.home-feature-disc` is a clipped copy of the same photo that sinks on press (`assets/home-pause.css`). Opening the
   Click skin from it uses `HomeSkinScene.openPoster('click', { dissolve: true })` (promo-style dissolve). If the Home
   photo is replaced, re-measure the disc centre/radius in that CSS.
+- **Themes.** 8 themes for the Click skin (`THEMES`); Classic and Night are free. Chocolate draws its button from
+  `assets/themes/chocolate-button.webp` (a crop of the night Home photo) and sinks only the disc on press, like Home.
+  `scripts/release-check.js` checks the theme count, so update it when adding a theme.
 - Debug builds install as `com.antistress.relaxbutton.debug` beside the Play build
   (`./gradlew assembleDebug`), so device QA keeps the tester's data.
 - Signing (`android/keystore.properties`) and `android/local.properties` are local only — never commit.

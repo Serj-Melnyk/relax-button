@@ -155,7 +155,8 @@
     /* ── Dark theme glass/glow tokens ── */
     body[data-theme="night"],
     body[data-theme="cosmos"],
-    body[data-theme="obsidian"] {
+    body[data-theme="obsidian"],
+    body[data-theme="chocolate"] {
         --glass-surface: rgba(30,30,38,0.72);
         --glass-border: rgba(255,255,255,0.12);
         --glow-accent: rgba(208,188,255,0.28);
@@ -279,6 +280,24 @@
         --accent-container: rgba(53,198,124,0.08);
     }
 
+    /* ── Chocolate (Premium): the night Home scene, wooden button in a stone ring ── */
+    body[data-theme="chocolate"] {
+        --bg: #1E130D; --btn: #1E130D;
+        --shadow-l: #2E1F15; --shadow-d: #0D0805;
+        --surface: rgba(31,20,14,0.96);
+        --surface-dim: rgba(255,240,225,0.05);
+        --on-surface: #F1E4D6; --on-surface-var: rgba(241,228,214,0.58);
+        --outline: rgba(255,230,200,0.10);
+        --icon-color: rgba(255,240,225,0.24);
+        --accent: #A86F3D; --on-accent: #F6E9DC;
+        --accent-container: rgba(168,111,61,0.16);
+        --glass-surface: rgba(29,19,13,0.78);
+        --glow-accent: rgba(168,111,61,0.14);
+        --glow-accent-soft: rgba(168,111,61,0.06);
+        --surface-elevated: rgba(27,18,12,0.98);
+        --sheet-bg: rgba(22,14,10,0.97);
+    }
+
     /* ════════════════════════════════════════════════════════════
        2. RESET & BASE
        ════════════════════════════════════════════════════════════ */
@@ -322,6 +341,11 @@
     html.onboarding-complete:has(body[data-theme="cosmos"]),
     html.onboarding-complete body[data-theme="cosmos"] {
         background-color: #121212;
+    }
+
+    html.onboarding-complete:has(body[data-theme="chocolate"]),
+    html.onboarding-complete body[data-theme="chocolate"] {
+        background-color: #120B07;
     }
 
     html.onboarding-complete:has(body.noise-player-mode),
@@ -775,7 +799,7 @@
             0 0 6px rgba(0,0,0,0.32);
     }
 
-    body:not(.home-view-active)[data-skin="classic-button"]:not([data-theme="night"]):not([data-theme="cosmos"]):not([data-theme="obsidian"]) {
+    body:not(.home-view-active)[data-skin="classic-button"]:not([data-theme="night"]):not([data-theme="cosmos"]):not([data-theme="obsidian"]):not([data-theme="chocolate"]) {
         --m3-nav-icon: rgba(60, 65, 74, 0.84);
         --m3-nav-label: rgba(55, 60, 69, 0.88);
         --m3-nav-indicator-icon: rgba(28, 32, 38, 0.96);
@@ -1188,6 +1212,91 @@
 
     body[data-theme="night"]:not([data-skin="moon"]):not([data-skin="people"]):not([data-skin="white-noise"]):not([data-skin="pink-noise"]):not([data-skin="green-noise"]):not([data-skin="orange-noise"]):not([data-skin="brown-noise"]):not([data-skin="infrared-noise"]):not([data-skin="rain"]) #swipe-indicator {
         color: rgba(236, 232, 244, 0.7);
+        text-shadow: 0 1px 10px rgba(0, 0, 0, 0.55);
+    }
+
+    /* Chocolate: the wooden button from the night Home photo. The whole
+       photo (disc in its stone ring) is the button; on press only the disc,
+       a clipped copy in .button-scene-layer, sinks into the ring, like Home.
+       Disc in the crop: centre 50% / 49.8%, radius 36.25%. */
+    body[data-theme="chocolate"][data-skin="classic-button"] #app {
+        background:
+            radial-gradient(circle at 50% 62%, rgba(255, 168, 86, 0.09) 0%, rgba(255, 168, 86, 0.025) 28%, transparent 48%),
+            radial-gradient(circle at 18% 10%, rgba(255, 196, 130, 0.07) 0%, transparent 38%),
+            linear-gradient(180deg, #281A11 0%, #1A110B 56%, #100A06 100%);
+    }
+
+    body[data-theme="chocolate"][data-skin="classic-button"] #main-button,
+    body[data-theme="chocolate"][data-skin="classic-button"] #main-button.is-pressed {
+        background: #241710 url("assets/themes/chocolate-button.webp") center / cover no-repeat;
+        transform: none;
+        box-shadow:
+            16px 18px 36px rgba(8, 4, 2, 0.62),
+            -10px -10px 26px rgba(80, 52, 32, 0.22),
+            0 0 70px rgba(255, 160, 80, 0.07);
+    }
+
+    body[data-theme="chocolate"][data-skin="classic-button"] #main-button::before {
+        content: '';
+        position: absolute;
+        left: 13.4%;
+        top: 13.2%;
+        width: 73.2%;
+        height: 73.2%;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(14, 8, 4, 0.9) 0 88%, rgba(14, 8, 4, 0.55) 100%);
+        opacity: 0;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    body[data-theme="chocolate"][data-skin="classic-button"] #main-button .button-scene-layer {
+        inset: 0;
+        background: url("assets/themes/chocolate-button.webp") center / cover no-repeat;
+        clip-path: circle(36.6% at 50% 49.8%);
+        transform-origin: 50% 49.8%;
+        transform: none;
+        filter: none;
+        mix-blend-mode: normal;
+        opacity: 0;
+        z-index: 1;
+        transition:
+            transform 170ms cubic-bezier(0.34, 1.56, 0.64, 1),
+            filter 170ms ease,
+            opacity 0ms linear 170ms;
+    }
+
+    body[data-theme="chocolate"][data-skin="classic-button"] #main-button::after,
+    body[data-theme="chocolate"][data-skin="classic-button"] #main-button.is-pressed::after {
+        inset: 15.2%;
+        background: none;
+        opacity: 0;
+        z-index: 2;
+    }
+
+    body[data-theme="chocolate"][data-skin="classic-button"] #main-button.is-pressed::before {
+        opacity: 1;
+    }
+
+    body[data-theme="chocolate"][data-skin="classic-button"] #main-button.is-pressed .button-scene-layer {
+        opacity: 1;
+        transform: translateY(0.3%) scale(0.96);
+        filter: brightness(0.9);
+        transition:
+            transform 70ms cubic-bezier(0.2, 0, 0.4, 1),
+            filter 70ms ease,
+            opacity 0ms;
+    }
+
+    body[data-theme="chocolate"][data-skin="classic-button"] #main-button.is-pressed::after {
+        opacity: 1;
+        box-shadow:
+            inset 0 0.6rem 0.9rem rgba(10, 5, 2, 0.5),
+            inset 0 -0.12rem 0.3rem rgba(255, 214, 170, 0.12);
+    }
+
+    body[data-theme="chocolate"][data-skin="classic-button"] #swipe-indicator {
+        color: rgba(241, 228, 214, 0.7);
         text-shadow: 0 1px 10px rgba(0, 0, 0, 0.55);
     }
 
@@ -2727,7 +2836,7 @@
             0 0 0 1px rgba(255,255,255,0.28);
     }
 
-    body:not(.home-view-active)[data-skin="classic-button"]:not([data-theme="night"]):not([data-theme="cosmos"]):not([data-theme="obsidian"]) .m3-nav-item.is-active .m3-nav-indicator {
+    body:not(.home-view-active)[data-skin="classic-button"]:not([data-theme="night"]):not([data-theme="cosmos"]):not([data-theme="obsidian"]):not([data-theme="chocolate"]) .m3-nav-item.is-active .m3-nav-indicator {
         background:
             linear-gradient(160deg, rgba(255,255,255,0.54) 0%, rgba(240,243,248,0.78) 56%, rgba(194,201,214,0.44) 100%);
         box-shadow:
@@ -8390,7 +8499,7 @@
                 continuousSound: 'Looping relaxation sound'
             },
             themes: {
-                classic: 'Classic', night: 'Night', arctic: 'Arctic', sage: 'Sage', cosmos: 'Cosmos', blush: 'Blush', obsidian: 'Obsidian'
+                classic: 'Classic', night: 'Night', arctic: 'Arctic', sage: 'Sage', cosmos: 'Cosmos', blush: 'Blush', obsidian: 'Obsidian', chocolate: 'Chocolate'
             },
             sounds: {
                 'classic-click': ['Classic Click', 'Soft tactile click'],
@@ -8524,7 +8633,7 @@
             shareTitle: 'Digital Fidget: Mental ASMR', shareText: 'Спробуй цей тактильний reset для спокійнішої миті.'
         },
         fallback: { singleSound: 'Тактильний звук кліку', continuousSound: 'Зациклений звук для відпочинку' },
-        themes: { classic: 'Класична', night: 'Нічна', arctic: 'Арктична', sage: 'Шавлія', cosmos: 'Космос', blush: 'Рум’янець', obsidian: 'Обсидіан' },
+        themes: { classic: 'Класична', night: 'Нічна', arctic: 'Арктична', sage: 'Шавлія', cosmos: 'Космос', blush: 'Рум’янець', obsidian: 'Обсидіан', chocolate: 'Шоколад' },
         skins: {
             ...I18N.en.skins,
             'classic-button': ['Click', 'М’який тактильний клік'], moon: ['Місяць', 'Космічна місячна кнопка'],
@@ -8704,12 +8813,12 @@
     };
 
     const THEME_LOCALE_COMPLETIONS = {
-        uk: { classic: 'Класична', night: 'Ніч', arctic: 'Арктика', sage: 'Шавлія', cosmos: 'Космос', blush: 'Рум’янець', obsidian: 'Обсидіан' },
-        ja: { classic: 'クラシック', night: 'ナイト', arctic: '北極', sage: 'セージ', cosmos: 'コスモス', blush: 'ブラッシュ', obsidian: '黒曜石' },
-        fr: { classic: 'Classique', night: 'Nuit', arctic: 'Arctique', sage: 'Sauge', cosmos: 'Cosmos', blush: 'Rosé', obsidian: 'Obsidienne' },
-        de: { classic: 'Klassisch', night: 'Nacht', arctic: 'Arktis', sage: 'Salbei', cosmos: 'Kosmos', blush: 'Rosé', obsidian: 'Obsidian' },
-        es: { classic: 'Clásico', night: 'Noche', arctic: 'Ártico', sage: 'Salvia', cosmos: 'Cosmos', blush: 'Rubor', obsidian: 'Obsidiana' },
-        pt: { classic: 'Clássico', night: 'Noite', arctic: 'Ártico', sage: 'Sálvia', cosmos: 'Cosmos', blush: 'Rosado', obsidian: 'Obsidiana' }
+        uk: { classic: 'Класична', night: 'Ніч', arctic: 'Арктика', sage: 'Шавлія', cosmos: 'Космос', blush: 'Рум’янець', obsidian: 'Обсидіан', chocolate: 'Шоколад' },
+        ja: { classic: 'クラシック', night: 'ナイト', arctic: '北極', sage: 'セージ', cosmos: 'コスモス', blush: 'ブラッシュ', obsidian: '黒曜石', chocolate: 'チョコレート' },
+        fr: { classic: 'Classique', night: 'Nuit', arctic: 'Arctique', sage: 'Sauge', cosmos: 'Cosmos', blush: 'Rosé', obsidian: 'Obsidienne', chocolate: 'Chocolat' },
+        de: { classic: 'Klassisch', night: 'Nacht', arctic: 'Arktis', sage: 'Salbei', cosmos: 'Kosmos', blush: 'Rosé', obsidian: 'Obsidian', chocolate: 'Schokolade' },
+        es: { classic: 'Clásico', night: 'Noche', arctic: 'Ártico', sage: 'Salvia', cosmos: 'Cosmos', blush: 'Rubor', obsidian: 'Obsidiana', chocolate: 'Chocolate' },
+        pt: { classic: 'Clássico', night: 'Noite', arctic: 'Ártico', sage: 'Sálvia', cosmos: 'Cosmos', blush: 'Rosado', obsidian: 'Obsidiana', chocolate: 'Chocolate' }
     };
 
     const INTERFACE_LOCALE_COMPLETIONS = {
@@ -9563,7 +9672,9 @@
         { id: 'blush', name: 'Blush', free: false,
           bg: '#f0d0d8', shadowL: '#fff0f4', shadowD: '#d0b0b8', accent: '#B05070' },
         { id: 'obsidian', name: 'Obsidian', free: false,
-          bg: '#0B0C0D', shadowL: '#17191A', shadowD: '#000000', accent: '#35C67C' }
+          bg: '#0B0C0D', shadowL: '#17191A', shadowD: '#000000', accent: '#35C67C' },
+        { id: 'chocolate', name: 'Chocolate', free: false,
+          bg: '#1E130D', shadowL: '#2E1F15', shadowD: '#0D0805', accent: '#A86F3D' }
     ];
 
     /* ════════════════════════════════════════════════════════════
@@ -13775,7 +13886,7 @@
             // press into a long-press and never fires click for it.
             feature.addEventListener('pointerdown', (event) => {
                 if (event.button > 0 || this.featureTransitioning) return;
-                feature.setPointerCapture?.(event.pointerId);
+                try { feature.setPointerCapture?.(event.pointerId); } catch (_) {}
                 pressDown();
             });
             feature.addEventListener('pointerup', (event) => {
