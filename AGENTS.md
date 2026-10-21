@@ -20,6 +20,8 @@ Digital Fidget: Mental ASMR — Capacitor app (Android first, iOS also built), p
 - `main` = latest released code (1.0.20 / vc22 as of 2026-10-13).
 - Monitoring policy: no analytics/crash SDKs (Data Safety says nothing is collected). Use Play Console only:
   Android vitals, reviews, Statistics, pre-launch report, email notifications. See `docs/WORKLOG-2026-10-16.md`.
+- Premium paywall entry points: Account panel row `#account-premium` (always, hidden after purchase), bottom-sheet
+  `#sheet-premium`, top star `#click-premium-button` (Classic Button skin only), taps on locked items (not during the 3-day trial).
 - `android.r8.optimizedResourceShrinking=true` is on from 1.0.22 (Play R8 recommendation); AAB carries `proguard.map`.
 
 ## Conventions that are easy to miss
