@@ -200,37 +200,6 @@ body.home-view-active .home-feature {
     -webkit-tap-highlight-color: transparent;
 }
 
-/* Promo transition: Home dissolves off the Click skin painted beneath it,
-   and the skin settles from 1.04 to 1. */
-body.skin-prepaint.home-view-active.home-press-dissolve #app {
-    transform: scale(1.04);
-}
-body.skin-prepaint.home-view-active.home-dissolving #app {
-    transform: none;
-    transition: transform 760ms cubic-bezier(.16, 1, .3, 1) !important;
-}
-body.skin-prepaint.home-view-active.home-dissolving #home-screen {
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 560ms cubic-bezier(.45, 0, .55, 1);
-}
-/* The skin's own top controls show from the first dissolve frame. The nav
-   still has Home's styling, so it leaves with Home and returns in the
-   skin's styling once Home is gone, instead of switching with a pop. */
-body.skin-prepaint.home-view-active.home-press-dissolve #app .noise-top-controls {
-    display: flex;
-}
-body.skin-prepaint.home-view-active.home-dissolving #app-nav {
-    opacity: 0;
-    transition: opacity 300ms ease-out !important;
-}
-body.home-dissolve-nav-in #app-nav {
-    animation: home-dissolve-nav-in 280ms ease-out both;
-}
-@keyframes home-dissolve-nav-in {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
 body.home-view-active button:focus-visible { outline: 2px solid var(--pause-accent); outline-offset: 4px; }
 .home-touch-caption {
     position: absolute;

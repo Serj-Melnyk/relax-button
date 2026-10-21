@@ -7778,7 +7778,7 @@
     }
 
     </style>
-    <link rel="stylesheet" href="assets/home-pause.css?v=12">
+    <link rel="stylesheet" href="assets/home-pause.css?v=13">
     <link rel="icon" href="data:,">
     <!-- Capacitor native bridge is provided by the native WebView, not the local preview server. -->
     <script>
@@ -13838,14 +13838,12 @@
                 || 'classic-click';
         },
 
-        // The wooden button in the Home photo behaves like the promo hook:
-        // the disc sinks with a click and haptic, springs back, then Home
-        // dissolves into the Click skin.
+        // The wooden button in the Home photo: the disc sinks with a click and
+        // haptic, then the Click skin opens like every other skin.
         initFeaturePress() {
             const feature = document.querySelector('.home-feature');
             if (!feature) return;
-            const MIN_PRESS_MS = 110;
-            const RELEASE_TO_DISSOLVE_MS = 110;
+            const MIN_PRESS_MS = 70;
             let pressedAt = -Infinity;
             let isDown = false;
 
@@ -13874,12 +13872,13 @@
             };
 
             const activate = () => {
+                // A quick tap still shows the disc down for MIN_PRESS_MS.
                 const wait = release();
                 this.featureTransitioning = true;
                 setTimeout(() => {
-                    this.openPoster('click', { dissolve: true });
-                    setTimeout(() => { this.featureTransitioning = false; }, 1000);
-                }, wait + RELEASE_TO_DISSOLVE_MS);
+                    this.openPoster('click');
+                    setTimeout(() => { this.featureTransitioning = false; }, 400);
+                }, wait);
             };
 
             // Navigate on release, not on click: Android WebView turns a slow
@@ -14057,7 +14056,7 @@
             [...this.pagination.children].forEach((dot, index) => dot.setAttribute('aria-current', String(index === activeIndex)));
         },
 
-        openPoster(posterId, options = {}) {
+        openPoster(posterId) {
             const poster = this.getPosterById(posterId);
             if (!poster) return;
             const skin = SkinRegistry.getSkin(poster.skinId);
@@ -14080,10 +14079,7 @@
                 ? NoiseBackdropScene?.preloadArtworkForKey?.(profileId, 'high')
                 : Promise.resolve(true);
             this.selectedPosterId = poster.id;
-            const dissolve = Boolean(options.dissolve)
-                && !window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
             document.body.classList.add('skin-transitioning');
-            document.body.classList.toggle('home-press-dissolve', dissolve);
             SkinManager.select(skin.id, {
                 soundProfileId: profileId,
                 soundMode: profileId === skin.recommendedSoundProfileId ? 'matched' : 'custom',
@@ -14105,26 +14101,10 @@
                         requestAnimationFrame(reveal);
                         return;
                     }
-                    const finish = () => {
-                        document.body.classList.remove('skin-transitioning', 'skin-prepaint', 'home-dissolving', 'home-press-dissolve');
-                        this.enterSkinExperience();
-                        AppNav.sync();
-                        if (dissolve) {
-                            // The nav left with Home; bring it back in the skin's style.
-                            document.body.classList.add('home-dissolve-nav-in');
-                            setTimeout(() => document.body.classList.remove('home-dissolve-nav-in'), 320);
-                        }
-                        schedulePostInteraction(() => this.syncCurrentSkin(), 120);
-                    };
-                    if (!dissolve) {
-                        finish();
-                        return;
-                    }
-                    // Promo transition: Home fades off the already painted
-                    // skin, which settles from 1.04 to 1. Home keeps its
-                    // home-view-active layout until it is fully transparent.
-                    document.body.classList.add('home-dissolving');
-                    setTimeout(finish, 600);
+                    document.body.classList.remove('skin-transitioning', 'skin-prepaint');
+                    this.enterSkinExperience();
+                    AppNav.sync();
+                    schedulePostInteraction(() => this.syncCurrentSkin(), 120);
                 };
                 requestAnimationFrame(reveal);
             });
