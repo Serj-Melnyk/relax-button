@@ -1,5 +1,10 @@
 # Історія випусків
 
+## 1.0.24 — 21 жовтня 2026
+
+- Виправлено запуск Android-застосунку: вимкнено оптимізоване стискання ресурсів R8, яке видаляло `res/xml/config.xml` Cordova. Звичайне R8-стискання коду й ресурсів збережено.
+- Примітки для Play: `release/google-play/release-notes-1.0.24.txt`.
+
 ## 1.0.23 — 21 жовтня 2026
 
 - Новий Premium-скін «Ocean»: Ocean Surf, Gentle Ocean, Soothing Waves і два морські звуки з «Рожевого шуму» (Ocean Waves, Ideal Ocean Waves). Нові звуки з Pixabay: Rain on Glass, Calming Rain, Sleepy Rain, City Roof Rain, Low Pink Noise, Soft Deep Noise, Fan Noise. Фони з Flow.

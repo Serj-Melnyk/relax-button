@@ -36,7 +36,7 @@ Digital Fidget: Mental ASMR — Capacitor app (Android first, iOS also built), p
   labelled "green noise" were not green when measured — always measure before using one.
 - Web payload budget is 65 MB (`npm run check`); after the 2026-10-21 sounds it is ~64 MB. New loop files are cut to the part
   that plays (loopStart 0.3, loopEndTrim 0.05) to fit. Any further audio needs space found first.
-- `android.r8.optimizedResourceShrinking=true` is on from 1.0.22 (Play R8 recommendation); AAB carries `proguard.map`.
+- Keep standard R8 minification and resource shrinking. Do not enable `android.r8.optimizedResourceShrinking`: it removed Cordova's `res/xml/config.xml` and caused Android to open to a blank WebView (fixed in 1.0.24).
 
 ## Conventions that are easy to miss
 

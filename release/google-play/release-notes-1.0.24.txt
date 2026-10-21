@@ -1,0 +1,21 @@
+<en-US>
+Fixed an issue that could prevent the app from opening on Android.
+</en-US>
+<de-DE>
+Fehler behoben, durch den sich die App unter Android möglicherweise nicht öffnen ließ.
+</de-DE>
+<es-ES>
+Se corrigió un problema que podía impedir que la aplicación se abriera en Android.
+</es-ES>
+<fr-FR>
+Correction d’un problème pouvant empêcher l’ouverture de l’application sur Android.
+</fr-FR>
+<ja-JP>
+Androidでアプリが起動しないことがある問題を修正しました。
+</ja-JP>
+<pt-BR>
+Corrigimos um problema que podia impedir a abertura do app no Android.
+</pt-BR>
+<uk>
+Виправлено проблему, через яку застосунок міг не запускатися на Android.
+</uk>
