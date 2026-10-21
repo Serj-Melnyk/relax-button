@@ -3826,6 +3826,9 @@
         position: fixed;
         inset: 0;
         z-index: 200;
+        /* The card drag is handled in JS; without this the drag chains to the page and
+           Android's overscroll stretch pulls the Home backdrop along. */
+        touch-action: none;
         display: flex;
         align-items: flex-end;
         justify-content: center;
@@ -4094,7 +4097,13 @@
             padding: 18px 24px 12px;
             overflow-x: hidden;
             overflow-y: auto;
+            overscroll-behavior: contain;
+            touch-action: pan-y;
             border-radius: 24px;
+        }
+
+        #paywall {
+            touch-action: auto;
         }
 
         .paywall-card > .paywall-icon {
