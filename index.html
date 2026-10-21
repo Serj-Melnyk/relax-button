@@ -1030,6 +1030,7 @@
     body[data-skin="brown-noise"] #main-button,
     body[data-skin="infrared-noise"] #main-button,
     body[data-skin="rain"] #main-button,
+    body[data-skin="ocean"] #main-button,
     body[data-skin="people"] #main-button {
         display: none !important;
     }
@@ -1184,13 +1185,13 @@
         height: 36px;
     }
 
-    body[data-theme="night"]:not([data-skin="moon"]):not([data-skin="people"]):not([data-skin="white-noise"]):not([data-skin="pink-noise"]):not([data-skin="green-noise"]):not([data-skin="orange-noise"]):not([data-skin="brown-noise"]):not([data-skin="infrared-noise"]):not([data-skin="rain"]) #app {
+    body[data-theme="night"]:not([data-skin="moon"]):not([data-skin="people"]):not([data-skin="white-noise"]):not([data-skin="pink-noise"]):not([data-skin="green-noise"]):not([data-skin="orange-noise"]):not([data-skin="brown-noise"]):not([data-skin="infrared-noise"]):not([data-skin="rain"]):not([data-skin="ocean"]) #app {
         background:
             radial-gradient(circle at 50% 18%, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.035) 18%, transparent 44%),
             linear-gradient(180deg, #4a4a4d 0%, #202022 56%, #151516 100%);
     }
 
-    body[data-theme="night"]:not([data-skin="moon"]):not([data-skin="people"]):not([data-skin="white-noise"]):not([data-skin="pink-noise"]):not([data-skin="green-noise"]):not([data-skin="orange-noise"]):not([data-skin="brown-noise"]):not([data-skin="infrared-noise"]):not([data-skin="rain"]) #main-button {
+    body[data-theme="night"]:not([data-skin="moon"]):not([data-skin="people"]):not([data-skin="white-noise"]):not([data-skin="pink-noise"]):not([data-skin="green-noise"]):not([data-skin="orange-noise"]):not([data-skin="brown-noise"]):not([data-skin="infrared-noise"]):not([data-skin="rain"]):not([data-skin="ocean"]) #main-button {
         background:
             radial-gradient(circle at 30% 28%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 42%, transparent 66%),
             linear-gradient(180deg, #2b2b2f 0%, #1c1c1f 100%);
@@ -1199,18 +1200,18 @@
             -12px -12px 24px rgba(71,71,76,0.34);
     }
 
-    body[data-theme="night"]:not([data-skin="moon"]):not([data-skin="people"]):not([data-skin="white-noise"]):not([data-skin="pink-noise"]):not([data-skin="green-noise"]):not([data-skin="orange-noise"]):not([data-skin="brown-noise"]):not([data-skin="infrared-noise"]):not([data-skin="rain"]) #main-button::after {
+    body[data-theme="night"]:not([data-skin="moon"]):not([data-skin="people"]):not([data-skin="white-noise"]):not([data-skin="pink-noise"]):not([data-skin="green-noise"]):not([data-skin="orange-noise"]):not([data-skin="brown-noise"]):not([data-skin="infrared-noise"]):not([data-skin="rain"]):not([data-skin="ocean"]) #main-button::after {
         background:
             radial-gradient(circle at 32% 28%, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.06) 24%, transparent 62%);
     }
 
-    body[data-theme="night"]:not([data-skin="moon"]):not([data-skin="people"]):not([data-skin="white-noise"]):not([data-skin="pink-noise"]):not([data-skin="green-noise"]):not([data-skin="orange-noise"]):not([data-skin="brown-noise"]):not([data-skin="infrared-noise"]):not([data-skin="rain"]) #main-button.is-pressed {
+    body[data-theme="night"]:not([data-skin="moon"]):not([data-skin="people"]):not([data-skin="white-noise"]):not([data-skin="pink-noise"]):not([data-skin="green-noise"]):not([data-skin="orange-noise"]):not([data-skin="brown-noise"]):not([data-skin="infrared-noise"]):not([data-skin="rain"]):not([data-skin="ocean"]) #main-button.is-pressed {
         box-shadow:
             inset 12px 12px 26px rgba(10,10,12,0.55),
             inset -10px -10px 22px rgba(66,66,72,0.22);
     }
 
-    body[data-theme="night"]:not([data-skin="moon"]):not([data-skin="people"]):not([data-skin="white-noise"]):not([data-skin="pink-noise"]):not([data-skin="green-noise"]):not([data-skin="orange-noise"]):not([data-skin="brown-noise"]):not([data-skin="infrared-noise"]):not([data-skin="rain"]) #swipe-indicator {
+    body[data-theme="night"]:not([data-skin="moon"]):not([data-skin="people"]):not([data-skin="white-noise"]):not([data-skin="pink-noise"]):not([data-skin="green-noise"]):not([data-skin="orange-noise"]):not([data-skin="brown-noise"]):not([data-skin="infrared-noise"]):not([data-skin="rain"]):not([data-skin="ocean"]) #swipe-indicator {
         color: rgba(236, 232, 244, 0.7);
         text-shadow: 0 1px 10px rgba(0, 0, 0, 0.55);
     }
@@ -1635,13 +1636,45 @@
         --button-scene-filter-pressed: saturate(0.98) brightness(0.8) contrast(1);
     }
 
+    body[data-skin="ocean"] {
+        --skin-button-core: rgba(160, 238, 232, 0.12);
+        --skin-button-haze: rgba(92, 206, 214, 0.14);
+        --skin-button-rim: rgba(214, 250, 246, 0.2);
+        --skin-button-glow: rgba(84, 214, 206, 0.1);
+        --skin-button-shadow: rgba(4, 40, 52, 0.34);
+        --button-shell-shadow-raised:
+            inset 0 1px 0 rgba(255, 255, 255, 0.18),
+            inset 0 10px 18px rgba(255, 255, 255, 0.05),
+            inset 0 -22px 32px var(--skin-button-shadow),
+            inset 14px 0 18px rgba(255, 255, 255, 0.02),
+            inset -14px 0 18px rgba(255, 255, 255, 0.02),
+            0 8px 20px rgba(0, 0, 0, 0.16),
+            0 0 18px var(--skin-button-glow);
+        --button-shell-shadow-pressed:
+            inset 12px 12px 24px rgba(4, 34, 44, 0.3),
+            inset -12px -12px 24px rgba(255, 255, 255, 0.03);
+        --noise-backdrop-image: none;
+        --noise-backdrop-image-bottom: none;
+        --noise-button-scene-fill: none;
+        --cinematic-glass-glow: rgba(178, 240, 236, 0.10);
+        --cinematic-bottom-tint: rgba(4, 22, 30, 0.30);
+        --button-scene-fill: none;
+        --button-scene-size: 170%;
+        --button-scene-position: 50% 58%;
+        --button-scene-opacity: 0.92;
+        --button-scene-scale: 1.01;
+        --button-scene-filter: saturate(1.02) brightness(0.9) contrast(1.02);
+        --button-scene-filter-pressed: saturate(0.98) brightness(0.8) contrast(1);
+    }
+
     body[data-skin="pink-noise"] #app,
 
     body[data-skin="green-noise"] #app,
     body[data-skin="orange-noise"] #app,
     body[data-skin="brown-noise"] #app,
     body[data-skin="infrared-noise"] #app,
-    body[data-skin="rain"] #app {
+    body[data-skin="rain"] #app,
+    body[data-skin="ocean"] #app {
         isolation: isolate;
         overflow: hidden;
     }
@@ -1696,6 +1729,14 @@
             linear-gradient(180deg, #071a36 0%, #081225 100%);
     }
 
+    body[data-skin="ocean"] #app {
+        background:
+            linear-gradient(180deg, rgba(2, 22, 32, 0.18) 0%, rgba(3, 28, 40, 0.12) 38%, rgba(2, 16, 26, 0.34) 100%),
+            radial-gradient(circle at 50% 78%, rgba(86, 214, 214, 0.14) 0 18%, transparent 44%),
+            var(--noise-backdrop-image, none) var(--noise-backdrop-position, center) / var(--noise-backdrop-size, cover) no-repeat,
+            linear-gradient(180deg, #04212c 0%, #03151f 100%);
+    }
+
     body.noise-backdrop-loading #app {
         --noise-backdrop-warming: 1;
     }
@@ -1728,12 +1769,14 @@
     body[data-skin="brown-noise"] #app::before,
     body[data-skin="infrared-noise"] #app::before,
     body[data-skin="rain"] #app::before,
+    body[data-skin="ocean"] #app::before,
     body[data-skin="pink-noise"] #app::after,
     body[data-skin="green-noise"] #app::after,
     body[data-skin="orange-noise"] #app::after,
     body[data-skin="brown-noise"] #app::after,
     body[data-skin="infrared-noise"] #app::after,
-    body[data-skin="rain"] #app::after {
+    body[data-skin="rain"] #app::after,
+    body[data-skin="ocean"] #app::after {
         content: '';
         position: absolute;
         inset: -12% -16%;
@@ -1749,7 +1792,8 @@
     body[data-skin="orange-noise"] #app::before,
     body[data-skin="brown-noise"] #app::before,
     body[data-skin="infrared-noise"] #app::before,
-    body[data-skin="rain"] #app::before {
+    body[data-skin="rain"] #app::before,
+    body[data-skin="ocean"] #app::before {
         background:
             radial-gradient(ellipse at 24% 22%, rgba(255, 255, 255, 0.16) 0 10%, transparent 32%),
             radial-gradient(ellipse at 58% 38%, rgba(255, 255, 255, 0.1) 0 16%, transparent 40%),
@@ -1764,7 +1808,8 @@
     body[data-skin="orange-noise"] #app::after,
     body[data-skin="brown-noise"] #app::after,
     body[data-skin="infrared-noise"] #app::after,
-    body[data-skin="rain"] #app::after {
+    body[data-skin="rain"] #app::after,
+    body[data-skin="ocean"] #app::after {
         background:
             radial-gradient(ellipse at 18% 72%, rgba(255, 255, 255, 0.12) 0 16%, transparent 40%),
             radial-gradient(ellipse at 74% 62%, rgba(255, 255, 255, 0.08) 0 14%, transparent 36%);
@@ -1841,6 +1886,16 @@
         opacity: 0;
     }
 
+    body[data-skin="ocean"] #app::after {
+        inset: -10% -10% -4% -10%;
+        z-index: 2;
+        background:
+            linear-gradient(180deg, rgba(2, 14, 20, 0) 0%, rgba(3, 22, 30, 0.04) 44%, rgba(3, 20, 28, 0.18) 62%, rgba(2, 12, 18, 0.52) 100%),
+            radial-gradient(ellipse at 50% 88%, rgba(90, 216, 210, 0.14) 0 20%, rgba(90, 216, 210, 0.05) 34%, transparent 60%),
+            var(--noise-backdrop-image-bottom, none) center bottom / cover no-repeat;
+        opacity: 0;
+    }
+
     @keyframes ambientLensGlint {
         0% { transform: translateY(0) scale(0.99); opacity: 0.78; }
         50% { transform: translateY(-2%) scale(1.02); opacity: 0.92; }
@@ -1859,7 +1914,8 @@
     body[data-skin="orange-noise"] #swipe-indicator,
     body[data-skin="brown-noise"] #swipe-indicator,
     body[data-skin="infrared-noise"] #swipe-indicator,
-    body[data-skin="rain"] #swipe-indicator {
+    body[data-skin="rain"] #swipe-indicator,
+    body[data-skin="ocean"] #swipe-indicator {
         color: rgba(239, 243, 255, 0.68);
         text-shadow: 0 1px 12px rgba(0, 0, 0, 0.82);
     }
@@ -1885,6 +1941,7 @@
     body[data-skin="brown-noise"] .noise-top-controls,
     body[data-skin="infrared-noise"] .noise-top-controls,
     body[data-skin="rain"] .noise-top-controls,
+    body[data-skin="ocean"] .noise-top-controls,
     body[data-skin="people"] .noise-top-controls,
     body[data-skin="classic-button"] .noise-top-controls {
         display: flex;
@@ -8534,6 +8591,22 @@
                 'brown-thunder-rain': ['Thunder Rain', 'Pink noise with thunder and rain'],
                 'brown-spring-birds': ['Spring Birds', 'White noise with soft spring birds'],
                 'brown-waterfall': ['Waterfall', 'Pink noise with a soft waterfall wash'],
+                'rain-window-glass': ['Rain on Glass', 'Soft rain tapping on a window'],
+                'rain-tile-roof': ['Tile Roof Rain', 'Soft rain on a tiled roof'],
+                'rain-gentle': ['Gentle Rain', 'Even, gentle rainfall'],
+                'rain-calming': ['Calming Rain', 'Steady, calming rain'],
+                'rain-sleep': ['Sleepy Rain', 'Quiet rain for rest and sleep'],
+                'rain-city-roof': ['City Roof Rain', 'Rain on city rooftops'],
+                'pink-low-noise': ['Low Pink Noise', 'Soft pink noise with a low warmth'],
+                'infrared-soft-noise': ['Soft Deep Noise', 'A soft, deep low rumble'],
+                'infrared-soothing-noise': ['Soothing Deep Noise', 'Smooth, soothing deep noise'],
+                'infrared-fan': ['Fan Noise', 'A steady fan hum for sleep'],
+                'ocean-surf': ['Ocean Surf', 'Steady surf of rolling waves'],
+                'ocean-beach-waves': ['Beach Waves', 'Waves rolling onto a sandy beach'],
+                'ocean-soft-waves': ['Soft Waves', 'Soft waves on the shore'],
+                'ocean-gentle': ['Gentle Ocean', 'Gentle waves washing in and out'],
+                'ocean-soothing-waves': ['Soothing Waves', 'Slow, soothing ocean waves'],
+                'ocean-night-sea': ['Night Sea', 'A calm sea under the night sky'],
                 'door-lock': ['Door Lock', 'Solid locking mechanism'],
                 'double-button': ['Double Button', 'Layered double tap click'],
                 'button-click': ['Button Click', 'Crisp mechanical press'],
@@ -9342,6 +9415,227 @@
         }
     };
 
+    // New rain, noise and Ocean sounds (2026-10-21): descriptions, Ocean skin, poster and Guide.
+    const NEW_SOUND_DESCRIPTIONS = {
+     "uk": {
+      "rain-window-glass": "Тихий дощ по шибці",
+      "rain-tile-roof": "Тихий дощ по черепичному даху",
+      "rain-gentle": "Рівний лагідний дощ",
+      "rain-calming": "Спокійний рівний дощ",
+      "rain-sleep": "Тихий дощ для відпочинку і сну",
+      "rain-city-roof": "Дощ над міськими дахами",
+      "pink-low-noise": "М’який рожевий шум з теплими низами",
+      "infrared-soft-noise": "М’який глибокий низький гул",
+      "infrared-soothing-noise": "Рівний заспокійливий глибокий шум",
+      "infrared-fan": "Рівний гул вентилятора для сну",
+      "ocean-surf": "Рівний прибій хвиль",
+      "ocean-beach-waves": "Хвилі набігають на піщаний пляж",
+      "ocean-soft-waves": "М’які хвилі біля берега",
+      "ocean-gentle": "Лагідні хвилі приходять і відходять",
+      "ocean-soothing-waves": "Повільні заспокійливі хвилі океану",
+      "ocean-night-sea": "Спокійне море під нічним небом"
+     },
+     "ja": {
+      "rain-window-glass": "窓ガラスをやさしく打つ雨",
+      "rain-tile-roof": "瓦屋根に降るやわらかな雨",
+      "rain-gentle": "一定に降る穏やかな雨",
+      "rain-calming": "落ち着いた一定の雨",
+      "rain-sleep": "休息と眠りのための静かな雨",
+      "rain-city-roof": "街の屋根に降る雨",
+      "pink-low-noise": "低音にぬくもりのあるやわらかなピンクノイズ",
+      "infrared-soft-noise": "やわらかく深い低いうなり",
+      "infrared-soothing-noise": "なめらかで心落ち着く深いノイズ",
+      "infrared-fan": "眠りのための一定な扇風機の音",
+      "ocean-surf": "一定に寄せる波の音",
+      "ocean-beach-waves": "砂浜に寄せる波",
+      "ocean-soft-waves": "岸辺のやわらかな波",
+      "ocean-gentle": "寄せては返す穏やかな波",
+      "ocean-soothing-waves": "ゆったりと心を落ち着ける海の波",
+      "ocean-night-sea": "夜空の下の穏やかな海"
+     },
+     "fr": {
+      "rain-window-glass": "Pluie douce qui tapote une vitre",
+      "rain-tile-roof": "Pluie douce sur un toit de tuiles",
+      "rain-gentle": "Pluie régulière et douce",
+      "rain-calming": "Pluie calme et régulière",
+      "rain-sleep": "Pluie tranquille pour se reposer et dormir",
+      "rain-city-roof": "Pluie sur les toits de la ville",
+      "pink-low-noise": "Bruit rose doux aux graves chaleureux",
+      "infrared-soft-noise": "Grondement grave, doux et profond",
+      "infrared-soothing-noise": "Bruit profond, lisse et apaisant",
+      "infrared-fan": "Souffle régulier d’un ventilateur pour dormir",
+      "ocean-surf": "Ressac régulier des vagues",
+      "ocean-beach-waves": "Vagues qui roulent sur une plage de sable",
+      "ocean-soft-waves": "Vagues douces sur le rivage",
+      "ocean-gentle": "Vagues douces qui vont et viennent",
+      "ocean-soothing-waves": "Vagues lentes et apaisantes de l’océan",
+      "ocean-night-sea": "Mer calme sous le ciel nocturne"
+     },
+     "de": {
+      "rain-window-glass": "Sanfter Regen, der an ein Fenster tippt",
+      "rain-tile-roof": "Sanfter Regen auf einem Ziegeldach",
+      "rain-gentle": "Gleichmäßiger, sanfter Regen",
+      "rain-calming": "Ruhiger, gleichmäßiger Regen",
+      "rain-sleep": "Leiser Regen zum Ausruhen und Schlafen",
+      "rain-city-roof": "Regen über den Dächern der Stadt",
+      "pink-low-noise": "Weiches rosa Rauschen mit warmen Tiefen",
+      "infrared-soft-noise": "Weiches, tiefes Grollen",
+      "infrared-soothing-noise": "Glattes, beruhigendes tiefes Rauschen",
+      "infrared-fan": "Gleichmäßiges Ventilatorsummen zum Einschlafen",
+      "ocean-surf": "Gleichmäßige Brandung der Wellen",
+      "ocean-beach-waves": "Wellen, die auf einen Sandstrand rollen",
+      "ocean-soft-waves": "Sanfte Wellen am Ufer",
+      "ocean-gentle": "Sanfte Wellen, die kommen und gehen",
+      "ocean-soothing-waves": "Langsame, beruhigende Meereswellen",
+      "ocean-night-sea": "Ruhiges Meer unter dem Nachthimmel"
+     },
+     "es": {
+      "rain-window-glass": "Lluvia suave golpeando una ventana",
+      "rain-tile-roof": "Lluvia suave sobre un tejado de tejas",
+      "rain-gentle": "Lluvia suave y constante",
+      "rain-calming": "Lluvia tranquila y constante",
+      "rain-sleep": "Lluvia serena para descansar y dormir",
+      "rain-city-roof": "Lluvia sobre los tejados de la ciudad",
+      "pink-low-noise": "Ruido rosa suave con graves cálidos",
+      "infrared-soft-noise": "Retumbo grave, suave y profundo",
+      "infrared-soothing-noise": "Ruido profundo, suave y relajante",
+      "infrared-fan": "Zumbido constante de ventilador para dormir",
+      "ocean-surf": "Oleaje constante de las olas",
+      "ocean-beach-waves": "Olas que llegan a una playa de arena",
+      "ocean-soft-waves": "Olas suaves en la orilla",
+      "ocean-gentle": "Olas suaves que van y vienen",
+      "ocean-soothing-waves": "Olas lentas y relajantes del océano",
+      "ocean-night-sea": "Mar en calma bajo el cielo nocturno"
+     },
+     "pt": {
+      "rain-window-glass": "Chuva suave batendo na janela",
+      "rain-tile-roof": "Chuva suave sobre um telhado de telhas",
+      "rain-gentle": "Chuva suave e constante",
+      "rain-calming": "Chuva calma e constante",
+      "rain-sleep": "Chuva tranquila para descansar e dormir",
+      "rain-city-roof": "Chuva sobre os telhados da cidade",
+      "pink-low-noise": "Ruído rosa suave com graves quentes",
+      "infrared-soft-noise": "Ronco grave, suave e profundo",
+      "infrared-soothing-noise": "Ruído profundo, suave e calmante",
+      "infrared-fan": "Zumbido constante de ventilador para dormir",
+      "ocean-surf": "Rebentação constante das ondas",
+      "ocean-beach-waves": "Ondas que chegam a uma praia de areia",
+      "ocean-soft-waves": "Ondas suaves na margem",
+      "ocean-gentle": "Ondas suaves que vão e vêm",
+      "ocean-soothing-waves": "Ondas do oceano lentas e calmantes",
+      "ocean-night-sea": "Mar calmo sob o céu noturno"
+     }
+    };
+    Object.entries(NEW_SOUND_DESCRIPTIONS).forEach(([lang, sounds]) => {
+        Object.assign(DESCRIPTION_I18N[lang].sounds, sounds);
+    });
+    const OCEAN_LOCALES = {
+     "en": {
+      "poster": [
+       "Ocean",
+       "Waves to breathe with."
+      ],
+      "skin": [
+       "Ocean",
+       "Waves breathing on the shore"
+      ],
+      "guide": [
+       "Ocean",
+       "<strong>Core feel:</strong> The slow rhythm of waves: a swell that rises, breaks and fades, again and again. It moves, but never in a hurry.<br><br><strong>What it resembles:</strong> Surf on a sandy beach, a calm sea at night, or the distant sea behind dunes.<br><br><strong>Often used for:</strong> Slowing down your breathing, falling asleep, unwinding after a busy day and masking street noise with something natural.<br><br><strong>Listening feel:</strong> Wide and soothing. Waves move more than noise does, so try a low to medium volume and let your breath follow the swell."
+      ]
+     },
+     "uk": {
+      "poster": [
+       "Океан",
+       "Хвилі, з якими легко дихати."
+      ],
+      "skin": [
+       "Океан",
+       "Хвилі, що дихають біля берега"
+      ],
+      "guide": [
+       "Океан",
+       "<strong>Суть:</strong> Повільний ритм хвиль: накат росте, розбивається й стихає — знову і знову. Звук рухається, але ніколи не поспішає.<br><br><strong>Схоже на:</strong> Прибій на піщаному пляжі, спокійне нічне море або далеке море за дюнами.<br><br><strong>Допомагає:</strong> Уповільнити дихання, заснути, відпочити після насиченого дня й приглушити вуличний шум чимось природним.<br><br><strong>Відчуття:</strong> Широко й заспокійливо. У хвилях більше руху, ніж у шумі, тож спробуйте тиху або середню гучність і дозвольте диханню йти за хвилею."
+      ]
+     },
+     "ja": {
+      "poster": [
+       "オーシャン",
+       "波と一緒に呼吸を。"
+      ],
+      "skin": [
+       "オーシャン",
+       "岸辺で呼吸する波"
+      ],
+      "guide": [
+       "オーシャン",
+       "<strong>特徴:</strong> 波のゆったりしたリズム。うねりが高まり、砕け、静まる――その繰り返し。動きはあっても、決して急ぎません。<br><br><strong>印象:</strong> 砂浜に寄せる波、夜の穏やかな海、砂丘の向こうの遠い海。<br><br><strong>向いている場面:</strong> 呼吸をゆっくり整えたい時、寝つき、忙しい一日のあとのリラックス、街の騒音を自然な音で覆いたい時。<br><br><strong>聴き心地:</strong> 広がりがあり心が落ち着きます。波はノイズより動きがあるので、小さめから中くらいの音量で、呼吸を波に合わせてみてください。"
+      ]
+     },
+     "fr": {
+      "poster": [
+       "Océan",
+       "Des vagues pour respirer."
+      ],
+      "skin": [
+       "Océan",
+       "Des vagues qui respirent sur le rivage"
+      ],
+      "guide": [
+       "Océan",
+       "<strong>Sensation générale :</strong> Le rythme lent des vagues : une houle qui monte, se brise et s’efface, encore et encore. Ça bouge, mais sans jamais se presser.<br><br><strong>À quoi ça ressemble :</strong> Le ressac sur une plage de sable, une mer calme la nuit ou la mer lointaine derrière les dunes.<br><br><strong>Utile pour :</strong> Ralentir la respiration, s’endormir, décompresser après une journée chargée et masquer le bruit de la rue avec un son naturel.<br><br><strong>À l’écoute :</strong> Ample et apaisant. Les vagues bougent plus qu’un bruit, alors préférez un volume faible à moyen et laissez votre souffle suivre la houle."
+      ]
+     },
+     "de": {
+      "poster": [
+       "Ozean",
+       "Wellen zum Durchatmen."
+      ],
+      "skin": [
+       "Ozean",
+       "Wellen, die am Ufer atmen"
+      ],
+      "guide": [
+       "Ozean",
+       "<strong>Grundgefühl:</strong> Der langsame Rhythmus der Wellen: eine Dünung, die anschwillt, bricht und verebbt, immer wieder. Es bewegt sich, aber nie in Eile.<br><br><strong>Klingt wie:</strong> Brandung an einem Sandstrand, ein ruhiges Meer bei Nacht oder das ferne Meer hinter den Dünen.<br><br><strong>Hilft oft bei:</strong> Den Atem verlangsamen, Einschlafen, Abschalten nach einem vollen Tag und Straßenlärm mit etwas Natürlichem überdecken.<br><br><strong>Hörgefühl:</strong> Weit und beruhigend. Wellen bewegen sich mehr als Rauschen, also lieber leise bis mittlere Lautstärke – und den Atem der Dünung folgen lassen."
+      ]
+     },
+     "es": {
+      "poster": [
+       "Océano",
+       "Olas para respirar."
+      ],
+      "skin": [
+       "Océano",
+       "Olas que respiran en la orilla"
+      ],
+      "guide": [
+       "Océano",
+       "<strong>Sensación general:</strong> El ritmo lento de las olas: un oleaje que crece, rompe y se apaga, una y otra vez. Se mueve, pero nunca con prisa.<br><br><strong>A qué se parece:</strong> El oleaje en una playa de arena, un mar en calma de noche o el mar lejano detrás de las dunas.<br><br><strong>Suele servir para:</strong> Ralentizar la respiración, conciliar el sueño, desconectar tras un día intenso y tapar el ruido de la calle con algo natural.<br><br><strong>Al escucharlo:</strong> Amplio y relajante. Las olas tienen más movimiento que el ruido, así que prueba un volumen bajo o medio y deja que tu respiración siga el oleaje."
+      ]
+     },
+     "pt": {
+      "poster": [
+       "Oceano",
+       "Ondas para respirar."
+      ],
+      "skin": [
+       "Oceano",
+       "Ondas que respiram na margem"
+      ],
+      "guide": [
+       "Oceano",
+       "<strong>Sensação geral:</strong> O ritmo lento das ondas: uma ondulação que cresce, rebenta e se desfaz, outra e outra vez. Há movimento, mas nunca pressa.<br><br><strong>Lembra o quê:</strong> A rebentação numa praia de areia, um mar calmo à noite ou o mar distante atrás das dunas.<br><br><strong>Costuma ajudar em:</strong> Desacelerar a respiração, adormecer, relaxar depois de um dia cheio e mascarar o barulho da rua com algo natural.<br><br><strong>Ao ouvir:</strong> Amplo e calmante. As ondas têm mais movimento do que o ruído, por isso experimente um volume baixo a médio e deixe a respiração acompanhar a ondulação."
+      ]
+     }
+    };
+    Object.entries(OCEAN_LOCALES).forEach(([lang, labels]) => {
+        I18N[lang].home.posters = { ...I18N[lang].home.posters, ocean: labels.poster };
+        I18N[lang].skins = { ...I18N.en.skins, ...I18N[lang].skins, ocean: labels.skin };
+        I18N[lang].knowledge = { ...I18N[lang].knowledge, oceanTitle: labels.guide[0], oceanCopy: labels.guide[1] };
+        if (DESCRIPTION_I18N[lang]) DESCRIPTION_I18N[lang].skins.ocean = labels.skin[1];
+    });
+
     const SUPPORTED_LANGUAGES = ['en', 'ja', 'fr', 'de', 'es', 'pt', 'uk'];
 
     const I18n = {
@@ -9385,7 +9679,7 @@
                 const posterKey = ({
                     moon: 'moon', people: 'people', 'white-noise': 'whiteNoise', 'pink-noise': 'pinkNoise', 'green-noise': 'greenNoise',
                     'orange-noise': 'orangeNoise', 'brown-noise': 'brownNoise',
-                    'infrared-noise': 'infrared', rain: 'rain'
+                    'infrared-noise': 'infrared', rain: 'rain', ocean: 'ocean'
                 })[skin.id] || 'click';
                 if (field === 'name') return this.dict()?.home?.posters?.[posterKey]?.[0] || this.t('home.clickTitle');
                 return this.dict()?.home?.posters?.[posterKey]?.[1] || this.t('fallback.singleSound');
@@ -9477,6 +9771,26 @@
     const NewContent = {
         ids: new Set([
             'skin:people',
+            'skin:ocean',
+            'skin:rain',
+            'skin:pink-noise',
+            'skin:infrared-noise',
+            'sound:rain-window-glass',
+            'sound:rain-tile-roof',
+            'sound:rain-gentle',
+            'sound:rain-calming',
+            'sound:rain-sleep',
+            'sound:rain-city-roof',
+            'sound:pink-low-noise',
+            'sound:infrared-soft-noise',
+            'sound:infrared-soothing-noise',
+            'sound:infrared-fan',
+            'sound:ocean-surf',
+            'sound:ocean-beach-waves',
+            'sound:ocean-soft-waves',
+            'sound:ocean-gentle',
+            'sound:ocean-soothing-waves',
+            'sound:ocean-night-sea',
             'sound:click-glass-breaking',
             'sound:click-camera-capture',
             'sound:click-bottle-shatter',
@@ -9804,6 +10118,54 @@
         { id: 'brown-waterfall', name: 'Waterfall', desc: 'Pink noise with a soft waterfall wash',
           free: true, gain: 0.72, iconPath: 'M12 2.5c-2.6 3.4-6 6.8-6 11a6 6 0 0012 0c0-4.2-3.4-7.6-6-11zm-4 14.5h2l-1.4 3.5H6.6L8 17zm4 0h2l-1.4 3.5h-2L12 17zm4 0h2l-1.4 3.5h-2L16 17z',
           mode: 'continuous', variations: ['Loop-BROWN-waterfall.m4a'], pitchJitter: 0, loopStart: 0.35, loopEndTrim: 6.75, loopCrossfade: 1.5 },
+        { id: 'rain-window-glass', name: 'Rain on Glass', desc: 'Soft rain tapping on a window',
+          free: true, gain: 1, iconPath: 'M6.5 8A4.5 4.5 0 0115 6.1 3.8 3.8 0 0117.2 13H6.5a2.5 2.5 0 010-5zm1 7h2l-1.5 4h-2l1.5-4zm4 0h2l-1.5 4h-2l1.5-4zm4 0h2l-1.5 4h-2l1.5-4z',
+          mode: 'continuous', variations: ['Loop-RAIN-window-glass.m4a'], pitchJitter: 0, loopStart: 0.3, loopEndTrim: 0.05, loopCrossfade: 2.5 },
+        { id: 'rain-tile-roof', name: 'Tile Roof Rain', desc: 'Soft rain on a tiled roof',
+          free: true, gain: 1, iconPath: 'M6.5 8A4.5 4.5 0 0115 6.1 3.8 3.8 0 0117.2 13H6.5a2.5 2.5 0 010-5zm1 7h2l-1.5 4h-2l1.5-4zm4 0h2l-1.5 4h-2l1.5-4zm4 0h2l-1.5 4h-2l1.5-4z',
+          mode: 'continuous', variations: ['Loop-RAIN-tile-roof.m4a'], pitchJitter: 0, loopStart: 0.3, loopEndTrim: 0.05, loopCrossfade: 2.5 },
+        { id: 'rain-gentle', name: 'Gentle Rain', desc: 'Even, gentle rainfall',
+          free: true, gain: 1, iconPath: 'M6.5 8A4.5 4.5 0 0115 6.1 3.8 3.8 0 0117.2 13H6.5a2.5 2.5 0 010-5zm1 7h2l-1.5 4h-2l1.5-4zm4 0h2l-1.5 4h-2l1.5-4zm4 0h2l-1.5 4h-2l1.5-4z',
+          mode: 'continuous', variations: ['Loop-RAIN-gentle.m4a'], pitchJitter: 0, loopStart: 0.3, loopEndTrim: 0.05, loopCrossfade: 2.5 },
+        { id: 'rain-calming', name: 'Calming Rain', desc: 'Steady, calming rain',
+          free: true, gain: 0.8, iconPath: 'M6.5 8A4.5 4.5 0 0115 6.1 3.8 3.8 0 0117.2 13H6.5a2.5 2.5 0 010-5zm1 7h2l-1.5 4h-2l1.5-4zm4 0h2l-1.5 4h-2l1.5-4zm4 0h2l-1.5 4h-2l1.5-4z',
+          mode: 'continuous', variations: ['Loop-RAIN-calming.m4a'], pitchJitter: 0, loopStart: 7.15, loopEndTrim: 10.03, loopCrossfade: 2.5 },
+        { id: 'rain-sleep', name: 'Sleepy Rain', desc: 'Quiet rain for rest and sleep',
+          free: true, gain: 1, iconPath: 'M6.5 8A4.5 4.5 0 0115 6.1 3.8 3.8 0 0117.2 13H6.5a2.5 2.5 0 010-5zm1 7h2l-1.5 4h-2l1.5-4zm4 0h2l-1.5 4h-2l1.5-4zm4 0h2l-1.5 4h-2l1.5-4z',
+          mode: 'continuous', variations: ['Loop-RAIN-sleep.m4a'], pitchJitter: 0, loopStart: 0.3, loopEndTrim: 0.05, loopCrossfade: 2.5 },
+        { id: 'rain-city-roof', name: 'City Roof Rain', desc: 'Rain on city rooftops',
+          free: true, gain: 1, iconPath: 'M6.5 8A4.5 4.5 0 0115 6.1 3.8 3.8 0 0117.2 13H6.5a2.5 2.5 0 010-5zm1 7h2l-1.5 4h-2l1.5-4zm4 0h2l-1.5 4h-2l1.5-4zm4 0h2l-1.5 4h-2l1.5-4z',
+          mode: 'continuous', variations: ['Loop-RAIN-city-roof.m4a'], pitchJitter: 0, loopStart: 0.3, loopEndTrim: 0.05, loopCrossfade: 2.5 },
+        { id: 'pink-low-noise', name: 'Low Pink Noise', desc: 'Soft pink noise with a low warmth',
+          free: true, gain: 0.72, iconPath: 'M3 12c2.1-4 4.2-4 6.3 0s4.2 4 6.3 0 4.2-4 5.4-1.2v2.4c-1.2-2.8-3.3-2.8-5.4 1.2s-4.2 4-6.3 0S5.1 10.4 3 14.4V12z',
+          mode: 'continuous', variations: ['Loop-PINK-low-noise.m4a'], pitchJitter: 0, loopStart: 0.3, loopEndTrim: 0.05, loopCrossfade: 2.5 },
+        { id: 'infrared-soft-noise', name: 'Soft Deep Noise', desc: 'A soft, deep low rumble',
+          free: true, gain: 0.79, iconPath: 'M3 13c1.8-2.8 3.6-2.8 5.4 0s3.6 2.8 5.4 0 3.6-2.8 5.4 0 2.4 1.8 2.4 1.8v3.2c0 0-.6-3.7-2.4-1.8s-3.6 2.8-5.4 0-3.6 2.8-5.4 0-3.6 2.8-5.4 0V13z',
+          mode: 'continuous', variations: ['Loop-INFRARED-soft-noise.m4a'], pitchJitter: 0, loopStart: 0.3, loopEndTrim: 0.05, loopCrossfade: 2.5 },
+        { id: 'infrared-soothing-noise', name: 'Soothing Deep Noise', desc: 'Smooth, soothing deep noise',
+          free: true, gain: 0.86, iconPath: 'M3 13c1.8-2.8 3.6-2.8 5.4 0s3.6 2.8 5.4 0 3.6-2.8 5.4 0 2.4 1.8 2.4 1.8v3.2c0 0-.6-3.7-2.4-1.8s-3.6 2.8-5.4 0-3.6 2.8-5.4 0-3.6 2.8-5.4 0V13z',
+          mode: 'continuous', variations: ['Loop-INFRARED-soothing-noise.m4a'], pitchJitter: 0, loopStart: 0.3, loopEndTrim: 0.05, loopCrossfade: 1.5 },
+        { id: 'infrared-fan', name: 'Fan Noise', desc: 'A steady fan hum for sleep',
+          free: true, gain: 0.67, iconPath: 'M12 11a1 1 0 100 2 1 1 0 000-2zm.9-1.9C13.6 6.4 13 3 10.4 3 8.2 3 7.9 5.6 10 8.2c.5.6 1.1.9 1.7 1l1.2-.1zm1.9 2.8c2.7.7 6.1.1 6.1-2.5 0-2.2-2.6-2.5-5.2-.4-.6.5-.9 1.1-1 1.7l.1 1.2zm-2.8 1.9c-.7 2.7-.1 6.1 2.5 6.1 2.2 0 2.5-2.6.4-5.2-.5-.6-1.1-.9-1.7-1l-1.2.1zm-1.9-2.8C7.4 10.3 4 9.7 4 12.3c0 2.2 2.6 2.5 5.2.4.6-.5.9-1.1 1-1.7l-.1-1.2z',
+          mode: 'continuous', variations: ['Loop-INFRARED-fan.m4a'], pitchJitter: 0, loopStart: 8.1, loopEndTrim: 14.57, loopCrossfade: 1.5 },
+        { id: 'ocean-surf', name: 'Ocean Surf', desc: 'Steady surf of rolling waves',
+          free: false, gain: 0.72, iconPath: 'M3 13c2.1-3.5 4.2-3.5 6.3 0s4.2 3.5 6.3 0 4.2-3.5 5.4-1.1V14c-1.2-2.4-3.3-2.4-5.4 1.1s-4.2 3.5-6.3 0S5.1 11.6 3 15.1V13zm1.5 4c1.5-1.6 3-1.6 4.5 0s3 1.6 4.5 0 3-1.6 4.5 0 3 1.6 4.5 0v2c-1.5 1.6-3 1.6-4.5 0s-3-1.6-4.5 0-3 1.6-4.5 0-3-1.6-4.5 0v-2z',
+          mode: 'continuous', variations: ['Loop-OCEAN-surf.m4a'], pitchJitter: 0, loopStart: 0.3, loopEndTrim: 0.05, loopCrossfade: 2.5 },
+        { id: 'ocean-beach-waves', name: 'Beach Waves', desc: 'Waves rolling onto a sandy beach',
+          free: false, gain: 1, iconPath: 'M3 13c2.1-3.5 4.2-3.5 6.3 0s4.2 3.5 6.3 0 4.2-3.5 5.4-1.1V14c-1.2-2.4-3.3-2.4-5.4 1.1s-4.2 3.5-6.3 0S5.1 11.6 3 15.1V13zm1.5 4c1.5-1.6 3-1.6 4.5 0s3 1.6 4.5 0 3-1.6 4.5 0 3 1.6 4.5 0v2c-1.5 1.6-3 1.6-4.5 0s-3-1.6-4.5 0-3 1.6-4.5 0-3-1.6-4.5 0v-2z',
+          mode: 'continuous', variations: ['Loop-OCEAN-beach-waves.m4a'], pitchJitter: 0, loopStart: 0.3, loopEndTrim: 0.05, loopCrossfade: 2.5 },
+        { id: 'ocean-soft-waves', name: 'Soft Waves', desc: 'Soft waves on the shore',
+          free: false, gain: 1, iconPath: 'M3 13c2.1-3.5 4.2-3.5 6.3 0s4.2 3.5 6.3 0 4.2-3.5 5.4-1.1V14c-1.2-2.4-3.3-2.4-5.4 1.1s-4.2 3.5-6.3 0S5.1 11.6 3 15.1V13zm1.5 4c1.5-1.6 3-1.6 4.5 0s3 1.6 4.5 0 3-1.6 4.5 0 3 1.6 4.5 0v2c-1.5 1.6-3 1.6-4.5 0s-3-1.6-4.5 0-3 1.6-4.5 0-3-1.6-4.5 0v-2z',
+          mode: 'continuous', variations: ['Loop-OCEAN-soft-waves.m4a'], pitchJitter: 0, loopStart: 0.3, loopEndTrim: 0.05, loopCrossfade: 2.5 },
+        { id: 'ocean-gentle', name: 'Gentle Ocean', desc: 'Gentle waves washing in and out',
+          free: false, gain: 1, iconPath: 'M3 13c2.1-3.5 4.2-3.5 6.3 0s4.2 3.5 6.3 0 4.2-3.5 5.4-1.1V14c-1.2-2.4-3.3-2.4-5.4 1.1s-4.2 3.5-6.3 0S5.1 11.6 3 15.1V13zm1.5 4c1.5-1.6 3-1.6 4.5 0s3 1.6 4.5 0 3-1.6 4.5 0 3 1.6 4.5 0v2c-1.5 1.6-3 1.6-4.5 0s-3-1.6-4.5 0-3 1.6-4.5 0-3-1.6-4.5 0v-2z',
+          mode: 'continuous', variations: ['Loop-OCEAN-gentle.m4a'], pitchJitter: 0, loopStart: 0.3, loopEndTrim: 0.05, loopCrossfade: 2.5 },
+        { id: 'ocean-soothing-waves', name: 'Soothing Waves', desc: 'Slow, soothing ocean waves',
+          free: false, gain: 1, iconPath: 'M3 13c2.1-3.5 4.2-3.5 6.3 0s4.2 3.5 6.3 0 4.2-3.5 5.4-1.1V14c-1.2-2.4-3.3-2.4-5.4 1.1s-4.2 3.5-6.3 0S5.1 11.6 3 15.1V13zm1.5 4c1.5-1.6 3-1.6 4.5 0s3 1.6 4.5 0 3-1.6 4.5 0 3 1.6 4.5 0v2c-1.5 1.6-3 1.6-4.5 0s-3-1.6-4.5 0-3 1.6-4.5 0-3-1.6-4.5 0v-2z',
+          mode: 'continuous', variations: ['Loop-OCEAN-soothing-waves.m4a'], pitchJitter: 0, loopStart: 0.3, loopEndTrim: 0.05, loopCrossfade: 2.5 },
+        { id: 'ocean-night-sea', name: 'Night Sea', desc: 'A calm sea under the night sky',
+          free: false, gain: 1, iconPath: 'M3 13c2.1-3.5 4.2-3.5 6.3 0s4.2 3.5 6.3 0 4.2-3.5 5.4-1.1V14c-1.2-2.4-3.3-2.4-5.4 1.1s-4.2 3.5-6.3 0S5.1 11.6 3 15.1V13zm1.5 4c1.5-1.6 3-1.6 4.5 0s3 1.6 4.5 0 3-1.6 4.5 0 3 1.6 4.5 0v2c-1.5 1.6-3 1.6-4.5 0s-3-1.6-4.5 0-3 1.6-4.5 0-3-1.6-4.5 0v-2z',
+          mode: 'continuous', variations: ['Loop-OCEAN-night-sea.m4a'], pitchJitter: 0, loopStart: 0.3, loopEndTrim: 0.05, loopCrossfade: 2.5 },
         { id: 'door-lock', name: 'Door Lock', desc: 'Solid locking mechanism',
           free: false, gain: 0.96, iconPath: 'M17 8h-1V6c0-2.21-1.79-4-4-4S8 3.79 8 6v2H7c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-5 9c-1.1 0-2-.9-2-2 0-.74.4-1.38 1-1.72V12h2v1.28c.6.34 1 .98 1 1.72 0 1.1-.9 2-2 2zm2-9h-4V6c0-1.1.9-2 2-2s2 .9 2 2v2z',
           mode: 'single', variations: ['locking-door.mp3'], pitchJitter: 0 },
@@ -9859,7 +10221,8 @@
         'brown-rainy-town-birds',
         'brown-thunder-rain',
         'brown-waterfall',
-        'infrared-ocean-waves'
+        'infrared-ocean-waves',
+        'pink-low-noise'
     ]);
 
     // Sound ids keep their historical colour prefixes (saved choices, backdrops and
@@ -9884,13 +10247,31 @@
     ]);
 
     const INFRARED_NOISE_SOUND_PROFILE_IDS = new Set([
-        'infrared-deep-noise'
+        'infrared-deep-noise',
+        'infrared-soft-noise',
+        'infrared-soothing-noise',
+        'infrared-fan'
     ]);
 
     const RAIN_SOUND_PROFILE_IDS = new Set([
         'brown-light-rain-outside',
         'brown-rainy-town-birds',
-        'brown-thunder-rain'
+        'brown-thunder-rain',
+        'rain-window-glass',
+        'rain-tile-roof',
+        'rain-gentle',
+        'rain-calming',
+        'rain-sleep',
+        'rain-city-roof'
+    ]);
+
+    const OCEAN_SOUND_PROFILE_IDS = new Set([
+        'ocean-surf',
+        'ocean-beach-waves',
+        'ocean-soft-waves',
+        'ocean-gentle',
+        'ocean-soothing-waves',
+        'ocean-night-sea'
     ]);
 
     const CLASSIC_BUTTON_SOUND_PROFILE_IDS = new Set([
@@ -9914,6 +10295,7 @@
         if (skinId === 'brown-noise') return BROWN_NOISE_SOUND_PROFILE_IDS.has(soundProfileId);
         if (skinId === 'infrared-noise') return INFRARED_NOISE_SOUND_PROFILE_IDS.has(soundProfileId);
         if (skinId === 'rain') return RAIN_SOUND_PROFILE_IDS.has(soundProfileId);
+        if (skinId === 'ocean') return OCEAN_SOUND_PROFILE_IDS.has(soundProfileId);
         return !MOON_SOUND_PROFILE_IDS.has(soundProfileId)
             && !PEOPLE_SOUND_PROFILE_IDS.has(soundProfileId)
             && !WHITE_NOISE_SOUND_PROFILE_IDS.has(soundProfileId)
@@ -9922,7 +10304,8 @@
             && !ORANGE_NOISE_SOUND_PROFILE_IDS.has(soundProfileId)
             && !INFRARED_NOISE_SOUND_PROFILE_IDS.has(soundProfileId)
             && !BROWN_NOISE_SOUND_PROFILE_IDS.has(soundProfileId)
-            && !RAIN_SOUND_PROFILE_IDS.has(soundProfileId);
+            && !RAIN_SOUND_PROFILE_IDS.has(soundProfileId)
+            && !OCEAN_SOUND_PROFILE_IDS.has(soundProfileId);
     }
 
     function getPreferredSoundProfileIdForSkin(skinId = AppState.currentSkin) {
@@ -9999,6 +10382,9 @@
         { id: 'rain', name: 'Rain', desc: 'Rainy window hush',
           free: true, iconPath: 'M12 2.5c-2.6 3.4-6 6.8-6 11a6 6 0 0012 0c0-4.2-3.4-7.6-6-11zm-4 14.5h2l-1.4 3.5H6.6L8 17zm4 0h2l-1.4 3.5h-2L12 17zm4 0h2l-1.4 3.5h-2L16 17z',
           interaction: 'continuous-toggle', recommendedSoundProfileId: 'brown-light-rain-outside', hapticProfile: 'light-click' },
+        { id: 'ocean', name: 'Ocean', desc: 'Waves breathing on the shore',
+          free: false, iconPath: 'M3 13c2.1-3.5 4.2-3.5 6.3 0s4.2 3.5 6.3 0 4.2-3.5 5.4-1.1V14c-1.2-2.4-3.3-2.4-5.4 1.1s-4.2 3.5-6.3 0S5.1 11.6 3 15.1V13zm1.5 4c1.5-1.6 3-1.6 4.5 0s3 1.6 4.5 0 3-1.6 4.5 0 3 1.6 4.5 0v2c-1.5 1.6-3 1.6-4.5 0s-3-1.6-4.5 0-3 1.6-4.5 0-3-1.6-4.5 0v-2z',
+          interaction: 'continuous-toggle', recommendedSoundProfileId: 'ocean-surf', hapticProfile: 'light-click' },
         { id: 'people', name: 'People', desc: 'Human ambience and shared spaces',
           free: false, iconPath: 'M16 11a3 3 0 100-6 3 3 0 000 6zM8 11a3 3 0 100-6 3 3 0 000 6zM8 13c-2.33 0-7 1.17-7 3.5V19h14v-2.5C15 14.17 10.33 13 8 13zm8 0-.97.05c1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5C23 14.17 18.33 13 16 13z',
           interaction: 'continuous-toggle', recommendedSoundProfileId: 'people-crowd', hapticProfile: 'light-click' },
@@ -10302,7 +10688,7 @@
                     && this.getActiveLoopSkinId() === AppState.currentSkin;
                 const label = button.querySelector('.main-button-label');
                 const skinId = AppState.currentSkin;
-                const shouldShowLabel = ['white-noise', 'pink-noise', 'green-noise', 'orange-noise', 'brown-noise', 'infrared-noise', 'rain'].includes(skinId) && isPlaying;
+                const shouldShowLabel = ['white-noise', 'pink-noise', 'green-noise', 'orange-noise', 'brown-noise', 'infrared-noise', 'rain', 'ocean'].includes(skinId) && isPlaying;
                 button.setAttribute('aria-label', isPlaying ? 'Stop noise' : isContinuous ? 'Play noise' : 'Press for relaxation');
                 if (isContinuous) {
                     button.setAttribute('aria-pressed', String(isPlaying));
@@ -11735,7 +12121,7 @@
         },
 
         warmSkinAudio(skinId = AppState.currentSkin) {
-            if (!['people', 'white-noise', 'pink-noise', 'green-noise', 'orange-noise', 'brown-noise', 'infrared-noise', 'rain'].includes(skinId)) return;
+            if (!['people', 'white-noise', 'pink-noise', 'green-noise', 'orange-noise', 'brown-noise', 'infrared-noise', 'rain', 'ocean'].includes(skinId)) return;
             AudioEngine.warmContinuousProfilesForSkin(skinId);
         },
 
@@ -12096,7 +12482,7 @@
 
         createThemeSmoke() {
             const theme = THEMES.find(entry => entry.id === AppState.theme);
-            if (!theme || theme.free || ['moon', 'people', 'white-noise', 'pink-noise', 'green-noise', 'orange-noise', 'brown-noise', 'infrared-noise', 'rain'].includes(AppState.currentSkin)) return;
+            if (!theme || theme.free || ['moon', 'people', 'white-noise', 'pink-noise', 'green-noise', 'orange-noise', 'brown-noise', 'infrared-noise', 'rain', 'ocean'].includes(AppState.currentSkin)) return;
 
             const app = document.getElementById('app');
             const appRect = app.getBoundingClientRect();
@@ -13026,6 +13412,7 @@
             'brown-noise': { title: 'knowledge.brownTitle', copy: 'knowledge.brownCopy' },
             'infrared-noise': { title: 'knowledge.infraTitle', copy: 'knowledge.infraCopy' },
             rain: { title: 'knowledge.rainTitle', copy: 'knowledge.rainCopy' },
+            ocean: { title: 'knowledge.oceanTitle', copy: 'knowledge.oceanCopy' },
             people: { title: 'knowledge.peopleTitle', copy: 'knowledge.peopleCopy' }
         },
 
@@ -13807,6 +14194,7 @@
             { id: 'white-noise', skinId: 'white-noise', chip: '', title: 'White Noise', copy: 'Steady. Simple. Soothing.', image: 'assets/home-posters/white-noise-card.webp', classes: 'home-poster-card--compact', tint: 'rgba(214, 226, 242, 0.26)' },
             { id: 'brown-noise', skinId: 'brown-noise', soundProfileId: 'infrared-noise-core', chip: '', title: 'Brown Noise', copy: 'Deeper tones for grounding', image: 'assets/home-posters/brown-noise-card.webp', classes: 'home-poster-card--compact', tint: 'rgba(132, 112, 86, 0.30)' },
             { id: 'rain', skinId: 'rain', chip: '', title: 'Rain', copy: 'Natural rain on leaves', image: 'assets/home-posters/rain-card.webp', classes: 'home-poster-card--compact', tint: 'rgba(70, 98, 140, 0.28)' },
+            { id: 'ocean', skinId: 'ocean', chip: '', title: 'Ocean', copy: 'Waves to breathe with.', image: 'assets/home-posters/ocean-card.webp', classes: 'home-poster-card--compact', tint: 'rgba(48, 128, 140, 0.28)' },
             { id: 'pink-noise', skinId: 'pink-noise', soundProfileId: 'pink-soft-noise', chip: '', title: 'Pink Noise', copy: 'Balanced and gentle.', image: 'assets/home-posters/pink-noise-card.webp', classes: 'home-poster-card--compact', tint: 'rgba(184, 114, 152, 0.28)' },
             { id: 'green-noise', skinId: 'green-noise', soundProfileId: 'white-noise', chip: '', title: 'Green Noise', copy: 'Natural and calm.', image: 'assets/home-posters/green-noise-card.webp', classes: 'home-poster-card--compact', tint: 'rgba(64, 140, 96, 0.28)' },
             { id: 'orange-noise', skinId: 'orange-noise', soundProfileId: 'infrared-arctic-winds', chip: '', title: 'Orange Noise', copy: 'Warm focus spectrum', image: 'assets/home-posters/orange-noise-card.webp', classes: 'home-poster-card--compact', tint: 'rgba(211, 126, 58, 0.30)' },
@@ -13987,7 +14375,7 @@
             this.featured.innerHTML = '';
             this.rail.innerHTML = '';
 
-            const homeOrder = ['moon', 'white-noise', 'brown-noise', 'rain', 'pink-noise', 'green-noise', 'orange-noise', 'infrared', 'people'];
+            const homeOrder = ['moon', 'white-noise', 'brown-noise', 'rain', 'pink-noise', 'green-noise', 'orange-noise', 'infrared', 'ocean', 'people'];
             homeOrder.map(id => this.getPosterById(id)).filter(Boolean).forEach((poster, index) => {
                 const card = this.buildPosterCard(poster, { eager: index < 3 });
                 this.rail.appendChild(card);
@@ -14200,7 +14588,24 @@
             'infrared-ocean-waves': 'assets/noise-backdrops/infrared-ocean-waves.webp',
             'infrared-arctic-winds': 'assets/noise-backdrops/infrared-arctic-winds.webp',
             'infrared-noise-core': 'assets/noise-backdrops/infrared-noise-core.webp',
-            'infrared-deep-noise': 'assets/noise-backdrops/infrared-deep-noise.webp'
+            'infrared-deep-noise': 'assets/noise-backdrops/infrared-deep-noise.webp',
+            'rain-window-glass': 'assets/noise-backdrops/rain-window-glass.webp',
+            'rain-tile-roof': 'assets/noise-backdrops/rain-tile-roof.webp',
+            'rain-gentle': 'assets/noise-backdrops/rain-gentle.webp',
+            'rain-calming': 'assets/noise-backdrops/rain-calming.webp',
+            'rain-sleep': 'assets/noise-backdrops/rain-sleep.webp',
+            'rain-city-roof': 'assets/noise-backdrops/rain-city-roof.webp',
+            'pink-low-noise': 'assets/noise-backdrops/pink-low-noise.webp',
+            'infrared-soft-noise': 'assets/noise-backdrops/infrared-soft-noise.webp',
+            'infrared-soothing-noise': 'assets/noise-backdrops/infrared-soothing-noise.webp',
+            'infrared-fan': 'assets/noise-backdrops/infrared-fan.webp',
+            'ocean-surf': 'assets/noise-backdrops/ocean-surf.webp',
+            'ocean-beach-waves': 'assets/noise-backdrops/ocean-beach-waves.webp',
+            'ocean-soft-waves': 'assets/noise-backdrops/ocean-soft-waves.webp',
+            'ocean-gentle': 'assets/noise-backdrops/ocean-gentle.webp',
+            'ocean-soothing-waves': 'assets/noise-backdrops/ocean-soothing-waves.webp',
+            'ocean-night-sea': 'assets/noise-backdrops/ocean-night-sea.webp',
+            'ocean-skin': 'assets/noise-backdrops/ocean-surf.webp'
         },
         artworkQueries: {},
 

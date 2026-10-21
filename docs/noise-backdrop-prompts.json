@@ -32,5 +32,29 @@
     "green-noise-card": "Tall vertical poster artwork, soft dreamy stylized forest: slender pale trees in a dense emerald-green glowing mist, mossy rocks and low green shrubs in the foreground, a narrow path fading into the haze, monochrome green palette, gentle backlight, painterly and calm. No people, no text, no logos, no watermark.",
     "rain-card": "Tall vertical poster artwork, soft dreamy and calm: gentle rain falling over a still lake surrounded by misty pine forest at blue hour, fine raindrop ripples on the water, a wet wooden pier leading into the haze, monochrome deep blue and cool slate palette, soft diffused light, painterly. No people, no text, no logos, no watermark.",
     "moon-card": "Tall vertical poster artwork, mysterious and calm: a large warm amber-golden full moon low over a quiet desert of soft dunes at night, thin veils of cloud crossing the moon, deep indigo-black sky fading to warm sand tones, dreamy painterly style, soft glow. No people, no text, no logos, no watermark. (owner picked this over a silver-lavender mountain variant)"
+  },
+  "batch_2026_10_21": {
+    "note": "New rain, noise and Ocean sounds. Flow project 'Нові звуки 2026-10-21 (дощ, шуми, Ocean)' (account melnyklabs by mistake; future work: oktober15sm). Nano Banana 2.1, portrait x2 per prompt, owner hearted one; landscape x1 from the hearted portrait with the 'landscape' prompt above. Portrait scenes use the 'portrait.template'.",
+    "scenes": {
+      "rain-window-glass": "(v2, the first version showed a lamp outside the window) realistic close-up photo taken from inside a room: soft raindrops and thin water rivulets running down a clear window pane, a quiet green garden with trees softly out of focus outside, grey-blue overcast daylight, natural true-to-life colours, cool blue-green palette. (own template: 'Vertical phone wallpaper, realistic close-up photo ... Calm mood, slightly darker lower third. No lamps, no reflections of objects, no people, no text, no logos, no watermark.')",
+      "rain-tile-roof": "Soft rain falling on old terracotta roof tiles of a quiet Mediterranean village, wet glossy tiles with tiny splashes, misty green hills in the background, muted terracotta and grey-blue palette.",
+      "rain-gentle": "Gentle rain falling on a calm pond with floating lily pads, delicate concentric ripples on the water, soft green reeds at the edge, misty overcast light, muted green and silver palette.",
+      "rain-calming": "Steady rain over a quiet mossy Japanese garden with a stone lantern and maple trees, wet stepping stones, soft grey mist, deep green and slate palette.",
+      "rain-sleep": "A quiet bedroom window at night with rain streaking down the glass, a dim warm bedside lamp glow on the sill, dark blue night outside, cosy and sleepy, deep navy and soft amber palette.",
+      "rain-city-roof": "Rain over old city rooftops at blue hour, wet zinc roofs and chimneys glistening, distant warm lit windows, misty skyline, cool blue-grey palette.",
+      "pink-low-noise": "Soft rolling hills covered in blooming pink heather at dusk under a hazy lavender-pink sky, low warm mist resting in the valleys, dreamy and calm, pink and mauve palette.",
+      "infrared-soft-noise": "A vast deep-red sandstone canyon at dusk, smooth curved rock walls glowing crimson, soft shadows, a quiet darkening sky, deep red and burgundy palette.",
+      "infrared-soothing-noise": "A deep red sun setting over a calm sea of clouds seen from a high mountain ridge, smooth gradient sky from crimson to maroon, dark ridge silhouette, still and quiet.",
+      "infrared-fan": "A minimalist dark bedroom at night bathed in a soft deep-red glow, a modern standing fan in silhouette beside a window with sheer curtains gently lifting in the breeze, calm and still, deep red and black palette.",
+      "ocean-surf": "Long rolling lines of ocean surf arriving at a wide empty beach, white foam patterns spreading over the sand, soft overcast morning light, teal and silver palette.",
+      "ocean-beach-waves": "Gentle waves washing onto a golden sandy beach, lacy foam on the wet sand reflecting the sky, soft sunset glow, aqua and warm sand palette.",
+      "ocean-soft-waves": "Soft small waves lapping on smooth round pebbles in a quiet cove, crystal-clear turquoise water, calm morning light, aqua and pale stone palette.",
+      "ocean-gentle": "Aerial top-down view of gentle turquoise waves spreading over white sand in delicate layers, shallow clear water, bright calm light, turquoise and white palette.",
+      "ocean-soothing-waves": "A calm ocean at dusk with slow low waves, soft pastel sky in blue and peach, smooth long-exposure water, tranquil horizon, teal and pastel palette.",
+      "ocean-night-sea": "A calm sea at night under a starry sky, a moonlight path shimmering on gentle waves, dark rocky shore in silhouette, deep navy and silver palette."
+    },
+    "home_cards": {
+      "ocean-card": "Tall vertical poster artwork, soft dreamy and calm: a gentle ocean wave rolling toward a quiet beach at blue hour, glowing teal water, soft white foam, distant horizon with a pale moon, monochrome teal and deep aqua palette, soft diffused light, painterly. No people, no text, no logos, no watermark."
+    }
   }
 }

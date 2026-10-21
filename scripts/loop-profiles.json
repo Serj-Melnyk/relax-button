@@ -124,5 +124,117 @@
   "start": 0.2,
   "trim": 0.2,
   "xf": 1.5
+ },
+ {
+  "id": "rain-window-glass",
+  "file": "Loop-RAIN-window-glass.m4a",
+  "start": 0,
+  "trim": 0,
+  "xf": 2.5
+ },
+ {
+  "id": "rain-tile-roof",
+  "file": "Loop-RAIN-tile-roof.m4a",
+  "start": 0,
+  "trim": 0,
+  "xf": 2.5
+ },
+ {
+  "id": "rain-gentle",
+  "file": "Loop-RAIN-gentle.m4a",
+  "start": 0,
+  "trim": 0,
+  "xf": 2.5
+ },
+ {
+  "id": "rain-calming",
+  "file": "Loop-RAIN-calming.m4a",
+  "start": 0,
+  "trim": 0,
+  "xf": 2.5
+ },
+ {
+  "id": "rain-sleep",
+  "file": "Loop-RAIN-sleep.m4a",
+  "start": 0,
+  "trim": 0,
+  "xf": 2.5
+ },
+ {
+  "id": "rain-city-roof",
+  "file": "Loop-RAIN-city-roof.m4a",
+  "start": 0,
+  "trim": 0,
+  "xf": 2.5
+ },
+ {
+  "id": "infrared-soft-noise",
+  "file": "Loop-INFRARED-soft-noise.m4a",
+  "start": 0,
+  "trim": 0,
+  "xf": 2.5
+ },
+ {
+  "id": "pink-low-noise",
+  "file": "Loop-PINK-low-noise.m4a",
+  "start": 0,
+  "trim": 0,
+  "xf": 2.5
+ },
+ {
+  "id": "infrared-soothing-noise",
+  "file": "Loop-INFRARED-soothing-noise.m4a",
+  "start": 0,
+  "trim": 0,
+  "xf": 1.5
+ },
+ {
+  "id": "infrared-fan",
+  "file": "Loop-INFRARED-fan.m4a",
+  "start": 0,
+  "trim": 0,
+  "xf": 1.5
+ },
+ {
+  "id": "ocean-beach-waves",
+  "file": "Loop-OCEAN-beach-waves.m4a",
+  "start": 0,
+  "trim": 0,
+  "xf": 2.5
+ },
+ {
+  "id": "ocean-night-sea",
+  "file": "Loop-OCEAN-night-sea.m4a",
+  "start": 0,
+  "trim": 0,
+  "xf": 2.5
+ },
+ {
+  "id": "ocean-soft-waves",
+  "file": "Loop-OCEAN-soft-waves.m4a",
+  "start": 0,
+  "trim": 0,
+  "xf": 2.5
+ },
+ {
+  "id": "ocean-surf",
+  "file": "Loop-OCEAN-surf.m4a",
+  "start": 0,
+  "trim": 0,
+  "xf": 2.5
+ },
+ {
+  "id": "ocean-gentle",
+  "file": "Loop-OCEAN-gentle.m4a",
+  "start": 0,
+  "trim": 0,
+  "xf": 2.5
+ },
+ {
+  "id": "ocean-soothing-waves",
+  "file": "Loop-OCEAN-soothing-waves.m4a",
+  "start": 0,
+  "trim": 0,
+  "xf": 2.5
  }
 ]
