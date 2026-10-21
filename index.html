@@ -9763,6 +9763,11 @@
             HomeNowPlaying?.updateUI?.();
             SleepTimerManager?.updateUI?.();
             KnowledgeManager?.render?.();
+            // The open skin's player (sound name, description, pager) and the
+            // nav labels must follow the new language at once, not only after
+            // the skin is reopened from Home.
+            NoisePlayerUI?.updateUI?.();
+            AppNav?.sync?.();
         }
     };
     window.I18n = I18n;
