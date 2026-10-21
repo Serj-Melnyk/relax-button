@@ -43,6 +43,10 @@ Digital Fidget: Mental ASMR — Capacitor app (Android first, iOS also built), p
 - **Skin switching.** Opening a skin paints it beneath Home for three frames
   (`body.skin-prepaint`) before Home hides, so the photo is rasterized and the gradient under it
   never flashes. Keep that when touching `HomeSkinScene.openPoster`.
+- **Home wooden button.** The button is part of the Home photo; `.home-feature` is a transparent hit area over it and
+  `.home-feature-disc` is a clipped copy of the same photo that sinks on press (`assets/home-pause.css`). Opening the
+  Click skin from it uses `HomeSkinScene.openPoster('click', { dissolve: true })` (promo-style dissolve). If the Home
+  photo is replaced, re-measure the disc centre/radius in that CSS.
 - Debug builds install as `com.antistress.relaxbutton.debug` beside the Play build
   (`./gradlew assembleDebug`), so device QA keeps the tester's data.
 - Signing (`android/keystore.properties`) and `android/local.properties` are local only — never commit.

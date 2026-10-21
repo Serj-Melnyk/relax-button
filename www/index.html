@@ -7669,7 +7669,7 @@
     }
 
     </style>
-    <link rel="stylesheet" href="assets/home-pause.css?v=10">
+    <link rel="stylesheet" href="assets/home-pause.css?v=12">
     <link rel="icon" href="data:,">
     <!-- Capacitor native bridge is provided by the native WebView, not the local preview server. -->
     <script>
@@ -7804,7 +7804,7 @@
                 </div>
             </header>
 
-            <button class="home-feature" type="button" onclick="HomeSkinScene.openPoster('click')" data-i18n-aria="home.clickTitle" aria-label="Клік"></button>
+            <button class="home-feature" type="button" data-i18n-aria="home.clickTitle" aria-label="Клік"><span class="home-feature-disc" aria-hidden="true"></span></button>
             <p class="home-touch-caption" data-i18n="home.touchCaption">Натисни. Послухай. Видихни.</p>
           </div>
 
@@ -13687,6 +13687,7 @@
         selectedPosterId: '',
         homeExitTimer: 0,
         featuredPosterId: 'click',
+        featureTransitioning: false,
         rhythm: null,
         posterDefinitions: [
             { id: 'click', skinId: 'classic-button', chip: '', title: 'Click', copy: 'Clean, satisfying clicks', image: 'assets/home-posters/click-card.webp', classes: 'home-poster-card--featured', tint: 'rgba(232, 198, 210, 0.24)' },
@@ -13714,9 +13715,89 @@
             this.rhythm?.querySelector('[data-home-action="focus"]')?.addEventListener('click', () => this.openPoster('white-noise'));
             this.rhythm?.querySelector('[data-home-action="sleep"]')?.addEventListener('click', () => SleepTimerManager.open());
             this.selectedPosterId = this.getCurrentPosterId();
+            this.initFeaturePress();
             this.build();
             this.syncCurrentSkin();
             this.enterHome(true);
+        },
+
+        getFeatureClickProfileId() {
+            return getSavedSoundProfileIdForSkin('classic-button')
+                || SkinRegistry.getSkin('classic-button')?.recommendedSoundProfileId
+                || 'classic-click';
+        },
+
+        // The wooden button in the Home photo behaves like the promo hook:
+        // the disc sinks with a click and haptic, springs back, then Home
+        // dissolves into the Click skin.
+        initFeaturePress() {
+            const feature = document.querySelector('.home-feature');
+            if (!feature) return;
+            const MIN_PRESS_MS = 110;
+            const RELEASE_TO_DISSOLVE_MS = 110;
+            let pressedAt = -Infinity;
+            let isDown = false;
+
+            const pressDown = () => {
+                pressedAt = performance.now();
+                isDown = true;
+                feature.classList.add('is-pressed');
+                HapticsEngine.pressDown('light-click');
+                AudioEngine.resumeContext?.();
+                AudioEngine.play(this.getFeatureClickProfileId(), { phase: 'down' });
+            };
+
+            const release = () => {
+                if (!isDown) return 0;
+                isDown = false;
+                const wait = Math.max(0, MIN_PRESS_MS - (performance.now() - pressedAt));
+                setTimeout(() => {
+                    feature.classList.remove('is-pressed');
+                    HapticsEngine.pressUp('light-click');
+                    const profileId = this.getFeatureClickProfileId();
+                    if (SkinRegistry.getSoundProfile(profileId)?.mode === 'phased') {
+                        AudioEngine.play(profileId, { phase: 'up' });
+                    }
+                }, wait);
+                return wait;
+            };
+
+            const activate = () => {
+                const wait = release();
+                this.featureTransitioning = true;
+                setTimeout(() => {
+                    this.openPoster('click', { dissolve: true });
+                    setTimeout(() => { this.featureTransitioning = false; }, 1000);
+                }, wait + RELEASE_TO_DISSOLVE_MS);
+            };
+
+            // Navigate on release, not on click: Android WebView turns a slow
+            // press into a long-press and never fires click for it.
+            feature.addEventListener('pointerdown', (event) => {
+                if (event.button > 0 || this.featureTransitioning) return;
+                feature.setPointerCapture?.(event.pointerId);
+                pressDown();
+            });
+            feature.addEventListener('pointerup', (event) => {
+                if (!isDown) return;
+                const rect = feature.getBoundingClientRect();
+                const inside = event.clientX >= rect.left && event.clientX <= rect.right
+                    && event.clientY >= rect.top && event.clientY <= rect.bottom;
+                if (inside && !this.featureTransitioning) {
+                    activate();
+                } else {
+                    release();
+                }
+            });
+            feature.addEventListener('pointercancel', release);
+            feature.addEventListener('contextmenu', event => event.preventDefault());
+            feature.addEventListener('click', (event) => {
+                // Pointer presses are handled on pointerup; this is keyboard
+                // and accessibility activation only.
+                if (event.detail !== 0 || this.featureTransitioning) return;
+                pressDown();
+                activate();
+            });
         },
 
         getPosterById(posterId) {
@@ -13865,7 +13946,7 @@
             [...this.pagination.children].forEach((dot, index) => dot.setAttribute('aria-current', String(index === activeIndex)));
         },
 
-        openPoster(posterId) {
+        openPoster(posterId, options = {}) {
             const poster = this.getPosterById(posterId);
             if (!poster) return;
             const skin = SkinRegistry.getSkin(poster.skinId);
@@ -13888,7 +13969,10 @@
                 ? NoiseBackdropScene?.preloadArtworkForKey?.(profileId, 'high')
                 : Promise.resolve(true);
             this.selectedPosterId = poster.id;
+            const dissolve = Boolean(options.dissolve)
+                && !window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
             document.body.classList.add('skin-transitioning');
+            document.body.classList.toggle('home-press-dissolve', dissolve);
             SkinManager.select(skin.id, {
                 soundProfileId: profileId,
                 soundMode: profileId === skin.recommendedSoundProfileId ? 'matched' : 'custom',
@@ -13910,10 +13994,26 @@
                         requestAnimationFrame(reveal);
                         return;
                     }
-                    document.body.classList.remove('skin-transitioning', 'skin-prepaint');
-                    this.enterSkinExperience();
-                    AppNav.sync();
-                    schedulePostInteraction(() => this.syncCurrentSkin(), 120);
+                    const finish = () => {
+                        document.body.classList.remove('skin-transitioning', 'skin-prepaint', 'home-dissolving', 'home-press-dissolve');
+                        this.enterSkinExperience();
+                        AppNav.sync();
+                        if (dissolve) {
+                            // The nav left with Home; bring it back in the skin's style.
+                            document.body.classList.add('home-dissolve-nav-in');
+                            setTimeout(() => document.body.classList.remove('home-dissolve-nav-in'), 320);
+                        }
+                        schedulePostInteraction(() => this.syncCurrentSkin(), 120);
+                    };
+                    if (!dissolve) {
+                        finish();
+                        return;
+                    }
+                    // Promo transition: Home fades off the already painted
+                    // skin, which settles from 1.04 to 1. Home keeps its
+                    // home-view-active layout until it is fully transparent.
+                    document.body.classList.add('home-dissolving');
+                    setTimeout(finish, 600);
                 };
                 requestAnimationFrame(reveal);
             });

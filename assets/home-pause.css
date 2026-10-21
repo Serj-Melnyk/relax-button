@@ -129,7 +129,108 @@ body.home-view-active .home-feature {
 }
 body.home-view-active .home-feature::before,
 body.home-view-active .home-feature::after { display: none; }
-body.home-view-active .home-feature:active { background: rgba(90, 52, 18, .12); }
+/* Wooden button press, like the promo hook. The disc in the photo is
+   copied into .home-feature-disc (same image, clipped to the disc) so it can
+   sink into the stone ring; ::before is the dark gap the sinking disc reveals,
+   ::after the ring's shadow on it. Disc in the photo: centre 49.83% / 58.80%,
+   radius 15.82% x 14.21% of the image. The button covers 28%..72% x 39.8%..78.8%. */
+.home-feature-disc { display: none; }
+body.home-view-active .home-feature-disc {
+    display: block;
+    position: absolute;
+    z-index: 1;
+    left: -63.636%;   /* -28 / 44 */
+    top: -102.051%;   /* -39.8 / 39 */
+    width: 227.273%;  /* 100 / 44 */
+    height: 256.41%;  /* 100 / 39 */
+    background: url("home-backgrounds/pause-day.webp") center / 100% 100% no-repeat;
+    -webkit-touch-callout: none;
+    clip-path: ellipse(15.9% 14.3% at 49.83% 58.8%);
+    transform-origin: 49.83% 58.8%;
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 170ms cubic-bezier(.34, 1.56, .64, 1), filter 170ms ease, opacity 0ms linear 170ms;
+}
+body.home-view-active[data-home-theme="night"] .home-feature-disc {
+    background-image: url("home-backgrounds/pause-night.webp");
+}
+body.home-view-active .home-feature::before,
+body.home-view-active .home-feature::after {
+    content: "";
+    position: absolute;
+    left: 13.66%;
+    top: 12.28%;
+    width: 71.9%;
+    height: 72.88%;
+    border-radius: 50%;
+    pointer-events: none;
+}
+body.home-view-active .home-feature.is-pressed::before {
+    display: block;
+    z-index: 0;
+    background: radial-gradient(circle, rgba(52, 32, 16, .78) 0 88%, rgba(52, 32, 16, .45) 100%);
+}
+body.home-view-active .home-feature.is-pressed::after {
+    display: block;
+    z-index: 2;
+    transform: scale(.95);
+    box-shadow: inset 0 .55rem .8rem rgba(42, 24, 10, .42), inset 0 -.12rem .3rem rgba(255, 230, 190, .18);
+}
+body.home-view-active .home-feature.is-pressed .home-feature-disc {
+    opacity: 1;
+    transform: translateY(.3%) scale(.96);
+    filter: brightness(.96);
+    transition: transform 70ms cubic-bezier(.2, 0, .4, 1), filter 70ms ease, opacity 0ms;
+}
+/* Day photo: a light, warm gap and a soft shadow; dark brown reads as dirt. */
+body.home-view-active:not([data-home-theme="night"]) .home-feature.is-pressed::before {
+    background: radial-gradient(circle, rgba(150, 118, 84, .42) 0 90%, rgba(150, 118, 84, .2) 100%);
+}
+body.home-view-active:not([data-home-theme="night"]) .home-feature.is-pressed::after {
+    box-shadow: inset 0 .4rem .7rem rgba(120, 86, 52, .2), inset 0 -.1rem .25rem rgba(255, 244, 226, .3);
+}
+body.home-view-active[data-home-theme="night"] .home-feature.is-pressed .home-feature-disc {
+    filter: brightness(.9);
+}
+body.home-view-active .home-feature {
+    touch-action: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Promo transition: Home dissolves off the Click skin painted beneath it,
+   and the skin settles from 1.04 to 1. */
+body.skin-prepaint.home-view-active.home-press-dissolve #app {
+    transform: scale(1.04);
+}
+body.skin-prepaint.home-view-active.home-dissolving #app {
+    transform: none;
+    transition: transform 760ms cubic-bezier(.16, 1, .3, 1) !important;
+}
+body.skin-prepaint.home-view-active.home-dissolving #home-screen {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 560ms cubic-bezier(.45, 0, .55, 1);
+}
+/* The skin's own top controls show from the first dissolve frame. The nav
+   still has Home's styling, so it leaves with Home and returns in the
+   skin's styling once Home is gone, instead of switching with a pop. */
+body.skin-prepaint.home-view-active.home-press-dissolve #app .noise-top-controls {
+    display: flex;
+}
+body.skin-prepaint.home-view-active.home-dissolving #app-nav {
+    opacity: 0;
+    transition: opacity 300ms ease-out !important;
+}
+body.home-dissolve-nav-in #app-nav {
+    animation: home-dissolve-nav-in 280ms ease-out both;
+}
+@keyframes home-dissolve-nav-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
 body.home-view-active button:focus-visible { outline: 2px solid var(--pause-accent); outline-offset: 4px; }
 .home-touch-caption {
     position: absolute;
