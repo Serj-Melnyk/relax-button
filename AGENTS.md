@@ -24,10 +24,16 @@ Digital Fidget: Mental ASMR — Capacitor app (Android first, iOS also built), p
   top crown `#click-premium-button` (Classic Button skin only), taps on locked items (not during the 3-day trial).
   Buyers get the same `#paywall` card in `.is-owned` mode ("Premium is active", Done). The owner's phone has a
   license-test purchase, so it always shows the buyer state until that order is refunded in Play Console.
-- Skin `ocean` (Ocean / Океан, 6 wave sounds `ocean-*`) sits before `people` on Home; Premium after the trial like every
-  non-Click skin (access is only `ACCESS_DEFAULTS.freeSkinIds/freeSoundProfileIds`; the `free` flag in SKINS/SOUND_PROFILES
-  does not gate anything). New 2026-10-21 sounds: 6 `rain-*` (Rain skin), `pink-low-noise` (Pink), `infrared-soft-noise`,
-  `infrared-soothing-noise`, `infrared-fan` (Infrared, all measured alpha 2.8-3.6). "New" badges: `NewContent.ids` in index.html.
+- Skin `ocean` (Ocean / Океан) sits before `people` on Home; Premium after the trial like every non-Click skin (access is
+  only `ACCESS_DEFAULTS.freeSkinIds/freeSoundProfileIds`; the `free` flag in SKINS/SOUND_PROFILES does not gate anything).
+  Ocean = `ocean-surf`, `ocean-gentle`, `ocean-soothing-waves` + the two pink-skin sea sounds `brown-ideal-ocean-waves`,
+  `infrared-ocean-waves` (same ids, listed in both sets, no duplicate files). 2026-10-21 sounds kept: `rain-window-glass`,
+  `rain-calming`, `rain-sleep`, `rain-city-roof`, `pink-low-noise`, `infrared-soft-noise`, `infrared-fan`.
+  Removed on the owner's request (21.10): Radio Noise, Rainy Day in Town, Light Rain Outside, Tile Roof Rain, Gentle Rain,
+  Soothing Deep Noise, Beach Waves, Soft Waves, Night Sea, People Catering. "New" badges: `NewContent.ids`.
+- Green Noise skin uses `Loop-GREEN-rain-window.m4a` (real window rain EQ'd to a green shape, checked by
+  `scripts/noise-psd.py` `green_shape`); the same file is `rain-green-window` "Green Rain" in the Rain skin. Pixabay files
+  labelled "green noise" were not green when measured — always measure before using one.
 - Web payload budget is 65 MB (`npm run check`); after the 2026-10-21 sounds it is ~64 MB. New loop files are cut to the part
   that plays (loopStart 0.3, loopEndTrim 0.05) to fit. Any further audio needs space found first.
 - `android.r8.optimizedResourceShrinking=true` is on from 1.0.22 (Play R8 recommendation); AAB carries `proguard.map`.

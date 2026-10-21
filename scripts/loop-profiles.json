@@ -1,240 +1,191 @@
 [
- {
-  "id": "people-crowd",
-  "file": "people-crowd.m4a",
-  "start": 0,
-  "trim": 0,
-  "xf": 2.5
- },
- {
-  "id": "people-community",
-  "file": "people-community.m4a",
-  "start": 0,
-  "trim": 0,
-  "xf": 2.5
- },
- {
-  "id": "people-catering",
-  "file": "people-catering.m4a",
-  "start": 0,
-  "trim": 0,
-  "xf": 2.5
- },
- {
-  "id": "people-bar-crowd",
-  "file": "people-bar-crowd.m4a",
-  "start": 0,
-  "trim": 0,
-  "xf": 2.5
- },
- {
-  "id": "infrared-ocean",
-  "file": "Loop-1x-INFARED noise-ocean-waves.m4a",
-  "start": 0.08,
-  "trim": 0.14,
-  "xf": 2.5
- },
- {
-  "id": "infrared-arctic",
-  "file": "Loop-1x-INFARED noise-arctic-winds.m4a",
-  "start": 0.08,
-  "trim": 0.14,
-  "xf": 1.5
- },
- {
-  "id": "infrared-core",
-  "file": "Loop-2x-INFARED-noise.m4a",
-  "start": 0,
-  "trim": 0,
-  "xf": 1.5
- },
- {
-  "id": "infrared-deep",
-  "file": "Loop-2x-INFARED-deep-noise.m4a",
-  "start": 0,
-  "trim": 0,
-  "xf": 1.5
- },
- {
-  "id": "orange",
-  "file": "Loop-1x-ORANGE-noise-from-river.m4a",
-  "start": 0.08,
-  "trim": 0.14,
-  "xf": 1.5
- },
- {
-  "id": "white",
-  "file": "Loop-1x-GREEN-rain-noise.m4a",
-  "start": 0.08,
-  "trim": 0.12,
-  "xf": 1.5
- },
- {
-  "id": "white-radio",
-  "file": "Loop-2x-WHITE-noise-radio.m4a",
-  "start": 0.08,
-  "trim": 0.12,
-  "xf": 1.0
- },
- {
-  "id": "pink",
-  "file": "Loop-2x-PINK-noise-copy.m4a",
-  "start": 0.08,
-  "trim": 0.12,
-  "xf": 1.5
- },
- {
-  "id": "brown-ocean",
-  "file": "Loop-1x-BROWN-ideal-noise-ocean-waves.m4a",
-  "start": 0.08,
-  "trim": 0.12,
-  "xf": 2.5
- },
- {
-  "id": "brown-rain",
-  "file": "Loop-1x-BROWN-light-rain-outside-noise.m4a",
-  "start": 0.08,
-  "trim": 0.12,
-  "xf": 1.5
- },
- {
-  "id": "brown-town-birds",
-  "file": "Loop-1x-BROWN-rainy-day-in-town-with-birds-singing.m4a",
-  "start": 0.08,
-  "trim": 0.12,
-  "xf": 2.5
- },
- {
-  "id": "brown-thunder",
-  "file": "Loop-1x-BROWN-thunder-rain.m4a",
-  "start": 0.08,
-  "trim": 0.12,
-  "xf": 2.5
- },
- {
-  "id": "brown-spring-birds",
-  "file": "Loop-2x-BROWN-spring-birds.m4a",
-  "start": 0.08,
-  "trim": 0.12,
-  "xf": 2.5
- },
- {
-  "id": "brown-waterfall",
-  "file": "Loop-BROWN-waterfall.m4a",
-  "start": 0.2,
-  "trim": 0.2,
-  "xf": 1.5
- },
- {
-  "id": "rain-window-glass",
-  "file": "Loop-RAIN-window-glass.m4a",
-  "start": 0,
-  "trim": 0,
-  "xf": 2.5
- },
- {
-  "id": "rain-tile-roof",
-  "file": "Loop-RAIN-tile-roof.m4a",
-  "start": 0,
-  "trim": 0,
-  "xf": 2.5
- },
- {
-  "id": "rain-gentle",
-  "file": "Loop-RAIN-gentle.m4a",
-  "start": 0,
-  "trim": 0,
-  "xf": 2.5
- },
- {
-  "id": "rain-calming",
-  "file": "Loop-RAIN-calming.m4a",
-  "start": 0,
-  "trim": 0,
-  "xf": 2.5
- },
- {
-  "id": "rain-sleep",
-  "file": "Loop-RAIN-sleep.m4a",
-  "start": 0,
-  "trim": 0,
-  "xf": 2.5
- },
- {
-  "id": "rain-city-roof",
-  "file": "Loop-RAIN-city-roof.m4a",
-  "start": 0,
-  "trim": 0,
-  "xf": 2.5
- },
- {
-  "id": "infrared-soft-noise",
-  "file": "Loop-INFRARED-soft-noise.m4a",
-  "start": 0,
-  "trim": 0,
-  "xf": 2.5
- },
- {
-  "id": "pink-low-noise",
-  "file": "Loop-PINK-low-noise.m4a",
-  "start": 0,
-  "trim": 0,
-  "xf": 2.5
- },
- {
-  "id": "infrared-soothing-noise",
-  "file": "Loop-INFRARED-soothing-noise.m4a",
-  "start": 0,
-  "trim": 0,
-  "xf": 1.5
- },
- {
-  "id": "infrared-fan",
-  "file": "Loop-INFRARED-fan.m4a",
-  "start": 0,
-  "trim": 0,
-  "xf": 1.5
- },
- {
-  "id": "ocean-beach-waves",
-  "file": "Loop-OCEAN-beach-waves.m4a",
-  "start": 0,
-  "trim": 0,
-  "xf": 2.5
- },
- {
-  "id": "ocean-night-sea",
-  "file": "Loop-OCEAN-night-sea.m4a",
-  "start": 0,
-  "trim": 0,
-  "xf": 2.5
- },
- {
-  "id": "ocean-soft-waves",
-  "file": "Loop-OCEAN-soft-waves.m4a",
-  "start": 0,
-  "trim": 0,
-  "xf": 2.5
- },
- {
-  "id": "ocean-surf",
-  "file": "Loop-OCEAN-surf.m4a",
-  "start": 0,
-  "trim": 0,
-  "xf": 2.5
- },
- {
-  "id": "ocean-gentle",
-  "file": "Loop-OCEAN-gentle.m4a",
-  "start": 0,
-  "trim": 0,
-  "xf": 2.5
- },
- {
-  "id": "ocean-soothing-waves",
-  "file": "Loop-OCEAN-soothing-waves.m4a",
-  "start": 0,
-  "trim": 0,
-  "xf": 2.5
- }
+  {
+    "id": "people-crowd",
+    "file": "people-crowd.m4a",
+    "start": 0,
+    "trim": 0,
+    "xf": 2.5
+  },
+  {
+    "id": "people-community",
+    "file": "people-community.m4a",
+    "start": 0,
+    "trim": 0,
+    "xf": 2.5
+  },
+  {
+    "id": "people-bar-crowd",
+    "file": "people-bar-crowd.m4a",
+    "start": 0,
+    "trim": 0,
+    "xf": 2.5
+  },
+  {
+    "id": "infrared-ocean",
+    "file": "Loop-1x-INFARED noise-ocean-waves.m4a",
+    "start": 0.08,
+    "trim": 0.14,
+    "xf": 2.5
+  },
+  {
+    "id": "infrared-arctic",
+    "file": "Loop-1x-INFARED noise-arctic-winds.m4a",
+    "start": 0.08,
+    "trim": 0.14,
+    "xf": 1.5
+  },
+  {
+    "id": "infrared-core",
+    "file": "Loop-2x-INFARED-noise.m4a",
+    "start": 0,
+    "trim": 0,
+    "xf": 1.5
+  },
+  {
+    "id": "infrared-deep",
+    "file": "Loop-2x-INFARED-deep-noise.m4a",
+    "start": 0,
+    "trim": 0,
+    "xf": 1.5
+  },
+  {
+    "id": "orange",
+    "file": "Loop-1x-ORANGE-noise-from-river.m4a",
+    "start": 0.08,
+    "trim": 0.14,
+    "xf": 1.5
+  },
+  {
+    "id": "white",
+    "file": "Loop-GREEN-rain-window.m4a",
+    "start": 4.6,
+    "trim": 2.5,
+    "xf": 2.5
+  },
+  {
+    "id": "white-radio",
+    "file": "Loop-2x-WHITE-noise-radio.m4a",
+    "start": 0.08,
+    "trim": 0.12,
+    "xf": 1.0
+  },
+  {
+    "id": "pink",
+    "file": "Loop-2x-PINK-noise-copy.m4a",
+    "start": 0.08,
+    "trim": 0.12,
+    "xf": 1.5
+  },
+  {
+    "id": "brown-ocean",
+    "file": "Loop-1x-BROWN-ideal-noise-ocean-waves.m4a",
+    "start": 0.08,
+    "trim": 0.12,
+    "xf": 2.5
+  },
+  {
+    "id": "brown-rain",
+    "file": "Loop-1x-BROWN-light-rain-outside-noise.m4a",
+    "start": 0.08,
+    "trim": 0.12,
+    "xf": 1.5
+  },
+  {
+    "id": "brown-town-birds",
+    "file": "Loop-1x-BROWN-rainy-day-in-town-with-birds-singing.m4a",
+    "start": 0.08,
+    "trim": 0.12,
+    "xf": 2.5
+  },
+  {
+    "id": "brown-thunder",
+    "file": "Loop-1x-BROWN-thunder-rain.m4a",
+    "start": 0.08,
+    "trim": 0.12,
+    "xf": 2.5
+  },
+  {
+    "id": "brown-spring-birds",
+    "file": "Loop-2x-BROWN-spring-birds.m4a",
+    "start": 0.08,
+    "trim": 0.12,
+    "xf": 2.5
+  },
+  {
+    "id": "brown-waterfall",
+    "file": "Loop-BROWN-waterfall.m4a",
+    "start": 0.2,
+    "trim": 0.2,
+    "xf": 1.5
+  },
+  {
+    "id": "rain-window-glass",
+    "file": "Loop-RAIN-window-glass.m4a",
+    "start": 0,
+    "trim": 0,
+    "xf": 2.5
+  },
+  {
+    "id": "rain-calming",
+    "file": "Loop-RAIN-calming.m4a",
+    "start": 0,
+    "trim": 0,
+    "xf": 2.5
+  },
+  {
+    "id": "rain-sleep",
+    "file": "Loop-RAIN-sleep.m4a",
+    "start": 0,
+    "trim": 0,
+    "xf": 2.5
+  },
+  {
+    "id": "rain-city-roof",
+    "file": "Loop-RAIN-city-roof.m4a",
+    "start": 0,
+    "trim": 0,
+    "xf": 2.5
+  },
+  {
+    "id": "infrared-soft-noise",
+    "file": "Loop-INFRARED-soft-noise.m4a",
+    "start": 0,
+    "trim": 0,
+    "xf": 2.5
+  },
+  {
+    "id": "pink-low-noise",
+    "file": "Loop-PINK-low-noise.m4a",
+    "start": 0,
+    "trim": 0,
+    "xf": 2.5
+  },
+  {
+    "id": "infrared-fan",
+    "file": "Loop-INFRARED-fan.m4a",
+    "start": 0,
+    "trim": 0,
+    "xf": 1.5
+  },
+  {
+    "id": "ocean-surf",
+    "file": "Loop-OCEAN-surf.m4a",
+    "start": 0,
+    "trim": 0,
+    "xf": 2.5
+  },
+  {
+    "id": "ocean-gentle",
+    "file": "Loop-OCEAN-gentle.m4a",
+    "start": 0,
+    "trim": 0,
+    "xf": 2.5
+  },
+  {
+    "id": "ocean-soothing-waves",
+    "file": "Loop-OCEAN-soothing-waves.m4a",
+    "start": 0,
+    "trim": 0,
+    "xf": 2.5
+  }
 ]

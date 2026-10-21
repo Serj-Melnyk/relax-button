@@ -1,21 +1,21 @@
 <en-US>
-New Premium Ocean skin with six wave sounds, plus 16 new sounds: rain on glass and roofs, pink and infrared noise, a soft fan. The wooden button on Home now really presses, with a click and a vibration, and opens Click. New Premium Chocolate theme with the same wooden button. Premium is easier to find in Account, and buyers see "Premium is active".
+New Premium Ocean skin with five wave sounds. New rain sounds: rain on glass, calming, sleepy and city roof rain, plus Green Rain. Green Noise now comes from real rain on a window, softer and more natural. New pink and infrared sounds, including a soft fan. The wooden button on Home now really presses, with a click and a vibration. New Premium Chocolate theme with the same wooden button.
 </en-US>
 <de-DE>
-Neuer Premium-Skin „Ocean“ mit sechs Wellenklängen und 16 neue Klänge: Regen auf Glas und Dächern, rosa und infrarotes Rauschen, ein leiser Ventilator. Der Holzknopf auf der Startseite lässt sich jetzt wirklich drücken, mit Klick und Vibration, und öffnet Click. Neues Premium-Design „Chocolate“ mit demselben Holzknopf. Premium ist im Konto leichter zu finden.
+Neuer Premium-Skin „Ocean“ mit fünf Wellenklängen. Neue Regenklänge: Regen am Fenster, beruhigend, schläfrig, auf dem Stadtdach, dazu „Green Rain“. Grünes Rauschen entsteht jetzt aus echtem Regen am Fenster – weicher und natürlicher. Neue rosa und infrarote Klänge, auch ein leiser Ventilator. Der Holzknopf auf der Startseite lässt sich wirklich drücken. Neues Premium-Design „Chocolate“.
 </de-DE>
 <es-ES>
-Nuevo skin Premium Ocean con seis sonidos de olas y 16 sonidos nuevos: lluvia en cristal y tejados, ruido rosa e infrarrojo, un ventilador suave. El botón de madera de Inicio ahora se pulsa de verdad, con clic y vibración, y abre Click. Nuevo tema Premium Chocolate con el mismo botón de madera. Premium es más fácil de encontrar en Cuenta.
+Nuevo skin Premium Ocean con cinco sonidos de olas. Nuevas lluvias: en el cristal, relajante, para dormir y en el tejado, además de Green Rain. El ruido verde ahora nace de lluvia real en una ventana, más suave y natural. Nuevos sonidos rosa e infrarrojos, con un ventilador suave. El botón de madera de Inicio ahora se pulsa de verdad. Nuevo tema Premium Chocolate.
 </es-ES>
 <fr-FR>
-Nouveau skin Premium Ocean avec six sons de vagues, et 16 nouveaux sons : pluie sur vitre et toits, bruit rose et infrarouge, ventilateur doux. Le bouton en bois de l'accueil s'enfonce vraiment, avec un clic et une vibration, et ouvre Click. Nouveau thème Premium Chocolate avec le même bouton en bois. Premium est plus facile à trouver dans Compte.
+Nouveau skin Premium Ocean avec cinq sons de vagues. Nouvelles pluies : sur la vitre, apaisante, pour dormir et sur les toits, plus Green Rain. Le bruit vert vient désormais d'une vraie pluie sur une vitre, plus doux et naturel. Nouveaux sons roses et infrarouges, dont un ventilateur doux. Le bouton en bois de l'accueil s'enfonce vraiment. Nouveau thème Premium Chocolate.
 </fr-FR>
 <ja-JP>
-新しいPremiumスキン「Ocean」（波の音6種）と16の新サウンド：窓や屋根の雨、ピンクノイズと赤外線ノイズ、やさしい扇風機。ホームの木のボタンが本当に押せるようになり、クリック音と振動でClickを開きます。同じ木のボタンの新Premiumテーマ「Chocolate」。アカウントからPremiumを見つけやすくなりました。
+新しいPremiumスキン「Ocean」（波の音5種）。新しい雨の音：窓ガラス、やすらぎ、眠り、街の屋根、そしてGreen Rain。グリーンノイズは本物の窓の雨から作り直し、よりやわらかく自然に。ピンク・赤外線の新サウンドとやさしい扇風機。ホームの木のボタンが本当に押せるように。新Premiumテーマ「Chocolate」。
 </ja-JP>
 <pt-BR>
-Novo skin Premium Ocean com seis sons de ondas e 16 sons novos: chuva no vidro e nos telhados, ruído rosa e infravermelho, um ventilador suave. O botão de madeira da tela inicial agora afunda de verdade, com clique e vibração, e abre o Click. Novo tema Premium Chocolate com o mesmo botão de madeira. O Premium ficou mais fácil de achar na Conta.
+Novo skin Premium Ocean com cinco sons de ondas. Novas chuvas: no vidro, calmante, para dormir e no telhado da cidade, além de Green Rain. O ruído verde agora vem de chuva real na janela, mais suave e natural. Novos sons rosa e infravermelhos, incluindo um ventilador suave. O botão de madeira da tela inicial agora afunda de verdade. Novo tema Premium Chocolate.
 </pt-BR>
 <uk>
-Новий Premium-скін «Ocean» із шістьма звуками хвиль і 16 нових звуків: дощ по склу й дахах, рожевий та інфрачервоний шум, тихий вентилятор. Дерев'яна кнопка на головному тепер справді натискається — з кліком і вібрацією — і відкриває «Клік». Нова Premium-тема «Шоколад» із тією ж дерев'яною кнопкою. Premium легше знайти в Акаунті, а покупці бачать «Преміум активний».
+Новий Premium-скін «Ocean» із п'ятьма звуками хвиль. Нові дощі: по склу, заспокійливий, сонний, по міському даху, а ще «Green Rain». Зелений шум тепер зроблено зі справжнього дощу по шибці — м'якше й природніше. Нові рожеві та інфрачервоні звуки, зокрема тихий вентилятор. Дерев'яна кнопка на головному справді натискається. Нова Premium-тема «Шоколад».
 </uk>

@@ -53,7 +53,7 @@ async function main() {
   await shot('02-home-night.png');
   await page.evaluate(() => HomeTheme.apply('day'));
 
-  await openNoise(page, 'rain', 'brown-light-rain-outside');
+  await openNoise(page, 'rain', 'brown-thunder-rain');
   await shot('03-light-rain.png');
 
   await openNoise(page, 'pink-noise', 'pink-soft-noise');
