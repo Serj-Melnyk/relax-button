@@ -41,7 +41,7 @@ Digital Fidget: Mental ASMR — Capacitor app (Android first, iOS also built), p
   or when the flow fails). The Settings row "Rate App" opens the Play listing on Android (`openFromSettings`): Google asks not to
   start the review card from a button. The real card only appears in builds installed from Play (internal testing or production).
 - Store listing text: the current one is `release/google-play/listing-2026-10-29.json` (7 languages, ASO from the 2026-10-29
-  Sonar audit: titles target "brown noise", short descriptions avoid "no ads"/price words, which Play flags). `metadata.md` is old.
+  Sonar audit: titles must keep "ASMR" (owner) and target "brown noise", short descriptions avoid "no ads"/price words, which Play flags). `metadata.md` is old.
 - Keep standard R8 minification and resource shrinking. Do not enable `android.r8.optimizedResourceShrinking`: it removed Cordova's `res/xml/config.xml` and caused Android to open to a blank WebView (fixed in 1.0.24).
 
 ## Conventions that are easy to miss
