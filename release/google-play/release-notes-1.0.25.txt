@@ -1,0 +1,21 @@
+<en-US>
+You can now rate Digital Fidget right inside the app, in Google Play's own rating window.
+</en-US>
+<de-DE>
+Du kannst Digital Fidget jetzt direkt in der App bewerten, im Bewertungsfenster von Google Play.
+</de-DE>
+<es-ES>
+Ahora puedes valorar Digital Fidget sin salir de la aplicación, en la ventana de valoración de Google Play.
+</es-ES>
+<fr-FR>
+Tu peux maintenant noter Digital Fidget directement dans l’application, dans la fenêtre d’avis de Google Play.
+</fr-FR>
+<ja-JP>
+アプリ内で、Google Play の評価ウィンドウから Digital Fidget を評価できるようになりました。
+</ja-JP>
+<pt-BR>
+Agora você pode avaliar o Digital Fidget dentro do app, na janela de avaliação do Google Play.
+</pt-BR>
+<uk>
+Тепер Digital Fidget можна оцінити прямо в застосунку, у вікні оцінювання Google Play.
+</uk>

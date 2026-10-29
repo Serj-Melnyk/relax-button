@@ -13,10 +13,44 @@ import com.google.android.play.core.appupdate.AppUpdateInfo;
 import com.google.android.play.core.appupdate.AppUpdateManager;
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
 import com.google.android.play.core.install.model.UpdateAvailability;
+import com.google.android.play.core.review.ReviewManager;
+import com.google.android.play.core.review.ReviewManagerFactory;
 
 @CapacitorPlugin(name = "AppUpdate")
 public class AppUpdatePlugin extends Plugin {
     private AppUpdateManager appUpdateManager;
+
+    // Google Play in-app review. Play decides whether the card is shown (quota), and never says
+    // whether the user rated, so "launched" only means the flow ran without an error.
+    @PluginMethod
+    public void requestReview(PluginCall call) {
+        if (getActivity() == null) {
+            JSObject result = new JSObject();
+            result.put("launched", false);
+            result.put("error", "No activity");
+            call.resolve(result);
+            return;
+        }
+
+        ReviewManager reviewManager = ReviewManagerFactory.create(getContext());
+        reviewManager.requestReviewFlow().addOnCompleteListener(request -> {
+            if (!request.isSuccessful()) {
+                JSObject result = new JSObject();
+                result.put("launched", false);
+                Exception error = request.getException();
+                result.put("error", error != null ? error.getMessage() : "Review flow unavailable");
+                call.resolve(result);
+                return;
+            }
+
+            reviewManager.launchReviewFlow(getActivity(), request.getResult())
+                .addOnCompleteListener(flow -> {
+                    JSObject result = new JSObject();
+                    result.put("launched", flow.isSuccessful());
+                    call.resolve(result);
+                });
+        });
+    }
 
     @Override
     public void load() {

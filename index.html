@@ -8219,7 +8219,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M680-80q-50 0-85-35t-35-85q0-6 3-28L282-392q-16 15-37 23.5t-45 8.5q-50 0-85-35t-35-85q0-50 35-85t85-35q24 0 45 8.5t37 23.5l281-164q-2-7-2.5-13.5T560-760q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-24 0-45-8.5T598-672L317-508q2 7 2.5 13.5t.5 14.5q0 8-.5 14.5T317-452l281 164q16-15 37-23.5t45-8.5q50 0 85 35t35 85q0 50-35 85t-85 35Zm0-80q17 0 28.5-11.5T720-200q0-17-11.5-28.5T680-240q-17 0-28.5 11.5T640-200q0 17 11.5 28.5T680-160ZM200-440q17 0 28.5-11.5T240-480q0-17-11.5-28.5T200-520q-17 0-28.5 11.5T160-480q0 17 11.5 28.5T200-440Zm508.5-291.5Q720-743 720-760t-11.5-28.5Q697-800 680-800t-28.5 11.5Q640-777 640-760t11.5 28.5Q663-720 680-720t28.5-11.5ZM680-200ZM200-480Zm480-280Z"/></svg>
             </span>
         </button>
-        <button class="setting-link setting-link--internal" type="button" onclick="RatePrompt.open()">
+        <button class="setting-link setting-link--internal" type="button" onclick="RatePrompt.openFromSettings()">
             <span class="account-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27Z"/></svg></span>
             <span class="account-row-label" data-i18n="settings.rate">Rate App</span>
             <span class="account-row-action" aria-hidden="true">›</span>
@@ -8258,7 +8258,7 @@
         </section>
 
         <div class="account-version">
-            <span class="setting-label" data-i18n="settings.version" style="color: var(--on-surface-var); font-size: 12px;">Digital Fidget: Mental ASMR v1.0.24</span>
+            <span class="setting-label" data-i18n="settings.version" style="color: var(--on-surface-var); font-size: 12px;">Digital Fidget: Mental ASMR v1.0.25</span>
             <button id="account-update-link" class="account-update-link" type="button" data-i18n="update.accountAction" onclick="UpdatePrompt.openStore()" hidden>Update available</button>
         </div>
     </div>
@@ -8532,7 +8532,7 @@
                 title: 'Settings', sound: 'Sound', vibration: 'Vibration', centered: 'Centered Button',
                 language: 'Language', share: 'Share App', rate: 'Rate App',
                 privacy: 'Privacy Policy', terms: 'Terms of Use', support: 'Support',
-                restore: 'Restore Purchase', version: 'Digital Fidget: Mental ASMR v1.0.24'
+                restore: 'Restore Purchase', version: 'Digital Fidget: Mental ASMR v1.0.25'
             },
             rating: {
                 title: 'Enjoying Digital Fidget?',
@@ -8679,7 +8679,7 @@
             title: 'Налаштування', sound: 'Звук', vibration: 'Вібрація', centered: 'Кнопка по центру',
             language: 'Мова', share: 'Поділитися', rate: 'Оцінити застосунок',
             privacy: 'Політика приватності', terms: 'Умови використання', support: 'Підтримка',
-            restore: 'Відновити покупку', version: 'Digital Fidget: Mental ASMR v1.0.24'
+            restore: 'Відновити покупку', version: 'Digital Fidget: Mental ASMR v1.0.25'
         },
         rating: {
             title: 'Подобається Digital Fidget?', copy: 'Коротка оцінка допоможе іншим знайти спокійнішу мить.',
@@ -12894,6 +12894,37 @@
             if (!this.shouldAutoOpen || this.updateCheckPending || UpdatePrompt.available) return;
             this.shouldAutoOpen = false;
             localStorage.setItem('rb_rating_prompt_shown', 'true');
+            this.requestNativeReview().then(launched => {
+                if (!launched) this.open();
+            });
+        },
+
+        // Android: Google Play's own review card, so the stars land in Play directly.
+        // Play may skip showing it (quota) and still report success; that is expected.
+        async requestNativeReview() {
+            const plugin = UpdatePrompt.getNativePlugin();
+            if (!plugin?.requestReview) return false;
+            try {
+                const result = await plugin.requestReview();
+                return Boolean(result?.launched);
+            } catch (error) {
+                console.warn('Could not start the Google Play review flow.', error);
+                return false;
+            }
+        },
+
+        // Settings row: Google asks not to start the review card from a button, so Android opens the listing.
+        async openFromSettings() {
+            const plugin = UpdatePrompt.getNativePlugin();
+            if (plugin?.openStoreListing) {
+                try {
+                    Settings.close();
+                    await plugin.openStoreListing();
+                    return;
+                } catch (error) {
+                    console.warn('Could not open the native Google Play listing.', error);
+                }
+            }
             this.open();
         },
 
