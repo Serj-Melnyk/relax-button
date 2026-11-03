@@ -1,0 +1,21 @@
+<en-US>
+The classic app icon is back.
+</en-US>
+<de-DE>
+Das klassische App-Symbol ist zurück.
+</de-DE>
+<es-ES>
+Vuelve el icono clásico de la aplicación.
+</es-ES>
+<fr-FR>
+L’icône classique de l’application est de retour.
+</fr-FR>
+<ja-JP>
+以前のアプリアイコンに戻しました。
+</ja-JP>
+<pt-BR>
+O ícone clássico do app voltou.
+</pt-BR>
+<uk>
+Повернули класичну іконку застосунку.
+</uk>
