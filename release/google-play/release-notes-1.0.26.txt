@@ -1,0 +1,21 @@
+<en-US>
+New app icon.
+</en-US>
+<de-DE>
+Neues App-Symbol.
+</de-DE>
+<es-ES>
+Nuevo icono de la aplicación.
+</es-ES>
+<fr-FR>
+Nouvelle icône de l’application.
+</fr-FR>
+<ja-JP>
+アプリのアイコンを新しくしました。
+</ja-JP>
+<pt-BR>
+Novo ícone do app.
+</pt-BR>
+<uk>
+Нова іконка застосунку.
+</uk>
