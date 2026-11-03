@@ -42,6 +42,7 @@ Digital Fidget: Mental ASMR — Capacitor app (Android first, iOS also built), p
   start the review card from a button. The real card only appears in builds installed from Play (internal testing or production).
 - Store listing text: the current one is `release/google-play/listing-2026-10-29.json` (7 languages, ASO from the 2026-10-29
   Sonar audit: titles must keep "ASMR" (owner) and "Pink Noise" (owner's taste; Sonar 2026-11-02: pink 36/25 beatable vs brown 37/37 not beatable), short descriptions name both noises, short descriptions avoid "no ads"/price words, which Play flags). `metadata.md` is old.
+- App icon (2026-11-03): source `release/google-play/icon-source-2026-11-03.jpg`; regenerate every size with `scripts/make-app-icons.py` (see its docstring). Adaptive background is `#D6CECA`. Building Android needs the Android Studio JDK (`JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home"`); system Java 26 breaks Gradle. The Play listing icon is a separate upload (`icon-512.png`).
 - Keep standard R8 minification and resource shrinking. Do not enable `android.r8.optimizedResourceShrinking`: it removed Cordova's `res/xml/config.xml` and caused Android to open to a blank WebView (fixed in 1.0.24).
 
 ## Conventions that are easy to miss
