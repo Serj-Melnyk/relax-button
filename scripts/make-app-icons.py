@@ -1,5 +1,5 @@
-"""Build Digital Fidget launcher icons from the owner's 1280px squircle artwork.
-Usage (from repo root): python3 -I scripts/make-app-icons.py release/google-play/icon-source-2026-11-03.jpg /tmp/icon-preview [apply]
+"""Build Digital Fidget launcher icons from the owner's 2000px squircle-on-navy artwork.
+Usage (from repo root): python3 -I scripts/make-app-icons.py release/google-play/icon-source-2026-11-03-navy.jpg /tmp/icon-preview [apply]
 "apply" overwrites android mipmaps + release/google-play/icon-512.png; without it only writes a preview folder.
 """
 import sys, os
@@ -11,8 +11,8 @@ APPLY = len(sys.argv) > 3
 os.makedirs(OUT, exist_ok=True)
 
 src = Image.open(SRC).convert('RGB')
-S = 1280
-SQ = 892  # measured width of the white squircle in the source (x 195..1087)
+S = src.width
+SQ = 1392  # measured width of the white squircle incl. its glow in the navy 2000px source (x 304..1696)
 
 def canvas(size, sq_frac):
     """Square canvas where the squircle is sq_frac of the width; margins are edge-replicated source."""
@@ -49,7 +49,7 @@ for d in dens:
         sizes[d][name] = im.width
 
 FG = float(os.environ.get('FG', '0.54'))
-BG = (214, 206, 202)  # solid colour the feathered artwork fades into
+BG = (14, 19, 72)  # solid colour the feathered artwork fades into (#0E1348)
 
 def feathered(size, sq_frac):
     """RGBA foreground: artwork on a transparent canvas, its outer edge fading out so the solid background layer shows through."""
@@ -75,7 +75,7 @@ for d, s in sizes.items():
         dest = f'{res}/mipmap-{d}/{name}.png' if APPLY else f'{OUT}/{d}-{name}.png'
         im.save(dest)
 
-play = canvas(512, 0.80)
+play = canvas(512, 0.78)
 play.save('release/google-play/icon-512.png' if APPLY else f'{OUT}/icon-512.png')
 
 # previews of the adaptive icon under common masks
