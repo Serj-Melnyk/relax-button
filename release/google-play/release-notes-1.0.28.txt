@@ -1,0 +1,21 @@
+<en-US>
+Smoother app icon on all devices.
+</en-US>
+<de-DE>
+Saubereres App-Symbol auf allen Geräten.
+</de-DE>
+<es-ES>
+Icono de la aplicación más limpio en todos los dispositivos.
+</es-ES>
+<fr-FR>
+Icône de l’application plus nette sur tous les appareils.
+</fr-FR>
+<ja-JP>
+すべての端末でアプリアイコンがきれいに表示されるようになりました。
+</ja-JP>
+<pt-BR>
+Ícone do app mais bonito em todos os aparelhos.
+</pt-BR>
+<uk>
+Акуратніша іконка застосунку на всіх пристроях.
+</uk>
